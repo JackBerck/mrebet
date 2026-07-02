@@ -2,6 +2,10 @@
 
 namespace App\Providers;
 
+use App\Models\Destination;
+use App\Models\Village;
+use App\Observers\DestinationObserver;
+use App\Observers\VillageObserver;
 use Carbon\CarbonImmutable;
 use Illuminate\Support\Facades\Date;
 use Illuminate\Support\Facades\DB;
@@ -23,6 +27,9 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
+        Village::observe(VillageObserver::class);
+        Destination::observe(DestinationObserver::class);
+
         $this->configureDefaults();
     }
 
