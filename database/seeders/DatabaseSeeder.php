@@ -2,24 +2,25 @@
 
 namespace Database\Seeders;
 
-use App\Models\User;
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 
 class DatabaseSeeder extends Seeder
 {
-    use WithoutModelEvents;
-
     /**
      * Seed the application's database.
+     * Urutan penting: VillageSeeder harus pertama karena seeder lain FK ke villages.
+     * UserSeeder setelah VillageSeeder karena manager butuh village_id.
+     * MediaSeeder paling akhir karena butuh ID dari villages dan destinations.
      */
     public function run(): void
     {
-        // User::factory(10)->create();
-
-        User::factory()->create([
-            'name' => 'Test User',
-            'email' => 'test@example.com',
+        $this->call([
+            VillageSeeder::class,
+            UserSeeder::class,
+            DestinationSeeder::class,
+            EventSeeder::class,
+            BlogSeeder::class,
+            MediaSeeder::class,
         ]);
     }
 }

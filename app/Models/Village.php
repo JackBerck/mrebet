@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Enums\ContentStatus;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
@@ -20,7 +21,7 @@ use Illuminate\Support\Carbon;
  * @property float|null $latitude
  * @property float|null $longitude
  * @property string|null $qr_code_target
- * @property string $status
+ * @property ContentStatus $status
  * @property Carbon|null $created_at
  * @property Carbon|null $updated_at
  * @property Carbon|null $deleted_at
@@ -50,6 +51,7 @@ class Village extends Model
             'latitude' => 'float',
             'longitude' => 'float',
             'deleted_at' => 'datetime',
+            'status' => ContentStatus::class,
         ];
     }
 
@@ -92,6 +94,6 @@ class Village extends Model
     /** Cek status published. */
     public function isPublished(): bool
     {
-        return $this->status === 'published';
+        return $this->status === ContentStatus::Published;
     }
 }

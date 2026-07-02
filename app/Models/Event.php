@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Enums\ContentStatus;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -26,7 +27,7 @@ use Illuminate\Support\Carbon;
  * @property string|null $instagram
  * @property string|null $contact_person
  * @property string|null $qr_code_target
- * @property string $status
+ * @property ContentStatus $status
  * @property Carbon|null $created_at
  * @property Carbon|null $updated_at
  * @property Carbon|null $deleted_at
@@ -63,6 +64,7 @@ class Event extends Model
             'end_date' => 'date',
             'ticket_price' => 'decimal:2',
             'deleted_at' => 'datetime',
+            'status' => ContentStatus::class,
         ];
     }
 

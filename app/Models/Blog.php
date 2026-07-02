@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Enums\ContentStatus;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -16,7 +17,7 @@ use Illuminate\Support\Carbon;
  * @property string $slug
  * @property string $content
  * @property string|null $cover_image
- * @property string $status
+ * @property ContentStatus $status
  * @property int $views_count
  * @property Carbon|null $published_at
  * @property Carbon|null $created_at
@@ -48,6 +49,7 @@ class Blog extends Model
             'published_at' => 'datetime',
             'views_count' => 'integer',
             'deleted_at' => 'datetime',
+            'status' => ContentStatus::class,
         ];
     }
 
@@ -76,6 +78,6 @@ class Blog extends Model
     /** Cek status published. */
     public function isPublished(): bool
     {
-        return $this->status === 'published';
+        return $this->status === ContentStatus::Published;
     }
 }

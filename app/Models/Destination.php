@@ -2,6 +2,8 @@
 
 namespace App\Models;
 
+use App\Enums\ContentStatus;
+use App\Enums\DestinationCategory;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -16,7 +18,7 @@ use Illuminate\Support\Carbon;
  * @property int $village_id
  * @property string $name
  * @property string $slug
- * @property string $category
+ * @property DestinationCategory $category
  * @property string|null $description
  * @property float $ticket_price
  * @property string|null $ticket_info
@@ -27,7 +29,7 @@ use Illuminate\Support\Carbon;
  * @property float|null $latitude
  * @property float|null $longitude
  * @property string|null $qr_code_target
- * @property string $status
+ * @property ContentStatus $status
  * @property Carbon|null $created_at
  * @property Carbon|null $updated_at
  * @property Carbon|null $deleted_at
@@ -65,6 +67,8 @@ class Destination extends Model
             'latitude' => 'float',
             'longitude' => 'float',
             'deleted_at' => 'datetime',
+            'category' => DestinationCategory::class,
+            'status' => ContentStatus::class,
         ];
     }
 
@@ -101,6 +105,6 @@ class Destination extends Model
     /** Cek status published. */
     public function isPublished(): bool
     {
-        return $this->status === 'published';
+        return $this->status === ContentStatus::Published;
     }
 }

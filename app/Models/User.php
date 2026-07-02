@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Enums\UserRole;
 use Database\Factories\UserFactory;
 use Illuminate\Database\Eloquent\Attributes\Fillable;
 use Illuminate\Database\Eloquent\Attributes\Hidden;
@@ -23,7 +24,7 @@ use Laravel\Fortify\TwoFactorAuthenticatable;
  * @property string $password
  * @property Carbon|null $email_verified_at
  * @property string|null $avatar
- * @property string $role
+ * @property UserRole $role
  * @property int|null $village_id
  * @property bool $is_active
  * @property string|null $two_factor_secret
@@ -50,6 +51,7 @@ class User extends Authenticatable implements PasskeyUser
             'password' => 'hashed',
             'two_factor_confirmed_at' => 'datetime',
             'is_active' => 'boolean',
+            'role' => UserRole::class,
         ];
     }
 
@@ -68,12 +70,12 @@ class User extends Authenticatable implements PasskeyUser
     /** Cek apakah user adalah super admin. */
     public function isAdmin(): bool
     {
-        return $this->role === 'admin';
+        return $this->role === UserRole::Admin;
     }
 
     /** Cek apakah user adalah manager desa. */
     public function isManager(): bool
     {
-        return $this->role === 'manager';
+        return $this->role === UserRole::Manager;
     }
 }
