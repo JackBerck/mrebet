@@ -1,0 +1,138 @@
+# 🎨 Panduan Gaya Desain (Style Guide) — Website Desa Wisata Kecamatan Mrebet
+
+> **Konsep Utama:** *Rustic Modern Nature*. Memadukan keindahan kontur alam Mrebet di lereng Gunung Slamet dengan kesederhanaan minimalis modern. Desain difokuskan pada keterbacaan tinggi (accessible) bagi semua kalangan usia, terutama pengurus Pokdarwis & perangkat desa yang sudah berumur.
+
+---
+
+## 🧭 1. Sistem Warna (OKLCH Model)
+
+Penggunaan model warna **OKLCH** memastikan transisi warna yang lebih natural, gamut warna yang lebih modern, dan kontras yang konsisten.
+
+### A. Palet Warna Utama (Light Mode)
+
+| Token Warna | Nilai OKLCH | Kegunaan | Representasi Visual / Vibe |
+|---|---|---|---|
+| `--forest` | `oklch(0.38 0.08 145)` | Warna Primer (Brand, Tombol Utama) | Hijau hutan pinus |
+| `--forest-deep` | `oklch(0.24 0.05 145)` | Teks Judul, Border Gelap, Status Aktif | Hutan lebat lereng Slamet |
+| `--forest-mist` | `oklch(0.92 0.02 145)` | Background Alert Sukses, Badge Muted | Kabut pagi pegunungan |
+| `--cream-warm` | `oklch(0.97 0.01 85)` | Background Utama Halaman | Tanah liat/pasir hangat |
+| `--cream-soft` | `oklch(0.99 0.005 85)` | Background Card, Input Form | Susu hangat, bersih dan empuk |
+| `--gold` | `oklch(0.78 0.12 82)` | Warna Aksen, Bintang Rating, Wisata Unggulan | Sinar matahari pagi, hangat |
+| `--gold-soft` | `oklch(0.88 0.06 82)` | Hover Aksen, Background Badge | Emas muda |
+| `--charcoal` | `oklch(0.22 0.01 85)` | Warna Teks Body (Keterbacaan Utama) | Arang kayu |
+| `--charcoal-soft` | `oklch(0.48 0.01 85)` | Teks Deskripsi Singkat, Muted Info | Kabut arang |
+| `--line` | `oklch(0.22 0.01 85 / 8%)` | Border Tipis, Divider | Garis pembatas elegan |
+
+### B. Palet Warna Utama (Dark Mode)
+
+| Token Warna | Nilai OKLCH | Kegunaan |
+|---|---|---|
+| `--background` | `oklch(0.18 0.01 145)` | Background Utama Gelap |
+| `--foreground` | `oklch(0.98 0.005 85)` | Teks Utama Terang |
+| `--card` | `oklch(0.22 0.02 145)` | Background Card Gelap |
+| `--border` | `oklch(0.98 0.005 85 / 10%)` | Border Gelap |
+
+---
+
+## ✍️ 2. Tipografi (Typography)
+
+Untuk memaksimalkan performa loading, sistem menggunakan font lokal dari folder `public/fonts/` dengan `@font-face` di CSS (tidak mengambil dari Google Fonts CDN).
+
+### A. Font Families
+
+1. **Fraunces (Serif)**
+   - **File:** `public/fonts/Fraunces_72pt-*.ttf`
+   - **Kegunaan:** Judul Utama (Hero), Judul Section (H1, H2), Title Card besar.
+   - **Vibe:** Anggun, tradisional, organik, memberikan kesan autentik daerah wisata.
+2. **Inter (Sans-serif)**
+   - **File:** `public/fonts/Inter_24pt-*.ttf`
+   - **Kegunaan:** Teks Body, Label Form, Tombol, Angka/Statistik, Navbar, dan Dashboard Admin.
+   - **Vibe:** Sangat bersih, modern, dan memiliki tingkat keterbacaan tinggi di layar HP/Desktop.
+
+### B. Hierarki Ukuran & Bobot (Font Scale)
+
+```css
+/* Definisikan di CSS */
+--font-display: 'Fraunces', Georgia, serif;
+--font-sans: 'Inter', system-ui, sans-serif;
+```
+
+- **Hero Title:** `font-family: var(--font-display); font-weight: 700; font-size: clamp(2.25rem, 5vw, 4.5rem);`
+- **Section Heading (H2):** `font-family: var(--font-display); font-weight: 600; font-size: clamp(1.75rem, 3.5vw, 2.5rem);`
+- **Card Title:** `font-family: var(--font-sans); font-weight: 600; font-size: 1.125rem; (lg:1.25rem)`
+- **Body Text:** `font-family: var(--font-sans); font-weight: 400; font-size: 0.938rem; (lg:1rem); line-height: 1.6;`
+- **Form Label / Button:** `font-family: var(--font-sans); font-weight: 500; font-size: 0.875rem;`
+
+---
+
+## 📐 3. Grid, Layout & Penyekat Konten (Layout Structure)
+
+Setiap halaman dibagi menjadi section yang terstruktur dengan format berikut untuk konsistensi:
+
+```jsx
+// Template Section Standar (Konten Lebar Penuh / Detail Grid)
+<section id="section-name" className="py-12 md:py-20 bg-cream-warm">
+    <div className="section-padding-x container max-w-7xl mx-auto">
+        {/* Header Section */}
+        <div className="mb-8 md:mb-12 max-w-2xl">
+            <h2 className="font-display text-3xl md:text-4xl text-forest-deep mb-3">Judul Section</h2>
+            <p className="text-charcoal-soft text-base">Deskripsi pembuka section yang menjelaskan konteks data.</p>
+        </div>
+        
+        {/* Konten Grid / List */}
+    </div>
+</section>
+```
+
+```jsx
+// Template Section Muted/Kecil (Form / Detail Artikel / Konteks Terfokus)
+<section id="section-name-focused" className="py-12 md:py-16 bg-cream-soft">
+    <div className="section-padding-x container max-w-5xl mx-auto">
+        {/* Konten Terpusat */}
+    </div>
+</section>
+```
+
+---
+
+## ♿ 4. Standar Aksesibilitas (Accessible UX for Older Admins)
+
+Karena target Admin Desa/Pokdarwis sebagian besar adalah orang tua:
+
+1. **Touch Target Size:**
+   - Semua elemen interaktif (tombol, tautan, checkbox) wajib memiliki area klik minimal `--touch-min: 44px;`.
+   - Gunakan padding yang cukup agar tidak terjadi kesalahan klik.
+2. **Form Layout Sederhana:**
+   - Gunakan layout form **satu kolom panjang** (single column layout) alih-alih multi-kolom yang membingungkan alur baca mata.
+   - Label form harus diletakkan di atas input field dengan font-weight medium (`font-medium`) dan kontras tinggi.
+3. **Pembeda Fokus Visual:**
+   - Input yang sedang aktif (focus) wajib memiliki ring outline yang tebal dan berwarna kontras:
+     ```css
+     input:focus {
+         outline: 2px solid var(--gold);
+         border-color: var(--forest);
+     }
+     ```
+4. **Warna Kontras Status:**
+   - Jangan hanya mengandalkan warna untuk status. Sertakan ikon atau teks penjelas (misalnya badge status draf menggunakan ikon abu-abu gembok, status terbit menggunakan ikon hijau centang).
+
+---
+
+## ✨ 5. Interaksi & Animasi Mikro (Transitions)
+
+Gunakan efek transisi yang sangat halus agar website terasa "hidup" namun tidak berlebihan (menghindari pusing visual).
+
+- **Timing Function:** `--ease: cubic-bezier(0.19, 1, 0.22, 1);` (Custom ease-out yang sangat premium).
+- **Hover Card Effect:**
+  - Card destinasi/desa bergeser ke atas sejauh `4px` dan bayangan melembut secara halus saat di-hover.
+  ```css
+  .hover-card {
+      transition: transform 0.4s var(--ease), box-shadow 0.4s var(--ease);
+  }
+  .hover-card:hover {
+      transform: translateY(-4px);
+      box-shadow: var(--shadow-card);
+  }
+  ```
+- **Button Micro-animation:**
+  - Efek scale kecil (`scale(0.98)`) saat tombol ditekan (`active:scale-98`) memberikan umpan balik taktil instan.

@@ -140,4 +140,48 @@
     body {
         @apply bg-background text-foreground;
     }
+
+    p,
+    li,
+    a {
+        @apply text-sm sm:text-base;
+    }
+}
+
+@layer components {
+  .container {
+    @apply mx-auto;
+  }
+
+  .section-padding-x {
+    @apply px-4 sm:px-6 lg:px-8;
+  }
+
+  .title-font-size {
+    @apply text-xl md:text-2xl lg:text-3xl xl:text-4xl;
+  }
+
+  .subtitle-font-size {
+    @apply text-lg md:text-xl lg:text-2xl;
+  }
+
+  .normal-font-size {
+    @apply text-sm sm:text-base;
+  }
+
+  .small-font-size {
+    @apply text-xs sm:text-sm;
+  }
+
+  .normal-navbar-font-size {
+    @apply text-sm;
+  }
+
+  .title-footer-font-size {
+    @apply text-sm sm:text-base;
+  }
+
+  .normal-footer-font-size {
+    @apply text-sm;
+  }
 }
