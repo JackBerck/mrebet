@@ -27,6 +27,12 @@ class AdminDashboardController extends Controller
                 'blogs' => Blog::count(),
                 'published_villages' => Village::where('status', 'published')->count(),
                 'draft_villages' => Village::where('status', 'draft')->count(),
+                'published_destinations' => Destination::where('status', 'published')->count(),
+                'draft_destinations' => Destination::where('status', 'draft')->count(),
+                'published_events' => Event::where('status', 'published')->count(),
+                'draft_events' => Event::where('status', 'draft')->count(),
+                'published_blogs' => Blog::where('status', 'published')->count(),
+                'draft_blogs' => Blog::where('status', 'draft')->count(),
             ];
 
             $recentVillages = Village::with('primaryMedia')
@@ -62,13 +68,18 @@ class AdminDashboardController extends Controller
         }
 
         // Manager view — scoped to own village
-        $village = $user->village()->with('primaryMedia')->first();
+        $village = $user->village()->with('media')->first();
 
         $stats = [
             'destinations' => Destination::where('village_id', $user->village_id)->count(),
             'events' => Event::where('village_id', $user->village_id)->count(),
             'blogs' => Blog::where('village_id', $user->village_id)->count(),
             'published_destinations' => Destination::where('village_id', $user->village_id)->where('status', 'published')->count(),
+            'draft_destinations' => Destination::where('village_id', $user->village_id)->where('status', 'draft')->count(),
+            'published_events' => Event::where('village_id', $user->village_id)->where('status', 'published')->count(),
+            'draft_events' => Event::where('village_id', $user->village_id)->where('status', 'draft')->count(),
+            'published_blogs' => Blog::where('village_id', $user->village_id)->where('status', 'published')->count(),
+            'draft_blogs' => Blog::where('village_id', $user->village_id)->where('status', 'draft')->count(),
         ];
 
         $recentDestinations = Destination::where('village_id', $user->village_id)

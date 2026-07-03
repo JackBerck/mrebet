@@ -28,7 +28,7 @@ type StatCardProps = {
 
 function StatCard({ label, value, icon: Icon, sub, href }: StatCardProps) {
     const content = (
-        <CardContent className="flex items-center gap-4">
+        <CardContent className="flex items-center gap-4 md:flex-col md:items-start">
             <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-xl bg-[oklch(0.92_0.02_145)] text-[oklch(0.38_0.08_145)]">
                 <Icon className="h-6 w-6" />
             </div>
@@ -42,9 +42,6 @@ function StatCard({ label, value, icon: Icon, sub, href }: StatCardProps) {
 
     return (
         <Card className="border-[oklch(0.22_0.01_85/8%)] shadow-none transition-shadow hover:shadow-md">
-            <CardHeader className="pb-2">
-                <CardTitle className="text-sm font-medium text-[oklch(0.48_0.01_85)]" />
-            </CardHeader>
             {href ? <Link href={href}>{content}</Link> : content}
         </Card>
     );
@@ -69,6 +66,12 @@ type AdminStats = {
     blogs: number;
     published_villages: number;
     draft_villages: number;
+    published_destinations: number;
+    draft_destinations: number;
+    published_events: number;
+    draft_events: number;
+    published_blogs: number;
+    draft_blogs: number;
 };
 
 type ManagerStats = {
@@ -76,6 +79,11 @@ type ManagerStats = {
     events: number;
     blogs: number;
     published_destinations: number;
+    draft_destinations: number;
+    published_events: number;
+    draft_events: number;
+    published_blogs: number;
+    draft_blogs: number;
 };
 
 type RecentDestination = {
@@ -102,22 +110,22 @@ type RecentBlog = {
 
 type DashboardProps =
     | {
-          isAdmin: true;
-          stats: AdminStats;
-          recentVillages: Pick<Village, 'id' | 'name' | 'slug' | 'status' | 'head_name' | 'created_at'>[];
-          upcomingEvents: (Pick<Event, 'id' | 'title' | 'slug' | 'start_date' | 'start_time' | 'village_id' | 'ticket_price'> &
-              { village?: { id: number; name: string } })[];
-          recentDestinations: RecentDestination[];
-          recentBlogs: RecentBlog[];
-      }
+        isAdmin: true;
+        stats: AdminStats;
+        recentVillages: Pick<Village, 'id' | 'name' | 'slug' | 'status' | 'head_name' | 'created_at'>[];
+        upcomingEvents: (Pick<Event, 'id' | 'title' | 'slug' | 'start_date' | 'start_time' | 'village_id' | 'ticket_price'> &
+        { village?: { id: number; name: string } })[];
+        recentDestinations: RecentDestination[];
+        recentBlogs: RecentBlog[];
+    }
     | {
-          isAdmin: false;
-          stats: ManagerStats;
-          village: (Village & { primary_media?: { file_path: string } | null }) | null;
-          upcomingEvents: Pick<Event, 'id' | 'title' | 'slug' | 'start_date' | 'start_time' | 'ticket_price'>[];
-          recentDestinations: RecentDestination[];
-          recentBlogs: RecentBlog[];
-      };
+        isAdmin: false;
+        stats: ManagerStats;
+        village: (Village & { media?: { id: number; file_path: string; is_primary: boolean }[] | null }) | null;
+        upcomingEvents: Pick<Event, 'id' | 'title' | 'slug' | 'start_date' | 'start_time' | 'ticket_price'>[];
+        recentDestinations: RecentDestination[];
+        recentBlogs: RecentBlog[];
+    };
 
 export default function Dashboard(props: DashboardProps) {
     return (
@@ -161,18 +169,21 @@ export default function Dashboard(props: DashboardProps) {
                             label="Destinasi Wisata"
                             value={props.stats.destinations}
                             icon={Compass}
+                            sub={`${props.stats.published_destinations} terbit · ${props.stats.draft_destinations} draft`}
                             href="/admin/destinations"
                         />
                         <StatCard
                             label="Event"
                             value={props.stats.events}
                             icon={CalendarDays}
+                            sub={`${props.stats.published_events} terbit · ${props.stats.draft_events} draft`}
                             href="/admin/events"
                         />
                         <StatCard
                             label="Artikel Blog"
                             value={props.stats.blogs}
                             icon={BookOpen}
+                            sub={`${props.stats.published_blogs} terbit · ${props.stats.draft_blogs} draft`}
                             href="/admin/blogs"
                         />
                     </div>
@@ -182,10 +193,20 @@ export default function Dashboard(props: DashboardProps) {
                             label="Destinasi Wisata"
                             value={props.stats.destinations}
                             icon={Compass}
-                            sub={`${props.stats.published_destinations} terbit`}
+                            sub={`${props.stats.published_destinations} terbit · ${props.stats.draft_destinations} draft`}
                         />
-                        <StatCard label="Event" value={props.stats.events} icon={CalendarDays} />
-                        <StatCard label="Artikel Blog" value={props.stats.blogs} icon={BookOpen} />
+                        <StatCard
+                            label="Event"
+                            value={props.stats.events}
+                            icon={CalendarDays}
+                            sub={`${props.stats.published_events} terbit · ${props.stats.draft_events} draft`}
+                        />
+                        <StatCard
+                            label="Artikel Blog"
+                            value={props.stats.blogs}
+                            icon={BookOpen}
+                            sub={`${props.stats.published_blogs} terbit · ${props.stats.draft_blogs} draft`}
+                        />
                     </div>
                 )}
 
@@ -233,18 +254,32 @@ export default function Dashboard(props: DashboardProps) {
                             </CardContent>
                         </Card>
                     ) : (
-                        <Card className="col-span-1 border-[oklch(0.22_0.01_85/8%)] shadow-none lg:col-span-3">
-                            <CardHeader className="flex flex-row items-center justify-between">
-                                <div>
+                        <Card className="col-span-1 border-[oklch(0.22_0.01_85/8%)] shadow-none lg:col-span-3 overflow-hidden">
+                            {props.village?.media && props.village.media.length > 0 && (
+                                <img
+                                    src={`/storage/${props.village.media.find((m) => m.is_primary)?.file_path || props.village.media[0].file_path}`}
+                                    alt="Cover Desa"
+                                    className="h-48 w-full object-cover sm:h-64"
+                                />
+                            )}
+                            <CardHeader className="flex flex-wrap md:flex-row items-start justify-between gap-4">
+                                <div className="flex-1 min-w-0">
                                     <CardTitle className="font-display text-lg text-[oklch(0.24_0.05_145)]">
                                         {props.village?.name ?? 'Desa Saya'}
                                     </CardTitle>
                                     <CardDescription>
                                         Kepala Desa: {props.village?.head_name ?? '—'}
+                                        {props.village?.contact_phone && ` · Telp: ${props.village.contact_phone}`}
                                     </CardDescription>
+                                    {props.village?.description && (
+                                        <div
+                                            className="mt-3 text-sm text-[oklch(0.48_0.01_85)] line-clamp-2"
+                                            dangerouslySetInnerHTML={{ __html: props.village.description }}
+                                        />
+                                    )}
                                 </div>
                                 {props.village && (
-                                    <div className="flex items-center gap-2">
+                                    <div className="flex shrink-0 items-center gap-2">
                                         <StatusBadge status={props.village.status} />
                                         <Button
                                             variant="outline"
@@ -259,7 +294,7 @@ export default function Dashboard(props: DashboardProps) {
                                 )}
                             </CardHeader>
                             <CardContent>
-                                <div className="flex gap-3">
+                                <div className="flex-wrap flex gap-3">
                                     <Button asChild className="bg-[oklch(0.38_0.08_145)] hover:bg-[oklch(0.24_0.05_145)]">
                                         <Link href="/admin/destinations/create">
                                             <Plus className="mr-1 h-4 w-4" /> Destinasi

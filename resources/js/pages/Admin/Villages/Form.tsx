@@ -241,11 +241,10 @@ function ImageUploader({ existing, onChange }: ImageUploaderProps) {
                         <img
                             src={p.url}
                             alt="Preview"
-                            className={`h-28 w-full rounded-xl object-cover cursor-pointer ring-2 transition-all ${
-                                p.is_primary
+                            className={`h-28 w-full rounded-xl object-cover cursor-pointer ring-2 transition-all ${p.is_primary
                                     ? 'ring-[oklch(0.38_0.08_145)]'
                                     : 'ring-transparent hover:ring-[oklch(0.88_0.06_82)]'
-                            }`}
+                                }`}
                             onClick={() => setPrimary(i)}
                             title="Klik untuk jadikan foto utama"
                         />
@@ -386,12 +385,7 @@ export default function VillageForm({ village, isAdmin }: Props) {
 
             <form onSubmit={submit} className="flex flex-col gap-6 p-6">
                 {/* Header */}
-                <div className="flex items-center gap-4">
-                    <Button type="button" variant="ghost" size="icon" asChild>
-                        <a href="/admin/villages">
-                            <ChevronLeft className="h-5 w-5" />
-                        </a>
-                    </Button>
+                <div className="flex items-center flex-wrap gap-4">
                     <div>
                         <h1 className="font-display text-2xl font-semibold text-[oklch(0.24_0.05_145)]">
                             {isEditing ? `Edit Desa: ${village.name}` : 'Tambah Desa Baru'}
