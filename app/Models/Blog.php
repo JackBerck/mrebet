@@ -8,6 +8,8 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Carbon;
+use Spatie\Sluggable\HasSlug;
+use Spatie\Sluggable\SlugOptions;
 
 /**
  * @property int $id
@@ -26,7 +28,7 @@ use Illuminate\Support\Carbon;
  */
 class Blog extends Model
 {
-    use HasFactory, SoftDeletes;
+    use HasFactory, HasSlug, SoftDeletes;
 
     protected $fillable = [
         'user_id',
@@ -39,6 +41,18 @@ class Blog extends Model
         'views_count',
         'published_at',
     ];
+
+    /**
+     * Slug di-generate dari kolom title.
+     */
+    public function getSlugOptions(): SlugOptions
+    {
+        return SlugOptions::create()
+            ->generateSlugsFrom('title')
+            ->saveSlugsTo('slug')
+            ->slugsShouldBeNoLongerThan(180)
+            ->usingSeparator('-');
+    }
 
     /**
      * @return array<string, string>

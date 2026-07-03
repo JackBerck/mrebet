@@ -10,6 +10,8 @@ use Illuminate\Database\Eloquent\Relations\MorphMany;
 use Illuminate\Database\Eloquent\Relations\MorphOne;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Carbon;
+use Spatie\Sluggable\HasSlug;
+use Spatie\Sluggable\SlugOptions;
 
 /**
  * @property int $id
@@ -34,7 +36,7 @@ use Illuminate\Support\Carbon;
  */
 class Event extends Model
 {
-    use HasFactory, SoftDeletes;
+    use HasFactory, HasSlug, SoftDeletes;
 
     protected $fillable = [
         'village_id',
@@ -53,6 +55,18 @@ class Event extends Model
         'qr_code_target',
         'status',
     ];
+
+    /**
+     * Slug di-generate dari kolom title event.
+     */
+    public function getSlugOptions(): SlugOptions
+    {
+        return SlugOptions::create()
+            ->generateSlugsFrom('title')
+            ->saveSlugsTo('slug')
+            ->slugsShouldBeNoLongerThan(180)
+            ->usingSeparator('-');
+    }
 
     /**
      * @return array<string, string>

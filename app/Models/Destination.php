@@ -12,6 +12,8 @@ use Illuminate\Database\Eloquent\Relations\MorphMany;
 use Illuminate\Database\Eloquent\Relations\MorphOne;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Carbon;
+use Spatie\Sluggable\HasSlug;
+use Spatie\Sluggable\SlugOptions;
 
 /**
  * @property int $id
@@ -36,7 +38,7 @@ use Illuminate\Support\Carbon;
  */
 class Destination extends Model
 {
-    use HasFactory, SoftDeletes;
+    use HasFactory, HasSlug, SoftDeletes;
 
     protected $fillable = [
         'village_id',
@@ -55,6 +57,18 @@ class Destination extends Model
         'qr_code_target',
         'status',
     ];
+
+    /**
+     * Konfigurasi auto-generate slug dari kolom name.
+     */
+    public function getSlugOptions(): SlugOptions
+    {
+        return SlugOptions::create()
+            ->generateSlugsFrom('name')
+            ->saveSlugsTo('slug')
+            ->slugsShouldBeNoLongerThan(160)
+            ->usingSeparator('-');
+    }
 
     /**
      * @return array<string, string>
