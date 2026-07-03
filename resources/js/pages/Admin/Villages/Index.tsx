@@ -1,5 +1,5 @@
 import { Head, Link, router } from '@inertiajs/react';
-import { Edit, Plus, Search, Trash2 } from 'lucide-react';
+import { Edit, Plus, Search, Trash2, Eye } from 'lucide-react';
 import { useCallback, useState } from 'react';
 import AppLayout from '@/layouts/app-layout';
 import { Badge } from '@/components/ui/badge';
@@ -202,8 +202,8 @@ export default function VillagesIndex({ villages, filters, isAdmin }: Props) {
                                             <TableCell className="pr-6 text-right">
                                                 <div className="flex justify-end gap-2">
                                                     <Button variant="ghost" size="icon" asChild>
-                                                        <Link href={`/admin/villages/${village.slug}/edit`}>
-                                                            <Edit className="h-4 w-4" />
+                                                        <Link href={`/admin/villages/${village.slug}`} title="Lihat/Preview Desa">
+                                                            <Eye className="h-4 w-4" />
                                                         </Link>
                                                     </Button>
                                                     {isAdmin && (

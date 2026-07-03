@@ -10,7 +10,9 @@ class UpdateVillageRequest extends FormRequest
 {
     public function authorize(): bool
     {
-        return $this->user()->can('update', $this->route('village'));
+        $village = $this->route('village') ?? $this->user()->village()->first();
+        
+        return $village ? $this->user()->can('update', $village) : false;
     }
 
     /**

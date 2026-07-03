@@ -243,8 +243,8 @@ export default function Dashboard(props: DashboardProps) {
                                             <div className="flex items-center gap-3">
                                                 <StatusBadge status={village.status} />
                                                 <Button variant="ghost" size="sm" asChild>
-                                                    <Link href={`/admin/villages/${village.slug}/edit`}>
-                                                        Edit
+                                                    <Link href={`/admin/villages/${village.slug}`}>
+                                                        Lihat
                                                     </Link>
                                                 </Button>
                                             </div>
@@ -286,7 +286,7 @@ export default function Dashboard(props: DashboardProps) {
                                             size="sm"
                                             asChild
                                         >
-                                            <Link href={`/admin/villages/${props.village.slug}/edit`}>
+                                            <Link href="/admin/villages/edit">
                                                 Edit Profil
                                             </Link>
                                         </Button>

@@ -242,8 +242,8 @@ function ImageUploader({ existing, onChange }: ImageUploaderProps) {
                             src={p.url}
                             alt="Preview"
                             className={`h-28 w-full rounded-xl object-cover cursor-pointer ring-2 transition-all ${p.is_primary
-                                    ? 'ring-[oklch(0.38_0.08_145)]'
-                                    : 'ring-transparent hover:ring-[oklch(0.88_0.06_82)]'
+                                ? 'ring-[oklch(0.38_0.08_145)]'
+                                : 'ring-transparent hover:ring-[oklch(0.88_0.06_82)]'
                                 }`}
                             onClick={() => setPrimary(i)}
                             title="Klik untuk jadikan foto utama"
@@ -296,7 +296,7 @@ export default function VillageForm({ village, isAdmin }: Props) {
     const breadcrumbs: BreadcrumbItem[] = [
         { title: 'Dashboard', href: '/admin/dashboard' },
         { title: 'Desa', href: '/admin/villages' },
-        { title: isEditing ? `Edit: ${village.name}` : 'Tambah Desa', href: '#' },
+        { title: isEditing ? `Edit ${village.name}` : 'Tambah Desa', href: '#' },
     ];
 
     const { data, setData, processing, errors, setError, clearErrors } = useForm<
@@ -361,7 +361,7 @@ export default function VillageForm({ village, isAdmin }: Props) {
 
         if (isEditing) {
             router.post(
-                `/admin/villages/${village.slug}`,
+                isAdmin ? `/admin/villages/${village.slug}` : '/admin/villages/edit',
                 { ...finalData, _method: 'PUT' } as any,
                 { forceFormData: true },
             );

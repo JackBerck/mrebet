@@ -49,7 +49,7 @@ function getAdminNavItems(user: User): NavItem[] {
         ...base,
         {
             title: 'Desa Saya',
-            href: (user as any).village?.slug ? `/admin/villages/${(user as any).village.slug}/edit` : '/admin/villages',
+            href: '/admin/villages',
             icon: MapPin,
         },
         { title: 'Destinasi', href: '/admin/destinations', icon: Compass },

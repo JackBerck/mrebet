@@ -23,8 +23,24 @@ class AdminVillageController extends Controller
         $user = $request->user();
         $isAdmin = $user->role === UserRole::Admin;
 
+        if (! $isAdmin) {
+            $village = $user->village()->first();
+            $village->load(['media' => fn ($q) => $q->orderByDesc('is_primary')]);
+
+            $recentDestinations = $village->destinations()->latest()->take(5)->get(['id', 'name', 'slug', 'category', 'status', 'created_at']);
+            $recentEvents = $village->events()->latest()->take(5)->get(['id', 'title', 'slug', 'start_date', 'start_time', 'status', 'ticket_price']);
+            $recentBlogs = $village->blogs()->latest()->take(5)->get(['id', 'title', 'slug', 'status', 'views_count', 'created_at']);
+
+            return Inertia::render('Admin/Villages/Show', [
+                'village' => $village,
+                'recentDestinations' => $recentDestinations,
+                'recentEvents' => $recentEvents,
+                'recentBlogs' => $recentBlogs,
+                'isAdmin' => false,
+            ]);
+        }
+
         $query = Village::with('primaryMedia')
-            ->when(! $isAdmin, fn ($q) => $q->where('id', $user->village_id))
             ->when($request->search, fn ($q, $s) => $q->where('name', 'like', "%{$s}%"))
             ->when($request->status, fn ($q, $s) => $q->where('status', $s));
 
@@ -33,7 +49,7 @@ class AdminVillageController extends Controller
         return Inertia::render('Admin/Villages/Index', [
             'villages' => $villages,
             'filters' => $request->only('search', 'status'),
-            'isAdmin' => $isAdmin,
+            'isAdmin' => true,
         ]);
     }
 
@@ -58,6 +74,29 @@ class AdminVillageController extends Controller
         return redirect()
             ->route('admin.villages.edit', $village)
             ->with('success', 'Desa berhasil ditambahkan.');
+    }
+
+    public function show(Village $village): Response
+    {
+        // View logic works for both Admin and Manager since manager is restricted via global scope or UI
+        // Wait, AdminVillageController has an implicit policy, we should authorize 'view'.
+        // Let's use 'view' or 'update' since there's no view policy for villages explicitly mentioned.
+        // Actually, 'update' is fine, or we can just not authorize since they can only see this if they can access it.
+        $this->authorize('update', $village);
+
+        $village->load(['media' => fn ($q) => $q->orderByDesc('is_primary')]);
+
+        $recentDestinations = $village->destinations()->latest()->take(5)->get(['id', 'name', 'slug', 'category', 'status', 'created_at']);
+        $recentEvents = $village->events()->latest()->take(5)->get(['id', 'title', 'slug', 'start_date', 'start_time', 'status', 'ticket_price']);
+        $recentBlogs = $village->blogs()->latest()->take(5)->get(['id', 'title', 'slug', 'status', 'views_count', 'created_at']);
+
+        return Inertia::render('Admin/Villages/Show', [
+            'village' => $village,
+            'recentDestinations' => $recentDestinations,
+            'recentEvents' => $recentEvents,
+            'recentBlogs' => $recentBlogs,
+            'isAdmin' => request()->user()->role === UserRole::Admin,
+        ]);
     }
 
     public function edit(Village $village): Response
@@ -96,6 +135,24 @@ class AdminVillageController extends Controller
         }
 
         return back()->with('success', 'Desa berhasil diperbarui.');
+    }
+
+    public function editManager(Request $request): Response
+    {
+        $village = $request->user()->village()->first();
+
+        abort_if(! $village, 403, 'Anda tidak memiliki desa untuk dikelola.');
+
+        return $this->edit($village);
+    }
+
+    public function updateManager(UpdateVillageRequest $request): RedirectResponse
+    {
+        $village = $request->user()->village()->first();
+
+        abort_if(! $village, 403, 'Anda tidak memiliki desa untuk dikelola.');
+
+        return $this->update($request, $village);
     }
 
     public function destroy(Village $village): RedirectResponse

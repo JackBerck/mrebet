@@ -15,8 +15,12 @@ Route::prefix('admin')
 
         Route::get('/dashboard', [AdminDashboardController::class, 'index'])->name('dashboard');
 
+        // Manager specific routes (must be before resource)
+        Route::get('villages/edit', [AdminVillageController::class, 'editManager'])->name('villages.manager.edit');
+        Route::put('villages/edit', [AdminVillageController::class, 'updateManager'])->name('villages.manager.update');
+
         // Village CRUD (policy enforced inside controller)
-        Route::resource('villages', AdminVillageController::class)->except(['show']);
+        Route::resource('villages', AdminVillageController::class);
 
         // Village status toggle — admin only
         Route::patch('villages/{village}/status', [AdminVillageController::class, 'updateStatus'])
