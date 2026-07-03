@@ -16,7 +16,7 @@ return new class extends Migration
             $table->id();
             $table->string('name');
             $table->string('slug')->unique();
-            $table->text('description')->nullable();
+            $table->longText('description')->nullable();
             $table->string('head_name')->nullable();
             $table->string('contact_phone', 20)->nullable();
             $table->decimal('latitude', 10, 8)->nullable();

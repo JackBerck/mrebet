@@ -69,6 +69,14 @@ class Event extends Model
     }
 
     /**
+     * Set rute default menggunakan slug (untuk URL yang SEO friendly).
+     */
+    public function getRouteKeyName(): string
+    {
+        return 'slug';
+    }
+
+    /**
      * @return array<string, string>
      */
     protected function casts(): array

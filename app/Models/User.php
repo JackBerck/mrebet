@@ -41,6 +41,8 @@ class User extends Authenticatable implements PasskeyUser
     /** @use HasFactory<UserFactory> */
     use HasFactory, Notifiable, PasskeyAuthenticatable, TwoFactorAuthenticatable;
 
+    protected $appends = ['name'];
+
     /**
      * @return array<string, string>
      */
@@ -77,5 +79,13 @@ class User extends Authenticatable implements PasskeyUser
     public function isManager(): bool
     {
         return $this->role === UserRole::Manager;
+    }
+
+    /** Accessor untuk compatibility dengan frontend yang expect user.name */
+    protected function name(): \Illuminate\Database\Eloquent\Casts\Attribute
+    {
+        return \Illuminate\Database\Eloquent\Casts\Attribute::make(
+            get: fn (mixed $value, array $attributes) => $attributes['full_name'] ?? null,
+        );
     }
 }

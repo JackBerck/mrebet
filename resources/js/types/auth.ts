@@ -1,8 +1,12 @@
 export type User = {
     id: number;
-    name: string;
+    full_name: string;
+    name: string; // kept for compatibility
     email: string;
-    avatar?: string;
+    role: 'admin' | 'manager';
+    village_id: number | null;
+    is_active: boolean;
+    avatar?: string | null;
     email_verified_at: string | null;
     two_factor_enabled?: boolean;
     created_at: string;

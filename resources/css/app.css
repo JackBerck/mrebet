@@ -1,6 +1,64 @@
 @import 'tailwindcss';
-
 @import 'tw-animate-css';
+@import 'leaflet/dist/leaflet.css';
+
+/* ── Local Fonts ──────────────────────────────────────────────────────────── */
+@font-face {
+    font-family: 'Fraunces';
+    src: url('../../public/fonts/Fraunces_72pt-Regular.ttf') format('truetype');
+    font-weight: 400;
+    font-style: normal;
+    font-display: swap;
+}
+@font-face {
+    font-family: 'Fraunces';
+    src: url('../../public/fonts/Fraunces_72pt-Italic.ttf') format('truetype');
+    font-weight: 400;
+    font-style: italic;
+    font-display: swap;
+}
+@font-face {
+    font-family: 'Fraunces';
+    src: url('../../public/fonts/Fraunces_72pt-SemiBold.ttf') format('truetype');
+    font-weight: 600;
+    font-style: normal;
+    font-display: swap;
+}
+@font-face {
+    font-family: 'Fraunces';
+    src: url('../../public/fonts/Fraunces_72pt-Bold.ttf') format('truetype');
+    font-weight: 700;
+    font-style: normal;
+    font-display: swap;
+}
+@font-face {
+    font-family: 'Inter';
+    src: url('../../public/fonts/Inter_24pt-Regular.ttf') format('truetype');
+    font-weight: 400;
+    font-style: normal;
+    font-display: swap;
+}
+@font-face {
+    font-family: 'Inter';
+    src: url('../../public/fonts/Inter_24pt-Medium.ttf') format('truetype');
+    font-weight: 500;
+    font-style: normal;
+    font-display: swap;
+}
+@font-face {
+    font-family: 'Inter';
+    src: url('../../public/fonts/Inter_24pt-SemiBold.ttf') format('truetype');
+    font-weight: 600;
+    font-style: normal;
+    font-display: swap;
+}
+@font-face {
+    font-family: 'Inter';
+    src: url('../../public/fonts/Inter_24pt-Bold.ttf') format('truetype');
+    font-weight: 700;
+    font-style: normal;
+    font-display: swap;
+}
 
 @source '../views';
 @source '../../vendor/laravel/framework/src/Illuminate/Pagination/resources/views/*.blade.php';
@@ -9,9 +67,9 @@
 
 @theme {
     --font-sans:
-        'Instrument Sans', ui-sans-serif, system-ui, sans-serif,
-        'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol',
-        'Noto Color Emoji';
+        'Inter', ui-sans-serif, system-ui, sans-serif, 'Apple Color Emoji',
+        'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
+    --font-display: 'Fraunces', Georgia, serif;
 
     --radius-lg: var(--radius);
     --radius-md: calc(var(--radius) - 2px);
@@ -149,39 +207,39 @@
 }
 
 @layer components {
-  .container {
-    @apply mx-auto;
-  }
+    .container {
+        @apply mx-auto;
+    }
 
-  .section-padding-x {
-    @apply px-4 sm:px-6 lg:px-8;
-  }
+    .section-padding-x {
+        @apply px-4 sm:px-6 lg:px-8;
+    }
 
-  .title-font-size {
-    @apply text-xl md:text-2xl lg:text-3xl xl:text-4xl;
-  }
+    .title-font-size {
+        @apply text-xl md:text-2xl lg:text-3xl xl:text-4xl;
+    }
 
-  .subtitle-font-size {
-    @apply text-lg md:text-xl lg:text-2xl;
-  }
+    .subtitle-font-size {
+        @apply text-lg md:text-xl lg:text-2xl;
+    }
 
-  .normal-font-size {
-    @apply text-sm sm:text-base;
-  }
+    .normal-font-size {
+        @apply text-sm sm:text-base;
+    }
 
-  .small-font-size {
-    @apply text-xs sm:text-sm;
-  }
+    .small-font-size {
+        @apply text-xs sm:text-sm;
+    }
 
-  .normal-navbar-font-size {
-    @apply text-sm;
-  }
+    .normal-navbar-font-size {
+        @apply text-sm;
+    }
 
-  .title-footer-font-size {
-    @apply text-sm sm:text-base;
-  }
+    .title-footer-font-size {
+        @apply text-sm sm:text-base;
+    }
 
-  .normal-footer-font-size {
-    @apply text-sm;
-  }
+    .normal-footer-font-size {
+        @apply text-sm;
+    }
 }

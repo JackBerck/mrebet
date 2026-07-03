@@ -58,6 +58,10 @@ class Destination extends Model
         'status',
     ];
 
+    protected $hidden = [
+        'point',
+    ];
+
     /**
      * Konfigurasi auto-generate slug dari kolom name.
      */
@@ -68,6 +72,14 @@ class Destination extends Model
             ->saveSlugsTo('slug')
             ->slugsShouldBeNoLongerThan(160)
             ->usingSeparator('-');
+    }
+
+    /**
+     * Set rute default menggunakan slug (untuk URL yang SEO friendly).
+     */
+    public function getRouteKeyName(): string
+    {
+        return 'slug';
     }
 
     /**

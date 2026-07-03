@@ -44,6 +44,10 @@ class Village extends Model
         'status',
     ];
 
+    protected $hidden = [
+        'point',
+    ];
+
     /**
      * Konfigurasi auto-generate slug dari kolom name.
      * Slug unik — jika sama, tambah suffix angka otomatis (desa-a-2, desa-a-3, dll).
@@ -55,6 +59,14 @@ class Village extends Model
             ->saveSlugsTo('slug')
             ->slugsShouldBeNoLongerThan(160)
             ->usingSeparator('-');
+    }
+
+    /**
+     * Set rute default menggunakan slug (untuk URL yang SEO friendly).
+     */
+    public function getRouteKeyName(): string
+    {
+        return 'slug';
     }
 
     /**

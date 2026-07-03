@@ -1,7 +1,13 @@
-import { Link } from '@inertiajs/react';
-import { BookOpen, FolderGit2, LayoutGrid } from 'lucide-react';
+import { Link, usePage } from '@inertiajs/react';
+import {
+    CalendarDays,
+    Compass,
+    FileText,
+    LayoutDashboard,
+    MapPin,
+    Users,
+} from 'lucide-react';
 import AppLogo from '@/components/app-logo';
-import { NavFooter } from '@/components/nav-footer';
 import { NavMain } from '@/components/nav-main';
 import { NavUser } from '@/components/nav-user';
 import {
@@ -13,38 +19,57 @@ import {
     SidebarMenuButton,
     SidebarMenuItem,
 } from '@/components/ui/sidebar';
-import { dashboard } from '@/routes';
-import type { NavItem } from '@/types';
+import type { NavItem, User } from '@/types';
 
-const mainNavItems: NavItem[] = [
-    {
-        title: 'Dashboard',
-        href: dashboard(),
-        icon: LayoutGrid,
-    },
-];
+function getAdminNavItems(user: User): NavItem[] {
+    const base: NavItem[] = [
+        {
+            title: 'Dashboard',
+            href: '/admin/dashboard',
+            icon: LayoutDashboard,
+        },
+    ];
 
-const footerNavItems: NavItem[] = [
-    {
-        title: 'Repository',
-        href: 'https://github.com/laravel/react-starter-kit',
-        icon: FolderGit2,
-    },
-    {
-        title: 'Documentation',
-        href: 'https://laravel.com/docs/starter-kits#react',
-        icon: BookOpen,
-    },
-];
+    if (user.role === 'admin') {
+        return [
+            ...base,
+            { title: 'Desa', href: '/admin/villages', icon: MapPin },
+            { title: 'Destinasi', href: '/admin/destinations', icon: Compass },
+            { title: 'Event', href: '/admin/events', icon: CalendarDays },
+            { title: 'Blog', href: '/admin/blogs', icon: FileText },
+            { title: 'Pengguna', href: '/admin/users', icon: Users },
+        ];
+    }
+
+    // Manager — link langsung ke edit desanya sendiri
+    // Asumsikan user object yang dikirim dari HandleInertiaRequests punya data village
+    // Jika tidak ada data village di user, mungkin perlu fallback. 
+    // Wait, let's use `auth.user.village?.slug`.
+    return [
+        ...base,
+        {
+            title: 'Desa Saya',
+            href: (user as any).village?.slug ? `/admin/villages/${(user as any).village.slug}/edit` : '/admin/villages',
+            icon: MapPin,
+        },
+        { title: 'Destinasi', href: '/admin/destinations', icon: Compass },
+        { title: 'Event', href: '/admin/events', icon: CalendarDays },
+        { title: 'Blog', href: '/admin/blogs', icon: FileText },
+    ];
+}
 
 export function AppSidebar() {
+    const { auth } = usePage<{ auth: { user: User } }>().props;
+    const user = auth.user;
+    const mainNavItems = getAdminNavItems(user);
+
     return (
         <Sidebar collapsible="icon" variant="inset">
             <SidebarHeader>
                 <SidebarMenu>
                     <SidebarMenuItem>
                         <SidebarMenuButton size="lg" asChild>
-                            <Link href={dashboard()} prefetch>
+                            <Link href="/admin/dashboard" prefetch>
                                 <AppLogo />
                             </Link>
                         </SidebarMenuButton>
@@ -57,7 +82,6 @@ export function AppSidebar() {
             </SidebarContent>
 
             <SidebarFooter>
-                <NavFooter items={footerNavItems} className="mt-auto" />
                 <NavUser />
             </SidebarFooter>
         </Sidebar>
