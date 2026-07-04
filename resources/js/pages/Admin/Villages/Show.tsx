@@ -137,7 +137,7 @@ export default function VillageShow({ village, recentDestinations, recentEvents,
                 <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
                     {/* Destinations Table */}
                     <Card className="border-[oklch(0.22_0.01_85/8%)] shadow-none flex flex-col">
-                        <CardHeader className="flex flex-row items-center justify-between py-4">
+                        <CardHeader className="flex flex-row flex-wrap items-center justify-between py-4">
                             <div className="flex items-center gap-2">
                                 <Compass className="h-5 w-5 text-[oklch(0.38_0.08_145)]" />
                                 <CardTitle className="text-base font-semibold">Destinasi (Top 5)</CardTitle>
@@ -176,7 +176,7 @@ export default function VillageShow({ village, recentDestinations, recentEvents,
 
                     {/* Events Table */}
                     <Card className="border-[oklch(0.22_0.01_85/8%)] shadow-none flex flex-col">
-                        <CardHeader className="flex flex-row items-center justify-between py-4">
+                        <CardHeader className="flex flex-row flex-wrap items-center justify-between py-4">
                             <div className="flex items-center gap-2">
                                 <CalendarDays className="h-5 w-5 text-[oklch(0.38_0.08_145)]" />
                                 <CardTitle className="text-base font-semibold">Event Mendatang (Top 5)</CardTitle>
@@ -217,7 +217,7 @@ export default function VillageShow({ village, recentDestinations, recentEvents,
 
                     {/* Blogs Table */}
                     <Card className="border-[oklch(0.22_0.01_85/8%)] shadow-none flex flex-col lg:col-span-2">
-                        <CardHeader className="flex flex-row items-center justify-between py-4">
+                        <CardHeader className="flex flex-row flex-wrap items-center justify-between py-4">
                             <div className="flex items-center gap-2">
                                 <FileText className="h-5 w-5 text-[oklch(0.38_0.08_145)]" />
                                 <CardTitle className="text-base font-semibold">Artikel Blog (Top 5)</CardTitle>

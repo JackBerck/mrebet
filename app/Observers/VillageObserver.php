@@ -8,43 +8,26 @@ use Illuminate\Support\Facades\DB;
 class VillageObserver
 {
     /**
-     * Auto-set POINT spatial column from latitude + longitude before save.
-     * Runs on both creating and updating to keep point in sync.
+     * Auto-set POINT spatial column from latitude + longitude before insert.
      */
-    public function saving(Village $village): void
+    public function creating(Village $village): void
     {
-        if ($village->latitude !== null && $village->longitude !== null) {
-            DB::statement(
-                'UPDATE villages SET point = ST_SRID(POINT(?, ?), 4326) WHERE id = ?',
-                [$village->longitude, $village->latitude, $village->id]
-            );
-        }
+        $lat = $village->latitude ?? -7.324;
+        $lng = $village->longitude ?? 109.364;
+
+        $village->point = DB::raw("ST_SRID(POINT({$lng}, {$lat}), 4326)");
     }
 
     /**
-     * Handle the Village "created" event.
-     * After insert, sync POINT from lat/lng (ID now exists).
+     * Auto-sync POINT if lat/lng changed before update.
      */
-    public function created(Village $village): void
+    public function updating(Village $village): void
     {
-        if ($village->latitude !== null && $village->longitude !== null) {
-            DB::statement(
-                'UPDATE villages SET point = ST_SRID(POINT(?, ?), 4326) WHERE id = ?',
-                [$village->longitude, $village->latitude, $village->id]
-            );
-        }
-    }
+        if ($village->isDirty(['latitude', 'longitude'])) {
+            $lat = $village->latitude ?? -7.324;
+            $lng = $village->longitude ?? 109.364;
 
-    /**
-     * Handle the Village "updated" event.
-     */
-    public function updated(Village $village): void
-    {
-        if ($village->wasChanged(['latitude', 'longitude']) && $village->latitude !== null && $village->longitude !== null) {
-            DB::statement(
-                'UPDATE villages SET point = ST_SRID(POINT(?, ?), 4326) WHERE id = ?',
-                [$village->longitude, $village->latitude, $village->id]
-            );
+            $village->point = DB::raw("ST_SRID(POINT({$lng}, {$lat}), 4326)");
         }
     }
 

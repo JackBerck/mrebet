@@ -3,16 +3,16 @@
 namespace App\Http\Requests\Admin;
 
 use App\Enums\ContentStatus;
+use App\Enums\DestinationCategory;
+use App\Models\Destination;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
 
-class UpdateVillageRequest extends FormRequest
+class StoreDestinationRequest extends FormRequest
 {
     public function authorize(): bool
     {
-        $village = $this->route('village') ?? $this->user()->village()->first();
-
-        return $village ? $this->user()->can('update', $village) : false;
+        return $this->user()->can('create', Destination::class);
     }
 
     /**
@@ -21,19 +21,23 @@ class UpdateVillageRequest extends FormRequest
     public function rules(): array
     {
         return [
+            'village_id' => ['nullable', 'integer', 'exists:villages,id'],
             'name' => ['required', 'string', 'max:255'],
+            'category' => ['required', Rule::enum(DestinationCategory::class)],
             'description' => ['nullable', 'string'],
-            'head_name' => ['nullable', 'string', 'max:255'],
-            'contact_phone' => ['nullable', 'string', 'max:20'],
+            'ticket_price' => ['required', 'numeric', 'min:0'],
+            'ticket_info' => ['nullable', 'string', 'max:500'],
+            'open_time' => ['nullable', 'date_format:H:i'],
+            'close_time' => ['nullable', 'date_format:H:i'],
+            'operational_days' => ['nullable', 'string', 'max:255'],
+            'facilities' => ['nullable', 'array'],
+            'facilities.*' => ['string', 'max:100'],
             'latitude' => ['nullable', 'numeric', 'between:-90,90'],
             'longitude' => ['nullable', 'numeric', 'between:-180,180'],
             'qr_code_target' => ['nullable', 'url', 'max:500'],
             'status' => ['required', Rule::enum(ContentStatus::class)],
             'images' => ['nullable', 'array', 'max:10'],
             'images.*' => ['image', 'max:5120'],
-            'deleted_media_ids' => ['nullable', 'array'],
-            'deleted_media_ids.*' => ['integer'],
-            'primary_media_id' => ['nullable', 'integer'],
         ];
     }
 
@@ -43,7 +47,11 @@ class UpdateVillageRequest extends FormRequest
     public function messages(): array
     {
         return [
-            'name.required' => 'Nama desa wajib diisi.',
+            'name.required' => 'Nama destinasi wajib diisi.',
+            'category.required' => 'Kategori destinasi wajib dipilih.',
+            'ticket_price.min' => 'Harga tiket tidak boleh negatif.',
+            'open_time.date_format' => 'Format jam buka harus HH:MM.',
+            'close_time.date_format' => 'Format jam tutup harus HH:MM.',
             'latitude.between' => 'Latitude harus antara -90 dan 90.',
             'longitude.between' => 'Longitude harus antara -180 dan 180.',
             'qr_code_target.url' => 'URL QR Code harus berupa URL yang valid.',

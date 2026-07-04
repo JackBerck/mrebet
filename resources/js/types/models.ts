@@ -12,11 +12,12 @@ export type Village = {
     created_at: string;
     updated_at: string;
     deleted_at: string | null;
-    primary_media?: VillageMedia | null;
-    media?: VillageMedia[];
+    primary_media?: MediaItem | null;
+    media?: MediaItem[];
 };
 
-export type VillageMedia = {
+/** Generic polymorphic media record (used by Village, Destination, Event) */
+export type MediaItem = {
     id: number;
     mediable_id: number;
     mediable_type: string;
@@ -26,6 +27,9 @@ export type VillageMedia = {
     created_at: string;
 };
 
+/** @deprecated Use MediaItem instead */
+export type VillageMedia = MediaItem;
+
 export type Destination = {
     id: number;
     village_id: number;
@@ -33,7 +37,7 @@ export type Destination = {
     slug: string;
     category: 'alam' | 'budaya' | 'buatan';
     description: string | null;
-    ticket_price: string;
+    ticket_price: string; // decimal:2 — PHP sends string
     ticket_info: string | null;
     open_time: string | null;
     close_time: string | null;
@@ -44,6 +48,11 @@ export type Destination = {
     qr_code_target: string | null;
     status: 'draft' | 'published';
     created_at: string;
+    updated_at: string;
+    deleted_at: string | null;
+    primary_media?: MediaItem | null;
+    media?: MediaItem[];
+    village?: Pick<Village, 'id' | 'name'> | null;
 };
 
 export type Event = {
@@ -57,13 +66,19 @@ export type Event = {
     end_date: string | null;
     start_time: string | null;
     end_time: string | null;
-    ticket_price: string;
+    ticket_price: string; // decimal:2 — PHP sends string
     organizer: string | null;
     instagram: string | null;
     contact_person: string | null;
     qr_code_target: string | null;
     status: 'draft' | 'published';
-    village?: Pick<Village, 'id' | 'name'>;
+    created_at: string;
+    updated_at: string;
+    deleted_at: string | null;
+    primary_media?: MediaItem | null;
+    media?: MediaItem[];
+    village?: Pick<Village, 'id' | 'name'> | null;
+    destination?: Pick<Destination, 'id' | 'name'> | null;
 };
 
 export type Blog = {
@@ -78,6 +93,10 @@ export type Blog = {
     views_count: number;
     published_at: string | null;
     created_at: string;
+    updated_at: string;
+    deleted_at: string | null;
+    author?: { id: number; name: string } | null;
+    village?: Pick<Village, 'id' | 'name'> | null;
 };
 
 export type PaginatedData<T> = {

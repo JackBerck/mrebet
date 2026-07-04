@@ -8,28 +8,26 @@ use Illuminate\Support\Facades\DB;
 class DestinationObserver
 {
     /**
-     * Auto-set POINT spatial column from latitude + longitude after insert.
+     * Auto-set POINT spatial column from latitude + longitude before insert.
      */
-    public function created(Destination $destination): void
+    public function creating(Destination $destination): void
     {
-        if ($destination->latitude !== null && $destination->longitude !== null) {
-            DB::statement(
-                'UPDATE destinations SET point = ST_SRID(POINT(?, ?), 4326) WHERE id = ?',
-                [$destination->longitude, $destination->latitude, $destination->id]
-            );
-        }
+        $lat = $destination->latitude ?? -7.324;
+        $lng = $destination->longitude ?? 109.364;
+
+        $destination->point = DB::raw("ST_SRID(POINT({$lng}, {$lat}), 4326)");
     }
 
     /**
-     * Auto-sync POINT if lat/lng changed on update.
+     * Auto-sync POINT if lat/lng changed before update.
      */
-    public function updated(Destination $destination): void
+    public function updating(Destination $destination): void
     {
-        if ($destination->wasChanged(['latitude', 'longitude']) && $destination->latitude !== null && $destination->longitude !== null) {
-            DB::statement(
-                'UPDATE destinations SET point = ST_SRID(POINT(?, ?), 4326) WHERE id = ?',
-                [$destination->longitude, $destination->latitude, $destination->id]
-            );
+        if ($destination->isDirty(['latitude', 'longitude'])) {
+            $lat = $destination->latitude ?? -7.324;
+            $lng = $destination->longitude ?? 109.364;
+
+            $destination->point = DB::raw("ST_SRID(POINT({$lng}, {$lat}), 4326)");
         }
     }
 
