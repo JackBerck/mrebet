@@ -3,6 +3,7 @@ export type User = {
     full_name: string;
     name: string; // kept for compatibility
     email: string;
+    phone_number?: string | null;
     role: 'admin' | 'manager';
     village_id: number | null;
     is_active: boolean;

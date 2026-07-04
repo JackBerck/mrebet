@@ -1,129 +1,214 @@
-import { Form, Head, usePage } from '@inertiajs/react';
-import { Link } from '@inertiajs/react';
-import ProfileController from '@/actions/App/Http/Controllers/Settings/ProfileController';
-import DeleteUser from '@/components/delete-user';
+import { Head, router, usePage } from '@inertiajs/react';
+import { Camera, Mail, Phone, Shield, User as UserIcon } from 'lucide-react';
+import { useRef, useState } from 'react';
+import { toast } from 'sonner';
 import Heading from '@/components/heading';
-import InputError from '@/components/input-error';
+import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
+import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
+import { Separator } from '@/components/ui/separator';
+import { useInitials } from '@/hooks/use-initials';
 import { edit } from '@/routes/profile';
-import { send } from '@/routes/verification';
 import type { Auth } from '@/types';
 
 type PageProps = {
     auth: Auth;
+    status?: string;
 };
 
-export default function Profile({
-    mustVerifyEmail,
-    status,
-}: {
-    mustVerifyEmail: boolean;
-    status?: string;
-}) {
+export default function Profile({ status }: { status?: string }) {
     const { auth } = usePage<PageProps>().props;
+    const user = auth.user;
+    const getInitials = useInitials();
+
+    const [fullName, setFullName] = useState(user.full_name ?? '');
+    const [phoneNumber, setPhoneNumber] = useState(user.phone_number ?? '');
+    const [avatarPreview, setAvatarPreview] = useState<string | null>(null);
+    const [avatarFile, setAvatarFile] = useState<File | null>(null);
+    const [processing, setProcessing] = useState(false);
+    const fileInputRef = useRef<HTMLInputElement>(null);
+
+    const avatarSrc = avatarPreview ?? (user.avatar ? `/storage/${user.avatar}` : undefined);
+
+    const handleAvatarChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        const file = e.target.files?.[0];
+        if (!file) return;
+        setAvatarFile(file);
+        setAvatarPreview(URL.createObjectURL(file));
+    };
+
+    const handleSubmit = (e: React.FormEvent) => {
+        e.preventDefault();
+        setProcessing(true);
+
+        const formData = new FormData();
+        formData.append('full_name', fullName);
+        formData.append('phone_number', phoneNumber);
+        if (avatarFile) {
+            formData.append('avatar', avatarFile);
+        }
+
+        router.post('/settings/profile', formData, {
+            preserveScroll: true,
+            onSuccess: () => {
+                toast.success('Profil berhasil diperbarui.');
+                setAvatarFile(null);
+                setAvatarPreview(null);
+            },
+            onError: (errors) => {
+                const first = Object.values(errors)[0];
+                if (first) toast.error(first);
+            },
+            onFinish: () => setProcessing(false),
+        });
+    };
+
+    const roleBadge =
+        user.role === 'admin'
+            ? { label: 'Admin', className: 'bg-[oklch(0.92_0.02_145)] text-[oklch(0.24_0.05_145)] border-0' }
+            : { label: 'Manager', className: 'bg-blue-100 text-blue-800 border-0' };
 
     return (
         <>
-            <Head title="Profile settings" />
-
-            <h1 className="sr-only">Profile settings</h1>
+            <Head title="Profil" />
+            <h1 className="sr-only">Pengaturan Profil</h1>
 
             <div className="space-y-6">
-                <Heading
-                    variant="small"
-                    title="Profile"
-                    description="Update your name and email address"
-                />
+                <Heading variant="small" title="Profil" description="Kelola informasi profil Anda" />
 
-                <Form
-                    {...ProfileController.update.form()}
-                    options={{
-                        preserveScroll: true,
-                    }}
-                    className="space-y-6"
-                >
-                    {({ processing, errors }) => (
-                        <>
-                            <div className="grid gap-2">
-                                <Label htmlFor="name">Name</Label>
+                <form onSubmit={handleSubmit} className="space-y-8">
+                    {/* Avatar */}
+                    <div className="flex items-center gap-6">
+                        <div className="relative">
+                            <Avatar className="h-20 w-20">
+                                <AvatarImage src={avatarSrc} alt={user.name} />
+                                <AvatarFallback className="text-xl bg-[oklch(0.92_0.02_145)] text-[oklch(0.24_0.05_145)]">
+                                    {getInitials(user.name)}
+                                </AvatarFallback>
+                            </Avatar>
+                            <button
+                                type="button"
+                                onClick={() => fileInputRef.current?.click()}
+                                className="absolute -bottom-1 -right-1 flex h-7 w-7 items-center justify-center rounded-full bg-[oklch(0.38_0.08_145)] text-white shadow-md hover:bg-[oklch(0.24_0.05_145)] transition-colors"
+                                title="Ganti foto profil"
+                            >
+                                <Camera className="h-3.5 w-3.5" />
+                            </button>
+                            <input
+                                ref={fileInputRef}
+                                type="file"
+                                accept="image/*"
+                                className="hidden"
+                                onChange={handleAvatarChange}
+                            />
+                        </div>
+                        <div>
+                            <p className="text-sm font-medium">{user.name}</p>
+                            <p className="text-xs text-muted-foreground">{user.email}</p>
+                            <button
+                                type="button"
+                                onClick={() => fileInputRef.current?.click()}
+                                className="mt-1.5 text-xs text-[oklch(0.38_0.08_145)] hover:underline"
+                            >
+                                Ganti foto profil
+                            </button>
+                        </div>
+                    </div>
 
-                                <Input
-                                    id="name"
-                                    className="mt-1 block w-full"
-                                    defaultValue={auth.user.name}
-                                    name="name"
-                                    required
-                                    autoComplete="name"
-                                    placeholder="Full name"
-                                />
+                    <Separator />
 
-                                <InputError
-                                    className="mt-2"
-                                    message={errors.name}
-                                />
-                            </div>
+                    {/* Editable fields */}
+                    <div className="grid gap-5 sm:grid-cols-2">
+                        <div className="grid gap-2">
+                            <Label htmlFor="full_name">
+                                <UserIcon className="inline mr-1.5 h-3.5 w-3.5 text-muted-foreground" />
+                                Nama Lengkap
+                            </Label>
+                            <Input
+                                id="full_name"
+                                value={fullName}
+                                onChange={(e) => setFullName(e.target.value)}
+                                placeholder="Masukkan nama lengkap"
+                                required
+                            />
+                        </div>
 
-                            <div className="grid gap-2">
-                                <Label htmlFor="email">Email address</Label>
+                        <div className="grid gap-2">
+                            <Label htmlFor="phone_number">
+                                <Phone className="inline mr-1.5 h-3.5 w-3.5 text-muted-foreground" />
+                                No. Telepon
+                            </Label>
+                            <Input
+                                id="phone_number"
+                                value={phoneNumber}
+                                onChange={(e) => setPhoneNumber(e.target.value)}
+                                placeholder="Contoh: 08123456789"
+                            />
+                        </div>
+                    </div>
 
-                                <Input
-                                    id="email"
-                                    type="email"
-                                    className="mt-1 block w-full"
-                                    defaultValue={auth.user.email}
-                                    name="email"
-                                    required
-                                    autoComplete="username"
-                                    placeholder="Email address"
-                                />
+                    <div className="flex items-center gap-4">
+                        <Button
+                            type="submit"
+                            disabled={processing}
+                            className="bg-[oklch(0.38_0.08_145)] hover:bg-[oklch(0.24_0.05_145)]"
+                        >
+                            {processing ? 'Menyimpan...' : 'Simpan Perubahan'}
+                        </Button>
+                        {status && (
+                            <p className="text-sm text-green-600">{status}</p>
+                        )}
+                    </div>
+                </form>
 
-                                <InputError
-                                    className="mt-2"
-                                    message={errors.email}
-                                />
-                            </div>
+                <Separator />
 
-                            {mustVerifyEmail &&
-                                auth.user.email_verified_at === null && (
-                                    <div>
-                                        <p className="-mt-4 text-sm text-muted-foreground">
-                                            Your email address is unverified.{' '}
-                                            <Link
-                                                href={send()}
-                                                as="button"
-                                                className="text-foreground underline decoration-neutral-300 underline-offset-4 transition-colors duration-300 ease-out hover:decoration-current! dark:decoration-neutral-500"
-                                            >
-                                                Click here to re-send the
-                                                verification email.
-                                            </Link>
-                                        </p>
-
-                                        {status ===
-                                            'verification-link-sent' && (
-                                            <div className="mt-2 text-sm font-medium text-green-600">
-                                                A new verification link has been
-                                                sent to your email address.
-                                            </div>
-                                        )}
-                                    </div>
+                {/* Read-only info */}
+                <div>
+                    <Heading variant="small" title="Informasi Akun" description="Data yang tidak dapat diubah" />
+                    <div className="mt-4 grid gap-4 sm:grid-cols-2">
+                        <div className="grid gap-1.5">
+                            <Label className="text-muted-foreground flex items-center gap-1.5">
+                                <Mail className="h-3.5 w-3.5" /> Email
+                            </Label>
+                            <div className="flex items-center gap-2">
+                                <Input value={user.email} disabled className="bg-muted/40" />
+                                {user.email_verified_at ? (
+                                    <Badge className="shrink-0 border-0 bg-[oklch(0.92_0.02_145)] text-[oklch(0.24_0.05_145)] text-xs">
+                                        Terverifikasi
+                                    </Badge>
+                                ) : (
+                                    <Badge variant="destructive" className="shrink-0 text-xs">
+                                        Belum Verifikasi
+                                    </Badge>
                                 )}
-
-                            <div className="flex items-center gap-4">
-                                <Button
-                                    disabled={processing}
-                                    data-test="update-profile-button"
-                                >
-                                    Save
-                                </Button>
                             </div>
-                        </>
-                    )}
-                </Form>
-            </div>
+                        </div>
 
-            <DeleteUser />
+                        <div className="grid gap-1.5">
+                            <Label className="text-muted-foreground flex items-center gap-1.5">
+                                <Shield className="h-3.5 w-3.5" /> Peran
+                            </Label>
+                            <div className="flex h-9 items-center">
+                                <Badge className={roleBadge.className}>{roleBadge.label}</Badge>
+                            </div>
+                        </div>
+
+                        {user.village_id && (
+                            <div className="grid gap-1.5 sm:col-span-2">
+                                <Label className="text-muted-foreground">Desa Kelolaan</Label>
+                                <Input
+                                    value={(user as Record<string, unknown>).village_name as string ?? `ID Desa: ${user.village_id}`}
+                                    disabled
+                                    className="bg-muted/40"
+                                />
+                            </div>
+                        )}
+                    </div>
+                </div>
+            </div>
         </>
     );
 }
@@ -131,7 +216,7 @@ export default function Profile({
 Profile.layout = {
     breadcrumbs: [
         {
-            title: 'Profile settings',
+            title: 'Profil',
             href: edit(),
         },
     ],
