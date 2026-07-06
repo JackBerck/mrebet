@@ -3,7 +3,7 @@
 namespace App\Observers;
 
 use App\Models\Destination;
-use Illuminate\Support\Facades\DB;
+use App\Support\Spatial;
 
 class DestinationObserver
 {
@@ -15,7 +15,7 @@ class DestinationObserver
         $lat = $destination->latitude ?? -7.324;
         $lng = $destination->longitude ?? 109.364;
 
-        $destination->point = DB::raw("ST_SRID(POINT({$lng}, {$lat}), 4326)");
+        $destination->point = Spatial::point($lat, $lng);
     }
 
     /**
@@ -27,7 +27,7 @@ class DestinationObserver
             $lat = $destination->latitude ?? -7.324;
             $lng = $destination->longitude ?? 109.364;
 
-            $destination->point = DB::raw("ST_SRID(POINT({$lng}, {$lat}), 4326)");
+            $destination->point = Spatial::point($lat, $lng);
         }
     }
 

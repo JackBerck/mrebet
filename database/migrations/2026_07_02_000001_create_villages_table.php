@@ -31,9 +31,27 @@ return new class extends Migration
             $table->index('status');
         });
 
-        // Add SPATIAL POINT column + index (InnoDB requires NOT NULL for SPATIAL INDEX)
-        DB::statement('ALTER TABLE villages ADD COLUMN point POINT NOT NULL SRID 4326 AFTER longitude');
-        DB::statement('ALTER TABLE villages ADD SPATIAL INDEX idx_villages_point (point)');
+        $driver = DB::connection()->getDriverName();
+        if ($driver === 'sqlite') {
+            Schema::table('villages', function (Blueprint $table) {
+                $table->geometry('point')->nullable()->after('longitude');
+            });
+        } else {
+            $isMariaDb = false;
+            if ($driver === 'mariadb') {
+                $isMariaDb = true;
+            } elseif ($driver === 'mysql') {
+                $version = DB::connection()->getPdo()->getAttribute(PDO::ATTR_SERVER_VERSION);
+                $isMariaDb = str_contains(strtolower($version), 'mariadb');
+            }
+
+            if ($isMariaDb) {
+                DB::statement('ALTER TABLE villages ADD COLUMN point POINT NOT NULL AFTER longitude');
+            } else {
+                DB::statement('ALTER TABLE villages ADD COLUMN point POINT NOT NULL SRID 4326 AFTER longitude');
+            }
+            DB::statement('ALTER TABLE villages ADD SPATIAL INDEX idx_villages_point (point)');
+        }
 
         // Add village_id FK to users after villages table is ready
         Schema::table('users', function (Blueprint $table) {

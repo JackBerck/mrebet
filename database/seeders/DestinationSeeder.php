@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use App\Support\Spatial;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\DB;
@@ -152,7 +153,7 @@ class DestinationSeeder extends Seeder
                 'facilities' => json_encode($data['facilities']),
                 'latitude' => $lat,
                 'longitude' => $lng,
-                'point' => DB::raw("ST_SRID(POINT({$lng}, {$lat}), 4326)"),
+                'point' => Spatial::point($lat, $lng),
                 'qr_code_target' => $googleMapsUrl,
                 'status' => $data['status'],
                 'created_at' => Carbon::now(),

@@ -3,7 +3,7 @@
 namespace App\Observers;
 
 use App\Models\Village;
-use Illuminate\Support\Facades\DB;
+use App\Support\Spatial;
 
 class VillageObserver
 {
@@ -15,7 +15,7 @@ class VillageObserver
         $lat = $village->latitude ?? -7.324;
         $lng = $village->longitude ?? 109.364;
 
-        $village->point = DB::raw("ST_SRID(POINT({$lng}, {$lat}), 4326)");
+        $village->point = Spatial::point($lat, $lng);
     }
 
     /**
@@ -27,7 +27,7 @@ class VillageObserver
             $lat = $village->latitude ?? -7.324;
             $lng = $village->longitude ?? 109.364;
 
-            $village->point = DB::raw("ST_SRID(POINT({$lng}, {$lat}), 4326)");
+            $village->point = Spatial::point($lat, $lng);
         }
     }
 
