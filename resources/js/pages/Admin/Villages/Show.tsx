@@ -3,8 +3,21 @@ import { CalendarDays, Compass, FileText, MapPin, Edit } from 'lucide-react';
 import AppLayout from '@/layouts/app-layout';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
-import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
-import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
+import {
+    Card,
+    CardContent,
+    CardHeader,
+    CardTitle,
+    CardDescription,
+} from '@/components/ui/card';
+import {
+    Table,
+    TableBody,
+    TableCell,
+    TableHead,
+    TableHeader,
+    TableRow,
+} from '@/components/ui/table';
 import type { BreadcrumbItem, Village } from '@/types';
 import dayjs from 'dayjs';
 import 'dayjs/locale/id';
@@ -45,7 +58,9 @@ type RecentBlog = {
 };
 
 type Props = {
-    village: Village & { media?: { id: number; file_path: string; is_primary: boolean }[] | null };
+    village: Village & {
+        media?: { id: number; file_path: string; is_primary: boolean }[] | null;
+    };
     recentDestinations: RecentDestination[];
     recentEvents: RecentEvent[];
     recentBlogs: RecentBlog[];
@@ -54,7 +69,7 @@ type Props = {
 
 function StatusBadge({ status }: { status: 'draft' | 'published' }) {
     return status === 'published' ? (
-        <Badge className="bg-[oklch(0.92_0.02_145)] text-[oklch(0.24_0.05_145)] hover:bg-[oklch(0.92_0.02_145)] border-0">
+        <Badge className="border-0 bg-[oklch(0.92_0.02_145)] text-[oklch(0.24_0.05_145)] hover:bg-[oklch(0.92_0.02_145)]">
             Terbit
         </Badge>
     ) : (
@@ -62,8 +77,15 @@ function StatusBadge({ status }: { status: 'draft' | 'published' }) {
     );
 }
 
-export default function VillageShow({ village, recentDestinations, recentEvents, recentBlogs, isAdmin }: Props) {
-    const coverMedia = village.media?.find((m) => m.is_primary) || village.media?.[0];
+export default function VillageShow({
+    village,
+    recentDestinations,
+    recentEvents,
+    recentBlogs,
+    isAdmin,
+}: Props) {
+    const coverMedia =
+        village.media?.find((m) => m.is_primary) || village.media?.[0];
 
     return (
         <>
@@ -79,28 +101,44 @@ export default function VillageShow({ village, recentDestinations, recentEvents,
                             className="h-48 w-full object-cover sm:h-72"
                         />
                     )}
-                    <CardHeader className="flex flex-wrap md:flex-row items-start justify-between gap-4 bg-white">
-                        <div className="flex-1 min-w-0">
+                    <CardHeader className="flex flex-wrap items-start justify-between gap-4 bg-white md:flex-row">
+                        <div className="min-w-0 flex-1">
                             <CardTitle className="font-display text-2xl text-[oklch(0.24_0.05_145)]">
                                 {village.name}
                             </CardTitle>
-                            <CardDescription className="text-base mt-1">
-                                Kepala Desa: <span className="font-medium text-foreground">{village.head_name ?? '—'}</span>
-                                {village.contact_phone && ` · Telp: ${village.contact_phone}`}
+                            <CardDescription className="mt-1 text-base">
+                                Kepala Desa:{' '}
+                                <span className="font-medium text-foreground">
+                                    {village.head_name ?? '—'}
+                                </span>
+                                {village.contact_phone &&
+                                    ` · Telp: ${village.contact_phone}`}
                             </CardDescription>
-                            
-                            <div className="mt-4 flex flex-wrap gap-2 items-center">
+
+                            <div className="mt-4 flex flex-wrap items-center gap-2">
                                 <StatusBadge status={village.status} />
-                                <span className="text-sm text-muted-foreground flex items-center gap-1">
-                                    <MapPin className="w-4 h-4" /> 
-                                    {village.latitude && village.longitude ? `${village.latitude}, ${village.longitude}` : 'Koordinat tidak diisi'}
+                                <span className="flex items-center gap-1 text-sm text-muted-foreground">
+                                    <MapPin className="h-4 w-4" />
+                                    {village.latitude && village.longitude
+                                        ? `${village.latitude}, ${village.longitude}`
+                                        : 'Koordinat tidak diisi'}
                                 </span>
                             </div>
                         </div>
                         <div className="flex shrink-0 items-center gap-2">
-                            <Button asChild className="bg-[oklch(0.38_0.08_145)] hover:bg-[oklch(0.24_0.05_145)]">
-                                <Link href={isAdmin ? `/admin/villages/${village.slug}/edit` : '/admin/villages/edit'}>
-                                    <Edit className="mr-2 h-4 w-4" /> Edit Profil Desa
+                            <Button
+                                asChild
+                                className="bg-[oklch(0.38_0.08_145)] hover:bg-[oklch(0.24_0.05_145)]"
+                            >
+                                <Link
+                                    href={
+                                        isAdmin
+                                            ? `/admin/villages/${village.slug}/edit`
+                                            : '/admin/villages/edit'
+                                    }
+                                >
+                                    <Edit className="mr-2 h-4 w-4" /> Edit
+                                    Profil Desa
                                 </Link>
                             </Button>
                         </div>
@@ -109,24 +147,32 @@ export default function VillageShow({ village, recentDestinations, recentEvents,
                         {village.description ? (
                             <div
                                 className="prose prose-sm max-w-none text-[oklch(0.48_0.01_85)]"
-                                dangerouslySetInnerHTML={{ __html: village.description }}
+                                dangerouslySetInnerHTML={{
+                                    __html: village.description,
+                                }}
                             />
                         ) : (
-                            <p className="text-sm text-muted-foreground italic">Belum ada deskripsi desa.</p>
+                            <p className="text-sm text-muted-foreground italic">
+                                Belum ada deskripsi desa.
+                            </p>
                         )}
 
                         {village.media && village.media.length > 1 && (
                             <div className="mt-6">
-                                <h3 className="text-sm font-semibold mb-3">Galeri Foto</h3>
+                                <h3 className="mb-3 text-sm font-semibold">
+                                    Galeri Foto
+                                </h3>
                                 <div className="flex flex-wrap gap-3">
-                                    {village.media.filter(m => m.id !== coverMedia?.id).map(m => (
-                                        <img 
-                                            key={m.id} 
-                                            src={`/storage/${m.file_path}`} 
-                                            alt="Galeri Desa" 
-                                            className="w-32 h-24 object-cover rounded-lg border"
-                                        />
-                                    ))}
+                                    {village.media
+                                        .filter((m) => m.id !== coverMedia?.id)
+                                        .map((m) => (
+                                            <img
+                                                key={m.id}
+                                                src={`/storage/${m.file_path}`}
+                                                alt="Galeri Desa"
+                                                className="h-24 w-32 rounded-lg border object-cover"
+                                            />
+                                        ))}
                                 </div>
                             </div>
                         )}
@@ -134,124 +180,187 @@ export default function VillageShow({ village, recentDestinations, recentEvents,
                 </Card>
 
                 {/* Related Data Summaries */}
-                <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                <div className="grid grid-cols-1 gap-6 lg:grid-cols-2">
                     {/* Destinations Table */}
-                    <Card className="border-[oklch(0.22_0.01_85/8%)] shadow-none flex flex-col">
+                    <Card className="flex flex-col border-[oklch(0.22_0.01_85/8%)] shadow-none">
                         <CardHeader className="flex flex-row flex-wrap items-center justify-between py-4">
                             <div className="flex items-center gap-2">
                                 <Compass className="h-5 w-5 text-[oklch(0.38_0.08_145)]" />
-                                <CardTitle className="text-base font-semibold">Destinasi (Top 5)</CardTitle>
+                                <CardTitle className="text-base font-semibold">
+                                    Destinasi (Top 5)
+                                </CardTitle>
                             </div>
-                            <Button variant="ghost" size="sm" asChild className="text-[oklch(0.38_0.08_145)] h-8">
-                                <Link href="/admin/destinations">Lihat Semua</Link>
+                            <Button
+                                variant="ghost"
+                                size="sm"
+                                asChild
+                                className="h-8 text-[oklch(0.38_0.08_145)]"
+                            >
+                                <Link href="/admin/destinations">
+                                    Lihat Semua
+                                </Link>
                             </Button>
                         </CardHeader>
-                        <CardContent className="p-0 flex-1">
+                        <CardContent className="flex-1 p-0">
                             {recentDestinations.length > 0 ? (
                                 <Table>
                                     <TableHeader>
                                         <TableRow className="hover:bg-transparent">
                                             <TableHead>Nama</TableHead>
                                             <TableHead>Kategori</TableHead>
-                                            <TableHead className="text-right">Status</TableHead>
+                                            <TableHead className="text-right">
+                                                Status
+                                            </TableHead>
                                         </TableRow>
                                     </TableHeader>
                                     <TableBody>
                                         {recentDestinations.map((dest) => (
                                             <TableRow key={dest.id}>
-                                                <TableCell className="font-medium">{dest.name}</TableCell>
-                                                <TableCell className="capitalize">{dest.category}</TableCell>
+                                                <TableCell className="font-medium">
+                                                    {dest.name}
+                                                </TableCell>
+                                                <TableCell className="capitalize">
+                                                    {dest.category}
+                                                </TableCell>
                                                 <TableCell className="text-right">
-                                                    <StatusBadge status={dest.status} />
+                                                    <StatusBadge
+                                                        status={dest.status}
+                                                    />
                                                 </TableCell>
                                             </TableRow>
                                         ))}
                                     </TableBody>
                                 </Table>
                             ) : (
-                                <div className="p-6 text-center text-sm text-muted-foreground">Belum ada destinasi.</div>
+                                <div className="p-6 text-center text-sm text-muted-foreground">
+                                    Belum ada destinasi.
+                                </div>
                             )}
                         </CardContent>
                     </Card>
 
                     {/* Events Table */}
-                    <Card className="border-[oklch(0.22_0.01_85/8%)] shadow-none flex flex-col">
+                    <Card className="flex flex-col border-[oklch(0.22_0.01_85/8%)] shadow-none">
                         <CardHeader className="flex flex-row flex-wrap items-center justify-between py-4">
                             <div className="flex items-center gap-2">
                                 <CalendarDays className="h-5 w-5 text-[oklch(0.38_0.08_145)]" />
-                                <CardTitle className="text-base font-semibold">Event Mendatang (Top 5)</CardTitle>
+                                <CardTitle className="text-base font-semibold">
+                                    Event Mendatang (Top 5)
+                                </CardTitle>
                             </div>
-                            <Button variant="ghost" size="sm" asChild className="text-[oklch(0.38_0.08_145)] h-8">
+                            <Button
+                                variant="ghost"
+                                size="sm"
+                                asChild
+                                className="h-8 text-[oklch(0.38_0.08_145)]"
+                            >
                                 <Link href="/admin/events">Lihat Semua</Link>
                             </Button>
                         </CardHeader>
-                        <CardContent className="p-0 flex-1">
+                        <CardContent className="flex-1 p-0">
                             {recentEvents.length > 0 ? (
                                 <Table>
                                     <TableHeader>
                                         <TableRow className="hover:bg-transparent">
                                             <TableHead>Judul</TableHead>
                                             <TableHead>Waktu</TableHead>
-                                            <TableHead className="text-right">Status</TableHead>
+                                            <TableHead className="text-right">
+                                                Status
+                                            </TableHead>
                                         </TableRow>
                                     </TableHeader>
                                     <TableBody>
                                         {recentEvents.map((evt) => (
                                             <TableRow key={evt.id}>
-                                                <TableCell className="font-medium truncate max-w-[150px]">{evt.title}</TableCell>
+                                                <TableCell className="max-w-[150px] truncate font-medium">
+                                                    {evt.title}
+                                                </TableCell>
                                                 <TableCell className="whitespace-nowrap">
-                                                    {dayjs(evt.start_date).format('D MMM YYYY')} {evt.start_time && `· ${evt.start_time.substring(0,5)}`}
+                                                    {dayjs(
+                                                        evt.start_date,
+                                                    ).format('D MMM YYYY')}{' '}
+                                                    {evt.start_time &&
+                                                        `· ${evt.start_time.substring(0, 5)}`}
                                                 </TableCell>
                                                 <TableCell className="text-right">
-                                                    <StatusBadge status={evt.status} />
+                                                    <StatusBadge
+                                                        status={evt.status}
+                                                    />
                                                 </TableCell>
                                             </TableRow>
                                         ))}
                                     </TableBody>
                                 </Table>
                             ) : (
-                                <div className="p-6 text-center text-sm text-muted-foreground">Belum ada event mendatang.</div>
+                                <div className="p-6 text-center text-sm text-muted-foreground">
+                                    Belum ada event mendatang.
+                                </div>
                             )}
                         </CardContent>
                     </Card>
 
                     {/* Blogs Table */}
-                    <Card className="border-[oklch(0.22_0.01_85/8%)] shadow-none flex flex-col lg:col-span-2">
+                    <Card className="flex flex-col border-[oklch(0.22_0.01_85/8%)] shadow-none lg:col-span-2">
                         <CardHeader className="flex flex-row flex-wrap items-center justify-between py-4">
                             <div className="flex items-center gap-2">
                                 <FileText className="h-5 w-5 text-[oklch(0.38_0.08_145)]" />
-                                <CardTitle className="text-base font-semibold">Artikel Blog (Top 5)</CardTitle>
+                                <CardTitle className="text-base font-semibold">
+                                    Artikel Blog (Top 5)
+                                </CardTitle>
                             </div>
-                            <Button variant="ghost" size="sm" asChild className="text-[oklch(0.38_0.08_145)] h-8">
+                            <Button
+                                variant="ghost"
+                                size="sm"
+                                asChild
+                                className="h-8 text-[oklch(0.38_0.08_145)]"
+                            >
                                 <Link href="/admin/blogs">Lihat Semua</Link>
                             </Button>
                         </CardHeader>
-                        <CardContent className="p-0 flex-1">
+                        <CardContent className="flex-1 p-0">
                             {recentBlogs.length > 0 ? (
                                 <Table>
                                     <TableHeader>
                                         <TableRow className="hover:bg-transparent">
                                             <TableHead>Judul</TableHead>
                                             <TableHead>Dibuat Pada</TableHead>
-                                            <TableHead className="text-right">Views</TableHead>
-                                            <TableHead className="text-right">Status</TableHead>
+                                            <TableHead className="text-right">
+                                                Views
+                                            </TableHead>
+                                            <TableHead className="text-right">
+                                                Status
+                                            </TableHead>
                                         </TableRow>
                                     </TableHeader>
                                     <TableBody>
                                         {recentBlogs.map((blog) => (
                                             <TableRow key={blog.id}>
-                                                <TableCell className="font-medium max-w-[200px] truncate">{blog.title}</TableCell>
-                                                <TableCell>{dayjs(blog.created_at).format('D MMM YYYY')}</TableCell>
-                                                <TableCell className="text-right">{blog.views_count.toLocaleString('id-ID')}</TableCell>
+                                                <TableCell className="max-w-[200px] truncate font-medium">
+                                                    {blog.title}
+                                                </TableCell>
+                                                <TableCell>
+                                                    {dayjs(
+                                                        blog.created_at,
+                                                    ).format('D MMM YYYY')}
+                                                </TableCell>
                                                 <TableCell className="text-right">
-                                                    <StatusBadge status={blog.status} />
+                                                    {blog.views_count.toLocaleString(
+                                                        'id-ID',
+                                                    )}
+                                                </TableCell>
+                                                <TableCell className="text-right">
+                                                    <StatusBadge
+                                                        status={blog.status}
+                                                    />
                                                 </TableCell>
                                             </TableRow>
                                         ))}
                                     </TableBody>
                                 </Table>
                             ) : (
-                                <div className="p-6 text-center text-sm text-muted-foreground">Belum ada artikel blog.</div>
+                                <div className="p-6 text-center text-sm text-muted-foreground">
+                                    Belum ada artikel blog.
+                                </div>
                             )}
                         </CardContent>
                     </Card>

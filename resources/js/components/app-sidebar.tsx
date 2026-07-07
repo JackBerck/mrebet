@@ -21,7 +21,9 @@ import {
 } from '@/components/ui/sidebar';
 import type { NavItem, User } from '@/types';
 
-function getAdminNavItems(user: User): NavItem[] {
+function getAdminNavItems(user: User | null | undefined): NavItem[] {
+    if (!user) return [];
+
     const base: NavItem[] = [
         {
             title: 'Dashboard',
@@ -43,7 +45,7 @@ function getAdminNavItems(user: User): NavItem[] {
 
     // Manager — link langsung ke edit desanya sendiri
     // Asumsikan user object yang dikirim dari HandleInertiaRequests punya data village
-    // Jika tidak ada data village di user, mungkin perlu fallback. 
+    // Jika tidak ada data village di user, mungkin perlu fallback.
     // Wait, let's use `auth.user.village?.slug`.
     return [
         ...base,

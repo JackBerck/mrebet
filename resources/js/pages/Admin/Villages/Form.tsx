@@ -10,10 +10,22 @@ import { ImageUploader } from '@/components/admin/image-uploader';
 import { MapPicker } from '@/components/admin/map-picker';
 import AppLayout from '@/layouts/app-layout';
 import { Button } from '@/components/ui/button';
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
+import {
+    Card,
+    CardContent,
+    CardDescription,
+    CardHeader,
+    CardTitle,
+} from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
+import {
+    Select,
+    SelectContent,
+    SelectItem,
+    SelectTrigger,
+    SelectValue,
+} from '@/components/ui/select';
 import type { BreadcrumbItem, Village } from '@/types';
 
 // ── Zod Schema ────────────────────────────────────────────────────────────────
@@ -33,17 +45,23 @@ const villageSchema = z.object({
         .max(180, 'Max 180')
         .optional()
         .or(z.nan()),
-    qr_code_target: z.string().url('Harus berupa URL valid').optional().or(z.literal('')),
+    qr_code_target: z
+        .string()
+        .url('Harus berupa URL valid')
+        .optional()
+        .or(z.literal('')),
     status: z.enum(['draft', 'published']),
 });
 
 type VillageForm = z.infer<typeof villageSchema>;
 
-
-
 // ── Main Form ─────────────────────────────────────────────────────────────────
 type Props = {
-    village: (Village & { media?: { id: number; file_path: string; is_primary: boolean }[] }) | null;
+    village:
+        | (Village & {
+              media?: { id: number; file_path: string; is_primary: boolean }[];
+          })
+        | null;
     isAdmin: boolean;
 };
 
@@ -53,35 +71,41 @@ export default function VillageForm({ village, isAdmin }: Props) {
     const breadcrumbs: BreadcrumbItem[] = [
         { title: 'Dashboard', href: '/admin/dashboard' },
         { title: 'Desa', href: '/admin/villages' },
-        { title: isEditing ? `Edit ${village.name}` : 'Tambah Desa', href: '#' },
+        {
+            title: isEditing ? `Edit ${village.name}` : 'Tambah Desa',
+            href: '#',
+        },
     ];
 
-    const { data, setData, processing, errors, setError, clearErrors } = useForm<
-        VillageForm & {
-            description: string;
-            images: File[];
-            deleted_media_ids: number[];
-            primary_media_id: number | null;
-        }
-    >({
-        name: village?.name ?? '',
-        head_name: village?.head_name ?? '',
-        contact_phone: village?.contact_phone ?? '',
-        latitude: village?.latitude ?? undefined,
-        longitude: village?.longitude ?? undefined,
-        qr_code_target: village?.qr_code_target ?? '',
-        status: village?.status ?? 'draft',
-        description: village?.description ?? '',
-        images: [],
-        deleted_media_ids: [],
-        primary_media_id: null,
-    });
+    const { data, setData, processing, errors, setError, clearErrors } =
+        useForm<
+            VillageForm & {
+                description: string;
+                images: File[];
+                deleted_media_ids: number[];
+                primary_media_id: number | null;
+            }
+        >({
+            name: village?.name ?? '',
+            head_name: village?.head_name ?? '',
+            contact_phone: village?.contact_phone ?? '',
+            latitude: village?.latitude ?? undefined,
+            longitude: village?.longitude ?? undefined,
+            qr_code_target: village?.qr_code_target ?? '',
+            status: village?.status ?? 'draft',
+            description: village?.description ?? '',
+            images: [],
+            deleted_media_ids: [],
+            primary_media_id: null,
+        });
 
     // Tiptap editor
     const editor = useEditor({
         extensions: [
             StarterKit,
-            Placeholder.configure({ placeholder: 'Tuliskan deskripsi desa wisata ini...' }),
+            Placeholder.configure({
+                placeholder: 'Tuliskan deskripsi desa wisata ini...',
+            }),
         ],
         content: village?.description ?? '',
         onUpdate({ editor: e }) {
@@ -118,16 +142,24 @@ export default function VillageForm({ village, isAdmin }: Props) {
 
         if (isEditing) {
             router.post(
-                isAdmin ? `/admin/villages/${village.slug}` : '/admin/villages/edit',
+                isAdmin
+                    ? `/admin/villages/${village.slug}`
+                    : '/admin/villages/edit',
                 { ...finalData, _method: 'PUT' } as any,
                 { forceFormData: true },
             );
         } else {
-            router.post('/admin/villages', finalData as any, { forceFormData: true });
+            router.post('/admin/villages', finalData as any, {
+                forceFormData: true,
+            });
         }
     };
 
-    const handleMediaChange = (files: File[], deletedIds: number[], primaryId: number | null) => {
+    const handleMediaChange = (
+        files: File[],
+        deletedIds: number[],
+        primaryId: number | null,
+    ) => {
         setData((prev) => ({
             ...prev,
             images: files,
@@ -138,17 +170,24 @@ export default function VillageForm({ village, isAdmin }: Props) {
 
     return (
         <>
-            <Head title={isEditing ? `Edit Desa — ${village.name}` : 'Tambah Desa'} />
+            <Head
+                title={
+                    isEditing ? `Edit Desa — ${village.name}` : 'Tambah Desa'
+                }
+            />
 
             <form onSubmit={submit} className="flex flex-col gap-6 p-6">
                 {/* Header */}
-                <div className="flex items-center flex-wrap gap-4">
+                <div className="flex flex-wrap items-center gap-4">
                     <div>
                         <h1 className="font-display text-2xl font-semibold text-[oklch(0.24_0.05_145)]">
-                            {isEditing ? `Edit Desa: ${village.name}` : 'Tambah Desa Baru'}
+                            {isEditing
+                                ? `Edit Desa: ${village.name}`
+                                : 'Tambah Desa Baru'}
                         </h1>
                         <p className="mt-0.5 text-sm text-[oklch(0.48_0.01_85)]">
-                            Isi semua informasi di bawah ini dengan lengkap dan benar.
+                            Isi semua informasi di bawah ini dengan lengkap dan
+                            benar.
                         </p>
                     </div>
                 </div>
@@ -159,42 +198,59 @@ export default function VillageForm({ village, isAdmin }: Props) {
                         <CardTitle className="font-display text-lg text-[oklch(0.24_0.05_145)]">
                             Informasi Dasar
                         </CardTitle>
-                        <CardDescription>Identitas utama desa wisata.</CardDescription>
+                        <CardDescription>
+                            Identitas utama desa wisata.
+                        </CardDescription>
                     </CardHeader>
                     <CardContent className="flex flex-col gap-5">
                         <div className="flex flex-col gap-1.5">
                             <Label htmlFor="name">
-                                Nama Desa <span className="text-destructive">*</span>
+                                Nama Desa{' '}
+                                <span className="text-destructive">*</span>
                             </Label>
                             <Input
                                 id="name"
                                 value={data.name}
-                                onChange={(e) => setData('name', e.target.value)}
+                                onChange={(e) =>
+                                    setData('name', e.target.value)
+                                }
                                 placeholder="contoh: Desa Onje"
-                                className={errors.name ? 'border-destructive' : ''}
+                                className={
+                                    errors.name ? 'border-destructive' : ''
+                                }
                             />
                             {errors.name && (
-                                <p className="text-xs text-destructive">{errors.name}</p>
+                                <p className="text-xs text-destructive">
+                                    {errors.name}
+                                </p>
                             )}
                         </div>
 
                         <div className="grid gap-5 sm:grid-cols-2">
                             <div className="flex flex-col gap-1.5">
-                                <Label htmlFor="head_name">Nama Kepala Desa / Ketua Pokdarwis</Label>
+                                <Label htmlFor="head_name">
+                                    Nama Kepala Desa / Ketua Pokdarwis
+                                </Label>
                                 <Input
                                     id="head_name"
                                     value={data.head_name ?? ''}
-                                    onChange={(e) => setData('head_name', e.target.value)}
+                                    onChange={(e) =>
+                                        setData('head_name', e.target.value)
+                                    }
                                     placeholder="contoh: Bapak Suparno"
                                 />
                             </div>
                             <div className="flex flex-col gap-1.5">
-                                <Label htmlFor="contact_phone">Nomor Kontak (WhatsApp)</Label>
+                                <Label htmlFor="contact_phone">
+                                    Nomor Kontak (WhatsApp)
+                                </Label>
                                 <Input
                                     id="contact_phone"
                                     type="tel"
                                     value={data.contact_phone ?? ''}
-                                    onChange={(e) => setData('contact_phone', e.target.value)}
+                                    onChange={(e) =>
+                                        setData('contact_phone', e.target.value)
+                                    }
                                     placeholder="contoh: 08123456789"
                                 />
                             </div>
@@ -209,15 +265,16 @@ export default function VillageForm({ village, isAdmin }: Props) {
                             Deskripsi Desa
                         </CardTitle>
                         <CardDescription>
-                            Ceritakan tentang desa ini: sejarah, keunggulan, dan potensi wisatanya.
+                            Ceritakan tentang desa ini: sejarah, keunggulan, dan
+                            potensi wisatanya.
                         </CardDescription>
                     </CardHeader>
                     <CardContent>
-                        <div className="overflow-hidden rounded-xl border border-[oklch(0.22_0.01_85/8%)] focus-within:border-[oklch(0.38_0.08_145)] focus-within:ring-1 focus-within:ring-[oklch(0.38_0.08_145)] transition-all">
+                        <div className="overflow-hidden rounded-xl border border-[oklch(0.22_0.01_85/8%)] transition-all focus-within:border-[oklch(0.38_0.08_145)] focus-within:ring-1 focus-within:ring-[oklch(0.38_0.08_145)]">
                             <EditorToolbar editor={editor} />
                             <EditorContent
                                 editor={editor}
-                                className="min-h-48 px-4 py-3 text-sm text-[oklch(0.22_0.01_85)] [&_.tiptap]:outline-none [&_.tiptap_p]:mb-2 [&_.tiptap_h2]:mb-2 [&_.tiptap_h2]:font-semibold [&_.tiptap_ul]:list-disc [&_.tiptap_ul]:pl-4 [&_.tiptap_ol]:list-decimal [&_.tiptap_ol]:pl-4 [&_.tiptap_.is-editor-empty:first-child::before]:pointer-events-none [&_.tiptap_.is-editor-empty:first-child::before]:float-left [&_.tiptap_.is-editor-empty:first-child::before]:h-0 [&_.tiptap_.is-editor-empty:first-child::before]:text-[oklch(0.48_0.01_85)] [&_.tiptap_.is-editor-empty:first-child::before]:content-[attr(data-placeholder)]"
+                                className="min-h-48 px-4 py-3 text-sm text-[oklch(0.22_0.01_85)] [&_.tiptap]:outline-none [&_.tiptap_.is-editor-empty:first-child::before]:pointer-events-none [&_.tiptap_.is-editor-empty:first-child::before]:float-left [&_.tiptap_.is-editor-empty:first-child::before]:h-0 [&_.tiptap_.is-editor-empty:first-child::before]:text-[oklch(0.48_0.01_85)] [&_.tiptap_.is-editor-empty:first-child::before]:content-[attr(data-placeholder)] [&_.tiptap_h2]:mb-2 [&_.tiptap_h2]:font-semibold [&_.tiptap_ol]:list-decimal [&_.tiptap_ol]:pl-4 [&_.tiptap_p]:mb-2 [&_.tiptap_ul]:list-disc [&_.tiptap_ul]:pl-4"
                             />
                         </div>
                     </CardContent>
@@ -232,7 +289,8 @@ export default function VillageForm({ village, isAdmin }: Props) {
                         <CardDescription>
                             <span className="flex items-center gap-1.5">
                                 <MapPin className="h-4 w-4 text-[oklch(0.38_0.08_145)]" />
-                                Seret pin atau klik peta untuk menentukan titik koordinat desa.
+                                Seret pin atau klik peta untuk menentukan titik
+                                koordinat desa.
                             </span>
                         </CardDescription>
                     </CardHeader>
@@ -246,13 +304,24 @@ export default function VillageForm({ village, isAdmin }: Props) {
                                     step="any"
                                     value={data.latitude ?? ''}
                                     onChange={(e) =>
-                                        setData('latitude', e.target.value ? parseFloat(e.target.value) : undefined)
+                                        setData(
+                                            'latitude',
+                                            e.target.value
+                                                ? parseFloat(e.target.value)
+                                                : undefined,
+                                        )
                                     }
                                     placeholder="-7.4267"
-                                    className={errors.latitude ? 'border-destructive' : ''}
+                                    className={
+                                        errors.latitude
+                                            ? 'border-destructive'
+                                            : ''
+                                    }
                                 />
                                 {errors.latitude && (
-                                    <p className="text-xs text-destructive">{errors.latitude}</p>
+                                    <p className="text-xs text-destructive">
+                                        {errors.latitude}
+                                    </p>
                                 )}
                             </div>
                             <div className="flex flex-col gap-1.5">
@@ -263,13 +332,24 @@ export default function VillageForm({ village, isAdmin }: Props) {
                                     step="any"
                                     value={data.longitude ?? ''}
                                     onChange={(e) =>
-                                        setData('longitude', e.target.value ? parseFloat(e.target.value) : undefined)
+                                        setData(
+                                            'longitude',
+                                            e.target.value
+                                                ? parseFloat(e.target.value)
+                                                : undefined,
+                                        )
                                     }
                                     placeholder="109.3619"
-                                    className={errors.longitude ? 'border-destructive' : ''}
+                                    className={
+                                        errors.longitude
+                                            ? 'border-destructive'
+                                            : ''
+                                    }
                                 />
                                 {errors.longitude && (
-                                    <p className="text-xs text-destructive">{errors.longitude}</p>
+                                    <p className="text-xs text-destructive">
+                                        {errors.longitude}
+                                    </p>
                                 )}
                             </div>
                         </div>
@@ -278,7 +358,11 @@ export default function VillageForm({ village, isAdmin }: Props) {
                             lat={data.latitude ?? null}
                             lng={data.longitude ?? null}
                             onChange={(lat, lng) => {
-                                setData((prev) => ({ ...prev, latitude: lat, longitude: lng }));
+                                setData((prev) => ({
+                                    ...prev,
+                                    latitude: lat,
+                                    longitude: lng,
+                                }));
                             }}
                         />
                     </CardContent>
@@ -291,7 +375,8 @@ export default function VillageForm({ village, isAdmin }: Props) {
                             Foto Desa
                         </CardTitle>
                         <CardDescription>
-                            Upload foto-foto terbaik desa. Foto pertama otomatis jadi cover.
+                            Upload foto-foto terbaik desa. Foto pertama otomatis
+                            jadi cover.
                         </CardDescription>
                     </CardHeader>
                     <CardContent>
@@ -314,38 +399,62 @@ export default function VillageForm({ village, isAdmin }: Props) {
                             <Label htmlFor="status">Status Publikasi</Label>
                             <Select
                                 value={data.status}
-                                onValueChange={(v) => setData('status', v as 'draft' | 'published')}
+                                onValueChange={(v) =>
+                                    setData(
+                                        'status',
+                                        v as 'draft' | 'published',
+                                    )
+                                }
                             >
-                                <SelectTrigger id="status" className="w-full sm:w-[220px]">
+                                <SelectTrigger
+                                    id="status"
+                                    className="w-full sm:w-[220px]"
+                                >
                                     <SelectValue />
                                 </SelectTrigger>
                                 <SelectContent>
-                                    <SelectItem value="draft">Draft (Tidak tampil publik)</SelectItem>
-                                    <SelectItem value="published">Terbit (Tampil di website)</SelectItem>
+                                    <SelectItem value="draft">
+                                        Draft (Tidak tampil publik)
+                                    </SelectItem>
+                                    <SelectItem value="published">
+                                        Terbit (Tampil di website)
+                                    </SelectItem>
                                 </SelectContent>
                             </Select>
                             {!isAdmin && (
                                 <p className="text-xs text-[oklch(0.48_0.01_85)]">
-                                    Status terbit hanya bisa diubah oleh Admin Kecamatan.
+                                    Status terbit hanya bisa diubah oleh Admin
+                                    Kecamatan.
                                 </p>
                             )}
                         </div>
 
                         <div className="flex flex-col gap-1.5">
-                            <Label htmlFor="qr_code_target">URL Target QR Code</Label>
+                            <Label htmlFor="qr_code_target">
+                                URL Target QR Code
+                            </Label>
                             <Input
                                 id="qr_code_target"
                                 type="url"
                                 value={data.qr_code_target ?? ''}
-                                onChange={(e) => setData('qr_code_target', e.target.value)}
+                                onChange={(e) =>
+                                    setData('qr_code_target', e.target.value)
+                                }
                                 placeholder="https://maps.google.com/..."
-                                className={errors.qr_code_target ? 'border-destructive' : ''}
+                                className={
+                                    errors.qr_code_target
+                                        ? 'border-destructive'
+                                        : ''
+                                }
                             />
                             <p className="text-xs text-[oklch(0.48_0.01_85)]">
-                                Kosongkan untuk menggunakan link halaman desa ini secara otomatis.
+                                Kosongkan untuk menggunakan link halaman desa
+                                ini secara otomatis.
                             </p>
                             {errors.qr_code_target && (
-                                <p className="text-xs text-destructive">{errors.qr_code_target}</p>
+                                <p className="text-xs text-destructive">
+                                    {errors.qr_code_target}
+                                </p>
                             )}
                         </div>
                     </CardContent>
@@ -354,7 +463,9 @@ export default function VillageForm({ village, isAdmin }: Props) {
                 {/* Sticky Submit Bar */}
                 <div className="sticky bottom-0 -mx-6 flex items-center justify-between border-t border-[oklch(0.22_0.01_85/8%)] bg-white/90 px-6 py-4 backdrop-blur-sm">
                     <p className="text-sm text-[oklch(0.48_0.01_85)]">
-                        {isEditing ? 'Perubahan belum disimpan' : 'Form belum tersimpan'}
+                        {isEditing
+                            ? 'Perubahan belum disimpan'
+                            : 'Form belum tersimpan'}
                     </p>
                     <div className="flex gap-3">
                         {data.status === 'draft' && (

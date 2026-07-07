@@ -5,9 +5,25 @@ use App\Http\Controllers\Admin\AdminDashboardController;
 use App\Http\Controllers\Admin\AdminDestinationController;
 use App\Http\Controllers\Admin\AdminEventController;
 use App\Http\Controllers\Admin\AdminVillageController;
+use App\Http\Controllers\Public\HomeController;
 use Illuminate\Support\Facades\Route;
+use Laravel\Fortify\Http\Controllers\RegisteredUserController;
 
-Route::inertia('/', 'welcome')->name('home');
+Route::get('/', [HomeController::class, 'index'])->name('home');
+
+// Guard /register — only admin role can access; guests redirected to home
+Route::get('/register', function () {
+    if (! auth()->check()) {
+        return redirect()->route('home');
+    }
+
+    if (auth()->user()->role?->value !== 'admin') {
+        return redirect()->route('home');
+    }
+
+    // Let Fortify handle the view for authenticated admins
+    return app()->call(RegisteredUserController::class.'@create');
+})->middleware('web')->name('register');
 
 // Admin panel — requires auth + verified + is_active
 Route::prefix('admin')

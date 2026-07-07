@@ -8,7 +8,13 @@ type MapPickerProps = {
     zoom?: number;
 };
 
-export function MapPicker({ lat, lng, onChange, defaultCenter = [-7.4267, 109.3619], zoom = 14 }: MapPickerProps) {
+export function MapPicker({
+    lat,
+    lng,
+    onChange,
+    defaultCenter = [-7.4267, 109.3619],
+    zoom = 14,
+}: MapPickerProps) {
     const mapRef = useRef<HTMLDivElement>(null);
     const mapInstanceRef = useRef<L.Map | null>(null);
     const markerRef = useRef<L.Marker | null>(null);
@@ -26,22 +32,33 @@ export function MapPicker({ lat, lng, onChange, defaultCenter = [-7.4267, 109.36
             });
 
             L.default
-                .tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-                    attribution: '© OpenStreetMap',
-                })
+                .tileLayer(
+                    'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
+                    {
+                        attribution: '© OpenStreetMap',
+                    },
+                )
                 .addTo(map);
 
-            const marker = L.default.marker([initLat, initLng], { draggable: true }).addTo(map);
+            const marker = L.default
+                .marker([initLat, initLng], { draggable: true })
+                .addTo(map);
 
             marker.on('dragend', () => {
                 const pos = marker.getLatLng();
-                onChange(parseFloat(pos.lat.toFixed(8)), parseFloat(pos.lng.toFixed(8)));
+                onChange(
+                    parseFloat(pos.lat.toFixed(8)),
+                    parseFloat(pos.lng.toFixed(8)),
+                );
             });
 
             map.on('click', (e: L.LeafletMouseEvent) => {
                 const { lat: clickLat, lng: clickLng } = e.latlng;
                 marker.setLatLng([clickLat, clickLng]);
-                onChange(parseFloat(clickLat.toFixed(8)), parseFloat(clickLng.toFixed(8)));
+                onChange(
+                    parseFloat(clickLat.toFixed(8)),
+                    parseFloat(clickLng.toFixed(8)),
+                );
             });
 
             mapInstanceRef.current = map;

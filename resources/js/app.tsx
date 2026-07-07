@@ -16,7 +16,9 @@ createInertiaApp({
         const path = `./pages/${name}.tsx`;
         let match = pages[path];
         if (!match) {
-            const key = Object.keys(pages).find((k) => k.toLowerCase() === path.toLowerCase());
+            const key = Object.keys(pages).find(
+                (k) => k.toLowerCase() === path.toLowerCase(),
+            );
             if (key) {
                 return resolvePageComponent(key, pages);
             }
@@ -25,6 +27,7 @@ createInertiaApp({
     },
     layout: (name) => {
         switch (true) {
+            case name === 'home':
             case name === 'welcome':
                 return null;
             case name.startsWith('auth/'):
@@ -44,7 +47,7 @@ createInertiaApp({
         createRoot(el).render(
             <TooltipProvider delayDuration={0}>
                 <App {...props} />
-            </TooltipProvider>
+            </TooltipProvider>,
         );
     },
     progress: {

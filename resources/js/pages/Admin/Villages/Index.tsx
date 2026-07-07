@@ -6,9 +6,22 @@ import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
+import {
+    Select,
+    SelectContent,
+    SelectItem,
+    SelectTrigger,
+    SelectValue,
+} from '@/components/ui/select';
 import { Switch } from '@/components/ui/switch';
-import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
+import {
+    Table,
+    TableBody,
+    TableCell,
+    TableHead,
+    TableHeader,
+    TableRow,
+} from '@/components/ui/table';
 import type { BreadcrumbItem, PaginatedData, Village } from '@/types';
 
 const breadcrumbs: BreadcrumbItem[] = [
@@ -17,7 +30,9 @@ const breadcrumbs: BreadcrumbItem[] = [
 ];
 
 type Props = {
-    villages: PaginatedData<Village & { primary_media?: { file_path: string } | null }>;
+    villages: PaginatedData<
+        Village & { primary_media?: { file_path: string } | null }
+    >;
     filters: { search?: string; status?: string };
     isAdmin: boolean;
 };
@@ -27,7 +42,11 @@ export default function VillagesIndex({ villages, filters, isAdmin }: Props) {
 
     const applyFilter = useCallback(
         (params: Record<string, string>) => {
-            router.get('/admin/villages', { ...filters, ...params }, { preserveState: true, replace: true });
+            router.get(
+                '/admin/villages',
+                { ...filters, ...params },
+                { preserveState: true, replace: true },
+            );
         },
         [filters],
     );
@@ -42,7 +61,8 @@ export default function VillagesIndex({ villages, filters, isAdmin }: Props) {
     };
 
     const toggleVillageStatus = (village: Village) => {
-        const newStatus = village.status === 'published' ? 'draft' : 'published';
+        const newStatus =
+            village.status === 'published' ? 'draft' : 'published';
         router.patch(
             `/admin/villages/${village.slug}/status`,
             { status: newStatus },
@@ -51,8 +71,14 @@ export default function VillagesIndex({ villages, filters, isAdmin }: Props) {
     };
 
     const handleDelete = (village: Village) => {
-        if (confirm(`Hapus desa "${village.name}"? Data tidak langsung hilang permanen.`)) {
-            router.delete(`/admin/villages/${village.slug}`, { preserveScroll: true });
+        if (
+            confirm(
+                `Hapus desa "${village.name}"? Data tidak langsung hilang permanen.`,
+            )
+        ) {
+            router.delete(`/admin/villages/${village.slug}`, {
+                preserveScroll: true,
+            });
         }
     };
 
@@ -72,7 +98,10 @@ export default function VillagesIndex({ villages, filters, isAdmin }: Props) {
                         </p>
                     </div>
                     {isAdmin && (
-                        <Button asChild className="bg-[oklch(0.38_0.08_145)] hover:bg-[oklch(0.24_0.05_145)]">
+                        <Button
+                            asChild
+                            className="bg-[oklch(0.38_0.08_145)] hover:bg-[oklch(0.24_0.05_145)]"
+                        >
                             <Link href="/admin/villages/create">
                                 <Plus className="mr-2 h-4 w-4" />
                                 Tambah Desa
@@ -84,9 +113,12 @@ export default function VillagesIndex({ villages, filters, isAdmin }: Props) {
                 {/* Filter Bar */}
                 <Card className="border-[oklch(0.22_0.01_85/8%)] shadow-none">
                     <CardContent className="flex flex-col gap-3 pt-4 sm:flex-row sm:items-center">
-                        <form onSubmit={handleSearch} className="flex flex-1 gap-2">
+                        <form
+                            onSubmit={handleSearch}
+                            className="flex flex-1 gap-2"
+                        >
                             <div className="relative flex-1">
-                                <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-[oklch(0.48_0.01_85)]" />
+                                <Search className="absolute top-1/2 left-3 h-4 w-4 -translate-y-1/2 text-[oklch(0.48_0.01_85)]" />
                                 <Input
                                     placeholder="Cari nama desa..."
                                     value={search}
@@ -107,8 +139,12 @@ export default function VillagesIndex({ villages, filters, isAdmin }: Props) {
                                 <SelectValue placeholder="Filter Status" />
                             </SelectTrigger>
                             <SelectContent>
-                                <SelectItem value="all">Semua Status</SelectItem>
-                                <SelectItem value="published">Terbit</SelectItem>
+                                <SelectItem value="all">
+                                    Semua Status
+                                </SelectItem>
+                                <SelectItem value="published">
+                                    Terbit
+                                </SelectItem>
                                 <SelectItem value="draft">Draft</SelectItem>
                             </SelectContent>
                         </Select>
@@ -126,12 +162,16 @@ export default function VillagesIndex({ villages, filters, isAdmin }: Props) {
                         <Table>
                             <TableHeader>
                                 <TableRow className="border-[oklch(0.22_0.01_85/8%)] hover:bg-transparent">
-                                    <TableHead className="pl-6">Nama Desa</TableHead>
+                                    <TableHead className="pl-6">
+                                        Nama Desa
+                                    </TableHead>
                                     <TableHead>Kepala Desa</TableHead>
                                     <TableHead>Kontak</TableHead>
                                     <TableHead>Status</TableHead>
                                     {isAdmin && <TableHead>Terbit?</TableHead>}
-                                    <TableHead className="text-right pr-6">Aksi</TableHead>
+                                    <TableHead className="pr-6 text-right">
+                                        Aksi
+                                    </TableHead>
                                 </TableRow>
                             </TableHeader>
                             <TableBody>
@@ -161,7 +201,9 @@ export default function VillagesIndex({ villages, filters, isAdmin }: Props) {
                                                     ) : (
                                                         <div className="flex h-9 w-9 items-center justify-center rounded-lg bg-[oklch(0.92_0.02_145)]">
                                                             <span className="text-xs font-semibold text-[oklch(0.38_0.08_145)]">
-                                                                {village.name.charAt(0)}
+                                                                {village.name.charAt(
+                                                                    0,
+                                                                )}
                                                             </span>
                                                         </div>
                                                     )}
@@ -182,27 +224,44 @@ export default function VillagesIndex({ villages, filters, isAdmin }: Props) {
                                                 {village.contact_phone ?? '—'}
                                             </TableCell>
                                             <TableCell>
-                                                {village.status === 'published' ? (
-                                                    <Badge className="bg-[oklch(0.92_0.02_145)] text-[oklch(0.24_0.05_145)] hover:bg-[oklch(0.92_0.02_145)] border-0">
+                                                {village.status ===
+                                                'published' ? (
+                                                    <Badge className="border-0 bg-[oklch(0.92_0.02_145)] text-[oklch(0.24_0.05_145)] hover:bg-[oklch(0.92_0.02_145)]">
                                                         Terbit
                                                     </Badge>
                                                 ) : (
-                                                    <Badge variant="secondary">Draft</Badge>
+                                                    <Badge variant="secondary">
+                                                        Draft
+                                                    </Badge>
                                                 )}
                                             </TableCell>
                                             {isAdmin && (
                                                 <TableCell>
                                                     <Switch
-                                                        checked={village.status === 'published'}
-                                                        onCheckedChange={() => toggleVillageStatus(village)}
+                                                        checked={
+                                                            village.status ===
+                                                            'published'
+                                                        }
+                                                        onCheckedChange={() =>
+                                                            toggleVillageStatus(
+                                                                village,
+                                                            )
+                                                        }
                                                         aria-label={`Toggle status ${village.name}`}
                                                     />
                                                 </TableCell>
                                             )}
                                             <TableCell className="pr-6 text-right">
                                                 <div className="flex justify-end gap-2">
-                                                    <Button variant="ghost" size="icon" asChild>
-                                                        <Link href={`/admin/villages/${village.slug}`} title="Lihat/Preview Desa">
+                                                    <Button
+                                                        variant="ghost"
+                                                        size="icon"
+                                                        asChild
+                                                    >
+                                                        <Link
+                                                            href={`/admin/villages/${village.slug}`}
+                                                            title="Lihat/Preview Desa"
+                                                        >
                                                             <Eye className="h-4 w-4" />
                                                         </Link>
                                                     </Button>
@@ -211,7 +270,11 @@ export default function VillagesIndex({ villages, filters, isAdmin }: Props) {
                                                             variant="ghost"
                                                             size="icon"
                                                             className="text-destructive hover:text-destructive"
-                                                            onClick={() => handleDelete(village)}
+                                                            onClick={() =>
+                                                                handleDelete(
+                                                                    village,
+                                                                )
+                                                            }
                                                         >
                                                             <Trash2 className="h-4 w-4" />
                                                         </Button>
@@ -228,18 +291,31 @@ export default function VillagesIndex({ villages, filters, isAdmin }: Props) {
                         {villages.last_page > 1 && (
                             <div className="flex items-center justify-between border-t border-[oklch(0.22_0.01_85/8%)] px-6 py-4">
                                 <p className="text-sm text-[oklch(0.48_0.01_85)]">
-                                    {villages.from}–{villages.to} dari {villages.total} desa
+                                    {villages.from}–{villages.to} dari{' '}
+                                    {villages.total} desa
                                 </p>
                                 <div className="flex gap-2">
                                     {villages.links.map((link, i) => (
                                         <Button
                                             key={i}
-                                            variant={link.active ? 'default' : 'outline'}
+                                            variant={
+                                                link.active
+                                                    ? 'default'
+                                                    : 'outline'
+                                            }
                                             size="sm"
                                             disabled={!link.url}
-                                            onClick={() => link.url && router.get(link.url)}
-                                            className={link.active ? 'bg-[oklch(0.38_0.08_145)] hover:bg-[oklch(0.24_0.05_145)]' : ''}
-                                            dangerouslySetInnerHTML={{ __html: link.label }}
+                                            onClick={() =>
+                                                link.url && router.get(link.url)
+                                            }
+                                            className={
+                                                link.active
+                                                    ? 'bg-[oklch(0.38_0.08_145)] hover:bg-[oklch(0.24_0.05_145)]'
+                                                    : ''
+                                            }
+                                            dangerouslySetInnerHTML={{
+                                                __html: link.label,
+                                            }}
                                         />
                                     ))}
                                 </div>

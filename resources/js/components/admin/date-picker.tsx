@@ -4,7 +4,11 @@ import { CalendarIcon } from 'lucide-react';
 import * as React from 'react';
 import { Button } from '@/components/ui/button';
 import { Calendar } from '@/components/ui/calendar';
-import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
+import {
+    Popover,
+    PopoverContent,
+    PopoverTrigger,
+} from '@/components/ui/popover';
 import { cn } from '@/lib/utils';
 
 interface DatePickerProps {
@@ -13,7 +17,11 @@ interface DatePickerProps {
     placeholder?: string;
 }
 
-export function DatePicker({ value, onChange, placeholder = 'Pilih tanggal' }: DatePickerProps) {
+export function DatePicker({
+    value,
+    onChange,
+    placeholder = 'Pilih tanggal',
+}: DatePickerProps) {
     // value is expected to be 'YYYY-MM-DD'
     const date = value ? new Date(value) : undefined;
 
@@ -32,15 +40,22 @@ export function DatePicker({ value, onChange, placeholder = 'Pilih tanggal' }: D
                 <Button
                     variant="outline"
                     className={cn(
-                        'w-full justify-start text-left font-normal border-[oklch(0.22_0.01_85/8%)] hover:bg-[oklch(0.92_0.02_145)/20%]',
+                        'w-full justify-start border-[oklch(0.22_0.01_85/8%)] text-left font-normal hover:bg-[oklch(0.92_0.02_145)/20%]',
                         !date && 'text-muted-foreground',
                     )}
                 >
                     <CalendarIcon className="mr-2 h-4 w-4 opacity-70" />
-                    {date ? format(date, 'd MMMM yyyy', { locale: id }) : <span>{placeholder}</span>}
+                    {date ? (
+                        format(date, 'd MMMM yyyy', { locale: id })
+                    ) : (
+                        <span>{placeholder}</span>
+                    )}
                 </Button>
             </PopoverTrigger>
-            <PopoverContent className="w-auto p-0 border-[oklch(0.22_0.01_85/8%)] shadow-sm" align="start">
+            <PopoverContent
+                className="w-auto border-[oklch(0.22_0.01_85/8%)] p-0 shadow-sm"
+                align="start"
+            >
                 <Calendar
                     mode="single"
                     selected={date}

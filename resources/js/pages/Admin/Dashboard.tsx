@@ -10,7 +10,13 @@ import {
 import AppLayout from '@/layouts/app-layout';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
+import {
+    Card,
+    CardContent,
+    CardDescription,
+    CardHeader,
+    CardTitle,
+} from '@/components/ui/card';
 import type { BreadcrumbItem, Event, Village } from '@/types';
 
 const breadcrumbs: BreadcrumbItem[] = [
@@ -33,9 +39,15 @@ function StatCard({ label, value, icon: Icon, sub, href }: StatCardProps) {
                 <Icon className="h-6 w-6" />
             </div>
             <div>
-                <p className="text-3xl font-bold text-[oklch(0.22_0.01_85)] tabular-nums">{value}</p>
+                <p className="text-3xl font-bold text-[oklch(0.22_0.01_85)] tabular-nums">
+                    {value}
+                </p>
                 <p className="text-sm text-[oklch(0.48_0.01_85)]">{label}</p>
-                {sub && <p className="text-xs text-[oklch(0.48_0.01_85)] mt-0.5">{sub}</p>}
+                {sub && (
+                    <p className="mt-0.5 text-xs text-[oklch(0.48_0.01_85)]">
+                        {sub}
+                    </p>
+                )}
             </div>
         </CardContent>
     );
@@ -50,7 +62,7 @@ function StatCard({ label, value, icon: Icon, sub, href }: StatCardProps) {
 // ── Status badge ──────────────────────────────────────────────────────────────
 function StatusBadge({ status }: { status: 'draft' | 'published' }) {
     return status === 'published' ? (
-        <Badge className="bg-[oklch(0.92_0.02_145)] text-[oklch(0.24_0.05_145)] hover:bg-[oklch(0.92_0.02_145)] border-0">
+        <Badge className="border-0 bg-[oklch(0.92_0.02_145)] text-[oklch(0.24_0.05_145)] hover:bg-[oklch(0.92_0.02_145)]">
             Terbit
         </Badge>
     ) : (
@@ -110,22 +122,51 @@ type RecentBlog = {
 
 type DashboardProps =
     | {
-        isAdmin: true;
-        stats: AdminStats;
-        recentVillages: Pick<Village, 'id' | 'name' | 'slug' | 'status' | 'head_name' | 'created_at'>[];
-        upcomingEvents: (Pick<Event, 'id' | 'title' | 'slug' | 'start_date' | 'start_time' | 'village_id' | 'ticket_price'> &
-        { village?: { id: number; name: string } })[];
-        recentDestinations: RecentDestination[];
-        recentBlogs: RecentBlog[];
-    }
+          isAdmin: true;
+          stats: AdminStats;
+          recentVillages: Pick<
+              Village,
+              'id' | 'name' | 'slug' | 'status' | 'head_name' | 'created_at'
+          >[];
+          upcomingEvents: (Pick<
+              Event,
+              | 'id'
+              | 'title'
+              | 'slug'
+              | 'start_date'
+              | 'start_time'
+              | 'village_id'
+              | 'ticket_price'
+          > & { village?: { id: number; name: string } })[];
+          recentDestinations: RecentDestination[];
+          recentBlogs: RecentBlog[];
+      }
     | {
-        isAdmin: false;
-        stats: ManagerStats;
-        village: (Village & { media?: { id: number; file_path: string; is_primary: boolean }[] | null }) | null;
-        upcomingEvents: Pick<Event, 'id' | 'title' | 'slug' | 'start_date' | 'start_time' | 'ticket_price'>[];
-        recentDestinations: RecentDestination[];
-        recentBlogs: RecentBlog[];
-    };
+          isAdmin: false;
+          stats: ManagerStats;
+          village:
+              | (Village & {
+                    media?:
+                        | {
+                              id: number;
+                              file_path: string;
+                              is_primary: boolean;
+                          }[]
+                        | null;
+                })
+              | null;
+          upcomingEvents: Pick<
+              Event,
+              | 'id'
+              | 'title'
+              | 'slug'
+              | 'start_date'
+              | 'start_time'
+              | 'ticket_price'
+          >[];
+          recentDestinations: RecentDestination[];
+          recentBlogs: RecentBlog[];
+      };
 
 export default function Dashboard(props: DashboardProps) {
     return (
@@ -137,7 +178,9 @@ export default function Dashboard(props: DashboardProps) {
                 <div className="flex items-center justify-between">
                     <div>
                         <h1 className="font-display text-2xl font-semibold text-[oklch(0.24_0.05_145)]">
-                            {props.isAdmin ? 'Ringkasan Sistem' : 'Dashboard Desa'}
+                            {props.isAdmin
+                                ? 'Ringkasan Sistem'
+                                : 'Dashboard Desa'}
                         </h1>
                         <p className="mt-1 text-sm text-[oklch(0.48_0.01_85)]">
                             {props.isAdmin
@@ -146,7 +189,10 @@ export default function Dashboard(props: DashboardProps) {
                         </p>
                     </div>
                     {props.isAdmin && (
-                        <Button asChild className="bg-[oklch(0.38_0.08_145)] hover:bg-[oklch(0.24_0.05_145)]">
+                        <Button
+                            asChild
+                            className="bg-[oklch(0.38_0.08_145)] hover:bg-[oklch(0.24_0.05_145)]"
+                        >
                             <Link href="/admin/villages/create">
                                 <Plus className="mr-2 h-4 w-4" />
                                 Tambah Desa
@@ -219,10 +265,14 @@ export default function Dashboard(props: DashboardProps) {
                                     <CardTitle className="font-display text-lg text-[oklch(0.24_0.05_145)]">
                                         Desa Terbaru
                                     </CardTitle>
-                                    <CardDescription>5 desa yang baru ditambahkan</CardDescription>
+                                    <CardDescription>
+                                        5 desa yang baru ditambahkan
+                                    </CardDescription>
                                 </div>
                                 <Button variant="outline" size="sm" asChild>
-                                    <Link href="/admin/villages">Lihat Semua</Link>
+                                    <Link href="/admin/villages">
+                                        Lihat Semua
+                                    </Link>
                                 </Button>
                             </CardHeader>
                             <CardContent className="p-0">
@@ -241,9 +291,17 @@ export default function Dashboard(props: DashboardProps) {
                                                 </p>
                                             </div>
                                             <div className="flex items-center gap-3">
-                                                <StatusBadge status={village.status} />
-                                                <Button variant="ghost" size="sm" asChild>
-                                                    <Link href={`/admin/villages/${village.slug}`}>
+                                                <StatusBadge
+                                                    status={village.status}
+                                                />
+                                                <Button
+                                                    variant="ghost"
+                                                    size="sm"
+                                                    asChild
+                                                >
+                                                    <Link
+                                                        href={`/admin/villages/${village.slug}`}
+                                                    >
                                                         Lihat
                                                     </Link>
                                                 </Button>
@@ -254,33 +312,41 @@ export default function Dashboard(props: DashboardProps) {
                             </CardContent>
                         </Card>
                     ) : (
-                        <Card className="col-span-1 border-[oklch(0.22_0.01_85/8%)] shadow-none lg:col-span-3 overflow-hidden">
-                            {props.village?.media && props.village.media.length > 0 && (
-                                <img
-                                    src={`/storage/${props.village.media.find((m) => m.is_primary)?.file_path || props.village.media[0].file_path}`}
-                                    alt="Cover Desa"
-                                    className="h-48 w-full object-cover sm:h-64"
-                                />
-                            )}
-                            <CardHeader className="flex flex-wrap md:flex-row items-start justify-between gap-4">
-                                <div className="flex-1 min-w-0">
+                        <Card className="col-span-1 overflow-hidden border-[oklch(0.22_0.01_85/8%)] shadow-none lg:col-span-3">
+                            {props.village?.media &&
+                                props.village.media.length > 0 && (
+                                    <img
+                                        src={`/storage/${props.village.media.find((m) => m.is_primary)?.file_path || props.village.media[0].file_path}`}
+                                        alt="Cover Desa"
+                                        className="h-48 w-full object-cover sm:h-64"
+                                    />
+                                )}
+                            <CardHeader className="flex flex-wrap items-start justify-between gap-4 md:flex-row">
+                                <div className="min-w-0 flex-1">
                                     <CardTitle className="font-display text-lg text-[oklch(0.24_0.05_145)]">
                                         {props.village?.name ?? 'Desa Saya'}
                                     </CardTitle>
                                     <CardDescription>
-                                        Kepala Desa: {props.village?.head_name ?? '—'}
-                                        {props.village?.contact_phone && ` · Telp: ${props.village.contact_phone}`}
+                                        Kepala Desa:{' '}
+                                        {props.village?.head_name ?? '—'}
+                                        {props.village?.contact_phone &&
+                                            ` · Telp: ${props.village.contact_phone}`}
                                     </CardDescription>
                                     {props.village?.description && (
                                         <div
-                                            className="mt-3 text-sm text-[oklch(0.48_0.01_85)] line-clamp-2"
-                                            dangerouslySetInnerHTML={{ __html: props.village.description }}
+                                            className="mt-3 line-clamp-2 text-sm text-[oklch(0.48_0.01_85)]"
+                                            dangerouslySetInnerHTML={{
+                                                __html: props.village
+                                                    .description,
+                                            }}
                                         />
                                     )}
                                 </div>
                                 {props.village && (
                                     <div className="flex shrink-0 items-center gap-2">
-                                        <StatusBadge status={props.village.status} />
+                                        <StatusBadge
+                                            status={props.village.status}
+                                        />
                                         <Button
                                             variant="outline"
                                             size="sm"
@@ -294,20 +360,26 @@ export default function Dashboard(props: DashboardProps) {
                                 )}
                             </CardHeader>
                             <CardContent>
-                                <div className="flex-wrap flex gap-3">
-                                    <Button asChild className="bg-[oklch(0.38_0.08_145)] hover:bg-[oklch(0.24_0.05_145)]">
+                                <div className="flex flex-wrap gap-3">
+                                    <Button
+                                        asChild
+                                        className="bg-[oklch(0.38_0.08_145)] hover:bg-[oklch(0.24_0.05_145)]"
+                                    >
                                         <Link href="/admin/destinations/create">
-                                            <Plus className="mr-1 h-4 w-4" /> Destinasi
+                                            <Plus className="mr-1 h-4 w-4" />{' '}
+                                            Destinasi
                                         </Link>
                                     </Button>
                                     <Button variant="outline" asChild>
                                         <Link href="/admin/events/create">
-                                            <Plus className="mr-1 h-4 w-4" /> Event
+                                            <Plus className="mr-1 h-4 w-4" />{' '}
+                                            Event
                                         </Link>
                                     </Button>
                                     <Button variant="outline" asChild>
                                         <Link href="/admin/blogs/create">
-                                            <Plus className="mr-1 h-4 w-4" /> Blog
+                                            <Plus className="mr-1 h-4 w-4" />{' '}
+                                            Blog
                                         </Link>
                                     </Button>
                                 </div>
@@ -321,7 +393,9 @@ export default function Dashboard(props: DashboardProps) {
                             <CardTitle className="font-display text-lg text-[oklch(0.24_0.05_145)]">
                                 Event Mendatang
                             </CardTitle>
-                            <CardDescription>Event yang akan berlangsung</CardDescription>
+                            <CardDescription>
+                                Event yang akan berlangsung
+                            </CardDescription>
                         </CardHeader>
                         <CardContent className="flex flex-col gap-3">
                             {props.upcomingEvents.length === 0 ? (
@@ -335,11 +409,17 @@ export default function Dashboard(props: DashboardProps) {
                                         className="flex items-start gap-3 rounded-lg border border-[oklch(0.22_0.01_85/8%)] p-3"
                                     >
                                         <div className="flex h-10 w-10 shrink-0 flex-col items-center justify-center rounded-lg bg-[oklch(0.88_0.06_82)] text-center">
-                                            <span className="text-[10px] font-semibold uppercase text-[oklch(0.38_0.08_145)]">
-                                                {new Date(event.start_date).toLocaleDateString('id-ID', { month: 'short' })}
+                                            <span className="text-[10px] font-semibold text-[oklch(0.38_0.08_145)] uppercase">
+                                                {new Date(
+                                                    event.start_date,
+                                                ).toLocaleDateString('id-ID', {
+                                                    month: 'short',
+                                                })}
                                             </span>
-                                            <span className="text-lg font-bold leading-none text-[oklch(0.24_0.05_145)]">
-                                                {new Date(event.start_date).getDate()}
+                                            <span className="text-lg leading-none font-bold text-[oklch(0.24_0.05_145)]">
+                                                {new Date(
+                                                    event.start_date,
+                                                ).getDate()}
                                             </span>
                                         </div>
                                         <div className="min-w-0">
@@ -348,12 +428,18 @@ export default function Dashboard(props: DashboardProps) {
                                             </p>
                                             <p className="text-xs text-[oklch(0.48_0.01_85)]">
                                                 {event.start_time
-                                                    ? event.start_time.slice(0, 5) + ' WIB'
+                                                    ? event.start_time.slice(
+                                                          0,
+                                                          5,
+                                                      ) + ' WIB'
                                                     : 'Sepanjang hari'}
                                             </p>
                                             {Number(event.ticket_price) > 0 && (
                                                 <p className="text-xs font-medium text-[oklch(0.38_0.08_145)]">
-                                                    Rp {Number(event.ticket_price).toLocaleString('id-ID')}
+                                                    Rp{' '}
+                                                    {Number(
+                                                        event.ticket_price,
+                                                    ).toLocaleString('id-ID')}
                                                 </p>
                                             )}
                                         </div>
@@ -361,7 +447,12 @@ export default function Dashboard(props: DashboardProps) {
                                 ))
                             )}
 
-                            <Button variant="outline" size="sm" className="mt-1 w-full" asChild>
+                            <Button
+                                variant="outline"
+                                size="sm"
+                                className="mt-1 w-full"
+                                asChild
+                            >
                                 <Link href="/admin/events">
                                     <TrendingUp className="mr-2 h-4 w-4" />
                                     Semua Event
@@ -382,13 +473,17 @@ export default function Dashboard(props: DashboardProps) {
                                 </CardTitle>
                             </div>
                             <Button variant="outline" size="sm" asChild>
-                                <Link href="/admin/destinations">Lihat Semua</Link>
+                                <Link href="/admin/destinations">
+                                    Lihat Semua
+                                </Link>
                             </Button>
                         </CardHeader>
                         <CardContent className="p-0">
                             <div className="divide-y divide-[oklch(0.22_0.01_85/8%)]">
                                 {props.recentDestinations.length === 0 ? (
-                                    <div className="p-4 text-sm text-[oklch(0.48_0.01_85)]">Belum ada destinasi.</div>
+                                    <div className="p-4 text-sm text-[oklch(0.48_0.01_85)]">
+                                        Belum ada destinasi.
+                                    </div>
                                 ) : (
                                     props.recentDestinations.map((dest) => (
                                         <div
@@ -400,13 +495,26 @@ export default function Dashboard(props: DashboardProps) {
                                                     {dest.name}
                                                 </p>
                                                 <p className="truncate text-xs text-[oklch(0.48_0.01_85)]">
-                                                    {dest.category} {dest.village?.name ? `· ${dest.village.name}` : ''}
+                                                    {dest.category}{' '}
+                                                    {dest.village?.name
+                                                        ? `· ${dest.village.name}`
+                                                        : ''}
                                                 </p>
                                             </div>
                                             <div className="flex items-center gap-3">
-                                                <StatusBadge status={dest.status} />
-                                                <Button variant="ghost" size="sm" asChild>
-                                                    <Link href={`/admin/destinations/${dest.slug}/edit`}>Edit</Link>
+                                                <StatusBadge
+                                                    status={dest.status}
+                                                />
+                                                <Button
+                                                    variant="ghost"
+                                                    size="sm"
+                                                    asChild
+                                                >
+                                                    <Link
+                                                        href={`/admin/destinations/${dest.slug}/edit`}
+                                                    >
+                                                        Edit
+                                                    </Link>
                                                 </Button>
                                             </div>
                                         </div>
@@ -431,7 +539,9 @@ export default function Dashboard(props: DashboardProps) {
                         <CardContent className="p-0">
                             <div className="divide-y divide-[oklch(0.22_0.01_85/8%)]">
                                 {props.recentBlogs.length === 0 ? (
-                                    <div className="p-4 text-sm text-[oklch(0.48_0.01_85)]">Belum ada blog.</div>
+                                    <div className="p-4 text-sm text-[oklch(0.48_0.01_85)]">
+                                        Belum ada blog.
+                                    </div>
                                 ) : (
                                     props.recentBlogs.map((blog) => (
                                         <div
@@ -443,13 +553,26 @@ export default function Dashboard(props: DashboardProps) {
                                                     {blog.title}
                                                 </p>
                                                 <p className="truncate text-xs text-[oklch(0.48_0.01_85)]">
-                                                    {blog.views_count} views {blog.author?.full_name ? `· ${blog.author.full_name}` : ''}
+                                                    {blog.views_count} views{' '}
+                                                    {blog.author?.full_name
+                                                        ? `· ${blog.author.full_name}`
+                                                        : ''}
                                                 </p>
                                             </div>
                                             <div className="flex items-center gap-3">
-                                                <StatusBadge status={blog.status} />
-                                                <Button variant="ghost" size="sm" asChild>
-                                                    <Link href={`/admin/blogs/${blog.slug}/edit`}>Edit</Link>
+                                                <StatusBadge
+                                                    status={blog.status}
+                                                />
+                                                <Button
+                                                    variant="ghost"
+                                                    size="sm"
+                                                    asChild
+                                                >
+                                                    <Link
+                                                        href={`/admin/blogs/${blog.slug}/edit`}
+                                                    >
+                                                        Edit
+                                                    </Link>
                                                 </Button>
                                             </div>
                                         </div>

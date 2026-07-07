@@ -30,7 +30,8 @@ export default function Profile({ status }: { status?: string }) {
     const [processing, setProcessing] = useState(false);
     const fileInputRef = useRef<HTMLInputElement>(null);
 
-    const avatarSrc = avatarPreview ?? (user.avatar ? `/storage/${user.avatar}` : undefined);
+    const avatarSrc =
+        avatarPreview ?? (user.avatar ? `/storage/${user.avatar}` : undefined);
 
     const handleAvatarChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         const file = e.target.files?.[0];
@@ -67,8 +68,15 @@ export default function Profile({ status }: { status?: string }) {
 
     const roleBadge =
         user.role === 'admin'
-            ? { label: 'Admin', className: 'bg-[oklch(0.92_0.02_145)] text-[oklch(0.24_0.05_145)] border-0' }
-            : { label: 'Manager', className: 'bg-blue-100 text-blue-800 border-0' };
+            ? {
+                  label: 'Admin',
+                  className:
+                      'bg-[oklch(0.92_0.02_145)] text-[oklch(0.24_0.05_145)] border-0',
+              }
+            : {
+                  label: 'Manager',
+                  className: 'bg-blue-100 text-blue-800 border-0',
+              };
 
     return (
         <>
@@ -76,7 +84,11 @@ export default function Profile({ status }: { status?: string }) {
             <h1 className="sr-only">Pengaturan Profil</h1>
 
             <div className="space-y-6">
-                <Heading variant="small" title="Profil" description="Kelola informasi profil Anda" />
+                <Heading
+                    variant="small"
+                    title="Profil"
+                    description="Kelola informasi profil Anda"
+                />
 
                 <form onSubmit={handleSubmit} className="space-y-8">
                     {/* Avatar */}
@@ -84,14 +96,14 @@ export default function Profile({ status }: { status?: string }) {
                         <div className="relative">
                             <Avatar className="h-20 w-20">
                                 <AvatarImage src={avatarSrc} alt={user.name} />
-                                <AvatarFallback className="text-xl bg-[oklch(0.92_0.02_145)] text-[oklch(0.24_0.05_145)]">
+                                <AvatarFallback className="bg-[oklch(0.92_0.02_145)] text-xl text-[oklch(0.24_0.05_145)]">
                                     {getInitials(user.name)}
                                 </AvatarFallback>
                             </Avatar>
                             <button
                                 type="button"
                                 onClick={() => fileInputRef.current?.click()}
-                                className="absolute -bottom-1 -right-1 flex h-7 w-7 items-center justify-center rounded-full bg-[oklch(0.38_0.08_145)] text-white shadow-md hover:bg-[oklch(0.24_0.05_145)] transition-colors"
+                                className="absolute -right-1 -bottom-1 flex h-7 w-7 items-center justify-center rounded-full bg-[oklch(0.38_0.08_145)] text-white shadow-md transition-colors hover:bg-[oklch(0.24_0.05_145)]"
                                 title="Ganti foto profil"
                             >
                                 <Camera className="h-3.5 w-3.5" />
@@ -106,7 +118,9 @@ export default function Profile({ status }: { status?: string }) {
                         </div>
                         <div>
                             <p className="text-sm font-medium">{user.name}</p>
-                            <p className="text-xs text-muted-foreground">{user.email}</p>
+                            <p className="text-xs text-muted-foreground">
+                                {user.email}
+                            </p>
                             <button
                                 type="button"
                                 onClick={() => fileInputRef.current?.click()}
@@ -123,7 +137,7 @@ export default function Profile({ status }: { status?: string }) {
                     <div className="grid gap-5 sm:grid-cols-2">
                         <div className="grid gap-2">
                             <Label htmlFor="full_name">
-                                <UserIcon className="inline mr-1.5 h-3.5 w-3.5 text-muted-foreground" />
+                                <UserIcon className="mr-1.5 inline h-3.5 w-3.5 text-muted-foreground" />
                                 Nama Lengkap
                             </Label>
                             <Input
@@ -137,7 +151,7 @@ export default function Profile({ status }: { status?: string }) {
 
                         <div className="grid gap-2">
                             <Label htmlFor="phone_number">
-                                <Phone className="inline mr-1.5 h-3.5 w-3.5 text-muted-foreground" />
+                                <Phone className="mr-1.5 inline h-3.5 w-3.5 text-muted-foreground" />
                                 No. Telepon
                             </Label>
                             <Input
@@ -167,20 +181,31 @@ export default function Profile({ status }: { status?: string }) {
 
                 {/* Read-only info */}
                 <div>
-                    <Heading variant="small" title="Informasi Akun" description="Data yang tidak dapat diubah" />
+                    <Heading
+                        variant="small"
+                        title="Informasi Akun"
+                        description="Data yang tidak dapat diubah"
+                    />
                     <div className="mt-4 grid gap-4 sm:grid-cols-2">
                         <div className="grid gap-1.5">
-                            <Label className="text-muted-foreground flex items-center gap-1.5">
+                            <Label className="flex items-center gap-1.5 text-muted-foreground">
                                 <Mail className="h-3.5 w-3.5" /> Email
                             </Label>
                             <div className="flex items-center gap-2">
-                                <Input value={user.email} disabled className="bg-muted/40" />
+                                <Input
+                                    value={user.email}
+                                    disabled
+                                    className="bg-muted/40"
+                                />
                                 {user.email_verified_at ? (
-                                    <Badge className="shrink-0 border-0 bg-[oklch(0.92_0.02_145)] text-[oklch(0.24_0.05_145)] text-xs">
+                                    <Badge className="shrink-0 border-0 bg-[oklch(0.92_0.02_145)] text-xs text-[oklch(0.24_0.05_145)]">
                                         Terverifikasi
                                     </Badge>
                                 ) : (
-                                    <Badge variant="destructive" className="shrink-0 text-xs">
+                                    <Badge
+                                        variant="destructive"
+                                        className="shrink-0 text-xs"
+                                    >
                                         Belum Verifikasi
                                     </Badge>
                                 )}
@@ -188,19 +213,27 @@ export default function Profile({ status }: { status?: string }) {
                         </div>
 
                         <div className="grid gap-1.5">
-                            <Label className="text-muted-foreground flex items-center gap-1.5">
+                            <Label className="flex items-center gap-1.5 text-muted-foreground">
                                 <Shield className="h-3.5 w-3.5" /> Peran
                             </Label>
                             <div className="flex h-9 items-center">
-                                <Badge className={roleBadge.className}>{roleBadge.label}</Badge>
+                                <Badge className={roleBadge.className}>
+                                    {roleBadge.label}
+                                </Badge>
                             </div>
                         </div>
 
                         {user.village_id && (
                             <div className="grid gap-1.5 sm:col-span-2">
-                                <Label className="text-muted-foreground">Desa Kelolaan</Label>
+                                <Label className="text-muted-foreground">
+                                    Desa Kelolaan
+                                </Label>
                                 <Input
-                                    value={(user as Record<string, unknown>).village_name as string ?? `ID Desa: ${user.village_id}`}
+                                    value={
+                                        ((user as Record<string, unknown>)
+                                            .village_name as string) ??
+                                        `ID Desa: ${user.village_id}`
+                                    }
                                     disabled
                                     className="bg-muted/40"
                                 />

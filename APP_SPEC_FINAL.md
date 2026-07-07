@@ -121,7 +121,31 @@ Menyimpan tulisan, artikel, dan dokumentasi kegiatan pariwisata.
 
 ---
 
-## 💡 4. Saran & Hal Penting Lainnya (Vervo Standard)
+## 🌐 4. Struktur Halaman Publik (Frontend)
+
+Struktur halaman website yang dapat diakses oleh pengunjung (wisatawan) dibagi menjadi dua kategori utama:
+
+### Kategori 1: Halaman Utama (Tampil di Navbar & Footer)
+Halaman-halaman ini adalah *core features* yang menjadi daya tarik utama website pariwisata.
+1. **Beranda (Home)**: Banner hero, pencarian cepat, peta mini (wisata terdekat), dan highlight destinasi/event/artikel terbaru.
+2. **Desa Wisata**: Daftar seluruh desa wisata dan halaman detail deskripsi desa beserta list spot wisata di dalamnya.
+3. **Destinasi Wisata**: Eksplorasi spot wisata dengan filter (alam/budaya/buatan) beserta halaman detail (harga tiket, jam buka, galeri foto, rute Google Maps).
+4. **Peta Wisata (WebGIS)**: Peta *full-screen* interaktif dengan seluruh pin lokasi desa dan destinasi wisata di Mrebet.
+5. **Kalender Acara**: Agenda kegiatan budaya dan festival desa wisata dalam bentuk kalender/timeline.
+6. **Blog & Berita**: Wadah untuk artikel promosi, publikasi desa, dan liputan event.
+7. **Tentang Kami & Kontak**: Profil pengelola (Kecamatan/Pokdarwis), visi-misi, serta form kontak terpusat (WhatsApp/Email).
+
+### Kategori 2: Halaman Opsional / Tambahan (Tampil di Footer Saja)
+Halaman bersifat pendukung, informatif, dan mengedepankan legalitas untuk menambah kredibilitas serta kenyamanan pengunjung.
+1. **FAQ (Tanya Jawab)**: Menjawab pertanyaan umum (kondisi jalan/akses bus, tingkat keamanan untuk balita/lansia, prosedur reservasi rombongan).
+2. **Kebijakan Privasi (Privacy Policy)**: Menjamin keamanan data jika website mengumpulkan data pengunjung (melalui form kontak atau registrasi) — sejalan dengan *best practices* pengelolaan data publik.
+3. **Syarat & Ketentuan (Terms & Conditions)**: Aturan di area wisata (kebersihan/pelestarian alam) dan *disclaimer* terkait cuaca atau pembatalan *ticketing*/event.
+4. **Panduan Wisatawan (Travel Tips)**: Informasi pelengkap seperti akses transportasi umum, rekomendasi pakaian, dan daftar nomor darurat lokal (Puskesmas/Polsek).
+5. **Kemitraan (Partnership)**: Informasi kerja sama bagi investor, *travel agent*, pihak sponsor acara, atau institusi yang ingin melakukan survei/KKN.
+
+---
+
+## 💡 5. Saran & Hal Penting Lainnya (Vervo Standard)
 
 * **Implementasi Media Library:** Sangat disarankan untuk langsung memakai package `spatie/laravel-medialibrary`. Jangan membuat *upload logic* dari awal. Package ini sudah sangat matang untuk mengurus relasi *polymorphic*, *auto-resize* gambar untuk thumbnail, dan integrasi cloud storage (jika ke depannya butuh S3).
 * **Pendekatan UI Form:** Karena skemanya sudah sangat *flat*, buat UI panel admin menggunakan komponen React yang intuitif. Gunakan *Map Picker* (misal: Leaflet) di form agar admin desa cukup geser pin di peta, dan kolom `latitude` & `longitude` otomatis terisi.
