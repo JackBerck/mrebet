@@ -1,4 +1,5 @@
 import { Link } from '@inertiajs/react';
+import { Facebook, Youtube, Phone, Mail, MapPin } from 'lucide-react';
 
 const mainLinks = [
     { label: 'Beranda', href: '/' },
@@ -78,43 +79,14 @@ export default function PublicFooter() {
                                     label: 'Facebook',
                                     href: '#',
                                     icon: (
-                                        <svg
-                                            viewBox="0 0 24 24"
-                                            fill="none"
-                                            stroke="currentColor"
-                                            strokeWidth="1.6"
-                                            className="h-4 w-4"
-                                            aria-hidden="true"
-                                        >
-                                            <path d="M14 9h3V6h-3a4 4 0 00-4 4v2H7v3h3v6h3v-6h3l1-3h-4v-2a1 1 0 011-1z" />
-                                        </svg>
+                                        <Facebook className="h-4 w-4" />
                                     ),
                                 },
                                 {
                                     label: 'YouTube',
                                     href: '#',
                                     icon: (
-                                        <svg
-                                            viewBox="0 0 24 24"
-                                            fill="none"
-                                            stroke="currentColor"
-                                            strokeWidth="1.6"
-                                            className="h-4 w-4"
-                                            aria-hidden="true"
-                                        >
-                                            <rect
-                                                x="3"
-                                                y="6"
-                                                width="18"
-                                                height="12"
-                                                rx="3"
-                                            />
-                                            <path
-                                                d="M11 10l4 2-4 2v-4z"
-                                                fill="currentColor"
-                                                stroke="none"
-                                            />
-                                        </svg>
+                                        <Youtube className="h-4 w-4" />
                                     ),
                                 },
                             ].map((social) => (
@@ -177,50 +149,21 @@ export default function PublicFooter() {
                             {[
                                 {
                                     icon: (
-                                        <svg
-                                            viewBox="0 0 24 24"
-                                            fill="none"
-                                            stroke="currentColor"
-                                            strokeWidth="1.6"
-                                            className="mt-0.5 h-4 w-4 shrink-0"
-                                            aria-hidden="true"
-                                        >
-                                            <path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07A19.5 19.5 0 013.07 9.81 19.79 19.79 0 01.22 1.18 2 2 0 012.2.01h3a2 2 0 012 1.72c.127.96.361 1.903.7 2.81a2 2 0 01-.45 2.11L6.91 7.91a16 16 0 006.22 6.22l1.07-.54a2 2 0 012.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0122 16.92z" />
-                                        </svg>
+                                        <Phone className="mt-0.5 h-4 w-4 shrink-0" />
                                     ),
                                     text: '+62 813-9848-0422',
                                     href: 'https://wa.me/6281398480422',
                                 },
                                 {
                                     icon: (
-                                        <svg
-                                            viewBox="0 0 24 24"
-                                            fill="none"
-                                            stroke="currentColor"
-                                            strokeWidth="1.6"
-                                            className="mt-0.5 h-4 w-4 shrink-0"
-                                            aria-hidden="true"
-                                        >
-                                            <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z" />
-                                            <polyline points="22,6 12,13 2,6" />
-                                        </svg>
+                                        <Mail className="mt-0.5 h-4 w-4 shrink-0" />
                                     ),
                                     text: 'halo@wisatamrebet.id',
                                     href: 'mailto:halo@wisatamrebet.id',
                                 },
                                 {
                                     icon: (
-                                        <svg
-                                            viewBox="0 0 24 24"
-                                            fill="none"
-                                            stroke="currentColor"
-                                            strokeWidth="1.6"
-                                            className="mt-0.5 h-4 w-4 shrink-0"
-                                            aria-hidden="true"
-                                        >
-                                            <path d="M12 21c-4-3-8-6.5-8-11a8 8 0 0116 0c0 4.5-4 8-8 11z" />
-                                            <circle cx="12" cy="10" r="2.5" />
-                                        </svg>
+                                        <MapPin className="mt-0.5 h-4 w-4 shrink-0" />
                                     ),
                                     text: 'Kec. Mrebet, Kab. Purbalingga, Jawa Tengah',
                                     href: 'https://www.google.com/maps/search/?api=1&query=Mrebet+Purbalingga',

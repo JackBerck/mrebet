@@ -1,4 +1,5 @@
 import { Head, Link } from '@inertiajs/react';
+import { Tent, Mountain, Sunrise, Camera, Utensils, Compass, ArrowRight, Map, MapPin, Clock, QrCode, Droplet, Heart } from 'lucide-react';
 import { useMotionReveal } from '@/hooks/use-motion-reveal';
 import PublicLayout from '@/layouts/public-layout';
 import type { Destination, Event, Blog, Stats } from '@/types/public';
@@ -14,99 +15,42 @@ type Props = {
 const activities = [
     {
         icon: (
-            <svg
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                strokeWidth="1.5"
-                aria-hidden="true"
-                className="h-7 w-7"
-            >
-                <path d="M4 20l4-9 4 9M12 20l4-9 4 9M8 11l4-7 4 7" />
-            </svg>
+            <Tent className="h-7 w-7" />
         ),
         title: 'Camping',
         desc: 'Bermalam di bawah kanopi pinus dengan suara sungai sebagai pengantar tidur.',
     },
     {
         icon: (
-            <svg
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                strokeWidth="1.5"
-                aria-hidden="true"
-                className="h-7 w-7"
-            >
-                <path d="M3 20l6-14 4 8 3-5 5 11H3z" />
-            </svg>
+            <Mountain className="h-7 w-7" />
         ),
         title: 'Hiking',
         desc: 'Jalur pendakian ringan hingga menantang menuju punggung Gunung Slamet.',
     },
     {
         icon: (
-            <svg
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                strokeWidth="1.5"
-                aria-hidden="true"
-                className="h-7 w-7"
-            >
-                <circle cx="12" cy="12" r="4" />
-                <path d="M12 2v3M12 19v3M4.2 4.2l2.1 2.1M17.7 17.7l2.1 2.1M2 12h3M19 12h3M4.2 19.8l2.1-2.1M17.7 6.3l2.1-2.1" />
-            </svg>
+            <Sunrise className="h-7 w-7" />
         ),
         title: 'Sunrise',
         desc: 'Titik pandang timur menawarkan matahari terbit di atas lautan awan.',
     },
     {
         icon: (
-            <svg
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                strokeWidth="1.5"
-                aria-hidden="true"
-                className="h-7 w-7"
-            >
-                <rect x="3" y="7" width="18" height="13" rx="2" />
-                <path d="M8 7V5a2 2 0 012-2h4a2 2 0 012 2v2" />
-                <circle cx="12" cy="13" r="3.5" />
-            </svg>
+            <Camera className="h-7 w-7" />
         ),
         title: 'Fotografi',
         desc: 'Cahaya pagi menembus kabut — surga bagi pencari komposisi lanskap.',
     },
     {
         icon: (
-            <svg
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                strokeWidth="1.5"
-                aria-hidden="true"
-                className="h-7 w-7"
-            >
-                <path d="M4 10h16M6 10V6a2 2 0 012-2h8a2 2 0 012 2v4M6 10v10M18 10v10M4 20h16" />
-            </svg>
+            <Utensils className="h-7 w-7" />
         ),
         title: 'Kuliner Lokal',
         desc: 'Hidangan rumahan warga desa, dimasak dengan bumbu dan resep turun-temurun.',
     },
     {
         icon: (
-            <svg
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                strokeWidth="1.5"
-                aria-hidden="true"
-                className="h-7 w-7"
-            >
-                <path d="M12 2l2.5 6.5L21 9l-5 4 2 7-6-4-6 4 2-7-5-4 6.5-.5z" />
-            </svg>
+            <Compass className="h-7 w-7" />
         ),
         title: 'Adventure',
         desc: 'Susur sungai dan tebing rendah bagi yang mencari sedikit adrenalin.',
@@ -210,32 +154,13 @@ export default function Home({
                                     className="inline-flex items-center gap-2 rounded-xl bg-(--gold) px-6 py-3 font-semibold text-(--forest-deep) transition-all duration-200 hover:bg-(--gold-soft) active:scale-[0.98]"
                                 >
                                     Jelajahi Mrebet
-                                    <svg
-                                        viewBox="0 0 24 24"
-                                        fill="none"
-                                        stroke="currentColor"
-                                        strokeWidth="2"
-                                        className="h-4 w-4"
-                                        aria-hidden="true"
-                                    >
-                                        <path d="M5 12h14M13 6l6 6-6 6" />
-                                    </svg>
+                                    <ArrowRight className="h-4 w-4" />
                                 </Link>
                                 <Link
                                     href="/peta"
                                     className="inline-flex items-center gap-2 rounded-xl border border-white/20 bg-white/10 px-6 py-3 font-medium text-white transition-all duration-200 hover:bg-white/20 active:scale-[0.98]"
                                 >
-                                    <svg
-                                        viewBox="0 0 24 24"
-                                        fill="none"
-                                        stroke="currentColor"
-                                        strokeWidth="1.8"
-                                        className="h-4 w-4"
-                                        aria-hidden="true"
-                                    >
-                                        <path d="M9 20l-6-3V4l6 3 6-3 6 3v13l-6-3-6 3z" />
-                                        <path d="M9 4v13M15 7v13" />
-                                    </svg>
+                                    <Map className="h-4 w-4" />
                                     Lihat Peta
                                 </Link>
                             </div>
@@ -245,17 +170,7 @@ export default function Home({
                                 {[
                                     {
                                         icon: (
-                                            <svg
-                                                viewBox="0 0 24 24"
-                                                fill="none"
-                                                stroke="currentColor"
-                                                strokeWidth="1.6"
-                                                className="h-5 w-5"
-                                                aria-hidden="true"
-                                            >
-                                                <path d="M9 20l-6-3V4l6 3 6-3 6 3v13l-6-3-6 3z" />
-                                                <path d="M9 4v13M15 7v13" />
-                                            </svg>
+                                            <Map className="h-5 w-5" />
                                         ),
                                         label: 'Rute',
                                         value: 'Ambil Arah ke Mrebet',
@@ -263,21 +178,7 @@ export default function Home({
                                     },
                                     {
                                         icon: (
-                                            <svg
-                                                viewBox="0 0 24 24"
-                                                fill="none"
-                                                stroke="currentColor"
-                                                strokeWidth="1.6"
-                                                className="h-5 w-5"
-                                                aria-hidden="true"
-                                            >
-                                                <path d="M12 21c-4-3-8-6.5-8-11a8 8 0 0116 0c0 4.5-4 8-8 11z" />
-                                                <circle
-                                                    cx="12"
-                                                    cy="10"
-                                                    r="2.5"
-                                                />
-                                            </svg>
+                                            <MapPin className="h-5 w-5" />
                                         ),
                                         label: 'Jelajah',
                                         value: `${stats.destinations}+ Destinasi`,
@@ -285,17 +186,7 @@ export default function Home({
                                     },
                                     {
                                         icon: (
-                                            <svg
-                                                viewBox="0 0 24 24"
-                                                fill="none"
-                                                stroke="currentColor"
-                                                strokeWidth="1.6"
-                                                className="h-5 w-5"
-                                                aria-hidden="true"
-                                            >
-                                                <circle cx="12" cy="12" r="9" />
-                                                <path d="M12 7v5l3.5 2" />
-                                            </svg>
+                                            <Clock className="h-5 w-5" />
                                         ),
                                         label: 'Jam Buka',
                                         value: '06.00–17.00 WIB',
@@ -303,34 +194,7 @@ export default function Home({
                                     },
                                     {
                                         icon: (
-                                            <svg
-                                                viewBox="0 0 24 24"
-                                                fill="none"
-                                                stroke="currentColor"
-                                                strokeWidth="1.6"
-                                                className="h-5 w-5"
-                                                aria-hidden="true"
-                                            >
-                                                <rect
-                                                    x="4"
-                                                    y="4"
-                                                    width="7"
-                                                    height="7"
-                                                />
-                                                <rect
-                                                    x="13"
-                                                    y="4"
-                                                    width="7"
-                                                    height="7"
-                                                />
-                                                <rect
-                                                    x="4"
-                                                    y="13"
-                                                    width="7"
-                                                    height="7"
-                                                />
-                                                <path d="M13 13h3v3h-3zM19 13v3M13 19h3M17 19h3v-3" />
-                                            </svg>
+                                            <QrCode className="h-5 w-5" />
                                         ),
                                         label: 'Akses Cepat',
                                         value: 'Scan QR Website',
@@ -399,21 +263,7 @@ export default function Home({
                                         className="flex shrink-0 items-center gap-2 rounded-full border border-white/10 bg-white/10 px-3 py-2 text-xs font-medium text-white transition-all duration-200 hover:bg-(--gold) hover:text-(--forest-deep)"
                                     >
                                         <span className="flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-(--forest-mist)/20">
-                                            <svg
-                                                viewBox="0 0 24 24"
-                                                fill="none"
-                                                stroke="currentColor"
-                                                strokeWidth="1.8"
-                                                className="h-3 w-3"
-                                                aria-hidden="true"
-                                            >
-                                                <path d="M12 21c-4-3-8-6.5-8-11a8 8 0 0116 0c0 4.5-4 8-8 11z" />
-                                                <circle
-                                                    cx="12"
-                                                    cy="10"
-                                                    r="2.5"
-                                                />
-                                            </svg>
+                                            <MapPin className="h-3 w-3" />
                                         </span>
                                         {dest.name}
                                     </Link>
@@ -485,16 +335,7 @@ export default function Home({
                             <div className="relative" data-reveal>
                                 <div className="aspect-4/5 overflow-hidden rounded-2xl bg-(--forest-mist)">
                                     <div className="flex h-full w-full items-center justify-center bg-linear-to-br from-(--forest-mist) via-(--cream-soft) to-(--forest-mist)">
-                                        <svg
-                                            viewBox="0 0 24 24"
-                                            fill="none"
-                                            stroke="var(--forest)"
-                                            strokeWidth="1"
-                                            className="h-24 w-24 opacity-20"
-                                            aria-hidden="true"
-                                        >
-                                            <path d="M12 2C12 2 6 9 6 14a6 6 0 0012 0c0-5-6-12-6-12z" />
-                                        </svg>
+                                        <Droplet className="h-24 w-24 opacity-20" />
                                     </div>
                                 </div>
                                 {/* Floating card */}
@@ -541,16 +382,7 @@ export default function Home({
                                 className="inline-flex shrink-0 items-center gap-1.5 text-sm font-semibold text-(--forest) transition-colors hover:text-(--forest-deep)"
                             >
                                 Lihat semua
-                                <svg
-                                    viewBox="0 0 24 24"
-                                    fill="none"
-                                    stroke="currentColor"
-                                    strokeWidth="2"
-                                    className="h-4 w-4"
-                                    aria-hidden="true"
-                                >
-                                    <path d="M5 12h14M13 6l6 6-6 6" />
-                                </svg>
+                                <ArrowRight className="h-4 w-4" />
                             </Link>
                         </div>
 
@@ -596,16 +428,7 @@ export default function Home({
                                                     className="flex items-center gap-1 text-sm font-semibold text-(--forest) transition-colors hover:text-(--forest-deep)"
                                                 >
                                                     Jelajahi
-                                                    <svg
-                                                        viewBox="0 0 24 24"
-                                                        fill="none"
-                                                        stroke="currentColor"
-                                                        strokeWidth="2"
-                                                        className="h-3.5 w-3.5"
-                                                        aria-hidden="true"
-                                                    >
-                                                        <path d="M5 12h14M13 6l6 6-6 6" />
-                                                    </svg>
+                                                    <ArrowRight className="h-3.5 w-3.5" />
                                                 </Link>
                                                 <a
                                                     href={googleMapsUrl(
@@ -617,17 +440,7 @@ export default function Home({
                                                     rel="noopener noreferrer"
                                                     className="ml-auto flex items-center gap-1 text-xs text-(--charcoal-soft) transition-colors hover:text-(--forest)"
                                                 >
-                                                    <svg
-                                                        viewBox="0 0 24 24"
-                                                        fill="none"
-                                                        stroke="currentColor"
-                                                        strokeWidth="1.8"
-                                                        className="h-3.5 w-3.5"
-                                                        aria-hidden="true"
-                                                    >
-                                                        <path d="M9 20l-6-3V4l6 3 6-3 6 3v13l-6-3-6 3z" />
-                                                        <path d="M9 4v13M15 7v13" />
-                                                    </svg>
+                                                    <Map className="h-3.5 w-3.5" />
                                                     Peta
                                                 </a>
                                             </div>
@@ -726,66 +539,28 @@ export default function Home({
                             {[
                                 {
                                     icon: (
-                                        <svg
-                                            viewBox="0 0 24 24"
-                                            fill="none"
-                                            stroke="currentColor"
-                                            strokeWidth="1.5"
-                                            className="h-7 w-7"
-                                            aria-hidden="true"
-                                        >
-                                            <path d="M12 2C12 2 6 9 6 14a6 6 0 0012 0c0-5-6-12-6-12z" />
-                                        </svg>
+                                        <Droplet className="h-7 w-7" />
                                     ),
                                     num: stats.destinations.toString() + '+',
                                     label: 'Destinasi Aktif',
                                 },
                                 {
                                     icon: (
-                                        <svg
-                                            viewBox="0 0 24 24"
-                                            fill="none"
-                                            stroke="currentColor"
-                                            strokeWidth="1.5"
-                                            className="h-7 w-7"
-                                            aria-hidden="true"
-                                        >
-                                            <path d="M20.8 4.6c-1.9-1.9-5-1.9-6.9 0L12 6.5l-1.9-1.9c-1.9-1.9-5-1.9-6.9 0-1.9 1.9-1.9 5 0 6.9L12 20.3l8.8-8.8c1.9-1.9 1.9-5 0-6.9z" />
-                                        </svg>
+                                        <Heart className="h-7 w-7" />
                                     ),
                                     num: '4.9',
                                     label: 'Rating Pengunjung',
                                 },
                                 {
                                     icon: (
-                                        <svg
-                                            viewBox="0 0 24 24"
-                                            fill="none"
-                                            stroke="currentColor"
-                                            strokeWidth="1.5"
-                                            className="h-7 w-7"
-                                            aria-hidden="true"
-                                        >
-                                            <circle cx="12" cy="12" r="9" />
-                                            <path d="M12 7v5l3.5 2" />
-                                        </svg>
+                                        <Clock className="h-7 w-7" />
                                     ),
                                     num: '3 Jam',
                                     label: 'Dari Purwokerto',
                                 },
                                 {
                                     icon: (
-                                        <svg
-                                            viewBox="0 0 24 24"
-                                            fill="none"
-                                            stroke="currentColor"
-                                            strokeWidth="1.5"
-                                            className="h-7 w-7"
-                                            aria-hidden="true"
-                                        >
-                                            <path d="M12 21c-4-3-8-6.5-8-11a8 8 0 0116 0c0 4.5-4 8-8 11z" />
-                                            <circle cx="12" cy="10" r="2.5" />
-                                        </svg>
+                                        <MapPin className="h-7 w-7" />
                                     ),
                                     num: '12+',
                                     label: 'Titik Foto Ikonik',
@@ -837,16 +612,7 @@ export default function Home({
                                 className="inline-flex shrink-0 items-center gap-1.5 text-sm font-semibold text-(--forest) transition-colors hover:text-(--forest-deep)"
                             >
                                 Lihat kalender
-                                <svg
-                                    viewBox="0 0 24 24"
-                                    fill="none"
-                                    stroke="currentColor"
-                                    strokeWidth="2"
-                                    className="h-4 w-4"
-                                    aria-hidden="true"
-                                >
-                                    <path d="M5 12h14M13 6l6 6-6 6" />
-                                </svg>
+                                <ArrowRight className="h-4 w-4" />
                             </Link>
                         </div>
 
@@ -896,16 +662,7 @@ export default function Home({
                                                         Gratis
                                                     </span>
                                                 )}
-                                                <svg
-                                                    viewBox="0 0 24 24"
-                                                    fill="none"
-                                                    stroke="currentColor"
-                                                    strokeWidth="2"
-                                                    className="h-4 w-4 text-(--charcoal-soft) transition-colors group-hover:text-(--forest)"
-                                                    aria-hidden="true"
-                                                >
-                                                    <path d="M5 12h14M13 6l6 6-6 6" />
-                                                </svg>
+                                                <ArrowRight className="h-4 w-4 text-(--charcoal-soft) transition-colors group-hover:text-(--forest)" />
                                             </div>
                                         </Link>
                                     );
@@ -954,16 +711,7 @@ export default function Home({
                                     className="inline-flex shrink-0 items-center gap-1.5 text-sm font-semibold text-(--forest) transition-colors hover:text-(--forest-deep)"
                                 >
                                     Semua artikel
-                                    <svg
-                                        viewBox="0 0 24 24"
-                                        fill="none"
-                                        stroke="currentColor"
-                                        strokeWidth="2"
-                                        className="h-4 w-4"
-                                        aria-hidden="true"
-                                    >
-                                        <path d="M5 12h14M13 6l6 6-6 6" />
-                                    </svg>
+                                    <ArrowRight className="h-4 w-4" />
                                 </Link>
                             </div>
                             <div
@@ -979,16 +727,7 @@ export default function Home({
                                     >
                                         <div className="relative aspect-video overflow-hidden bg-(--forest-mist)">
                                             <div className="absolute inset-0 flex items-center justify-center">
-                                                <svg
-                                                    viewBox="0 0 24 24"
-                                                    fill="none"
-                                                    stroke="var(--forest)"
-                                                    strokeWidth="1"
-                                                    className="h-12 w-12 opacity-20"
-                                                    aria-hidden="true"
-                                                >
-                                                    <path d="M12 2C12 2 6 9 6 14a6 6 0 0012 0c0-5-6-12-6-12z" />
-                                                </svg>
+                                                <Droplet className="h-12 w-12 opacity-20" />
                                             </div>
                                         </div>
                                         <div className="flex flex-1 flex-col p-4">
@@ -1045,41 +784,13 @@ export default function Home({
                                     {[
                                         {
                                             icon: (
-                                                <svg
-                                                    viewBox="0 0 24 24"
-                                                    fill="none"
-                                                    stroke="currentColor"
-                                                    strokeWidth="1.6"
-                                                    className="h-5 w-5 shrink-0"
-                                                    aria-hidden="true"
-                                                >
-                                                    <path d="M12 21c-4-3-8-6.5-8-11a8 8 0 0116 0c0 4.5-4 8-8 11z" />
-                                                    <circle
-                                                        cx="12"
-                                                        cy="10"
-                                                        r="2.5"
-                                                    />
-                                                </svg>
+                                                <MapPin className="h-5 w-5 shrink-0" />
                                             ),
                                             text: 'Kec. Mrebet, Kab. Purbalingga, Jawa Tengah',
                                         },
                                         {
                                             icon: (
-                                                <svg
-                                                    viewBox="0 0 24 24"
-                                                    fill="none"
-                                                    stroke="currentColor"
-                                                    strokeWidth="1.6"
-                                                    className="h-5 w-5 shrink-0"
-                                                    aria-hidden="true"
-                                                >
-                                                    <circle
-                                                        cx="12"
-                                                        cy="12"
-                                                        r="9"
-                                                    />
-                                                    <path d="M12 7v5l3.5 2" />
-                                                </svg>
+                                                <Clock className="h-5 w-5 shrink-0" />
                                             ),
                                             text: '06.00 - 17.00 WIB, setiap hari',
                                         },
@@ -1104,17 +815,7 @@ export default function Home({
                                         rel="noopener noreferrer"
                                         className="inline-flex items-center gap-2 rounded-xl bg-(--forest) px-5 py-2.5 text-sm font-semibold text-white transition-all duration-200 hover:bg-(--forest-deep) active:scale-[0.98]"
                                     >
-                                        <svg
-                                            viewBox="0 0 24 24"
-                                            fill="none"
-                                            stroke="currentColor"
-                                            strokeWidth="2"
-                                            className="h-4 w-4"
-                                            aria-hidden="true"
-                                        >
-                                            <path d="M9 20l-6-3V4l6 3 6-3 6 3v13l-6-3-6 3z" />
-                                            <path d="M9 4v13M15 7v13" />
-                                        </svg>
+                                        <Map className="h-4 w-4" />
                                         Ambil Rute
                                     </a>
                                     <Link
@@ -1146,17 +847,7 @@ export default function Home({
                                     rel="noopener noreferrer"
                                     className="absolute right-3 bottom-3 flex items-center gap-1.5 rounded-lg bg-white px-3 py-2 text-xs font-semibold text-(--forest) shadow-md transition-all duration-200 hover:bg-(--forest) hover:text-white"
                                 >
-                                    <svg
-                                        viewBox="0 0 24 24"
-                                        fill="none"
-                                        stroke="currentColor"
-                                        strokeWidth="2"
-                                        className="h-3.5 w-3.5"
-                                        aria-hidden="true"
-                                    >
-                                        <path d="M9 20l-6-3V4l6 3 6-3 6 3v13l-6-3-6 3z" />
-                                        <path d="M9 4v13M15 7v13" />
-                                    </svg>
+                                    <Map className="h-3.5 w-3.5" />
                                     Buka Maps
                                 </a>
                             </div>
