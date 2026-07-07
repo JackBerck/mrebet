@@ -1,23 +1,6 @@
 import { Link } from '@inertiajs/react';
 import { Facebook, Youtube, Phone, Mail, MapPin } from 'lucide-react';
-
-const mainLinks = [
-    { label: 'Beranda', href: '/' },
-    { label: 'Desa Wisata', href: '/desa' },
-    { label: 'Destinasi Wisata', href: '/destinasi' },
-    { label: 'Peta Wisata', href: '/peta' },
-    { label: 'Kalender Acara', href: '/event' },
-    { label: 'Blog & Berita', href: '/blog' },
-    { label: 'Tentang Kami', href: '/tentang' },
-];
-
-const legalLinks = [
-    { label: 'FAQ', href: '/faq' },
-    { label: 'Kebijakan Privasi', href: '/privacy-policy' },
-    { label: 'Syarat & Ketentuan', href: '/terms' },
-    { label: 'Panduan Wisatawan', href: '/panduan' },
-    { label: 'Kemitraan', href: '/kemitraan' },
-];
+import { mainLinks, legalLinks } from '../../data/navigation';
 
 export default function PublicFooter() {
     const year = new Date().getFullYear();

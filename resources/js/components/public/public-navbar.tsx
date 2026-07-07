@@ -2,16 +2,7 @@ import { Link, usePage } from '@inertiajs/react';
 import { Menu, X } from 'lucide-react';
 import { useEffect, useState } from 'react';
 import { home } from '@/routes';
-
-const navLinks = [
-    { label: 'Beranda', href: '/', name: 'home' },
-    { label: 'Desa Wisata', href: '/desa', name: 'villages' },
-    { label: 'Destinasi', href: '/destinasi', name: 'destinations' },
-    { label: 'Peta Wisata', href: '/peta', name: 'map' },
-    { label: 'Acara', href: '/event', name: 'events' },
-    { label: 'Blog', href: '/blog', name: 'blogs' },
-    { label: 'Tentang', href: '/tentang', name: 'about' },
-];
+import { mainLinks } from '@/data/navigation';
 
 export default function PublicNavbar() {
     const { url } = usePage();
@@ -83,9 +74,9 @@ export default function PublicNavbar() {
                         role="navigation"
                         aria-label="Navigasi utama"
                     >
-                        {navLinks.map((link) => (
+                        {mainLinks.map((link) => (
                             <Link
-                                key={link.name}
+                                key={link.label}
                                 href={link.href}
                                 className={[
                                     'normal-navbar-font-size relative flex items-center rounded-full px-4 py-2 text-sm font-semibold transition-colors duration-200',
@@ -151,9 +142,9 @@ export default function PublicNavbar() {
                 <div className="h-16 shrink-0 border-b border-(--line) bg-(--cream-warm)/95 md:h-20"></div>
 
                 <nav className="section-padding-x flex flex-1 flex-col gap-4 overflow-y-auto py-8">
-                    {navLinks.map((link, i) => (
+                    {mainLinks.map((link, i) => (
                         <Link
-                            key={link.name}
+                            key={link.label}
                             href={link.href}
                             onClick={() => setMenuOpen(false)}
                             className={[
@@ -182,7 +173,7 @@ export default function PublicNavbar() {
                             : 'translate-y-8 opacity-0',
                     ].join(' ')}
                     style={{
-                        transitionDelay: `${menuOpen ? navLinks.length * 50 : 0}ms`,
+                        transitionDelay: `${menuOpen ? mainLinks.length * 50 : 0}ms`,
                     }}
                 >
                     <Link

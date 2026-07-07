@@ -31,6 +31,7 @@ replacements.forEach(rep => {
     code = code.replace(rep.pattern, (match, className) => {
         replacedCount++;
         usedIcons.add(rep.icon);
+
         return '<' + rep.icon + ' className="' + className + '" />';
     });
 });

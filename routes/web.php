@@ -6,10 +6,17 @@ use App\Http\Controllers\Admin\AdminDestinationController;
 use App\Http\Controllers\Admin\AdminEventController;
 use App\Http\Controllers\Admin\AdminVillageController;
 use App\Http\Controllers\Public\HomeController;
+use App\Http\Controllers\Public\PageController;
 use Illuminate\Support\Facades\Route;
 use Laravel\Fortify\Http\Controllers\RegisteredUserController;
 
 Route::get('/', [HomeController::class, 'index'])->name('home');
+Route::get('/tentang', [PageController::class, 'about'])->name('about');
+Route::get('/faq', [PageController::class, 'faq'])->name('faq');
+Route::get('/privacy-policy', [PageController::class, 'privacy'])->name('privacy');
+Route::get('/terms', [PageController::class, 'terms'])->name('terms');
+Route::get('/panduan', [PageController::class, 'guidelines'])->name('guidelines');
+Route::get('/kemitraan', [PageController::class, 'partnership'])->name('partnership');
 
 // Guard /register — only admin role can access; guests redirected to home
 Route::get('/register', function () {
