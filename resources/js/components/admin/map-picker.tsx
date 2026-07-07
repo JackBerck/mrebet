@@ -20,7 +20,9 @@ export function MapPicker({
     const markerRef = useRef<L.Marker | null>(null);
 
     useEffect(() => {
-        if (!mapRef.current || mapInstanceRef.current) return;
+        if (!mapRef.current || mapInstanceRef.current) {
+return;
+}
 
         import('leaflet').then((L) => {
             const initLat = lat ?? defaultCenter[0];
@@ -73,7 +75,10 @@ export function MapPicker({
     }, []);
 
     useEffect(() => {
-        if (!markerRef.current || lat === null || lng === null) return;
+        if (!markerRef.current || lat === null || lng === null) {
+return;
+}
+
         markerRef.current.setLatLng([lat, lng]);
         mapInstanceRef.current?.panTo([lat, lng]);
     }, [lat, lng]);

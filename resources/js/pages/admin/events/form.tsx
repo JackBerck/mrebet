@@ -1,6 +1,6 @@
 import { Head, router, useForm } from '@inertiajs/react';
-import { EditorContent, useEditor } from '@tiptap/react';
 import Placeholder from '@tiptap/extension-placeholder';
+import { EditorContent, useEditor } from '@tiptap/react';
 import StarterKit from '@tiptap/starter-kit';
 import { Loader2, Save } from 'lucide-react';
 import { useCallback, useEffect, useState } from 'react';
@@ -9,7 +9,6 @@ import { z } from 'zod';
 import { DatePicker } from '@/components/admin/date-picker';
 import { EditorToolbar } from '@/components/admin/editor-toolbar';
 import { ImageUploader } from '@/components/admin/image-uploader';
-import AppLayout from '@/layouts/app-layout';
 import { Button } from '@/components/ui/button';
 import {
     Card,
@@ -29,6 +28,7 @@ import {
 } from '@/components/ui/select';
 import { Switch } from '@/components/ui/switch';
 import { TimePicker } from '@/components/ui/time-picker';
+import AppLayout from '@/layouts/app-layout';
 import type { BreadcrumbItem, Destination, Event, Village } from '@/types';
 
 // ── Zod Schema ────────────────────────────────────────────────────────────────
@@ -150,6 +150,7 @@ export default function EventForm({
             toast.error(
                 'Mohon periksa kembali isian form yang ditandai merah.',
             );
+
             return false;
         }
 
@@ -163,19 +164,27 @@ export default function EventForm({
                 'end_date' as keyof typeof errors,
                 'Tanggal selesai harus sama atau setelah tanggal mulai.',
             );
+
             return false;
         }
 
         clearErrors();
+
         return true;
     };
 
     const submit = (e: React.FormEvent, publishNow = false) => {
         e.preventDefault();
-        if (!validate()) return;
+
+        if (!validate()) {
+return;
+}
 
         const finalData = { ...data };
-        if (publishNow) finalData.status = 'published';
+
+        if (publishNow) {
+finalData.status = 'published';
+}
 
         const options = {
             forceFormData: true,
@@ -637,5 +646,6 @@ EventForm.layout = (page: React.ReactNode & { props: Props }) => {
         { title: 'Event', href: '/admin/events' },
         { title: event ? `Edit: ${event.title}` : 'Tambah Event', href: '#' },
     ];
+
     return <AppLayout breadcrumbs={breadcrumbs}>{page}</AppLayout>;
 };

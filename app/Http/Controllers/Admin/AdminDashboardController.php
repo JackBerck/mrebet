@@ -57,7 +57,7 @@ class AdminDashboardController extends Controller
                 ->take(5)
                 ->get(['id', 'title', 'slug', 'status', 'views_count', 'user_id', 'created_at']);
 
-            return Inertia::render('Admin/Dashboard', [
+            return Inertia::render('admin/dashboard', [
                 'isAdmin' => true,
                 'stats' => $stats,
                 'recentVillages' => $recentVillages,
@@ -99,7 +99,7 @@ class AdminDashboardController extends Controller
             ->take(3)
             ->get(['id', 'title', 'slug', 'start_date', 'start_time', 'ticket_price']);
 
-        return Inertia::render('Admin/Dashboard', [
+        return Inertia::render('admin/dashboard', [
             'isAdmin' => false,
             'stats' => $stats,
             'village' => $village,

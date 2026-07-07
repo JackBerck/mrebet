@@ -1,49 +1,7 @@
 import { Head, Link } from '@inertiajs/react';
+import { useMotionReveal } from '@/hooks/use-motion-reveal';
 import PublicLayout from '@/layouts/public-layout';
-import { useScrollReveal } from '@/hooks/use-scroll-reveal';
-
-/* ── Types ─────────────────────────────────────────────────────────────────── */
-type Destination = {
-    id: number;
-    name: string;
-    slug: string;
-    category: string;
-    description: string;
-    ticket_price: number;
-    village: { id: number; name: string } | null;
-    qr_code_target: string | null;
-    latitude: number;
-    longitude: number;
-};
-
-type Event = {
-    id: number;
-    title: string;
-    slug: string;
-    description: string;
-    start_date: string;
-    end_date: string;
-    start_time: string | null;
-    ticket_price: number;
-    organizer: string;
-    village: { id: number; name: string } | null;
-};
-
-type Blog = {
-    id: number;
-    title: string;
-    slug: string;
-    cover_image: string | null;
-    views_count: number;
-    published_at: string;
-    author: { id: number; full_name: string } | null;
-};
-
-type Stats = {
-    villages: number;
-    destinations: number;
-    events: number;
-};
+import type { Destination, Event, Blog, Stats } from '@/types/public';
 
 type Props = {
     featuredDestinations: Destination[];
@@ -158,6 +116,7 @@ const activities = [
 /* ── Helpers ────────────────────────────────────────────────────────────────── */
 function formatDate(dateStr: string) {
     const d = new Date(dateStr);
+
     return {
         day: d.toLocaleDateString('id-ID', { day: '2-digit' }),
         month: d.toLocaleDateString('id-ID', { month: 'long' }),
@@ -170,6 +129,7 @@ function categoryLabel(cat: string) {
         budaya: 'Budaya',
         buatan: 'Buatan',
     };
+
     return map[cat] ?? cat;
 }
 
@@ -184,19 +144,16 @@ export default function Home({
     latestBlogs,
     stats,
 }: Props) {
-    const revealRef = useScrollReveal();
+    useMotionReveal();
 
     return (
         <PublicLayout>
             <Head>
                 <title>Wisata Mrebet — Temukan Curug, Temukan Diri</title>
                 <meta
-                    name="description"
                     content="Destinasi wisata alam di Kecamatan Mrebet, Purbalingga, Jawa Tengah. Curug tersembunyi, hutan pinus, dan keheningan di kaki Gunung Slamet."
                 />
             </Head>
-
-            <div ref={revealRef as React.RefObject<HTMLDivElement>}>
                 {/* ── HERO ───────────────────────────────────────────────────── */}
                 <section
                     id="top"
@@ -899,6 +856,7 @@ export default function Home({
                                     const { day, month } = formatDate(
                                         event.start_date,
                                     );
+
                                     return (
                                         <Link
                                             key={event.id}
@@ -1205,7 +1163,6 @@ export default function Home({
                         </div>
                     </div>
                 </section>
-            </div>
         </PublicLayout>
     );
 }

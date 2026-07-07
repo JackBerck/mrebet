@@ -39,7 +39,7 @@ class AdminDestinationController extends Controller
             ? Village::orderBy('name')->get(['id', 'name'])
             : collect();
 
-        return Inertia::render('Admin/Destinations/Index', [
+        return Inertia::render('admin/destinations/index', [
             'destinations' => $destinations,
             'villages' => $villages,
             'filters' => $request->only('search', 'status', 'category', 'village_id'),
@@ -58,7 +58,7 @@ class AdminDestinationController extends Controller
             ? Village::orderBy('name')->get(['id', 'name'])
             : collect([['id' => $user->village_id, 'name' => $user->village?->name]]);
 
-        return Inertia::render('Admin/Destinations/Form', [
+        return Inertia::render('admin/destinations/form', [
             'destination' => null,
             'villages' => $villages,
             'isAdmin' => $isAdmin,
@@ -101,7 +101,7 @@ class AdminDestinationController extends Controller
             ? Village::orderBy('name')->get(['id', 'name'])
             : collect([['id' => $user->village_id, 'name' => $user->village?->name]]);
 
-        return Inertia::render('Admin/Destinations/Form', [
+        return Inertia::render('admin/destinations/form', [
             'destination' => $destination,
             'villages' => $villages,
             'isAdmin' => $isAdmin,

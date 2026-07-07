@@ -35,7 +35,11 @@ export default function Profile({ status }: { status?: string }) {
 
     const handleAvatarChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         const file = e.target.files?.[0];
-        if (!file) return;
+
+        if (!file) {
+return;
+}
+
         setAvatarFile(file);
         setAvatarPreview(URL.createObjectURL(file));
     };
@@ -47,6 +51,7 @@ export default function Profile({ status }: { status?: string }) {
         const formData = new FormData();
         formData.append('full_name', fullName);
         formData.append('phone_number', phoneNumber);
+
         if (avatarFile) {
             formData.append('avatar', avatarFile);
         }
@@ -60,7 +65,10 @@ export default function Profile({ status }: { status?: string }) {
             },
             onError: (errors) => {
                 const first = Object.values(errors)[0];
-                if (first) toast.error(first);
+
+                if (first) {
+toast.error(first);
+}
             },
             onFinish: () => setProcessing(false),
         });

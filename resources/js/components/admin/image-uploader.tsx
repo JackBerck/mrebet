@@ -64,11 +64,17 @@ export function ImageUploader({
     const remove = (idx: number) => {
         const target = previews[idx];
         const updated = previews.filter((_, i) => i !== idx);
-        if (target.is_primary && updated.length > 0)
-            updated[0].is_primary = true;
+
+        if (target.is_primary && updated.length > 0) {
+updated[0].is_primary = true;
+}
+
         const newDeleted = target.id ? [...deletedIds, target.id] : deletedIds;
-        if (!target.id && target.url.startsWith('blob:'))
-            URL.revokeObjectURL(target.url);
+
+        if (!target.id && target.url.startsWith('blob:')) {
+URL.revokeObjectURL(target.url);
+}
+
         setPreviews(updated);
         setDeletedIds(newDeleted);
         notifyParent(updated, newDeleted);

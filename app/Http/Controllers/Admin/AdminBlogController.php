@@ -38,7 +38,7 @@ class AdminBlogController extends Controller
             ? Village::orderBy('name')->get(['id', 'name'])
             : collect();
 
-        return Inertia::render('Admin/Blogs/Index', [
+        return Inertia::render('admin/blogs/index', [
             'blogs' => $blogs,
             'villages' => $villages,
             'filters' => $request->only('search', 'status', 'village_id'),
@@ -57,7 +57,7 @@ class AdminBlogController extends Controller
             ? Village::orderBy('name')->get(['id', 'name'])
             : collect([['id' => $user->village_id, 'name' => $user->village?->name]]);
 
-        return Inertia::render('Admin/Blogs/Form', [
+        return Inertia::render('admin/blogs/form', [
             'blog' => null,
             'villages' => $villages,
             'isAdmin' => $isAdmin,
@@ -107,7 +107,7 @@ class AdminBlogController extends Controller
             ? Village::orderBy('name')->get(['id', 'name'])
             : collect([['id' => $user->village_id, 'name' => $user->village?->name]]);
 
-        return Inertia::render('Admin/Blogs/Form', [
+        return Inertia::render('admin/blogs/form', [
             'blog' => $blog,
             'villages' => $villages,
             'isAdmin' => $isAdmin,

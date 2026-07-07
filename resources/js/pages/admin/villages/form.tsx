@@ -1,6 +1,6 @@
 import { Head, router, useForm } from '@inertiajs/react';
-import { EditorContent, useEditor } from '@tiptap/react';
 import Placeholder from '@tiptap/extension-placeholder';
+import { EditorContent, useEditor } from '@tiptap/react';
 import StarterKit from '@tiptap/starter-kit';
 import { Loader2, MapPin, Save } from 'lucide-react';
 import { useCallback } from 'react';
@@ -8,7 +8,6 @@ import { z } from 'zod';
 import { EditorToolbar } from '@/components/admin/editor-toolbar';
 import { ImageUploader } from '@/components/admin/image-uploader';
 import { MapPicker } from '@/components/admin/map-picker';
-import AppLayout from '@/layouts/app-layout';
 import { Button } from '@/components/ui/button';
 import {
     Card,
@@ -26,6 +25,7 @@ import {
     SelectTrigger,
     SelectValue,
 } from '@/components/ui/select';
+import AppLayout from '@/layouts/app-layout';
 import type { BreadcrumbItem, Village } from '@/types';
 
 // ── Zod Schema ────────────────────────────────────────────────────────────────
@@ -126,19 +126,27 @@ export default function VillageForm({ village, isAdmin }: Props) {
             result.error.issues.forEach((err) => {
                 setError(err.path[0] as keyof typeof errors, err.message);
             });
+
             return false;
         }
 
         clearErrors();
+
         return true;
     };
 
     const submit = (e: React.FormEvent, publishNow = false) => {
         e.preventDefault();
-        if (!validate()) return;
+
+        if (!validate()) {
+return;
+}
 
         const finalData = { ...data };
-        if (publishNow) finalData.status = 'published';
+
+        if (publishNow) {
+finalData.status = 'published';
+}
 
         if (isEditing) {
             router.post(
@@ -507,5 +515,6 @@ VillageForm.layout = (page: React.ReactNode & { props: Props }) => {
             href: '#',
         },
     ];
+
     return <AppLayout breadcrumbs={breadcrumbs}>{page}</AppLayout>;
 };

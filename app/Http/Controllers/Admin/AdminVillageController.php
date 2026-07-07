@@ -31,7 +31,7 @@ class AdminVillageController extends Controller
             $recentEvents = $village->events()->latest()->take(5)->get(['id', 'title', 'slug', 'start_date', 'start_time', 'status', 'ticket_price']);
             $recentBlogs = $village->blogs()->latest()->take(5)->get(['id', 'title', 'slug', 'status', 'views_count', 'created_at']);
 
-            return Inertia::render('Admin/Villages/Show', [
+            return Inertia::render('admin/villages/show', [
                 'village' => $village,
                 'recentDestinations' => $recentDestinations,
                 'recentEvents' => $recentEvents,
@@ -46,7 +46,7 @@ class AdminVillageController extends Controller
 
         $villages = $query->latest()->paginate(15)->withQueryString();
 
-        return Inertia::render('Admin/Villages/Index', [
+        return Inertia::render('admin/villages/index', [
             'villages' => $villages,
             'filters' => $request->only('search', 'status'),
             'isAdmin' => true,
@@ -57,7 +57,7 @@ class AdminVillageController extends Controller
     {
         $this->authorize('create', Village::class);
 
-        return Inertia::render('Admin/Villages/Form', [
+        return Inertia::render('admin/villages/form', [
             'village' => null,
             'isAdmin' => request()->user()->role === UserRole::Admin,
         ]);
@@ -90,7 +90,7 @@ class AdminVillageController extends Controller
         $recentEvents = $village->events()->latest()->take(5)->get(['id', 'title', 'slug', 'start_date', 'start_time', 'status', 'ticket_price']);
         $recentBlogs = $village->blogs()->latest()->take(5)->get(['id', 'title', 'slug', 'status', 'views_count', 'created_at']);
 
-        return Inertia::render('Admin/Villages/Show', [
+        return Inertia::render('admin/villages/show', [
             'village' => $village,
             'recentDestinations' => $recentDestinations,
             'recentEvents' => $recentEvents,
@@ -105,7 +105,7 @@ class AdminVillageController extends Controller
 
         $village->load(['media' => fn ($q) => $q->orderByDesc('is_primary')]);
 
-        return Inertia::render('Admin/Villages/Form', [
+        return Inertia::render('admin/villages/form', [
             'village' => $village,
             'isAdmin' => request()->user()->role === UserRole::Admin,
         ]);

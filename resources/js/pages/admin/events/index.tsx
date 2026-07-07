@@ -1,7 +1,7 @@
 import { Head, Link, router } from '@inertiajs/react';
-import { Edit, Eye, MapPin, Plus, Search, Trash2 } from 'lucide-react';
+import { Calendar, Edit, Eye, Plus, Search, Trash2 } from 'lucide-react';
 import { useCallback, useState } from 'react';
-import AppLayout from '@/layouts/app-layout';
+import { DatePicker } from '@/components/admin/date-picker';
 import {
     AlertDialog,
     AlertDialogAction,
@@ -39,61 +39,51 @@ import {
     TableHeader,
     TableRow,
 } from '@/components/ui/table';
-import type {
-    BreadcrumbItem,
-    Destination,
-    PaginatedData,
-    Village,
-} from '@/types';
+import AppLayout from '@/layouts/app-layout';
+import type { BreadcrumbItem, Event, PaginatedData, Village } from '@/types';
 
 const breadcrumbs: BreadcrumbItem[] = [
     { title: 'Dashboard', href: '/admin/dashboard' },
-    { title: 'Destinasi', href: '/admin/destinations' },
+    { title: 'Event', href: '/admin/events' },
 ];
 
-const CATEGORY_LABELS: Record<string, string> = {
-    alam: 'Wisata Alam',
-    budaya: 'Wisata Budaya',
-    buatan: 'Wisata Buatan',
-};
-
-const CATEGORY_COLORS: Record<string, string> = {
-    alam: 'bg-emerald-100 text-emerald-800 border-0',
-    budaya: 'bg-amber-100 text-amber-800 border-0',
-    buatan: 'bg-blue-100 text-blue-800 border-0',
-};
-
 type Props = {
-    destinations: PaginatedData<
-        Destination & {
-            primary_media?: { file_path: string } | null;
-            village?: { id: number; name: string } | null;
-        }
+    events: PaginatedData<
+        Event & { primary_media?: { file_path: string } | null }
     >;
     villages: Pick<Village, 'id' | 'name'>[];
     filters: {
         search?: string;
         status?: string;
-        category?: string;
         village_id?: string;
+        date_from?: string;
+        date_to?: string;
     };
     isAdmin: boolean;
 };
 
-export default function DestinationsIndex({
-    destinations,
+function formatDate(dateStr: string) {
+    return new Date(dateStr).toLocaleDateString('id-ID', {
+        day: 'numeric',
+        month: 'short',
+        year: 'numeric',
+    });
+}
+
+export default function EventsIndex({
+    events,
     villages,
     filters,
     isAdmin,
 }: Props) {
     const [search, setSearch] = useState(filters.search ?? '');
-    const [destToDelete, setDestToDelete] = useState<Destination | null>(null);
-    const [destToView, setDestToView] = useState<Destination | null>(null);
+    const [eventToDelete, setEventToDelete] = useState<Event | null>(null);
+    const [eventToView, setEventToView] = useState<Event | null>(null);
 
     const applyFilter = useCallback(
         (params: Record<string, string>) => {
             router.get(
-                '/admin/destinations',
+                '/admin/events',
                 { ...filters, ...params },
                 { preserveState: true, replace: true },
             );
@@ -106,47 +96,45 @@ export default function DestinationsIndex({
         applyFilter({ search });
     };
 
-    const toggleStatus = (destination: Destination) => {
-        const newStatus =
-            destination.status === 'published' ? 'draft' : 'published';
+    const toggleStatus = (event: Event) => {
+        const newStatus = event.status === 'published' ? 'draft' : 'published';
         router.patch(
-            `/admin/destinations/${destination.slug}/status`,
+            `/admin/events/${event.slug}/status`,
             { status: newStatus },
             { preserveScroll: true },
         );
     };
 
     const confirmDelete = () => {
-        if (destToDelete) {
-            router.delete(`/admin/destinations/${destToDelete.slug}`, {
+        if (eventToDelete) {
+            router.delete(`/admin/events/${eventToDelete.slug}`, {
                 preserveScroll: true,
-                onSuccess: () => setDestToDelete(null),
+                onSuccess: () => setEventToDelete(null),
             });
         }
     };
 
     return (
         <>
-            <Head title="Manajemen Destinasi" />
+            <Head title="Manajemen Event" />
 
             <div className="flex flex-col gap-6 p-6">
-                {/* Header */}
                 <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
                     <div>
                         <h1 className="font-display text-2xl font-semibold text-[oklch(0.24_0.05_145)]">
-                            Manajemen Destinasi
+                            Manajemen Event
                         </h1>
                         <p className="mt-1 text-sm text-[oklch(0.48_0.01_85)]">
-                            {destinations.total} destinasi terdaftar
+                            {events.total} event terdaftar
                         </p>
                     </div>
                     <Button
                         asChild
                         className="bg-[oklch(0.38_0.08_145)] hover:bg-[oklch(0.24_0.05_145)]"
                     >
-                        <Link href="/admin/destinations/create">
+                        <Link href="/admin/events/create">
                             <Plus className="mr-2 h-4 w-4" />
-                            Tambah Destinasi
+                            Tambah Event
                         </Link>
                     </Button>
                 </div>
@@ -161,7 +149,7 @@ export default function DestinationsIndex({
                             <div className="relative flex-1">
                                 <Search className="absolute top-1/2 left-3 h-4 w-4 -translate-y-1/2 text-[oklch(0.48_0.01_85)]" />
                                 <Input
-                                    placeholder="Cari nama destinasi..."
+                                    placeholder="Cari judul event..."
                                     value={search}
                                     onChange={(e) => setSearch(e.target.value)}
                                     className="pl-9"
@@ -192,30 +180,29 @@ export default function DestinationsIndex({
                             </SelectContent>
                         </Select>
 
-                        <Select
-                            value={filters.category || 'all'}
-                            onValueChange={(v) =>
-                                applyFilter({ category: v === 'all' ? '' : v })
-                            }
-                        >
-                            <SelectTrigger className="w-[160px]">
-                                <SelectValue placeholder="Kategori" />
-                            </SelectTrigger>
-                            <SelectContent>
-                                <SelectItem value="all">
-                                    Semua Kategori
-                                </SelectItem>
-                                <SelectItem value="alam">
-                                    Wisata Alam
-                                </SelectItem>
-                                <SelectItem value="budaya">
-                                    Wisata Budaya
-                                </SelectItem>
-                                <SelectItem value="buatan">
-                                    Wisata Buatan
-                                </SelectItem>
-                            </SelectContent>
-                        </Select>
+                        <div className="flex items-center gap-2">
+                            <div className="w-[145px]">
+                                <DatePicker
+                                    value={filters.date_from ?? ''}
+                                    onChange={(date) =>
+                                        applyFilter({ date_from: date })
+                                    }
+                                    placeholder="Dari tgl"
+                                />
+                            </div>
+                            <span className="text-sm text-[oklch(0.48_0.01_85)]">
+                                –
+                            </span>
+                            <div className="w-[145px]">
+                                <DatePicker
+                                    value={filters.date_to ?? ''}
+                                    onChange={(date) =>
+                                        applyFilter({ date_to: date })
+                                    }
+                                    placeholder="Sampai tgl"
+                                />
+                            </div>
+                        </div>
 
                         {isAdmin && (
                             <Select
@@ -251,16 +238,18 @@ export default function DestinationsIndex({
                 <Card className="border-[oklch(0.22_0.01_85/8%)] shadow-none">
                     <CardHeader className="pb-0">
                         <CardTitle className="font-display text-base text-[oklch(0.24_0.05_145)]">
-                            Daftar Destinasi
+                            Daftar Event
                         </CardTitle>
                     </CardHeader>
                     <CardContent className="p-0">
                         <Table>
                             <TableHeader>
                                 <TableRow className="border-[oklch(0.22_0.01_85/8%)] hover:bg-transparent">
-                                    <TableHead className="pl-6">Nama</TableHead>
-                                    <TableHead>Kategori</TableHead>
+                                    <TableHead className="pl-6">
+                                        Judul Event
+                                    </TableHead>
                                     {isAdmin && <TableHead>Desa</TableHead>}
+                                    <TableHead>Tgl Mulai</TableHead>
                                     <TableHead>Harga</TableHead>
                                     <TableHead>Status</TableHead>
                                     {isAdmin && <TableHead>Terbit?</TableHead>}
@@ -270,69 +259,66 @@ export default function DestinationsIndex({
                                 </TableRow>
                             </TableHeader>
                             <TableBody>
-                                {destinations.data.length === 0 ? (
+                                {events.data.length === 0 ? (
                                     <TableRow>
                                         <TableCell
                                             colSpan={isAdmin ? 7 : 5}
                                             className="py-12 text-center text-[oklch(0.48_0.01_85)]"
                                         >
-                                            Tidak ada destinasi ditemukan.
+                                            Tidak ada event ditemukan.
                                         </TableCell>
                                     </TableRow>
                                 ) : (
-                                    destinations.data.map((dest) => (
+                                    events.data.map((event) => (
                                         <TableRow
-                                            key={dest.id}
+                                            key={event.id}
                                             className="border-[oklch(0.22_0.01_85/8%)] transition-colors hover:bg-[oklch(0.97_0.01_85)]"
                                         >
                                             <TableCell className="pl-6">
                                                 <div className="flex items-center gap-3">
-                                                    {dest.primary_media ? (
+                                                    {event.primary_media ? (
                                                         <img
-                                                            src={`/storage/${dest.primary_media.file_path}`}
-                                                            alt={dest.name}
+                                                            src={`/storage/${event.primary_media.file_path}`}
+                                                            alt={event.title}
                                                             className="h-9 w-9 rounded-lg object-cover"
                                                         />
                                                     ) : (
                                                         <div className="flex h-9 w-9 items-center justify-center rounded-lg bg-[oklch(0.92_0.02_145)]">
-                                                            <MapPin className="h-4 w-4 text-[oklch(0.38_0.08_145)]" />
+                                                            <Calendar className="h-4 w-4 text-[oklch(0.38_0.08_145)]" />
                                                         </div>
                                                     )}
                                                     <div>
                                                         <p className="font-medium text-[oklch(0.22_0.01_85)]">
-                                                            {dest.name}
+                                                            {event.title}
                                                         </p>
                                                         <p className="text-xs text-[oklch(0.48_0.01_85)]">
-                                                            /{dest.slug}
+                                                            /{event.slug}
                                                         </p>
                                                     </div>
                                                 </div>
                                             </TableCell>
-                                            <TableCell>
-                                                <Badge
-                                                    className={
-                                                        CATEGORY_COLORS[
-                                                            dest.category
-                                                        ] ?? ''
-                                                    }
-                                                >
-                                                    {CATEGORY_LABELS[
-                                                        dest.category
-                                                    ] ?? dest.category}
-                                                </Badge>
-                                            </TableCell>
                                             {isAdmin && (
                                                 <TableCell className="text-sm text-[oklch(0.48_0.01_85)]">
-                                                    {dest.village?.name ?? '—'}
+                                                    {event.village?.name ?? '—'}
                                                 </TableCell>
                                             )}
                                             <TableCell className="text-sm text-[oklch(0.48_0.01_85)]">
-                                                {Number(dest.ticket_price) === 0
+                                                {formatDate(event.start_date)}
+                                                {event.start_time && (
+                                                    <span className="ml-1 text-xs">
+                                                        {event.start_time}
+                                                    </span>
+                                                )}
+                                            </TableCell>
+                                            <TableCell className="text-sm text-[oklch(0.48_0.01_85)]">
+                                                {Number(event.ticket_price) ===
+                                                0
                                                     ? 'Gratis'
-                                                    : `Rp ${Number(dest.ticket_price).toLocaleString('id-ID')}`}
+                                                    : `Rp ${Number(event.ticket_price).toLocaleString('id-ID')}`}
                                             </TableCell>
                                             <TableCell>
-                                                {dest.status === 'published' ? (
+                                                {event.status ===
+                                                'published' ? (
                                                     <Badge className="border-0 bg-[oklch(0.92_0.02_145)] text-[oklch(0.24_0.05_145)] hover:bg-[oklch(0.92_0.02_145)]">
                                                         Terbit
                                                     </Badge>
@@ -346,13 +332,13 @@ export default function DestinationsIndex({
                                                 <TableCell>
                                                     <Switch
                                                         checked={
-                                                            dest.status ===
+                                                            event.status ===
                                                             'published'
                                                         }
                                                         onCheckedChange={() =>
-                                                            toggleStatus(dest)
+                                                            toggleStatus(event)
                                                         }
-                                                        aria-label={`Toggle status ${dest.name}`}
+                                                        aria-label={`Toggle status ${event.title}`}
                                                     />
                                                 </TableCell>
                                             )}
@@ -362,7 +348,9 @@ export default function DestinationsIndex({
                                                         variant="ghost"
                                                         size="icon"
                                                         onClick={() =>
-                                                            setDestToView(dest)
+                                                            setEventToView(
+                                                                event,
+                                                            )
                                                         }
                                                         title="Lihat Detail"
                                                     >
@@ -374,7 +362,7 @@ export default function DestinationsIndex({
                                                         asChild
                                                     >
                                                         <Link
-                                                            href={`/admin/destinations/${dest.slug}/edit`}
+                                                            href={`/admin/events/${event.slug}/edit`}
                                                             title="Edit"
                                                         >
                                                             <Edit className="h-4 w-4" />
@@ -385,8 +373,8 @@ export default function DestinationsIndex({
                                                         size="icon"
                                                         className="text-destructive hover:bg-destructive/10 hover:text-destructive"
                                                         onClick={() =>
-                                                            setDestToDelete(
-                                                                dest,
+                                                            setEventToDelete(
+                                                                event,
                                                             )
                                                         }
                                                         title="Hapus"
@@ -401,15 +389,14 @@ export default function DestinationsIndex({
                             </TableBody>
                         </Table>
 
-                        {/* Pagination */}
-                        {destinations.last_page > 1 && (
+                        {events.last_page > 1 && (
                             <div className="flex items-center justify-between border-t border-[oklch(0.22_0.01_85/8%)] px-6 py-4">
                                 <p className="text-sm text-[oklch(0.48_0.01_85)]">
-                                    {destinations.from}–{destinations.to} dari{' '}
-                                    {destinations.total}
+                                    {events.from}–{events.to} dari{' '}
+                                    {events.total}
                                 </p>
                                 <div className="flex gap-2">
-                                    {destinations.links.map((link, i) => (
+                                    {events.links.map((link, i) => (
                                         <Button
                                             key={i}
                                             variant={
@@ -440,91 +427,81 @@ export default function DestinationsIndex({
 
                 {/* Dialog Detail View */}
                 <Dialog
-                    open={!!destToView}
-                    onOpenChange={(o) => !o && setDestToView(null)}
+                    open={!!eventToView}
+                    onOpenChange={(o) => !o && setEventToView(null)}
                 >
                     <DialogContent className="max-w-xl">
                         <DialogHeader>
-                            <DialogTitle>{destToView?.name}</DialogTitle>
+                            <DialogTitle>{eventToView?.title}</DialogTitle>
                             <DialogDescription>
-                                Detail informasi destinasi
+                                Detail informasi event
                             </DialogDescription>
                         </DialogHeader>
-                        {destToView && (
+                        {eventToView && (
                             <div className="grid gap-4 py-4">
                                 <div className="grid grid-cols-4 items-center gap-4">
                                     <span className="text-right text-sm font-medium text-[oklch(0.48_0.01_85)]">
-                                        Kategori
+                                        Mulai
                                     </span>
                                     <span className="col-span-3 text-sm">
-                                        {CATEGORY_LABELS[destToView.category] ??
-                                            destToView.category}
+                                        {formatDate(eventToView.start_date)}{' '}
+                                        {eventToView.start_time}
                                     </span>
                                 </div>
+                                {eventToView.end_date && (
+                                    <div className="grid grid-cols-4 items-center gap-4">
+                                        <span className="text-right text-sm font-medium text-[oklch(0.48_0.01_85)]">
+                                            Selesai
+                                        </span>
+                                        <span className="col-span-3 text-sm">
+                                            {formatDate(eventToView.end_date)}{' '}
+                                            {eventToView.end_time}
+                                        </span>
+                                    </div>
+                                )}
                                 <div className="grid grid-cols-4 items-center gap-4">
                                     <span className="text-right text-sm font-medium text-[oklch(0.48_0.01_85)]">
+                                        Harga Tiket
+                                    </span>
+                                    <span className="col-span-3 text-sm">
+                                        {Number(eventToView.ticket_price) === 0
+                                            ? 'Gratis'
+                                            : `Rp ${Number(eventToView.ticket_price).toLocaleString('id-ID')}`}
+                                    </span>
+                                </div>
+                                <div className="grid grid-cols-4 items-start gap-4">
+                                    <span className="mt-1 text-right text-sm font-medium text-[oklch(0.48_0.01_85)]">
                                         Desa
                                     </span>
                                     <span className="col-span-3 text-sm">
-                                        {destToView.village?.name ?? '—'}
+                                        {eventToView.village?.name || '—'}
                                     </span>
                                 </div>
                                 <div className="grid grid-cols-4 items-start gap-4">
                                     <span className="mt-1 text-right text-sm font-medium text-[oklch(0.48_0.01_85)]">
-                                        Harga Tiket
-                                    </span>
-                                    <span className="col-span-3 flex flex-col gap-1 text-sm">
-                                        {Number(destToView.ticket_price) === 0
-                                            ? 'Gratis'
-                                            : `Rp ${Number(destToView.ticket_price).toLocaleString('id-ID')}`}
-                                        {destToView.ticket_info && (
-                                            <span className="text-xs text-muted-foreground">
-                                                {destToView.ticket_info}
-                                            </span>
-                                        )}
-                                    </span>
-                                </div>
-                                <div className="grid grid-cols-4 items-start gap-4">
-                                    <span className="mt-1 text-right text-sm font-medium text-[oklch(0.48_0.01_85)]">
-                                        Jam Operasional
+                                        Penyelenggara
                                     </span>
                                     <span className="col-span-3 text-sm">
-                                        {destToView.open_time &&
-                                        destToView.close_time
-                                            ? `${destToView.open_time} - ${destToView.close_time}`
-                                            : '—'}
+                                        {eventToView.organizer || '—'}
                                     </span>
                                 </div>
                                 <div className="grid grid-cols-4 items-start gap-4">
                                     <span className="mt-1 text-right text-sm font-medium text-[oklch(0.48_0.01_85)]">
-                                        Hari Operasional
+                                        Kontak Person
                                     </span>
                                     <span className="col-span-3 text-sm">
-                                        {destToView.operational_days || '—'}
+                                        {eventToView.contact_person || '—'}
                                     </span>
                                 </div>
                                 <div className="grid grid-cols-4 items-start gap-4">
                                     <span className="mt-1 text-right text-sm font-medium text-[oklch(0.48_0.01_85)]">
-                                        Fasilitas
+                                        Instagram
                                     </span>
-                                    <span className="col-span-3 flex flex-wrap gap-1 text-sm">
-                                        {destToView.facilities &&
-                                        destToView.facilities.length > 0
-                                            ? destToView.facilities.map(
-                                                  (f, i) => (
-                                                      <Badge
-                                                          key={i}
-                                                          variant="outline"
-                                                          className="text-xs font-normal"
-                                                      >
-                                                          {f}
-                                                      </Badge>
-                                                  ),
-                                              )
-                                            : '—'}
+                                    <span className="col-span-3 text-sm">
+                                        {eventToView.instagram || '—'}
                                     </span>
                                 </div>
-                                {destToView.description && (
+                                {eventToView.description && (
                                     <div className="mt-2 grid grid-cols-4 items-start gap-4 border-t border-[oklch(0.22_0.01_85/8%)] pt-4">
                                         <span className="mt-1 text-right text-sm font-medium text-[oklch(0.48_0.01_85)]">
                                             Deskripsi
@@ -532,7 +509,7 @@ export default function DestinationsIndex({
                                         <div
                                             className="prose prose-sm col-span-3 line-clamp-6 max-w-none text-sm text-[oklch(0.22_0.01_85)]"
                                             dangerouslySetInnerHTML={{
-                                                __html: destToView.description,
+                                                __html: eventToView.description,
                                             }}
                                         />
                                     </div>
@@ -544,8 +521,8 @@ export default function DestinationsIndex({
 
                 {/* Dialog Delete Confirm */}
                 <AlertDialog
-                    open={!!destToDelete}
-                    onOpenChange={(o) => !o && setDestToDelete(null)}
+                    open={!!eventToDelete}
+                    onOpenChange={(o) => !o && setEventToDelete(null)}
                 >
                     <AlertDialogContent>
                         <AlertDialogHeader>
@@ -553,10 +530,10 @@ export default function DestinationsIndex({
                                 Apakah Anda yakin?
                             </AlertDialogTitle>
                             <AlertDialogDescription>
-                                Anda akan menghapus destinasi{' '}
-                                <strong>{destToDelete?.name}</strong>. Data yang
-                                sudah dihapus akan masuk ke keranjang sampah
-                                (soft delete).
+                                Anda akan menghapus event{' '}
+                                <strong>{eventToDelete?.title}</strong>. Data
+                                yang sudah dihapus akan masuk ke keranjang
+                                sampah (soft delete).
                             </AlertDialogDescription>
                         </AlertDialogHeader>
                         <AlertDialogFooter>
@@ -575,6 +552,6 @@ export default function DestinationsIndex({
     );
 }
 
-DestinationsIndex.layout = (page: React.ReactNode) => (
+EventsIndex.layout = (page: React.ReactNode) => (
     <AppLayout breadcrumbs={breadcrumbs}>{page}</AppLayout>
 );

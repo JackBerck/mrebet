@@ -1,7 +1,6 @@
 import { Head, Link, router } from '@inertiajs/react';
 import { Edit, Eye, FileText, Plus, Search, Trash2 } from 'lucide-react';
 import { useCallback, useState } from 'react';
-import AppLayout from '@/layouts/app-layout';
 import {
     AlertDialog,
     AlertDialogAction,
@@ -39,6 +38,7 @@ import {
     TableHeader,
     TableRow,
 } from '@/components/ui/table';
+import AppLayout from '@/layouts/app-layout';
 import type { Blog, BreadcrumbItem, PaginatedData, Village } from '@/types';
 
 const breadcrumbs: BreadcrumbItem[] = [

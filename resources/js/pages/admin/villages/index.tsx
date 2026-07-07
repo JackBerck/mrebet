@@ -1,7 +1,6 @@
 import { Head, Link, router } from '@inertiajs/react';
 import { Edit, Plus, Search, Trash2, Eye } from 'lucide-react';
 import { useCallback, useState } from 'react';
-import AppLayout from '@/layouts/app-layout';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
@@ -22,6 +21,7 @@ import {
     TableHeader,
     TableRow,
 } from '@/components/ui/table';
+import AppLayout from '@/layouts/app-layout';
 import type { BreadcrumbItem, PaginatedData, Village } from '@/types';
 
 const breadcrumbs: BreadcrumbItem[] = [

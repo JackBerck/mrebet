@@ -1,13 +1,12 @@
 import { Head, router, useForm } from '@inertiajs/react';
-import { EditorContent, useEditor } from '@tiptap/react';
 import Placeholder from '@tiptap/extension-placeholder';
+import { EditorContent, useEditor } from '@tiptap/react';
 import StarterKit from '@tiptap/starter-kit';
 import { ImageIcon, Loader2, Save, X } from 'lucide-react';
 import { useCallback, useRef, useState } from 'react';
 import { toast } from 'sonner';
 import { z } from 'zod';
 import { EditorToolbar } from '@/components/admin/editor-toolbar';
-import AppLayout from '@/layouts/app-layout';
 import { Button } from '@/components/ui/button';
 import {
     Card,
@@ -25,6 +24,7 @@ import {
     SelectTrigger,
     SelectValue,
 } from '@/components/ui/select';
+import AppLayout from '@/layouts/app-layout';
 import type { Blog, BreadcrumbItem, Village } from '@/types';
 
 // ── Zod Schema ────────────────────────────────────────────────────────────────
@@ -53,8 +53,15 @@ function CoverPreview({
 
     const handleFile = (e: React.ChangeEvent<HTMLInputElement>) => {
         const file = e.target.files?.[0] ?? null;
-        if (!file) return;
-        if (previewUrl) URL.revokeObjectURL(previewUrl);
+
+        if (!file) {
+return;
+}
+
+        if (previewUrl) {
+URL.revokeObjectURL(previewUrl);
+}
+
         setPreviewUrl(URL.createObjectURL(file));
         setRemoved(false);
         onFileSelect(file);
@@ -69,7 +76,10 @@ function CoverPreview({
             setRemoved(true);
             onRemoveExisting();
         }
-        if (inputRef.current) inputRef.current.value = '';
+
+        if (inputRef.current) {
+inputRef.current.value = '';
+}
     };
 
     const displayUrl =
@@ -184,6 +194,7 @@ export default function BlogForm({ blog, villages, isAdmin }: Props) {
             toast.error(
                 'Mohon periksa kembali isian form yang ditandai merah.',
             );
+
             return false;
         }
 
@@ -193,19 +204,27 @@ export default function BlogForm({ blog, villages, isAdmin }: Props) {
                 'Konten artikel wajib diisi.',
             );
             toast.error('Konten artikel wajib diisi.');
+
             return false;
         }
 
         clearErrors();
+
         return true;
     };
 
     const submit = (e: React.FormEvent, publishNow = false) => {
         e.preventDefault();
-        if (!validate()) return;
+
+        if (!validate()) {
+return;
+}
 
         const finalData = { ...data };
-        if (publishNow) finalData.status = 'published';
+
+        if (publishNow) {
+finalData.status = 'published';
+}
 
         const options = {
             forceFormData: true,
@@ -493,5 +512,6 @@ BlogForm.layout = (page: React.ReactNode & { props: Props }) => {
         { title: 'Blog', href: '/admin/blogs' },
         { title: blog ? `Edit: ${blog.title}` : 'Tulis Artikel', href: '#' },
     ];
+
     return <AppLayout breadcrumbs={breadcrumbs}>{page}</AppLayout>;
 };

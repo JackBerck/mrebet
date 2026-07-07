@@ -1,4 +1,4 @@
-import { useEditor } from '@tiptap/react';
+import type { useEditor } from '@tiptap/react';
 import {
     Bold,
     Heading2,
@@ -18,7 +18,9 @@ interface EditorToolbarProps {
 }
 
 export function EditorToolbar({ editor }: EditorToolbarProps) {
-    if (!editor) return null;
+    if (!editor) {
+return null;
+}
 
     const btn = (active: boolean) =>
         `rounded p-1.5 transition-colors ${active ? 'bg-[oklch(0.92_0.02_145)] text-[oklch(0.24_0.05_145)]' : 'text-[oklch(0.48_0.01_85)] hover:bg-[oklch(0.97_0.01_85)]'}`;

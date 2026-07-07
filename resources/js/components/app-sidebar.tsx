@@ -22,7 +22,9 @@ import {
 import type { NavItem, User } from '@/types';
 
 function getAdminNavItems(user: User | null | undefined): NavItem[] {
-    if (!user) return [];
+    if (!user) {
+return [];
+}
 
     const base: NavItem[] = [
         {

@@ -1,6 +1,6 @@
 import { Link, usePage } from '@inertiajs/react';
-import { useEffect, useState } from 'react';
 import { Menu, X } from 'lucide-react';
+import { useEffect, useState } from 'react';
 import { home } from '@/routes';
 
 const navLinks = [
@@ -21,6 +21,7 @@ export default function PublicNavbar() {
     useEffect(() => {
         const handleScroll = () => setScrolled(window.scrollY > 48);
         window.addEventListener('scroll', handleScroll, { passive: true });
+
         return () => window.removeEventListener('scroll', handleScroll);
     }, []);
 
@@ -31,6 +32,7 @@ export default function PublicNavbar() {
         } else {
             document.body.style.overflow = '';
         }
+
         return () => {
             document.body.style.overflow = '';
         };

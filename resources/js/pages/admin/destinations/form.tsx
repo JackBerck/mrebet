@@ -1,6 +1,6 @@
 import { Head, router, useForm } from '@inertiajs/react';
-import { EditorContent, useEditor } from '@tiptap/react';
 import Placeholder from '@tiptap/extension-placeholder';
+import { EditorContent, useEditor } from '@tiptap/react';
 import StarterKit from '@tiptap/starter-kit';
 import { Loader2, MapPin, Save } from 'lucide-react';
 import { useCallback } from 'react';
@@ -9,7 +9,6 @@ import { z } from 'zod';
 import { EditorToolbar } from '@/components/admin/editor-toolbar';
 import { ImageUploader } from '@/components/admin/image-uploader';
 import { MapPicker } from '@/components/admin/map-picker';
-import AppLayout from '@/layouts/app-layout';
 import { Button } from '@/components/ui/button';
 import {
     Card,
@@ -30,6 +29,7 @@ import {
 } from '@/components/ui/select';
 import { Switch } from '@/components/ui/switch';
 import { TimePicker } from '@/components/ui/time-picker';
+import AppLayout from '@/layouts/app-layout';
 import type { BreadcrumbItem, Destination, Village } from '@/types';
 
 // ── Constants ─────────────────────────────────────────────────────────────────
@@ -165,19 +165,27 @@ export default function DestinationForm({
             toast.error(
                 'Mohon periksa kembali isian form yang ditandai merah.',
             );
+
             return false;
         }
 
         clearErrors();
+
         return true;
     };
 
     const submit = (e: React.FormEvent, publishNow = false) => {
         e.preventDefault();
-        if (!validate()) return;
+
+        if (!validate()) {
+return;
+}
 
         const finalData = { ...data };
-        if (publishNow) finalData.status = 'published';
+
+        if (publishNow) {
+finalData.status = 'published';
+}
 
         const options = {
             forceFormData: true,
@@ -750,5 +758,6 @@ DestinationForm.layout = (page: React.ReactNode & { props: Props }) => {
             href: '#',
         },
     ];
+
     return <AppLayout breadcrumbs={breadcrumbs}>{page}</AppLayout>;
 };

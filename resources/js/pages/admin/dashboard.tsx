@@ -7,7 +7,6 @@ import {
     Plus,
     TrendingUp,
 } from 'lucide-react';
-import AppLayout from '@/layouts/app-layout';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import {
@@ -17,6 +16,7 @@ import {
     CardHeader,
     CardTitle,
 } from '@/components/ui/card';
+import AppLayout from '@/layouts/app-layout';
 import type { BreadcrumbItem, Event, Village } from '@/types';
 
 const breadcrumbs: BreadcrumbItem[] = [

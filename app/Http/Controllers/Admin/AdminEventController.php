@@ -41,7 +41,7 @@ class AdminEventController extends Controller
             ? Village::orderBy('name')->get(['id', 'name'])
             : collect();
 
-        return Inertia::render('Admin/Events/Index', [
+        return Inertia::render('admin/events/index', [
             'events' => $events,
             'villages' => $villages,
             'filters' => $request->only('search', 'status', 'village_id', 'date_from', 'date_to'),
@@ -68,7 +68,7 @@ class AdminEventController extends Controller
                 ->orderBy('name')
                 ->get(['id', 'name', 'village_id']);
 
-        return Inertia::render('Admin/Events/Form', [
+        return Inertia::render('admin/events/form', [
             'event' => null,
             'villages' => $villages,
             'destinations' => $destinations,
@@ -118,7 +118,7 @@ class AdminEventController extends Controller
             ->orderBy('name')
             ->get(['id', 'name', 'village_id']);
 
-        return Inertia::render('Admin/Events/Form', [
+        return Inertia::render('admin/events/form', [
             'event' => $event,
             'villages' => $villages,
             'destinations' => $destinations,
