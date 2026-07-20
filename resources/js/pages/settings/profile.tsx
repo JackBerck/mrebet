@@ -79,7 +79,7 @@ toast.error(first);
             ? {
                   label: 'Admin',
                   className:
-                      'bg-[oklch(0.92_0.02_145)] text-[oklch(0.24_0.05_145)] border-0',
+                      'bg-(--forest-mist) text-(--forest-deep) border-0',
               }
             : {
                   label: 'Manager',
@@ -104,14 +104,14 @@ toast.error(first);
                         <div className="relative">
                             <Avatar className="h-20 w-20">
                                 <AvatarImage src={avatarSrc} alt={user.name} />
-                                <AvatarFallback className="bg-[oklch(0.92_0.02_145)] text-xl text-[oklch(0.24_0.05_145)]">
+                                <AvatarFallback className="bg-(--forest-mist) text-xl text-(--forest-deep)">
                                     {getInitials(user.name)}
                                 </AvatarFallback>
                             </Avatar>
                             <button
                                 type="button"
                                 onClick={() => fileInputRef.current?.click()}
-                                className="absolute -right-1 -bottom-1 flex h-7 w-7 items-center justify-center rounded-full bg-[oklch(0.38_0.08_145)] text-white shadow-md transition-colors hover:bg-[oklch(0.24_0.05_145)]"
+                                className="absolute -right-1 -bottom-1 flex h-7 w-7 items-center justify-center rounded-full bg-(--forest) text-white shadow-md transition-colors hover:bg-(--forest-deep)"
                                 title="Ganti foto profil"
                             >
                                 <Camera className="h-3.5 w-3.5" />
@@ -132,7 +132,7 @@ toast.error(first);
                             <button
                                 type="button"
                                 onClick={() => fileInputRef.current?.click()}
-                                className="mt-1.5 text-xs text-[oklch(0.38_0.08_145)] hover:underline"
+                                className="mt-1.5 text-xs text-(--forest) hover:underline"
                             >
                                 Ganti foto profil
                             </button>
@@ -175,7 +175,7 @@ toast.error(first);
                         <Button
                             type="submit"
                             disabled={processing}
-                            className="bg-[oklch(0.38_0.08_145)] hover:bg-[oklch(0.24_0.05_145)]"
+                            className="bg-(--forest) hover:bg-(--forest-deep)"
                         >
                             {processing ? 'Menyimpan...' : 'Simpan Perubahan'}
                         </Button>
@@ -206,7 +206,7 @@ toast.error(first);
                                     className="bg-muted/40"
                                 />
                                 {user.email_verified_at ? (
-                                    <Badge className="shrink-0 border-0 bg-[oklch(0.92_0.02_145)] text-xs text-[oklch(0.24_0.05_145)]">
+                                    <Badge className="shrink-0 border-0 bg-(--forest-mist) text-xs text-(--forest-deep)">
                                         Terverifikasi
                                     </Badge>
                                 ) : (

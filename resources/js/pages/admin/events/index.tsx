@@ -1,3 +1,4 @@
+import { parseISO } from 'date-fns';
 import { Head, Link, router } from '@inertiajs/react';
 import { Calendar, Edit, Eye, Plus, Search, Trash2 } from 'lucide-react';
 import { useCallback, useState } from 'react';
@@ -63,7 +64,7 @@ type Props = {
 };
 
 function formatDate(dateStr: string) {
-    return new Date(dateStr).toLocaleDateString('id-ID', {
+    return parseISO(dateStr).toLocaleDateString('id-ID', {
         day: 'numeric',
         month: 'short',
         year: 'numeric',
@@ -121,16 +122,16 @@ export default function EventsIndex({
             <div className="flex flex-col gap-6 p-6">
                 <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
                     <div>
-                        <h1 className="font-display text-2xl font-semibold text-[oklch(0.24_0.05_145)]">
+                        <h1 className="font-display text-2xl font-semibold text-(--forest-deep)">
                             Manajemen Event
                         </h1>
-                        <p className="mt-1 text-sm text-[oklch(0.48_0.01_85)]">
+                        <p className="mt-1 text-sm text-(--charcoal-soft)">
                             {events.total} event terdaftar
                         </p>
                     </div>
                     <Button
                         asChild
-                        className="bg-[oklch(0.38_0.08_145)] hover:bg-[oklch(0.24_0.05_145)]"
+                        className="bg-(--forest) hover:bg-(--forest-deep)"
                     >
                         <Link href="/admin/events/create">
                             <Plus className="mr-2 h-4 w-4" />
@@ -140,14 +141,14 @@ export default function EventsIndex({
                 </div>
 
                 {/* Filter */}
-                <Card className="border-[oklch(0.22_0.01_85/8%)] shadow-none">
+                <Card className="border-(--line) shadow-none">
                     <CardContent className="flex flex-wrap gap-3 pt-4">
                         <form
                             onSubmit={handleSearch}
                             className="flex min-w-48 flex-1 gap-2"
                         >
                             <div className="relative flex-1">
-                                <Search className="absolute top-1/2 left-3 h-4 w-4 -translate-y-1/2 text-[oklch(0.48_0.01_85)]" />
+                                <Search className="absolute top-1/2 left-3 h-4 w-4 -translate-y-1/2 text-(--charcoal-soft)" />
                                 <Input
                                     placeholder="Cari judul event..."
                                     value={search}
@@ -190,7 +191,7 @@ export default function EventsIndex({
                                     placeholder="Dari tgl"
                                 />
                             </div>
-                            <span className="text-sm text-[oklch(0.48_0.01_85)]">
+                            <span className="text-sm text-(--charcoal-soft)">
                                 –
                             </span>
                             <div className="w-[145px]">
@@ -235,16 +236,16 @@ export default function EventsIndex({
                 </Card>
 
                 {/* Table */}
-                <Card className="border-[oklch(0.22_0.01_85/8%)] shadow-none">
+                <Card className="border-(--line) shadow-none">
                     <CardHeader className="pb-0">
-                        <CardTitle className="font-display text-base text-[oklch(0.24_0.05_145)]">
+                        <CardTitle className="font-display text-base text-(--forest-deep)">
                             Daftar Event
                         </CardTitle>
                     </CardHeader>
                     <CardContent className="p-0">
                         <Table>
                             <TableHeader>
-                                <TableRow className="border-[oklch(0.22_0.01_85/8%)] hover:bg-transparent">
+                                <TableRow className="border-(--line) hover:bg-transparent">
                                     <TableHead className="pl-6">
                                         Judul Event
                                     </TableHead>
@@ -263,7 +264,7 @@ export default function EventsIndex({
                                     <TableRow>
                                         <TableCell
                                             colSpan={isAdmin ? 7 : 5}
-                                            className="py-12 text-center text-[oklch(0.48_0.01_85)]"
+                                            className="py-12 text-center text-(--charcoal-soft)"
                                         >
                                             Tidak ada event ditemukan.
                                         </TableCell>
@@ -272,7 +273,7 @@ export default function EventsIndex({
                                     events.data.map((event) => (
                                         <TableRow
                                             key={event.id}
-                                            className="border-[oklch(0.22_0.01_85/8%)] transition-colors hover:bg-[oklch(0.97_0.01_85)]"
+                                            className="border-(--line) transition-colors hover:bg-(--cream-warm)"
                                         >
                                             <TableCell className="pl-6">
                                                 <div className="flex items-center gap-3">
@@ -283,26 +284,26 @@ export default function EventsIndex({
                                                             className="h-9 w-9 rounded-lg object-cover"
                                                         />
                                                     ) : (
-                                                        <div className="flex h-9 w-9 items-center justify-center rounded-lg bg-[oklch(0.92_0.02_145)]">
-                                                            <Calendar className="h-4 w-4 text-[oklch(0.38_0.08_145)]" />
+                                                        <div className="flex h-9 w-9 items-center justify-center rounded-lg bg-(--forest-mist)">
+                                                            <Calendar className="h-4 w-4 text-(--forest)" />
                                                         </div>
                                                     )}
                                                     <div>
                                                         <p className="font-medium text-[oklch(0.22_0.01_85)]">
                                                             {event.title}
                                                         </p>
-                                                        <p className="text-xs text-[oklch(0.48_0.01_85)]">
+                                                        <p className="text-xs text-(--charcoal-soft)">
                                                             /{event.slug}
                                                         </p>
                                                     </div>
                                                 </div>
                                             </TableCell>
                                             {isAdmin && (
-                                                <TableCell className="text-sm text-[oklch(0.48_0.01_85)]">
+                                                <TableCell className="text-sm text-(--charcoal-soft)">
                                                     {event.village?.name ?? '—'}
                                                 </TableCell>
                                             )}
-                                            <TableCell className="text-sm text-[oklch(0.48_0.01_85)]">
+                                            <TableCell className="text-sm text-(--charcoal-soft)">
                                                 {formatDate(event.start_date)}
                                                 {event.start_time && (
                                                     <span className="ml-1 text-xs">
@@ -310,7 +311,7 @@ export default function EventsIndex({
                                                     </span>
                                                 )}
                                             </TableCell>
-                                            <TableCell className="text-sm text-[oklch(0.48_0.01_85)]">
+                                            <TableCell className="text-sm text-(--charcoal-soft)">
                                                 {Number(event.ticket_price) ===
                                                 0
                                                     ? 'Gratis'
@@ -319,7 +320,7 @@ export default function EventsIndex({
                                             <TableCell>
                                                 {event.status ===
                                                 'published' ? (
-                                                    <Badge className="border-0 bg-[oklch(0.92_0.02_145)] text-[oklch(0.24_0.05_145)] hover:bg-[oklch(0.92_0.02_145)]">
+                                                    <Badge className="border-0 bg-(--forest-mist) text-(--forest-deep) hover:bg-(--forest-mist)">
                                                         Terbit
                                                     </Badge>
                                                 ) : (
@@ -390,8 +391,8 @@ export default function EventsIndex({
                         </Table>
 
                         {events.last_page > 1 && (
-                            <div className="flex items-center justify-between border-t border-[oklch(0.22_0.01_85/8%)] px-6 py-4">
-                                <p className="text-sm text-[oklch(0.48_0.01_85)]">
+                            <div className="flex items-center justify-between border-t border-(--line) px-6 py-4">
+                                <p className="text-sm text-(--charcoal-soft)">
                                     {events.from}–{events.to} dari{' '}
                                     {events.total}
                                 </p>
@@ -411,7 +412,7 @@ export default function EventsIndex({
                                             }
                                             className={
                                                 link.active
-                                                    ? 'bg-[oklch(0.38_0.08_145)] hover:bg-[oklch(0.24_0.05_145)]'
+                                                    ? 'bg-(--forest) hover:bg-(--forest-deep)'
                                                     : ''
                                             }
                                             dangerouslySetInnerHTML={{
@@ -440,7 +441,7 @@ export default function EventsIndex({
                         {eventToView && (
                             <div className="grid gap-4 py-4">
                                 <div className="grid grid-cols-4 items-center gap-4">
-                                    <span className="text-right text-sm font-medium text-[oklch(0.48_0.01_85)]">
+                                    <span className="text-right text-sm font-medium text-(--charcoal-soft)">
                                         Mulai
                                     </span>
                                     <span className="col-span-3 text-sm">
@@ -450,7 +451,7 @@ export default function EventsIndex({
                                 </div>
                                 {eventToView.end_date && (
                                     <div className="grid grid-cols-4 items-center gap-4">
-                                        <span className="text-right text-sm font-medium text-[oklch(0.48_0.01_85)]">
+                                        <span className="text-right text-sm font-medium text-(--charcoal-soft)">
                                             Selesai
                                         </span>
                                         <span className="col-span-3 text-sm">
@@ -460,7 +461,7 @@ export default function EventsIndex({
                                     </div>
                                 )}
                                 <div className="grid grid-cols-4 items-center gap-4">
-                                    <span className="text-right text-sm font-medium text-[oklch(0.48_0.01_85)]">
+                                    <span className="text-right text-sm font-medium text-(--charcoal-soft)">
                                         Harga Tiket
                                     </span>
                                     <span className="col-span-3 text-sm">
@@ -470,7 +471,7 @@ export default function EventsIndex({
                                     </span>
                                 </div>
                                 <div className="grid grid-cols-4 items-start gap-4">
-                                    <span className="mt-1 text-right text-sm font-medium text-[oklch(0.48_0.01_85)]">
+                                    <span className="mt-1 text-right text-sm font-medium text-(--charcoal-soft)">
                                         Desa
                                     </span>
                                     <span className="col-span-3 text-sm">
@@ -478,7 +479,7 @@ export default function EventsIndex({
                                     </span>
                                 </div>
                                 <div className="grid grid-cols-4 items-start gap-4">
-                                    <span className="mt-1 text-right text-sm font-medium text-[oklch(0.48_0.01_85)]">
+                                    <span className="mt-1 text-right text-sm font-medium text-(--charcoal-soft)">
                                         Penyelenggara
                                     </span>
                                     <span className="col-span-3 text-sm">
@@ -486,7 +487,7 @@ export default function EventsIndex({
                                     </span>
                                 </div>
                                 <div className="grid grid-cols-4 items-start gap-4">
-                                    <span className="mt-1 text-right text-sm font-medium text-[oklch(0.48_0.01_85)]">
+                                    <span className="mt-1 text-right text-sm font-medium text-(--charcoal-soft)">
                                         Kontak Person
                                     </span>
                                     <span className="col-span-3 text-sm">
@@ -494,7 +495,7 @@ export default function EventsIndex({
                                     </span>
                                 </div>
                                 <div className="grid grid-cols-4 items-start gap-4">
-                                    <span className="mt-1 text-right text-sm font-medium text-[oklch(0.48_0.01_85)]">
+                                    <span className="mt-1 text-right text-sm font-medium text-(--charcoal-soft)">
                                         Instagram
                                     </span>
                                     <span className="col-span-3 text-sm">
@@ -502,8 +503,8 @@ export default function EventsIndex({
                                     </span>
                                 </div>
                                 {eventToView.description && (
-                                    <div className="mt-2 grid grid-cols-4 items-start gap-4 border-t border-[oklch(0.22_0.01_85/8%)] pt-4">
-                                        <span className="mt-1 text-right text-sm font-medium text-[oklch(0.48_0.01_85)]">
+                                    <div className="mt-2 grid grid-cols-4 items-start gap-4 border-t border-(--line) pt-4">
+                                        <span className="mt-1 text-right text-sm font-medium text-(--charcoal-soft)">
                                             Deskripsi
                                         </span>
                                         <div

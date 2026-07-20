@@ -21,6 +21,8 @@ import {
 } from '@/components/ui/sidebar';
 import type { NavItem, User } from '@/types';
 
+import admin from '@/routes/admin';
+
 function getAdminNavItems(user: User | null | undefined): NavItem[] {
     if (!user) {
 return [];
@@ -29,7 +31,7 @@ return [];
     const base: NavItem[] = [
         {
             title: 'Dashboard',
-            href: '/admin/dashboard',
+            href: admin.dashboard().url,
             icon: LayoutDashboard,
         },
     ];
@@ -37,10 +39,10 @@ return [];
     if (user.role === 'admin') {
         return [
             ...base,
-            { title: 'Desa', href: '/admin/villages', icon: MapPin },
-            { title: 'Destinasi', href: '/admin/destinations', icon: Compass },
-            { title: 'Event', href: '/admin/events', icon: CalendarDays },
-            { title: 'Blog', href: '/admin/blogs', icon: FileText },
+            { title: 'Desa', href: admin.villages.index().url, icon: MapPin },
+            { title: 'Destinasi', href: admin.destinations.index().url, icon: Compass },
+            { title: 'Event', href: admin.events.index().url, icon: CalendarDays },
+            { title: 'Blog', href: admin.blogs.index().url, icon: FileText },
             { title: 'Pengguna', href: '/admin/users', icon: Users },
         ];
     }
@@ -53,12 +55,12 @@ return [];
         ...base,
         {
             title: 'Desa Saya',
-            href: '/admin/villages',
+            href: admin.villages.index().url,
             icon: MapPin,
         },
-        { title: 'Destinasi', href: '/admin/destinations', icon: Compass },
-        { title: 'Event', href: '/admin/events', icon: CalendarDays },
-        { title: 'Blog', href: '/admin/blogs', icon: FileText },
+        { title: 'Destinasi', href: admin.destinations.index().url, icon: Compass },
+        { title: 'Event', href: admin.events.index().url, icon: CalendarDays },
+        { title: 'Blog', href: admin.blogs.index().url, icon: FileText },
     ];
 }
 
@@ -73,7 +75,7 @@ export function AppSidebar() {
                 <SidebarMenu>
                     <SidebarMenuItem>
                         <SidebarMenuButton size="lg" asChild>
-                            <Link href="/admin/dashboard" prefetch>
+                            <Link href={admin.dashboard().url} prefetch>
                                 <AppLogo />
                             </Link>
                         </SidebarMenuButton>

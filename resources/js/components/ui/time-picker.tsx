@@ -56,7 +56,7 @@ export function TimePicker({ id, value, onChange, placeholder = 'Pilih Waktu', c
                 </Button>
             </PopoverTrigger>
             <PopoverContent className="w-auto p-0" align="start">
-                <div className="flex divide-x border-b border-[oklch(0.22_0.01_85/8%)] p-2 bg-muted/50">
+                <div className="flex divide-x border-b border-(--line) p-2 bg-muted/50">
                     <div className="w-16 text-center text-xs font-medium text-muted-foreground">Jam</div>
                     <div className="w-16 text-center text-xs font-medium text-muted-foreground">Menit</div>
                 </div>

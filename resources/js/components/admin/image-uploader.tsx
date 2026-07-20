@@ -106,7 +106,7 @@ URL.revokeObjectURL(target.url);
                             title="Klik untuk jadikan foto utama"
                         />
                         {p.is_primary && (
-                            <span className="absolute bottom-1.5 left-1.5 rounded bg-[oklch(0.38_0.08_145)] px-1.5 py-0.5 text-[10px] font-semibold text-white">
+                            <span className="absolute bottom-1.5 left-1.5 rounded bg-(--forest) px-1.5 py-0.5 text-[10px] font-semibold text-white">
                                 Utama
                             </span>
                         )}
@@ -121,7 +121,7 @@ URL.revokeObjectURL(target.url);
                 ))}
 
                 {previews.length < maxFiles && (
-                    <label className="flex h-28 cursor-pointer flex-col items-center justify-center rounded-xl border-2 border-dashed border-[oklch(0.22_0.01_85/15%)] text-[oklch(0.48_0.01_85)] transition-colors hover:border-[oklch(0.38_0.08_145)] hover:bg-[oklch(0.92_0.02_145)/30%]">
+                    <label className="flex h-28 cursor-pointer flex-col items-center justify-center rounded-xl border-2 border-dashed border-(--line) text-(--charcoal-soft) transition-colors hover:border-(--forest) hover:bg-[oklch(0.92_0.02_145)/30%]">
                         <span className="text-2xl">+</span>
                         <span className="mt-1 text-xs">Tambah Foto</span>
                         <input
@@ -134,7 +134,7 @@ URL.revokeObjectURL(target.url);
                     </label>
                 )}
             </div>
-            <p className="text-xs text-[oklch(0.48_0.01_85)]">
+            <p className="text-xs text-(--charcoal-soft)">
                 Klik gambar untuk menjadikan foto utama. Maks {maxFiles} foto, 5
                 MB per file.
             </p>

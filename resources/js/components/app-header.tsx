@@ -38,10 +38,12 @@ type Props = {
     breadcrumbs?: BreadcrumbItem[];
 };
 
+import admin from '@/routes/admin';
+
 const mainNavItems: NavItem[] = [
     {
         title: 'Dashboard',
-        href: '/admin/dashboard',
+        href: admin.dashboard().url,
         icon: LayoutGrid,
     },
 ];
@@ -134,7 +136,7 @@ export function AppHeader({ breadcrumbs = [] }: Props) {
                     </div>
 
                     <Link
-                        href="/admin/dashboard"
+                        href={admin.dashboard().url}
                         prefetch
                         className="flex items-center space-x-2"
                     >

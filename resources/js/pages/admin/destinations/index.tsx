@@ -133,16 +133,16 @@ export default function DestinationsIndex({
                 {/* Header */}
                 <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
                     <div>
-                        <h1 className="font-display text-2xl font-semibold text-[oklch(0.24_0.05_145)]">
+                        <h1 className="font-display text-2xl font-semibold text-(--forest-deep)">
                             Manajemen Destinasi
                         </h1>
-                        <p className="mt-1 text-sm text-[oklch(0.48_0.01_85)]">
+                        <p className="mt-1 text-sm text-(--charcoal-soft)">
                             {destinations.total} destinasi terdaftar
                         </p>
                     </div>
                     <Button
                         asChild
-                        className="bg-[oklch(0.38_0.08_145)] hover:bg-[oklch(0.24_0.05_145)]"
+                        className="bg-(--forest) hover:bg-(--forest-deep)"
                     >
                         <Link href="/admin/destinations/create">
                             <Plus className="mr-2 h-4 w-4" />
@@ -152,14 +152,14 @@ export default function DestinationsIndex({
                 </div>
 
                 {/* Filter */}
-                <Card className="border-[oklch(0.22_0.01_85/8%)] shadow-none">
+                <Card className="border-(--line) shadow-none">
                     <CardContent className="flex flex-wrap gap-3 pt-4">
                         <form
                             onSubmit={handleSearch}
                             className="flex min-w-48 flex-1 gap-2"
                         >
                             <div className="relative flex-1">
-                                <Search className="absolute top-1/2 left-3 h-4 w-4 -translate-y-1/2 text-[oklch(0.48_0.01_85)]" />
+                                <Search className="absolute top-1/2 left-3 h-4 w-4 -translate-y-1/2 text-(--charcoal-soft)" />
                                 <Input
                                     placeholder="Cari nama destinasi..."
                                     value={search}
@@ -248,16 +248,16 @@ export default function DestinationsIndex({
                 </Card>
 
                 {/* Table */}
-                <Card className="border-[oklch(0.22_0.01_85/8%)] shadow-none">
+                <Card className="border-(--line) shadow-none">
                     <CardHeader className="pb-0">
-                        <CardTitle className="font-display text-base text-[oklch(0.24_0.05_145)]">
+                        <CardTitle className="font-display text-base text-(--forest-deep)">
                             Daftar Destinasi
                         </CardTitle>
                     </CardHeader>
                     <CardContent className="p-0">
                         <Table>
                             <TableHeader>
-                                <TableRow className="border-[oklch(0.22_0.01_85/8%)] hover:bg-transparent">
+                                <TableRow className="border-(--line) hover:bg-transparent">
                                     <TableHead className="pl-6">Nama</TableHead>
                                     <TableHead>Kategori</TableHead>
                                     {isAdmin && <TableHead>Desa</TableHead>}
@@ -274,7 +274,7 @@ export default function DestinationsIndex({
                                     <TableRow>
                                         <TableCell
                                             colSpan={isAdmin ? 7 : 5}
-                                            className="py-12 text-center text-[oklch(0.48_0.01_85)]"
+                                            className="py-12 text-center text-(--charcoal-soft)"
                                         >
                                             Tidak ada destinasi ditemukan.
                                         </TableCell>
@@ -283,7 +283,7 @@ export default function DestinationsIndex({
                                     destinations.data.map((dest) => (
                                         <TableRow
                                             key={dest.id}
-                                            className="border-[oklch(0.22_0.01_85/8%)] transition-colors hover:bg-[oklch(0.97_0.01_85)]"
+                                            className="border-(--line) transition-colors hover:bg-(--cream-warm)"
                                         >
                                             <TableCell className="pl-6">
                                                 <div className="flex items-center gap-3">
@@ -294,15 +294,15 @@ export default function DestinationsIndex({
                                                             className="h-9 w-9 rounded-lg object-cover"
                                                         />
                                                     ) : (
-                                                        <div className="flex h-9 w-9 items-center justify-center rounded-lg bg-[oklch(0.92_0.02_145)]">
-                                                            <MapPin className="h-4 w-4 text-[oklch(0.38_0.08_145)]" />
+                                                        <div className="flex h-9 w-9 items-center justify-center rounded-lg bg-(--forest-mist)">
+                                                            <MapPin className="h-4 w-4 text-(--forest)" />
                                                         </div>
                                                     )}
                                                     <div>
                                                         <p className="font-medium text-[oklch(0.22_0.01_85)]">
                                                             {dest.name}
                                                         </p>
-                                                        <p className="text-xs text-[oklch(0.48_0.01_85)]">
+                                                        <p className="text-xs text-(--charcoal-soft)">
                                                             /{dest.slug}
                                                         </p>
                                                     </div>
@@ -322,18 +322,18 @@ export default function DestinationsIndex({
                                                 </Badge>
                                             </TableCell>
                                             {isAdmin && (
-                                                <TableCell className="text-sm text-[oklch(0.48_0.01_85)]">
+                                                <TableCell className="text-sm text-(--charcoal-soft)">
                                                     {dest.village?.name ?? '—'}
                                                 </TableCell>
                                             )}
-                                            <TableCell className="text-sm text-[oklch(0.48_0.01_85)]">
+                                            <TableCell className="text-sm text-(--charcoal-soft)">
                                                 {Number(dest.ticket_price) === 0
                                                     ? 'Gratis'
                                                     : `Rp ${Number(dest.ticket_price).toLocaleString('id-ID')}`}
                                             </TableCell>
                                             <TableCell>
                                                 {dest.status === 'published' ? (
-                                                    <Badge className="border-0 bg-[oklch(0.92_0.02_145)] text-[oklch(0.24_0.05_145)] hover:bg-[oklch(0.92_0.02_145)]">
+                                                    <Badge className="border-0 bg-(--forest-mist) text-(--forest-deep) hover:bg-(--forest-mist)">
                                                         Terbit
                                                     </Badge>
                                                 ) : (
@@ -403,8 +403,8 @@ export default function DestinationsIndex({
 
                         {/* Pagination */}
                         {destinations.last_page > 1 && (
-                            <div className="flex items-center justify-between border-t border-[oklch(0.22_0.01_85/8%)] px-6 py-4">
-                                <p className="text-sm text-[oklch(0.48_0.01_85)]">
+                            <div className="flex items-center justify-between border-t border-(--line) px-6 py-4">
+                                <p className="text-sm text-(--charcoal-soft)">
                                     {destinations.from}–{destinations.to} dari{' '}
                                     {destinations.total}
                                 </p>
@@ -424,7 +424,7 @@ export default function DestinationsIndex({
                                             }
                                             className={
                                                 link.active
-                                                    ? 'bg-[oklch(0.38_0.08_145)] hover:bg-[oklch(0.24_0.05_145)]'
+                                                    ? 'bg-(--forest) hover:bg-(--forest-deep)'
                                                     : ''
                                             }
                                             dangerouslySetInnerHTML={{
@@ -453,7 +453,7 @@ export default function DestinationsIndex({
                         {destToView && (
                             <div className="grid gap-4 py-4">
                                 <div className="grid grid-cols-4 items-center gap-4">
-                                    <span className="text-right text-sm font-medium text-[oklch(0.48_0.01_85)]">
+                                    <span className="text-right text-sm font-medium text-(--charcoal-soft)">
                                         Kategori
                                     </span>
                                     <span className="col-span-3 text-sm">
@@ -462,7 +462,7 @@ export default function DestinationsIndex({
                                     </span>
                                 </div>
                                 <div className="grid grid-cols-4 items-center gap-4">
-                                    <span className="text-right text-sm font-medium text-[oklch(0.48_0.01_85)]">
+                                    <span className="text-right text-sm font-medium text-(--charcoal-soft)">
                                         Desa
                                     </span>
                                     <span className="col-span-3 text-sm">
@@ -470,7 +470,7 @@ export default function DestinationsIndex({
                                     </span>
                                 </div>
                                 <div className="grid grid-cols-4 items-start gap-4">
-                                    <span className="mt-1 text-right text-sm font-medium text-[oklch(0.48_0.01_85)]">
+                                    <span className="mt-1 text-right text-sm font-medium text-(--charcoal-soft)">
                                         Harga Tiket
                                     </span>
                                     <span className="col-span-3 flex flex-col gap-1 text-sm">
@@ -485,7 +485,7 @@ export default function DestinationsIndex({
                                     </span>
                                 </div>
                                 <div className="grid grid-cols-4 items-start gap-4">
-                                    <span className="mt-1 text-right text-sm font-medium text-[oklch(0.48_0.01_85)]">
+                                    <span className="mt-1 text-right text-sm font-medium text-(--charcoal-soft)">
                                         Jam Operasional
                                     </span>
                                     <span className="col-span-3 text-sm">
@@ -496,7 +496,7 @@ export default function DestinationsIndex({
                                     </span>
                                 </div>
                                 <div className="grid grid-cols-4 items-start gap-4">
-                                    <span className="mt-1 text-right text-sm font-medium text-[oklch(0.48_0.01_85)]">
+                                    <span className="mt-1 text-right text-sm font-medium text-(--charcoal-soft)">
                                         Hari Operasional
                                     </span>
                                     <span className="col-span-3 text-sm">
@@ -504,7 +504,7 @@ export default function DestinationsIndex({
                                     </span>
                                 </div>
                                 <div className="grid grid-cols-4 items-start gap-4">
-                                    <span className="mt-1 text-right text-sm font-medium text-[oklch(0.48_0.01_85)]">
+                                    <span className="mt-1 text-right text-sm font-medium text-(--charcoal-soft)">
                                         Fasilitas
                                     </span>
                                     <span className="col-span-3 flex flex-wrap gap-1 text-sm">
@@ -525,8 +525,8 @@ export default function DestinationsIndex({
                                     </span>
                                 </div>
                                 {destToView.description && (
-                                    <div className="mt-2 grid grid-cols-4 items-start gap-4 border-t border-[oklch(0.22_0.01_85/8%)] pt-4">
-                                        <span className="mt-1 text-right text-sm font-medium text-[oklch(0.48_0.01_85)]">
+                                    <div className="mt-2 grid grid-cols-4 items-start gap-4 border-t border-(--line) pt-4">
+                                        <span className="mt-1 text-right text-sm font-medium text-(--charcoal-soft)">
                                             Deskripsi
                                         </span>
                                         <div

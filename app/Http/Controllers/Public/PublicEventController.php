@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Public;
 
+use App\Enums\ContentStatus;
 use App\Http\Controllers\Controller;
 use App\Models\Event;
 use Illuminate\Http\Request;
@@ -27,7 +28,7 @@ class PublicEventController extends Controller
 
         // Get events that overlap with this month
         $events = Event::with(['primaryMedia', 'village:id,name'])
-            ->where('status', 'published')
+            ->where('status', ContentStatus::Published)
             ->where(function ($query) use ($startDate, $endDate) {
                 $query->whereBetween('start_date', [$startDate, $endDate])
                     ->orWhereBetween('end_date', [$startDate, $endDate])
@@ -47,12 +48,12 @@ class PublicEventController extends Controller
 
     public function show(Event $event): Response
     {
-        abort_if($event->status->value !== 'published', 404);
+        abort_if($event->status !== ContentStatus::Published, 404);
 
         $event->load(['media', 'village:id,name,slug', 'destination:id,name,slug']);
 
         $relatedEvents = Event::with(['primaryMedia', 'village:id,name'])
-            ->where('status', 'published')
+            ->where('status', ContentStatus::Published)
             ->where('id', '!=', $event->id)
             ->where('village_id', $event->village_id)
             ->whereDate('start_date', '>=', Carbon::today())

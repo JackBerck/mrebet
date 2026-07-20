@@ -90,17 +90,17 @@ export default function VillagesIndex({ villages, filters, isAdmin }: Props) {
                 {/* Header */}
                 <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
                     <div>
-                        <h1 className="font-display text-2xl font-semibold text-[oklch(0.24_0.05_145)]">
+                        <h1 className="font-display text-2xl font-semibold text-(--forest-deep)">
                             Manajemen Desa
                         </h1>
-                        <p className="mt-1 text-sm text-[oklch(0.48_0.01_85)]">
+                        <p className="mt-1 text-sm text-(--charcoal-soft)">
                             {villages.total} desa terdaftar
                         </p>
                     </div>
                     {isAdmin && (
                         <Button
                             asChild
-                            className="bg-[oklch(0.38_0.08_145)] hover:bg-[oklch(0.24_0.05_145)]"
+                            className="bg-(--forest) hover:bg-(--forest-deep)"
                         >
                             <Link href="/admin/villages/create">
                                 <Plus className="mr-2 h-4 w-4" />
@@ -111,14 +111,14 @@ export default function VillagesIndex({ villages, filters, isAdmin }: Props) {
                 </div>
 
                 {/* Filter Bar */}
-                <Card className="border-[oklch(0.22_0.01_85/8%)] shadow-none">
+                <Card className="border-(--line) shadow-none">
                     <CardContent className="flex flex-col gap-3 pt-4 sm:flex-row sm:items-center">
                         <form
                             onSubmit={handleSearch}
                             className="flex flex-1 gap-2"
                         >
                             <div className="relative flex-1">
-                                <Search className="absolute top-1/2 left-3 h-4 w-4 -translate-y-1/2 text-[oklch(0.48_0.01_85)]" />
+                                <Search className="absolute top-1/2 left-3 h-4 w-4 -translate-y-1/2 text-(--charcoal-soft)" />
                                 <Input
                                     placeholder="Cari nama desa..."
                                     value={search}
@@ -152,16 +152,16 @@ export default function VillagesIndex({ villages, filters, isAdmin }: Props) {
                 </Card>
 
                 {/* Table */}
-                <Card className="border-[oklch(0.22_0.01_85/8%)] shadow-none">
+                <Card className="border-(--line) shadow-none">
                     <CardHeader className="pb-0">
-                        <CardTitle className="font-display text-base text-[oklch(0.24_0.05_145)]">
+                        <CardTitle className="font-display text-base text-(--forest-deep)">
                             Daftar Desa
                         </CardTitle>
                     </CardHeader>
                     <CardContent className="p-0">
                         <Table>
                             <TableHeader>
-                                <TableRow className="border-[oklch(0.22_0.01_85/8%)] hover:bg-transparent">
+                                <TableRow className="border-(--line) hover:bg-transparent">
                                     <TableHead className="pl-6">
                                         Nama Desa
                                     </TableHead>
@@ -179,7 +179,7 @@ export default function VillagesIndex({ villages, filters, isAdmin }: Props) {
                                     <TableRow>
                                         <TableCell
                                             colSpan={isAdmin ? 6 : 5}
-                                            className="py-12 text-center text-[oklch(0.48_0.01_85)]"
+                                            className="py-12 text-center text-(--charcoal-soft)"
                                         >
                                             Tidak ada desa ditemukan.
                                         </TableCell>
@@ -188,7 +188,7 @@ export default function VillagesIndex({ villages, filters, isAdmin }: Props) {
                                     villages.data.map((village) => (
                                         <TableRow
                                             key={village.id}
-                                            className="border-[oklch(0.22_0.01_85/8%)] transition-colors hover:bg-[oklch(0.97_0.01_85)]"
+                                            className="border-(--line) transition-colors hover:bg-(--cream-warm)"
                                         >
                                             <TableCell className="pl-6">
                                                 <div className="flex items-center gap-3">
@@ -199,8 +199,8 @@ export default function VillagesIndex({ villages, filters, isAdmin }: Props) {
                                                             className="h-9 w-9 rounded-lg object-cover"
                                                         />
                                                     ) : (
-                                                        <div className="flex h-9 w-9 items-center justify-center rounded-lg bg-[oklch(0.92_0.02_145)]">
-                                                            <span className="text-xs font-semibold text-[oklch(0.38_0.08_145)]">
+                                                        <div className="flex h-9 w-9 items-center justify-center rounded-lg bg-(--forest-mist)">
+                                                            <span className="text-xs font-semibold text-(--forest)">
                                                                 {village.name.charAt(
                                                                     0,
                                                                 )}
@@ -211,22 +211,22 @@ export default function VillagesIndex({ villages, filters, isAdmin }: Props) {
                                                         <p className="font-medium text-[oklch(0.22_0.01_85)]">
                                                             {village.name}
                                                         </p>
-                                                        <p className="text-xs text-[oklch(0.48_0.01_85)]">
+                                                        <p className="text-xs text-(--charcoal-soft)">
                                                             /{village.slug}
                                                         </p>
                                                     </div>
                                                 </div>
                                             </TableCell>
-                                            <TableCell className="text-sm text-[oklch(0.48_0.01_85)]">
+                                            <TableCell className="text-sm text-(--charcoal-soft)">
                                                 {village.head_name ?? '—'}
                                             </TableCell>
-                                            <TableCell className="text-sm text-[oklch(0.48_0.01_85)]">
+                                            <TableCell className="text-sm text-(--charcoal-soft)">
                                                 {village.contact_phone ?? '—'}
                                             </TableCell>
                                             <TableCell>
                                                 {village.status ===
                                                 'published' ? (
-                                                    <Badge className="border-0 bg-[oklch(0.92_0.02_145)] text-[oklch(0.24_0.05_145)] hover:bg-[oklch(0.92_0.02_145)]">
+                                                    <Badge className="border-0 bg-(--forest-mist) text-(--forest-deep) hover:bg-(--forest-mist)">
                                                         Terbit
                                                     </Badge>
                                                 ) : (
@@ -289,8 +289,8 @@ export default function VillagesIndex({ villages, filters, isAdmin }: Props) {
 
                         {/* Pagination */}
                         {villages.last_page > 1 && (
-                            <div className="flex items-center justify-between border-t border-[oklch(0.22_0.01_85/8%)] px-6 py-4">
-                                <p className="text-sm text-[oklch(0.48_0.01_85)]">
+                            <div className="flex items-center justify-between border-t border-(--line) px-6 py-4">
+                                <p className="text-sm text-(--charcoal-soft)">
                                     {villages.from}–{villages.to} dari{' '}
                                     {villages.total} desa
                                 </p>
@@ -310,7 +310,7 @@ export default function VillagesIndex({ villages, filters, isAdmin }: Props) {
                                             }
                                             className={
                                                 link.active
-                                                    ? 'bg-[oklch(0.38_0.08_145)] hover:bg-[oklch(0.24_0.05_145)]'
+                                                    ? 'bg-(--forest) hover:bg-(--forest-deep)'
                                                     : ''
                                             }
                                             dangerouslySetInnerHTML={{

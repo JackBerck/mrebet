@@ -23,14 +23,14 @@ return null;
 }
 
     const btn = (active: boolean) =>
-        `rounded p-1.5 transition-colors ${active ? 'bg-[oklch(0.92_0.02_145)] text-[oklch(0.24_0.05_145)]' : 'text-[oklch(0.48_0.01_85)] hover:bg-[oklch(0.97_0.01_85)]'}`;
+        `rounded p-1.5 transition-colors ${active ? 'bg-(--forest-mist) text-(--forest-deep)' : 'text-(--charcoal-soft) hover:bg-(--cream-warm)'}`;
 
     const divider = (
         <div className="mx-1 w-px self-stretch bg-[oklch(0.22_0.01_85/8%)]" />
     );
 
     return (
-        <div className="flex flex-wrap items-center gap-1 border-b border-[oklch(0.22_0.01_85/8%)] px-3 py-2">
+        <div className="flex flex-wrap items-center gap-1 border-b border-(--line) px-3 py-2">
             <button
                 type="button"
                 onClick={() => editor.chain().focus().toggleBold().run()}

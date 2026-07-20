@@ -34,17 +34,17 @@ export default function Guide() {
                 />
 
                 {/* Role info */}
-                <Card className="border-[oklch(0.22_0.01_85/8%)] shadow-none">
+                <Card className="border-(--line) shadow-none">
                     <CardHeader className="pb-2">
                         <CardTitle className="flex items-center gap-2 text-base font-medium">
-                            <Shield className="h-4 w-4 text-[oklch(0.38_0.08_145)]" />
+                            <Shield className="h-4 w-4 text-(--forest)" />
                             Peran Anda
                         </CardTitle>
                     </CardHeader>
                     <CardContent>
                         <div className="flex items-center gap-3">
                             {isAdmin ? (
-                                <Badge className="border-0 bg-[oklch(0.92_0.02_145)] text-[oklch(0.24_0.05_145)]">
+                                <Badge className="border-0 bg-(--forest-mist) text-(--forest-deep)">
                                     Admin
                                 </Badge>
                             ) : (
@@ -65,14 +65,14 @@ export default function Guide() {
 
                 {/* Role comparison */}
                 <div>
-                    <h2 className="mb-3 flex items-center gap-2 text-sm font-semibold text-[oklch(0.24_0.05_145)]">
+                    <h2 className="mb-3 flex items-center gap-2 text-sm font-semibold text-(--forest-deep)">
                         <Users className="h-4 w-4" /> Perbedaan Peran
                     </h2>
                     <div className="grid gap-3 sm:grid-cols-2">
-                        <Card className="border-[oklch(0.22_0.01_85/8%)] shadow-none">
+                        <Card className="border-(--line) shadow-none">
                             <CardHeader className="pb-2">
                                 <CardTitle className="flex items-center gap-2 text-sm font-medium">
-                                    <Badge className="border-0 bg-[oklch(0.92_0.02_145)] text-xs text-[oklch(0.24_0.05_145)]">
+                                    <Badge className="border-0 bg-(--forest-mist) text-xs text-(--forest-deep)">
                                         Admin
                                     </Badge>
                                     Superadmin
@@ -90,7 +90,7 @@ export default function Guide() {
                                 </ul>
                             </CardContent>
                         </Card>
-                        <Card className="border-[oklch(0.22_0.01_85/8%)] shadow-none">
+                        <Card className="border-(--line) shadow-none">
                             <CardHeader className="pb-2">
                                 <CardTitle className="flex items-center gap-2 text-sm font-medium">
                                     <Badge className="border-0 bg-blue-100 text-xs text-blue-800">
@@ -116,11 +116,11 @@ export default function Guide() {
 
                 {/* Feature guide */}
                 <div>
-                    <h2 className="mb-3 flex items-center gap-2 text-sm font-semibold text-[oklch(0.24_0.05_145)]">
+                    <h2 className="mb-3 flex items-center gap-2 text-sm font-semibold text-(--forest-deep)">
                         <BookOpen className="h-4 w-4" /> Panduan Fitur
                     </h2>
                     <div className="space-y-3">
-                        <Card className="border-[oklch(0.22_0.01_85/8%)] shadow-none">
+                        <Card className="border-(--line) shadow-none">
                             <CardHeader className="pb-1">
                                 <CardTitle className="flex items-center gap-2 text-sm font-medium">
                                     <Compass className="h-4 w-4 text-emerald-600" />{' '}
@@ -139,7 +139,7 @@ export default function Guide() {
                             </CardContent>
                         </Card>
 
-                        <Card className="border-[oklch(0.22_0.01_85/8%)] shadow-none">
+                        <Card className="border-(--line) shadow-none">
                             <CardHeader className="pb-1">
                                 <CardTitle className="flex items-center gap-2 text-sm font-medium">
                                     <CalendarDays className="h-4 w-4 text-amber-600" />{' '}
@@ -156,7 +156,7 @@ export default function Guide() {
                             </CardContent>
                         </Card>
 
-                        <Card className="border-[oklch(0.22_0.01_85/8%)] shadow-none">
+                        <Card className="border-(--line) shadow-none">
                             <CardHeader className="pb-1">
                                 <CardTitle className="flex items-center gap-2 text-sm font-medium">
                                     <FileText className="h-4 w-4 text-blue-600" />{' '}
@@ -173,7 +173,7 @@ export default function Guide() {
                             </CardContent>
                         </Card>
 
-                        <Card className="border-[oklch(0.22_0.01_85/8%)] shadow-none">
+                        <Card className="border-(--line) shadow-none">
                             <CardHeader className="pb-1">
                                 <CardTitle className="flex items-center gap-2 text-sm font-medium">
                                     <MapPin className="h-4 w-4 text-rose-600" />{' '}
@@ -195,7 +195,7 @@ export default function Guide() {
 
                 {/* Tips */}
                 <div>
-                    <h2 className="mb-3 flex items-center gap-2 text-sm font-semibold text-[oklch(0.24_0.05_145)]">
+                    <h2 className="mb-3 flex items-center gap-2 text-sm font-semibold text-(--forest-deep)">
                         <HelpCircle className="h-4 w-4" /> Tips Umum
                     </h2>
                     <ul className="space-y-2 text-sm text-muted-foreground">

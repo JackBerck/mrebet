@@ -188,12 +188,12 @@ finalData.status = 'published';
                 {/* Header */}
                 <div className="flex flex-wrap items-center gap-4">
                     <div>
-                        <h1 className="font-display text-2xl font-semibold text-[oklch(0.24_0.05_145)]">
+                        <h1 className="font-display text-2xl font-semibold text-(--forest-deep)">
                             {isEditing
                                 ? `Edit Desa: ${village.name}`
                                 : 'Tambah Desa Baru'}
                         </h1>
-                        <p className="mt-0.5 text-sm text-[oklch(0.48_0.01_85)]">
+                        <p className="mt-0.5 text-sm text-(--charcoal-soft)">
                             Isi semua informasi di bawah ini dengan lengkap dan
                             benar.
                         </p>
@@ -201,9 +201,9 @@ finalData.status = 'published';
                 </div>
 
                 {/* Section 1: Informasi Dasar */}
-                <Card className="border-[oklch(0.22_0.01_85/8%)] shadow-none">
+                <Card className="border-(--line) shadow-none">
                     <CardHeader>
-                        <CardTitle className="font-display text-lg text-[oklch(0.24_0.05_145)]">
+                        <CardTitle className="font-display text-lg text-(--forest-deep)">
                             Informasi Dasar
                         </CardTitle>
                         <CardDescription>
@@ -267,9 +267,9 @@ finalData.status = 'published';
                 </Card>
 
                 {/* Section 2: Deskripsi */}
-                <Card className="border-[oklch(0.22_0.01_85/8%)] shadow-none">
+                <Card className="border-(--line) shadow-none">
                     <CardHeader>
-                        <CardTitle className="font-display text-lg text-[oklch(0.24_0.05_145)]">
+                        <CardTitle className="font-display text-lg text-(--forest-deep)">
                             Deskripsi Desa
                         </CardTitle>
                         <CardDescription>
@@ -278,25 +278,25 @@ finalData.status = 'published';
                         </CardDescription>
                     </CardHeader>
                     <CardContent>
-                        <div className="overflow-hidden rounded-xl border border-[oklch(0.22_0.01_85/8%)] transition-all focus-within:border-[oklch(0.38_0.08_145)] focus-within:ring-1 focus-within:ring-[oklch(0.38_0.08_145)]">
+                        <div className="overflow-hidden rounded-xl border border-(--line) transition-all focus-within:border-[oklch(0.38_0.08_145)] focus-within:ring-1 focus-within:ring-[oklch(0.38_0.08_145)]">
                             <EditorToolbar editor={editor} />
                             <EditorContent
                                 editor={editor}
-                                className="min-h-48 px-4 py-3 text-sm text-[oklch(0.22_0.01_85)] [&_.tiptap]:outline-none [&_.tiptap_.is-editor-empty:first-child::before]:pointer-events-none [&_.tiptap_.is-editor-empty:first-child::before]:float-left [&_.tiptap_.is-editor-empty:first-child::before]:h-0 [&_.tiptap_.is-editor-empty:first-child::before]:text-[oklch(0.48_0.01_85)] [&_.tiptap_.is-editor-empty:first-child::before]:content-[attr(data-placeholder)] [&_.tiptap_h2]:mb-2 [&_.tiptap_h2]:font-semibold [&_.tiptap_ol]:list-decimal [&_.tiptap_ol]:pl-4 [&_.tiptap_p]:mb-2 [&_.tiptap_ul]:list-disc [&_.tiptap_ul]:pl-4"
+                                className="min-h-48 px-4 py-3 text-sm text-[oklch(0.22_0.01_85)] [&_.tiptap]:outline-none [&_.tiptap_.is-editor-empty:first-child::before]:pointer-events-none [&_.tiptap_.is-editor-empty:first-child::before]:float-left [&_.tiptap_.is-editor-empty:first-child::before]:h-0 [&_.tiptap_.is-editor-empty:first-child::before]:text-(--charcoal-soft) [&_.tiptap_.is-editor-empty:first-child::before]:content-[attr(data-placeholder)] [&_.tiptap_h2]:mb-2 [&_.tiptap_h2]:font-semibold [&_.tiptap_ol]:list-decimal [&_.tiptap_ol]:pl-4 [&_.tiptap_p]:mb-2 [&_.tiptap_ul]:list-disc [&_.tiptap_ul]:pl-4"
                             />
                         </div>
                     </CardContent>
                 </Card>
 
                 {/* Section 3: Lokasi */}
-                <Card className="border-[oklch(0.22_0.01_85/8%)] shadow-none">
+                <Card className="border-(--line) shadow-none">
                     <CardHeader>
-                        <CardTitle className="font-display text-lg text-[oklch(0.24_0.05_145)]">
+                        <CardTitle className="font-display text-lg text-(--forest-deep)">
                             Lokasi
                         </CardTitle>
                         <CardDescription>
                             <span className="flex items-center gap-1.5">
-                                <MapPin className="h-4 w-4 text-[oklch(0.38_0.08_145)]" />
+                                <MapPin className="h-4 w-4 text-(--forest)" />
                                 Seret pin atau klik peta untuk menentukan titik
                                 koordinat desa.
                             </span>
@@ -377,9 +377,9 @@ finalData.status = 'published';
                 </Card>
 
                 {/* Section 4: Foto / Media */}
-                <Card className="border-[oklch(0.22_0.01_85/8%)] shadow-none">
+                <Card className="border-(--line) shadow-none">
                     <CardHeader>
-                        <CardTitle className="font-display text-lg text-[oklch(0.24_0.05_145)]">
+                        <CardTitle className="font-display text-lg text-(--forest-deep)">
                             Foto Desa
                         </CardTitle>
                         <CardDescription>
@@ -396,9 +396,9 @@ finalData.status = 'published';
                 </Card>
 
                 {/* Section 5: Pengaturan */}
-                <Card className="border-[oklch(0.22_0.01_85/8%)] shadow-none">
+                <Card className="border-(--line) shadow-none">
                     <CardHeader>
-                        <CardTitle className="font-display text-lg text-[oklch(0.24_0.05_145)]">
+                        <CardTitle className="font-display text-lg text-(--forest-deep)">
                             Pengaturan
                         </CardTitle>
                     </CardHeader>
@@ -430,7 +430,7 @@ finalData.status = 'published';
                                 </SelectContent>
                             </Select>
                             {!isAdmin && (
-                                <p className="text-xs text-[oklch(0.48_0.01_85)]">
+                                <p className="text-xs text-(--charcoal-soft)">
                                     Status terbit hanya bisa diubah oleh Admin
                                     Kecamatan.
                                 </p>
@@ -455,7 +455,7 @@ finalData.status = 'published';
                                         : ''
                                 }
                             />
-                            <p className="text-xs text-[oklch(0.48_0.01_85)]">
+                            <p className="text-xs text-(--charcoal-soft)">
                                 Kosongkan untuk menggunakan link halaman desa
                                 ini secara otomatis.
                             </p>
@@ -469,8 +469,8 @@ finalData.status = 'published';
                 </Card>
 
                 {/* Sticky Submit Bar */}
-                <div className="sticky bottom-0 -mx-6 flex items-center justify-between border-t border-[oklch(0.22_0.01_85/8%)] bg-white/90 px-6 py-4 backdrop-blur-sm">
-                    <p className="text-sm text-[oklch(0.48_0.01_85)]">
+                <div className="sticky bottom-0 -mx-6 flex items-center justify-between border-t border-(--line) bg-white/90 px-6 py-4 backdrop-blur-sm">
+                    <p className="text-sm text-(--charcoal-soft)">
                         {isEditing
                             ? 'Perubahan belum disimpan'
                             : 'Form belum tersimpan'}
@@ -489,7 +489,7 @@ finalData.status = 'published';
                         <Button
                             type="submit"
                             disabled={processing}
-                            className="bg-[oklch(0.38_0.08_145)] hover:bg-[oklch(0.24_0.05_145)]"
+                            className="bg-(--forest) hover:bg-(--forest-deep)"
                         >
                             {processing ? (
                                 <Loader2 className="mr-2 h-4 w-4 animate-spin" />

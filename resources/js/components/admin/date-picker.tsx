@@ -1,4 +1,4 @@
-import { format } from 'date-fns';
+import { format , parseISO} from 'date-fns';
 import { id } from 'date-fns/locale';
 import { CalendarIcon } from 'lucide-react';
 import * as React from 'react';
@@ -23,7 +23,7 @@ export function DatePicker({
     placeholder = 'Pilih tanggal',
 }: DatePickerProps) {
     // value is expected to be 'YYYY-MM-DD'
-    const date = value ? new Date(value) : undefined;
+    const date = value ? parseISO(value) : undefined;
 
     const handleSelect = (selectedDate: Date | undefined) => {
         if (selectedDate) {
@@ -40,7 +40,7 @@ export function DatePicker({
                 <Button
                     variant="outline"
                     className={cn(
-                        'w-full justify-start border-[oklch(0.22_0.01_85/8%)] text-left font-normal hover:bg-[oklch(0.92_0.02_145)/20%]',
+                        'w-full justify-start border-(--line) text-left font-normal hover:bg-(--forest-mist)/20',
                         !date && 'text-muted-foreground',
                     )}
                 >
@@ -53,7 +53,7 @@ export function DatePicker({
                 </Button>
             </PopoverTrigger>
             <PopoverContent
-                className="w-auto border-[oklch(0.22_0.01_85/8%)] p-0 shadow-sm"
+                className="w-auto border-(--line) p-0 shadow-sm"
                 align="start"
             >
                 <Calendar
@@ -61,7 +61,6 @@ export function DatePicker({
                     selected={date}
                     onSelect={handleSelect}
                     locale={id}
-                    initialFocus
                 />
             </PopoverContent>
         </Popover>

@@ -69,7 +69,7 @@ type Props = {
 
 function StatusBadge({ status }: { status: 'draft' | 'published' }) {
     return status === 'published' ? (
-        <Badge className="border-0 bg-[oklch(0.92_0.02_145)] text-[oklch(0.24_0.05_145)] hover:bg-[oklch(0.92_0.02_145)]">
+        <Badge className="border-0 bg-(--forest-mist) text-(--forest-deep) hover:bg-(--forest-mist)">
             Terbit
         </Badge>
     ) : (
@@ -93,7 +93,7 @@ export default function VillageShow({
 
             <div className="flex flex-col gap-6 p-6">
                 {/* Header & Cover */}
-                <Card className="overflow-hidden border-[oklch(0.22_0.01_85/8%)] shadow-sm">
+                <Card className="overflow-hidden border-(--line) shadow-sm">
                     {coverMedia && (
                         <img
                             src={`/storage/${coverMedia.file_path}`}
@@ -103,7 +103,7 @@ export default function VillageShow({
                     )}
                     <CardHeader className="flex flex-wrap items-start justify-between gap-4 bg-white md:flex-row">
                         <div className="min-w-0 flex-1">
-                            <CardTitle className="font-display text-2xl text-[oklch(0.24_0.05_145)]">
+                            <CardTitle className="font-display text-2xl text-(--forest-deep)">
                                 {village.name}
                             </CardTitle>
                             <CardDescription className="mt-1 text-base">
@@ -128,7 +128,7 @@ export default function VillageShow({
                         <div className="flex shrink-0 items-center gap-2">
                             <Button
                                 asChild
-                                className="bg-[oklch(0.38_0.08_145)] hover:bg-[oklch(0.24_0.05_145)]"
+                                className="bg-(--forest) hover:bg-(--forest-deep)"
                             >
                                 <Link
                                     href={
@@ -146,7 +146,7 @@ export default function VillageShow({
                     <CardContent className="bg-white">
                         {village.description ? (
                             <div
-                                className="prose prose-sm max-w-none text-[oklch(0.48_0.01_85)]"
+                                className="prose prose-sm max-w-none text-(--charcoal-soft)"
                                 dangerouslySetInnerHTML={{
                                     __html: village.description,
                                 }}
@@ -182,10 +182,10 @@ export default function VillageShow({
                 {/* Related Data Summaries */}
                 <div className="grid grid-cols-1 gap-6 lg:grid-cols-2">
                     {/* Destinations Table */}
-                    <Card className="flex flex-col border-[oklch(0.22_0.01_85/8%)] shadow-none">
+                    <Card className="flex flex-col border-(--line) shadow-none">
                         <CardHeader className="flex flex-row flex-wrap items-center justify-between py-4">
                             <div className="flex items-center gap-2">
-                                <Compass className="h-5 w-5 text-[oklch(0.38_0.08_145)]" />
+                                <Compass className="h-5 w-5 text-(--forest)" />
                                 <CardTitle className="text-base font-semibold">
                                     Destinasi (Top 5)
                                 </CardTitle>
@@ -194,7 +194,7 @@ export default function VillageShow({
                                 variant="ghost"
                                 size="sm"
                                 asChild
-                                className="h-8 text-[oklch(0.38_0.08_145)]"
+                                className="h-8 text-(--forest)"
                             >
                                 <Link href="/admin/destinations">
                                     Lihat Semua
@@ -240,10 +240,10 @@ export default function VillageShow({
                     </Card>
 
                     {/* Events Table */}
-                    <Card className="flex flex-col border-[oklch(0.22_0.01_85/8%)] shadow-none">
+                    <Card className="flex flex-col border-(--line) shadow-none">
                         <CardHeader className="flex flex-row flex-wrap items-center justify-between py-4">
                             <div className="flex items-center gap-2">
-                                <CalendarDays className="h-5 w-5 text-[oklch(0.38_0.08_145)]" />
+                                <CalendarDays className="h-5 w-5 text-(--forest)" />
                                 <CardTitle className="text-base font-semibold">
                                     Event Mendatang (Top 5)
                                 </CardTitle>
@@ -252,7 +252,7 @@ export default function VillageShow({
                                 variant="ghost"
                                 size="sm"
                                 asChild
-                                className="h-8 text-[oklch(0.38_0.08_145)]"
+                                className="h-8 text-(--forest)"
                             >
                                 <Link href="/admin/events">Lihat Semua</Link>
                             </Button>
@@ -300,10 +300,10 @@ export default function VillageShow({
                     </Card>
 
                     {/* Blogs Table */}
-                    <Card className="flex flex-col border-[oklch(0.22_0.01_85/8%)] shadow-none lg:col-span-2">
+                    <Card className="flex flex-col border-(--line) shadow-none lg:col-span-2">
                         <CardHeader className="flex flex-row flex-wrap items-center justify-between py-4">
                             <div className="flex items-center gap-2">
-                                <FileText className="h-5 w-5 text-[oklch(0.38_0.08_145)]" />
+                                <FileText className="h-5 w-5 text-(--forest)" />
                                 <CardTitle className="text-base font-semibold">
                                     Artikel Blog (Top 5)
                                 </CardTitle>
@@ -312,7 +312,7 @@ export default function VillageShow({
                                 variant="ghost"
                                 size="sm"
                                 asChild
-                                className="h-8 text-[oklch(0.38_0.08_145)]"
+                                className="h-8 text-(--forest)"
                             >
                                 <Link href="/admin/blogs">Lihat Semua</Link>
                             </Button>

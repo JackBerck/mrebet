@@ -22,11 +22,11 @@ createInertiaApp({
             );
 
             if (key) {
-                return resolvePageComponent(key, pages);
+                return resolvePageComponent(key, pages) as Promise<any>;
             }
         }
 
-        return resolvePageComponent(path, pages);
+        return resolvePageComponent(path, pages) as Promise<any>;
     },
     layout: (name) => {
         switch (true) {

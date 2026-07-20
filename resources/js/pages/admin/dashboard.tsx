@@ -35,16 +35,16 @@ type StatCardProps = {
 function StatCard({ label, value, icon: Icon, sub, href }: StatCardProps) {
     const content = (
         <CardContent className="flex items-center gap-4 md:flex-col md:items-start">
-            <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-xl bg-[oklch(0.92_0.02_145)] text-[oklch(0.38_0.08_145)]">
+            <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-xl bg-(--forest-mist) text-(--forest)">
                 <Icon className="h-6 w-6" />
             </div>
             <div>
                 <p className="text-3xl font-bold text-[oklch(0.22_0.01_85)] tabular-nums">
                     {value}
                 </p>
-                <p className="text-sm text-[oklch(0.48_0.01_85)]">{label}</p>
+                <p className="text-sm text-(--charcoal-soft)">{label}</p>
                 {sub && (
-                    <p className="mt-0.5 text-xs text-[oklch(0.48_0.01_85)]">
+                    <p className="mt-0.5 text-xs text-(--charcoal-soft)">
                         {sub}
                     </p>
                 )}
@@ -53,7 +53,7 @@ function StatCard({ label, value, icon: Icon, sub, href }: StatCardProps) {
     );
 
     return (
-        <Card className="border-[oklch(0.22_0.01_85/8%)] shadow-none transition-shadow hover:shadow-md">
+        <Card className="border-(--line) shadow-none transition-shadow hover:shadow-md">
             {href ? <Link href={href}>{content}</Link> : content}
         </Card>
     );
@@ -62,7 +62,7 @@ function StatCard({ label, value, icon: Icon, sub, href }: StatCardProps) {
 // ── Status badge ──────────────────────────────────────────────────────────────
 function StatusBadge({ status }: { status: 'draft' | 'published' }) {
     return status === 'published' ? (
-        <Badge className="border-0 bg-[oklch(0.92_0.02_145)] text-[oklch(0.24_0.05_145)] hover:bg-[oklch(0.92_0.02_145)]">
+        <Badge className="border-0 bg-(--forest-mist) text-(--forest-deep) hover:bg-(--forest-mist)">
             Terbit
         </Badge>
     ) : (
@@ -177,12 +177,12 @@ export default function Dashboard(props: DashboardProps) {
                 {/* Header */}
                 <div className="flex items-center justify-between">
                     <div>
-                        <h1 className="font-display text-2xl font-semibold text-[oklch(0.24_0.05_145)]">
+                        <h1 className="font-display text-2xl font-semibold text-(--forest-deep)">
                             {props.isAdmin
                                 ? 'Ringkasan Sistem'
                                 : 'Dashboard Desa'}
                         </h1>
-                        <p className="mt-1 text-sm text-[oklch(0.48_0.01_85)]">
+                        <p className="mt-1 text-sm text-(--charcoal-soft)">
                             {props.isAdmin
                                 ? 'Pantau data keseluruhan Desa Wisata Kecamatan Mrebet'
                                 : 'Kelola informasi desa yang Anda ampu'}
@@ -191,7 +191,7 @@ export default function Dashboard(props: DashboardProps) {
                     {props.isAdmin && (
                         <Button
                             asChild
-                            className="bg-[oklch(0.38_0.08_145)] hover:bg-[oklch(0.24_0.05_145)]"
+                            className="bg-(--forest) hover:bg-(--forest-deep)"
                         >
                             <Link href="/admin/villages/create">
                                 <Plus className="mr-2 h-4 w-4" />
@@ -259,10 +259,10 @@ export default function Dashboard(props: DashboardProps) {
                 <div className="grid grid-cols-1 gap-6 lg:grid-cols-5">
                     {/* Recent Villages / Village Card */}
                     {props.isAdmin ? (
-                        <Card className="col-span-1 border-[oklch(0.22_0.01_85/8%)] shadow-none lg:col-span-3">
+                        <Card className="col-span-1 border-(--line) shadow-none lg:col-span-3">
                             <CardHeader className="flex flex-row items-center justify-between">
                                 <div>
-                                    <CardTitle className="font-display text-lg text-[oklch(0.24_0.05_145)]">
+                                    <CardTitle className="font-display text-lg text-(--forest-deep)">
                                         Desa Terbaru
                                     </CardTitle>
                                     <CardDescription>
@@ -280,13 +280,13 @@ export default function Dashboard(props: DashboardProps) {
                                     {props.recentVillages.map((village) => (
                                         <div
                                             key={village.id}
-                                            className="flex items-center justify-between px-6 py-3 transition-colors hover:bg-[oklch(0.97_0.01_85)]"
+                                            className="flex items-center justify-between px-6 py-3 transition-colors hover:bg-(--cream-warm)"
                                         >
                                             <div>
                                                 <p className="font-medium text-[oklch(0.22_0.01_85)]">
                                                     {village.name}
                                                 </p>
-                                                <p className="text-xs text-[oklch(0.48_0.01_85)]">
+                                                <p className="text-xs text-(--charcoal-soft)">
                                                     {village.head_name ?? '—'}
                                                 </p>
                                             </div>
@@ -312,7 +312,7 @@ export default function Dashboard(props: DashboardProps) {
                             </CardContent>
                         </Card>
                     ) : (
-                        <Card className="col-span-1 overflow-hidden border-[oklch(0.22_0.01_85/8%)] shadow-none lg:col-span-3">
+                        <Card className="col-span-1 overflow-hidden border-(--line) shadow-none lg:col-span-3">
                             {props.village?.media &&
                                 props.village.media.length > 0 && (
                                     <img
@@ -323,7 +323,7 @@ export default function Dashboard(props: DashboardProps) {
                                 )}
                             <CardHeader className="flex flex-wrap items-start justify-between gap-4 md:flex-row">
                                 <div className="min-w-0 flex-1">
-                                    <CardTitle className="font-display text-lg text-[oklch(0.24_0.05_145)]">
+                                    <CardTitle className="font-display text-lg text-(--forest-deep)">
                                         {props.village?.name ?? 'Desa Saya'}
                                     </CardTitle>
                                     <CardDescription>
@@ -334,7 +334,7 @@ export default function Dashboard(props: DashboardProps) {
                                     </CardDescription>
                                     {props.village?.description && (
                                         <div
-                                            className="mt-3 line-clamp-2 text-sm text-[oklch(0.48_0.01_85)]"
+                                            className="mt-3 line-clamp-2 text-sm text-(--charcoal-soft)"
                                             dangerouslySetInnerHTML={{
                                                 __html: props.village
                                                     .description,
@@ -363,7 +363,7 @@ export default function Dashboard(props: DashboardProps) {
                                 <div className="flex flex-wrap gap-3">
                                     <Button
                                         asChild
-                                        className="bg-[oklch(0.38_0.08_145)] hover:bg-[oklch(0.24_0.05_145)]"
+                                        className="bg-(--forest) hover:bg-(--forest-deep)"
                                     >
                                         <Link href="/admin/destinations/create">
                                             <Plus className="mr-1 h-4 w-4" />{' '}
@@ -388,9 +388,9 @@ export default function Dashboard(props: DashboardProps) {
                     )}
 
                     {/* Upcoming Events */}
-                    <Card className="col-span-1 border-[oklch(0.22_0.01_85/8%)] shadow-none lg:col-span-2">
+                    <Card className="col-span-1 border-(--line) shadow-none lg:col-span-2">
                         <CardHeader>
-                            <CardTitle className="font-display text-lg text-[oklch(0.24_0.05_145)]">
+                            <CardTitle className="font-display text-lg text-(--forest-deep)">
                                 Event Mendatang
                             </CardTitle>
                             <CardDescription>
@@ -399,24 +399,24 @@ export default function Dashboard(props: DashboardProps) {
                         </CardHeader>
                         <CardContent className="flex flex-col gap-3">
                             {props.upcomingEvents.length === 0 ? (
-                                <p className="text-sm text-[oklch(0.48_0.01_85)]">
+                                <p className="text-sm text-(--charcoal-soft)">
                                     Tidak ada event mendatang.
                                 </p>
                             ) : (
                                 props.upcomingEvents.map((event) => (
                                     <div
                                         key={event.id}
-                                        className="flex items-start gap-3 rounded-lg border border-[oklch(0.22_0.01_85/8%)] p-3"
+                                        className="flex items-start gap-3 rounded-lg border border-(--line) p-3"
                                     >
-                                        <div className="flex h-10 w-10 shrink-0 flex-col items-center justify-center rounded-lg bg-[oklch(0.88_0.06_82)] text-center">
-                                            <span className="text-[10px] font-semibold text-[oklch(0.38_0.08_145)] uppercase">
+                                        <div className="flex h-10 w-10 shrink-0 flex-col items-center justify-center rounded-lg bg-(--gold-soft) text-center">
+                                            <span className="text-[10px] font-semibold text-(--forest) uppercase">
                                                 {new Date(
                                                     event.start_date,
                                                 ).toLocaleDateString('id-ID', {
                                                     month: 'short',
                                                 })}
                                             </span>
-                                            <span className="text-lg leading-none font-bold text-[oklch(0.24_0.05_145)]">
+                                            <span className="text-lg leading-none font-bold text-(--forest-deep)">
                                                 {new Date(
                                                     event.start_date,
                                                 ).getDate()}
@@ -426,7 +426,7 @@ export default function Dashboard(props: DashboardProps) {
                                             <p className="truncate text-sm font-medium text-[oklch(0.22_0.01_85)]">
                                                 {event.title}
                                             </p>
-                                            <p className="text-xs text-[oklch(0.48_0.01_85)]">
+                                            <p className="text-xs text-(--charcoal-soft)">
                                                 {event.start_time
                                                     ? event.start_time.slice(
                                                           0,
@@ -435,7 +435,7 @@ export default function Dashboard(props: DashboardProps) {
                                                     : 'Sepanjang hari'}
                                             </p>
                                             {Number(event.ticket_price) > 0 && (
-                                                <p className="text-xs font-medium text-[oklch(0.38_0.08_145)]">
+                                                <p className="text-xs font-medium text-(--forest)">
                                                     Rp{' '}
                                                     {Number(
                                                         event.ticket_price,
@@ -465,10 +465,10 @@ export default function Dashboard(props: DashboardProps) {
                 {/* Additional Tables for Destinations and Blogs */}
                 <div className="grid grid-cols-1 gap-6 lg:grid-cols-2">
                     {/* Recent Destinations */}
-                    <Card className="col-span-1 border-[oklch(0.22_0.01_85/8%)] shadow-none">
+                    <Card className="col-span-1 border-(--line) shadow-none">
                         <CardHeader className="flex flex-row items-center justify-between">
                             <div>
-                                <CardTitle className="font-display text-lg text-[oklch(0.24_0.05_145)]">
+                                <CardTitle className="font-display text-lg text-(--forest-deep)">
                                     Destinasi Terbaru
                                 </CardTitle>
                             </div>
@@ -481,20 +481,20 @@ export default function Dashboard(props: DashboardProps) {
                         <CardContent className="p-0">
                             <div className="divide-y divide-[oklch(0.22_0.01_85/8%)]">
                                 {props.recentDestinations.length === 0 ? (
-                                    <div className="p-4 text-sm text-[oklch(0.48_0.01_85)]">
+                                    <div className="p-4 text-sm text-(--charcoal-soft)">
                                         Belum ada destinasi.
                                     </div>
                                 ) : (
                                     props.recentDestinations.map((dest) => (
                                         <div
                                             key={dest.id}
-                                            className="flex items-center justify-between px-6 py-3 transition-colors hover:bg-[oklch(0.97_0.01_85)]"
+                                            className="flex items-center justify-between px-6 py-3 transition-colors hover:bg-(--cream-warm)"
                                         >
                                             <div className="min-w-0 flex-1 pr-4">
                                                 <p className="truncate font-medium text-[oklch(0.22_0.01_85)]">
                                                     {dest.name}
                                                 </p>
-                                                <p className="truncate text-xs text-[oklch(0.48_0.01_85)]">
+                                                <p className="truncate text-xs text-(--charcoal-soft)">
                                                     {dest.category}{' '}
                                                     {dest.village?.name
                                                         ? `· ${dest.village.name}`
@@ -525,10 +525,10 @@ export default function Dashboard(props: DashboardProps) {
                     </Card>
 
                     {/* Recent Blogs */}
-                    <Card className="col-span-1 border-[oklch(0.22_0.01_85/8%)] shadow-none">
+                    <Card className="col-span-1 border-(--line) shadow-none">
                         <CardHeader className="flex flex-row items-center justify-between">
                             <div>
-                                <CardTitle className="font-display text-lg text-[oklch(0.24_0.05_145)]">
+                                <CardTitle className="font-display text-lg text-(--forest-deep)">
                                     Blog Terbaru
                                 </CardTitle>
                             </div>
@@ -539,20 +539,20 @@ export default function Dashboard(props: DashboardProps) {
                         <CardContent className="p-0">
                             <div className="divide-y divide-[oklch(0.22_0.01_85/8%)]">
                                 {props.recentBlogs.length === 0 ? (
-                                    <div className="p-4 text-sm text-[oklch(0.48_0.01_85)]">
+                                    <div className="p-4 text-sm text-(--charcoal-soft)">
                                         Belum ada blog.
                                     </div>
                                 ) : (
                                     props.recentBlogs.map((blog) => (
                                         <div
                                             key={blog.id}
-                                            className="flex items-center justify-between px-6 py-3 transition-colors hover:bg-[oklch(0.97_0.01_85)]"
+                                            className="flex items-center justify-between px-6 py-3 transition-colors hover:bg-(--cream-warm)"
                                         >
                                             <div className="min-w-0 flex-1 pr-4">
                                                 <p className="truncate font-medium text-[oklch(0.22_0.01_85)]">
                                                     {blog.title}
                                                 </p>
-                                                <p className="truncate text-xs text-[oklch(0.48_0.01_85)]">
+                                                <p className="truncate text-xs text-(--charcoal-soft)">
                                                     {blog.views_count} views{' '}
                                                     {blog.author?.full_name
                                                         ? `· ${blog.author.full_name}`

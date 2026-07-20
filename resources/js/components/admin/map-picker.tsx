@@ -84,7 +84,7 @@ return;
     }, [lat, lng]);
 
     return (
-        <div className="overflow-hidden rounded-xl border border-[oklch(0.22_0.01_85/8%)]">
+        <div className="overflow-hidden rounded-xl border border-(--line)">
             <div ref={mapRef} className="h-72 w-full" />
         </div>
     );

@@ -1,3 +1,4 @@
+import { parseISO } from 'date-fns';
 import { Head, Link } from '@inertiajs/react';
 import { Tent, Mountain, Sunrise, Camera, Utensils, Compass, ArrowRight, Map, MapPin, Clock, QrCode, Droplet, Heart } from 'lucide-react';
 import { useMotionReveal } from '@/hooks/use-motion-reveal';
@@ -59,7 +60,7 @@ const activities = [
 
 /* ── Helpers ────────────────────────────────────────────────────────────────── */
 function formatDate(dateStr: string) {
-    const d = new Date(dateStr);
+    const d = parseISO(dateStr);
 
     return {
         day: d.toLocaleDateString('id-ID', { day: '2-digit' }),
