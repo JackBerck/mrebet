@@ -35,12 +35,7 @@ export default function PublicNavbar() {
     return (
         <>
             <header
-                className={[
-                    'fixed top-0 right-0 left-0 z-50 transition-all duration-500',
-                    scrolled || menuOpen
-                        ? 'bg-(--cream-warm)/95 shadow-[0_1px_0_var(--line)] backdrop-blur-md'
-                        : 'bg-transparent',
-                ].join(' ')}
+                className="fixed top-0 right-0 left-0 z-50 transition-all duration-500 bg-(--cream-warm)/95 shadow-[0_1px_0_var(--line)] backdrop-blur-md"
                 role="banner"
             >
                 <div className="section-padding-x container mx-auto flex h-16 max-w-7xl items-center justify-between transition-all duration-500 md:h-20 lg:h-24">
@@ -57,12 +52,7 @@ export default function PublicNavbar() {
                             className="h-10 w-auto object-contain drop-shadow-sm transition-transform duration-300 hover:scale-105"
                         />
                         <span
-                            className={[
-                                'font-display text-lg leading-none font-bold transition-colors duration-500 md:text-xl',
-                                scrolled || menuOpen
-                                    ? 'text-(--forest-deep)'
-                                    : 'text-white drop-shadow-md',
-                            ].join(' ')}
+                            className="font-display text-lg leading-none font-bold transition-colors duration-500 md:text-xl text-(--forest-deep)"
                         >
                             Wisata Mrebet
                         </span>
@@ -82,9 +72,7 @@ export default function PublicNavbar() {
                                     'normal-navbar-font-size relative flex items-center rounded-full px-4 py-2 text-sm font-semibold transition-colors duration-200',
                                     isActive(link.href)
                                         ? 'bg-(--forest-mist) text-(--forest)'
-                                        : scrolled || menuOpen
-                                          ? 'text-(--charcoal-soft) hover:bg-(--forest-mist) hover:text-(--forest)'
-                                          : 'text-white/90 hover:bg-white/20 hover:text-white',
+                                        : 'text-(--charcoal-soft) hover:bg-(--forest-mist) hover:text-(--forest)',
                                 ].join(' ')}
                             >
                                 {link.label}
@@ -96,12 +84,7 @@ export default function PublicNavbar() {
                     <div className="hidden items-center gap-3 lg:flex">
                         <Link
                             href="/tentang#kontak"
-                            className={[
-                                'flex items-center rounded-full border-2 px-6 py-2.5 text-sm font-bold transition-all duration-300 active:scale-[0.98]',
-                                scrolled || menuOpen
-                                    ? 'border-(--forest) bg-(--forest) text-white shadow-md hover:bg-transparent hover:text-(--forest) hover:shadow-none'
-                                    : 'border-white bg-white text-(--forest-deep) shadow-lg hover:bg-transparent hover:text-white hover:shadow-none',
-                            ].join(' ')}
+                            className="flex items-center rounded-full border-2 px-6 py-2.5 text-sm font-bold transition-all duration-300 active:scale-[0.98] border-(--forest) bg-(--forest) text-white shadow-md hover:bg-transparent hover:text-(--forest) hover:shadow-none"
                         >
                             Hubungi Kami
                         </Link>
@@ -109,12 +92,7 @@ export default function PublicNavbar() {
 
                     {/* Mobile Menu Button */}
                     <button
-                        className={[
-                            '-mr-2 rounded-lg p-2 transition-colors duration-200 lg:hidden',
-                            scrolled || menuOpen
-                                ? 'text-(--forest-deep) hover:bg-(--forest-mist)'
-                                : 'text-white hover:bg-white/20',
-                        ].join(' ')}
+                        className="-mr-2 rounded-lg p-2 transition-colors duration-200 lg:hidden text-(--forest-deep) hover:bg-(--forest-mist)"
                         onClick={() => setMenuOpen(!menuOpen)}
                         aria-label={menuOpen ? 'Tutup menu' : 'Buka menu'}
                         aria-expanded={menuOpen}
@@ -177,7 +155,7 @@ export default function PublicNavbar() {
                     }}
                 >
                     <Link
-                        href="/tentang#kontak"
+                        href="/kemitraan"
                         onClick={() => setMenuOpen(false)}
                         className="flex w-full items-center justify-center rounded-full bg-(--forest) px-6 py-4 text-lg font-bold text-white shadow-(--shadow-card) transition-all duration-300 hover:bg-(--forest-deep) active:scale-[0.98] md:text-xl"
                     >

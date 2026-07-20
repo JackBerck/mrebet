@@ -15,13 +15,20 @@ export type Event = {
     id: number;
     title: string;
     slug: string;
-    description: string;
+    description: string | null;
     start_date: string;
-    end_date: string;
+    end_date: string | null;
     start_time: string | null;
+    end_time: string | null;
     ticket_price: number;
-    organizer: string;
-    village: { id: number; name: string } | null;
+    organizer: string | null;
+    contact_person: string | null;
+    instagram: string | null;
+    qr_code_target: string | null;
+    village: { id: number; name: string; slug?: string } | null;
+    destination?: { id: number; name: string; slug: string } | null;
+    primary_media: { file_path: string } | null;
+    media?: { id: number; file_path: string; is_primary: boolean }[];
 };
 
 export type Blog = {
