@@ -4,7 +4,7 @@ const mainLinks = [
     { label: 'Destinasi Wisata', href: '/destinasi' },
     { label: 'Peta Wisata', href: '/peta' },
     { label: 'Kalender Acara', href: '/event' },
-    { label: 'Blog & Berita', href: '/blog' },
+    { label: 'Blog & Berita', href: '/berita' },
     // { label: 'Tentang Kami', href: '/tentang' },
 ];
 

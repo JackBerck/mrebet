@@ -35,10 +35,13 @@ export type Blog = {
     id: number;
     title: string;
     slug: string;
+    content?: string;
     cover_image: string | null;
     views_count: number;
     published_at: string;
-    author: { id: number; full_name: string } | null;
+    author: { id: number; name: string } | null;
+    village: { id: number; name: string; slug?: string } | null;
+    reading_time?: number;
 };
 
 export type Stats = {

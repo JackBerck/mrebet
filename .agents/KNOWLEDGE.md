@@ -363,3 +363,204 @@ Use factories + `RefreshDatabase`. Check factory states before manual model setu
 | `app/Enums/` | PHP Enums |
 | `app/Policies/` | Auth policies |
 | `app/Http/Requests/Admin/` | Form validation |
+
+## 26. SEO, Meta Tags & Semantic HTML
+
+Mandatory rules for all **Public/Frontend** pages to optimize SSR, SEO, accessibility, and search engine indexing.
+
+### A. Inertia `<Head>` Component & Metadata
+
+Every public page **MUST** use the `@inertiajs/react` `<Head>` component. Include page title, meta description, canonical URL, Open Graph metadata, and Twitter Cards.
+
+```tsx
+import { Head } from '@inertiajs/react';
+
+<Head title={`${destination.name} | Mrebet Wisata`}>
+  <meta
+    name="description"
+    content={
+      destination.excerpt ||
+      destination.description.substring(0, 160)
+    }
+  />
+
+  <link
+    rel="canonical"
+    href={route('destinations.show', {
+      destination: destination.slug,
+    })}
+  />
+
+  {/* Open Graph */}
+  <meta property="og:type" content="article" />
+  <meta property="og:title" content={destination.name} />
+  <meta property="og:description" content={destination.excerpt} />
+  <meta
+    property="og:image"
+    content={
+      destination.primary_media?.file_path
+        ? `/storage/${destination.primary_media.file_path}`
+        : '/default-og.jpg'
+    }
+  />
+  <meta
+    property="og:url"
+    content={route('destinations.show', {
+      destination: destination.slug,
+    })}
+  />
+
+  {/* Twitter */}
+  <meta
+    name="twitter:card"
+    content="summary_large_image"
+  />
+  <meta
+    name="twitter:title"
+    content={destination.name}
+  />
+  <meta
+    name="twitter:description"
+    content={destination.excerpt}
+  />
+  <meta
+    name="twitter:image"
+    content={
+      destination.primary_media?.file_path
+        ? `/storage/${destination.primary_media.file_path}`
+        : '/default-og.jpg'
+    }
+  />
+</Head>
+```
+
+---
+
+### B. Semantic HTML
+
+Avoid unnecessary `<div>` nesting. Use semantic HTML elements to improve accessibility, maintainability, and crawler understanding.
+
+#### Page Layout
+
+- `<header>`
+- `<nav>`
+- `<main>`
+- `<footer>`
+
+#### Content Structure
+
+- `<article>` → destination detail, blog article, event detail
+- `<section>` → logical content grouping
+- `<aside>` → sidebar, filters, related content
+
+#### Lists
+
+Use semantic lists for repeating content.
+
+```tsx
+<ul className="grid gap-6">
+    {destinations.map(destination => (
+        <li key={destination.id}>
+            <DestinationCard destination={destination} />
+        </li>
+    ))}
+</ul>
+```
+
+Do **NOT** wrap every repeated item using plain `<div>` when a list is appropriate.
+
+#### Heading Hierarchy
+
+Rules:
+
+- Exactly **one `<h1>`** per page
+- Follow logical order:
+  - `<h1>`
+  - `<h2>`
+  - `<h3>`
+- Never skip heading levels.
+
+---
+
+### C. Image SEO
+
+Every image **MUST** include a descriptive `alt` attribute.
+
+Never use:
+
+- `"image"`
+- `"photo"`
+- `""`
+- `"img"`
+
+Preferred implementation:
+
+```tsx
+<img
+    src={`/storage/${media.file_path}`}
+    alt={media.alt_text || destination.name}
+    loading="lazy"
+    width={800}
+    height={600}
+/>
+```
+
+Provide explicit `width` and `height` whenever possible to reduce layout shift (CLS).
+
+---
+
+### D. JSON-LD Structured Data
+
+For public detail pages (Destination, Event, Blog), include JSON-LD structured data inside `<Head>`.
+
+```tsx
+const schemaData = {
+    "@context": "https://schema.org",
+    "@type": "TouristAttraction",
+    name: destination.name,
+    description: destination.excerpt,
+    geo: {
+        "@type": "GeoCoordinates",
+        latitude: destination.latitude,
+        longitude: destination.longitude,
+    },
+};
+
+<Head>
+    <script type="application/ld+json">
+        {JSON.stringify(schemaData)}
+    </script>
+</Head>;
+```
+
+Structured data improves eligibility for Google Rich Results.
+
+---
+
+### E. Additional SEO Recommendations
+
+Public pages should also:
+
+- Use descriptive page titles (50–60 characters when possible)
+- Keep meta descriptions around 150–160 characters
+- Use readable URLs (`/destinations/baturaden`)
+- Prefer server-side rendered content for SEO-critical pages
+- Lazy-load below-the-fold images
+- Avoid duplicate canonical URLs
+- Ensure every page has meaningful internal links
+
+---
+
+## Anti-Patterns
+
+| ❌ Avoid | ✅ Preferred |
+|----------|-------------|
+| Omit `<Head>` on public page | Add `<Head>` with title, meta description, canonical URL, Open Graph, and Twitter tags |
+| Generic `<div>` for all elements | Use `<main>`, `<article>`, `<section>`, `<header>`, `<footer>`, `<aside>` |
+| Multiple `<h1>` tags per page | Exactly one `<h1>` followed by logical `<h2>` and `<h3>` hierarchy |
+| Empty or generic `alt` attributes | Use descriptive `alt={media.alt_text || title}` |
+| Missing canonical URL | Always specify `<link rel="canonical">` |
+| Missing JSON-LD on detail pages | Output structured data using `application/ld+json` |
+| Image without dimensions | Specify `width` and `height` whenever possible |
+| Very long page titles | Keep titles concise and descriptive |
+| Generic URL slugs (`/destination/123`) | Use human-readable slugs (`/destinations/baturaden`) |
