@@ -8,6 +8,7 @@ use App\Http\Controllers\Admin\AdminVillageController;
 use App\Http\Controllers\Public\HomeController;
 use App\Http\Controllers\Public\PageController;
 use App\Http\Controllers\Public\PublicBlogController;
+use App\Http\Controllers\Public\PublicDestinationController;
 use App\Http\Controllers\Public\PublicEventController;
 use Illuminate\Support\Facades\Route;
 use Laravel\Fortify\Http\Controllers\RegisteredUserController;
@@ -23,6 +24,8 @@ Route::get('/event', [PublicEventController::class, 'index'])->name('events.inde
 Route::get('/event/{event:slug}', [PublicEventController::class, 'show'])->name('events.show');
 Route::get('/berita', [PublicBlogController::class, 'index'])->name('blogs.index');
 Route::get('/berita/{blog:slug}', [PublicBlogController::class, 'show'])->name('blogs.show');
+Route::get('/destinasi', [PublicDestinationController::class, 'index'])->name('destinations.index');
+Route::get('/destinasi/{destination:slug}', [PublicDestinationController::class, 'show'])->name('destinations.show');
 
 // Guard /register — only admin role can access; guests redirected to home
 Route::get('/register', function () {

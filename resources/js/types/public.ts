@@ -3,12 +3,20 @@ export type Destination = {
     name: string;
     slug: string;
     category: string;
-    description: string;
-    ticket_price: number;
-    village: { id: number; name: string } | null;
+    category_label?: string;
+    description: string | null;
+    ticket_price: string;
+    ticket_info: string | null;
+    open_time: string | null;
+    close_time: string | null;
+    operational_days: string | null;
+    facilities: string[] | null;
+    latitude: number | null;
+    longitude: number | null;
     qr_code_target: string | null;
-    latitude: number;
-    longitude: number;
+    village: { id: number; name: string; slug?: string } | null;
+    primary_media: { file_path: string } | null;
+    media?: { id: number; file_path: string; is_primary: boolean }[];
 };
 
 export type Event = {
