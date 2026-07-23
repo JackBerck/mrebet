@@ -82,12 +82,14 @@ export default function PublicNavbar() {
 
                     {/* Desktop CTA */}
                     <div className="hidden items-center gap-3 lg:flex">
-                        <Link
-                            href="/tentang#kontak"
+                        <a
+                            href="https://wa.me/6281234567890"
+                            target="_blank"
+                            rel="noopener noreferrer"
                             className="flex items-center rounded-full border-2 px-6 py-2.5 text-sm font-bold transition-all duration-300 active:scale-[0.98] border-(--forest) bg-(--forest) text-white shadow-md hover:bg-transparent hover:text-(--forest) hover:shadow-none"
                         >
                             Hubungi Kami
-                        </Link>
+                        </a>
                     </div>
 
                     {/* Mobile Menu Button */}
@@ -154,13 +156,15 @@ export default function PublicNavbar() {
                         transitionDelay: `${menuOpen ? mainLinks.length * 50 : 0}ms`,
                     }}
                 >
-                    <Link
-                        href="/kemitraan"
+                    <a
+                        href="https://wa.me/6281234567890"
+                        target="_blank"
+                        rel="noopener noreferrer"
                         onClick={() => setMenuOpen(false)}
                         className="flex w-full items-center justify-center rounded-full bg-(--forest) px-6 py-4 text-lg font-bold text-white shadow-(--shadow-card) transition-all duration-300 hover:bg-(--forest-deep) active:scale-[0.98] md:text-xl"
                     >
                         Hubungi Kami
-                    </Link>
+                    </a>
                     <p className="mt-6 text-center text-sm text-(--charcoal-soft)">
                         Jelajahi keheningan di kaki Gunung Slamet.
                     </p>

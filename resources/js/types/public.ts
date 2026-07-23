@@ -52,6 +52,25 @@ export type Blog = {
     reading_time?: number;
 };
 
+export type Village = {
+    id: number;
+    name: string;
+    slug: string;
+    description: string | null;
+    head_name: string | null;
+    contact_phone: string | null;
+    latitude: number | null;
+    longitude: number | null;
+    qr_code_target: string | null;
+    destinations_count?: number;
+    events_count?: number;
+    primary_media: { file_path: string } | null;
+    media?: { id: number; file_path: string; is_primary: boolean }[];
+    destinations?: Destination[];
+    events?: Event[];
+    blogs?: Blog[];
+};
+
 export type Stats = {
     villages: number;
     destinations: number;
