@@ -10,6 +10,7 @@ use App\Http\Controllers\Public\PageController;
 use App\Http\Controllers\Public\PublicBlogController;
 use App\Http\Controllers\Public\PublicDestinationController;
 use App\Http\Controllers\Public\PublicEventController;
+use App\Http\Controllers\Public\PublicMapController;
 use App\Http\Controllers\Public\PublicVillageController;
 use Illuminate\Support\Facades\Route;
 use Laravel\Fortify\Http\Controllers\RegisteredUserController;
@@ -29,6 +30,7 @@ Route::get('/destinasi', [PublicDestinationController::class, 'index'])->name('d
 Route::get('/destinasi/{destination:slug}', [PublicDestinationController::class, 'show'])->name('destinations.show');
 Route::get('/desa', [PublicVillageController::class, 'index'])->name('villages.index');
 Route::get('/desa/{village:slug}', [PublicVillageController::class, 'show'])->name('villages.show');
+Route::get('/peta', [PublicMapController::class, 'index'])->name('map.index');
 
 // Guard /register — only admin role can access; guests redirected to home
 Route::get('/register', function () {
