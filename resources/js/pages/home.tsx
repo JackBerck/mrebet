@@ -94,16 +94,16 @@ export default function Home({
     return (
         <PublicLayout>
             <Head>
-                <title>Wisata Mrebet — Temukan Curug, Temukan Diri</title>
+                <title>Desa Wisata Serayu Larangan — Pesona Alam & Tradisi Lereng Slamet</title>
                 <meta
-                    content="Destinasi wisata alam di Kecamatan Mrebet, Purbalingga, Jawa Tengah. Curug tersembunyi, hutan pinus, dan keheningan di kaki Gunung Slamet."
+                    content="Desa Wisata Serayu Larangan di Kecamatan Mrebet, Purbalingga, Jawa Tengah. Lanskap persawahan asri, pengrajin gula kelapa, dan tradisi lokal lereng Gunung Slamet."
                 />
             </Head>
                 {/* ── HERO ───────────────────────────────────────────────────── */}
                 <section
                     id="top"
                     className="relative flex items-end overflow-hidden pt-24 md:pt-32 pb-16 md:pb-20"
-                    aria-label="Hero utama Wisata Mrebet"
+                    aria-label="Hero utama Desa Wisata Serayu Larangan"
                 >
                     {/* Background */}
                     <div className="absolute inset-0 bg-(--forest-deep)">
@@ -132,11 +132,11 @@ export default function Home({
                                     fontWeight: 700,
                                 }}
                             >
-                                Tempat di mana{' '}
+                                Temukan pesona{' '}
                                 <em className="text-(--gold) not-italic">
-                                    hutan
+                                    persawahan
                                 </em>{' '}
-                                menyimpan air terjunnya sendiri.
+                                & keasrian lereng Gunung Slamet.
                             </h1>
                             <p
                                 className="mb-4 md:mb-6 max-w-xl leading-relaxed text-white/75"
@@ -144,17 +144,14 @@ export default function Home({
                                     fontSize: 'clamp(1rem, 2vw, 1.125rem)',
                                 }}
                             >
-                                Mrebet adalah lipatan tenang di kaki pegunungan
-                                tengah Jawa — curug jernih, jalan setapak
-                                berkabut, dan udara yang belum pernah diburu
-                                siapa pun.
+                                Serayu Larangan adalah desa wisata asri di lereng timur Gunung Slamet — lanskap persawahan jernih, suasana pedesaan yang tenang, dan kearifan lokal warga desa.
                             </p>
                             <div className="mb-8 md:mb-12 flex flex-wrap items-center gap-3">
                                 <Link
                                     href="/destinasi"
-                                    className="inline-flex items-center gap-2 rounded-xl bg-(--gold) px-6 py-3 font-semibold text-(--forest-deep) transition-all duration-200 hover:bg-(--gold-soft) active:scale-[0.98]"
+                                    className="inline-flex items-center gap-2 rounded-xl bg-(--gold) px-6 py-3 font-semibold text-white transition-all duration-200 hover:bg-(--gold-soft) active:scale-[0.98]"
                                 >
-                                    Jelajahi Mrebet
+                                    Jelajahi Desa
                                     <ArrowRight className="h-4 w-4" />
                                 </Link>
                                 <Link
@@ -174,8 +171,8 @@ export default function Home({
                                             <Map className="h-5 w-5" />
                                         ),
                                         label: 'Rute',
-                                        value: 'Ambil Arah ke Mrebet',
-                                        href: 'https://www.google.com/maps/dir/?api=1&destination=-7.3168897,109.3491433',
+                                        value: 'Rute Serayu Larangan',
+                                        href: 'https://www.google.com/maps/dir/?api=1&destination=Desa+Serayu+Larangan+Purbalingga',
                                     },
                                     {
                                         icon: (
@@ -261,7 +258,7 @@ export default function Home({
                                     <Link
                                         key={dest.id}
                                         href={`/destinasi/${dest.slug}`}
-                                        className="flex shrink-0 items-center gap-2 rounded-full border border-white/10 bg-white/10 px-3 py-2 text-xs font-medium text-white transition-all duration-200 hover:bg-(--gold) hover:text-(--forest-deep)"
+                                        className="flex shrink-0 items-center gap-2 rounded-full border border-white/10 bg-white/10 px-3 py-2 text-xs font-medium text-white transition-all duration-200 hover:bg-(--gold)"
                                     >
                                         <span className="flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-(--forest-mist)/20">
                                             <MapPin className="h-3 w-3" />
@@ -295,13 +292,7 @@ export default function Home({
                                     jatuh dari perbukitan.
                                 </h2>
                                 <p className="leading-relaxed text-(--charcoal-soft)">
-                                    Mrebet bukan destinasi yang dibuat untuk
-                                    ramai. Ia sudah ada jauh sebelum peta
-                                    menandainya — sungai yang mengukir batu
-                                    selama ratusan tahun, pohon-pohon yang
-                                    membentuk kanopi alami di atas jalan
-                                    setapak, dan warga yang masih menyapa dengan
-                                    tenang.
+                                    Desa Serayu Larangan menyimpan keindahan alam persawahan terasering, kesejukan mata air alami, serta kerajinan penderes gula kelapa khas pedesaan Banyumasan.
                                 </p>
                                 <p className="mb-4 md:mb-6 leading-relaxed text-(--charcoal-soft)">
                                     Di sinilah curug-curug tersembunyi mengalir
@@ -483,8 +474,8 @@ export default function Home({
                                 </h2>
                             </div>
                             <p className="max-w-sm text-(--charcoal-soft) md:ml-auto md:text-right">
-                                Enam cara berbeda untuk mengenal Mrebet — pilih
-                                sesuai ritme perjalananmu.
+                                Enam cara berbeda untuk mengenal Desa Serayu Larangan — pilih
+                                petualangan yang pas untuk Anda.
                             </p>
                         </div>
                         <div
@@ -515,13 +506,11 @@ export default function Home({
                 {/* ── WHY MREBET (Stats) ───────────────────────────────────────── */}
                 <section
                     className="bg-(--forest-deep) py-12 lg:py-16"
-                    aria-label="Alasan mengunjungi Mrebet"
+                    aria-label="Tentang Serayu Larangan"
                 >
                     <div className="section-padding-x container mx-auto max-w-7xl">
-                        <div className="mb-6 md:mb-10 text-center" data-reveal>
-                            <div className="mb-3 inline-block text-xs font-semibold tracking-[0.12em] text-(--gold) uppercase">
-                                Mengapa Mrebet
-                            </div>
+                        <div className="mx-auto max-w-3xl text-center" data-reveal>
+                            <div className="eyebrow">Tentang Serayu Larangan</div>
                             <h2
                                 className="font-display font-semibold text-white"
                                 style={{
@@ -603,7 +592,7 @@ export default function Home({
                                             'clamp(1.75rem, 3.5vw, 2.5rem)',
                                     }}
                                 >
-                                    Musim demi musim, Mrebet punya
+                                    Musim demi musim, Serayu Larangan punya
                                     <br className="hidden md:block" /> alasan
                                     baru untuk dikunjungi.
                                 </h2>
@@ -738,7 +727,7 @@ export default function Home({
                                             <div className="mt-auto flex items-center justify-between border-t border-(--line) pt-3">
                                                 <span className="text-xs text-(--charcoal-soft)">
                                                     {blog.author?.full_name ??
-                                                        'Tim Mrebet'}
+                                                        'Pokdarwis Serayu Larangan'}
                                                 </span>
                                                 <span className="text-xs text-(--charcoal-soft)">
                                                     {blog.views_count.toLocaleString(
@@ -774,7 +763,6 @@ export default function Home({
                                             'clamp(1.75rem, 3.5vw, 2.5rem)',
                                     }}
                                 >
-                                    Mrebet menantimu, kapan pun kau siap.
                                 </h2>
                                 <p className="mb-2 md:mb-4 leading-relaxed text-(--charcoal-soft)">
                                     Terletak di Kecamatan Mrebet, Kabupaten
@@ -814,14 +802,14 @@ export default function Home({
                                         href="https://www.google.com/maps/dir/?api=1&destination=-7.3168897,109.3491433"
                                         target="_blank"
                                         rel="noopener noreferrer"
-                                        className="inline-flex items-center gap-2 rounded-xl bg-(--forest) px-5 py-2.5 text-sm font-semibold text-white transition-all duration-200 hover:bg-(--forest-deep) active:scale-[0.98]"
+                                        className="inline-flex items-center gap-2 rounded-xl bg-(--forest) px-5 py-2.5 text-sm font-semibold text-white transition-all duration-200 active:scale-[0.98]"
                                     >
                                         <Map className="h-4 w-4" />
                                         Ambil Rute
                                     </a>
                                     <Link
                                         href="/tentang"
-                                        className="inline-flex items-center gap-2 rounded-xl bg-(--gold) px-5 py-2.5 text-sm font-semibold text-(--forest-deep) transition-all duration-200 hover:bg-(--gold-soft) active:scale-[0.98]"
+                                        className="inline-flex items-center gap-2 rounded-xl bg-(--gold) px-5 py-2.5 text-sm font-semibold text-white transition-all duration-200 hover:bg-(--gold) active:scale-[0.98]"
                                     >
                                         Hubungi Kami
                                     </Link>
@@ -839,7 +827,7 @@ export default function Home({
                                         className="h-full w-full border-0"
                                         loading="lazy"
                                         referrerPolicy="no-referrer-when-downgrade"
-                                        title="Peta lokasi Kecamatan Mrebet, Purbalingga"
+                                        title="Peta lokasi Desa Serayu Larangan, Purbalingga"
                                     />
                                 </div>
                                 <a

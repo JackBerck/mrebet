@@ -43,18 +43,18 @@ export default function PublicNavbar() {
                     <Link
                         href={home()}
                         className="flex shrink-0 items-center gap-3"
-                        aria-label="Wisata Mrebet — Beranda"
+                        aria-label="Wisata Serayu Larangan — Beranda"
                         onClick={() => setMenuOpen(false)}
                     >
                         <img
                             src="/logo.png"
-                            alt="Logo Mrebet"
+                            alt="Logo Serayu Larangan"
                             className="h-10 w-auto object-contain drop-shadow-sm transition-transform duration-300 hover:scale-105"
                         />
                         <span
                             className="font-display text-lg leading-none font-bold transition-colors duration-500 md:text-xl text-(--forest-deep)"
                         >
-                            Wisata Mrebet
+                            Serayu Larangan
                         </span>
                     </Link>
 

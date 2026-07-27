@@ -1,5 +1,5 @@
 import { Head } from '@inertiajs/react';
-import { TreePine, Heart, Users, MapPin } from 'lucide-react';
+import { TreePine, Heart } from 'lucide-react';
 import { aboutData } from '@/data/about';
 import { useMotionReveal } from '@/hooks/use-motion-reveal';
 import PublicLayout from '@/layouts/public-layout';
@@ -9,7 +9,7 @@ export default function About() {
 
     return (
         <PublicLayout>
-            <Head title="Tentang Kami - Wisata Mrebet" />
+            <Head title="Tentang Kami - Desa Wisata Serayu Larangan" />
             
             {/* Hero Section */}
             <section className="relative flex items-center justify-center overflow-hidden pt-32 pb-20 md:pt-40 md:pb-32 bg-(--forest-deep) text-center">
@@ -19,19 +19,19 @@ export default function About() {
                 <div className="relative z-10 container mx-auto max-w-4xl section-padding-x" data-reveal>
                     <div className="inline-flex items-center gap-2 rounded-full border border-white/20 bg-white/10 px-4 py-1.5 text-sm font-medium text-white mb-6 backdrop-blur-md">
                         <TreePine className="h-4 w-4" />
-                        <span>Mengenal Mrebet</span>
+                        <span>Mengenal Serayu Larangan</span>
                     </div>
                     <h1 className="mb-6 font-display text-4xl font-bold text-white md:text-5xl lg:text-6xl leading-tight">
                         {aboutData.title}
                     </h1>
                     <p className="mx-auto max-w-2xl text-lg text-white/80 leading-relaxed">
-                        Kami mengundang Anda untuk menepi dari keramaian, bernapas di antara rimbun pinus, dan mendengar nyanyian alam yang sejati.
+                        Kami mengundang Anda untuk menepi dari keramaian, menikmati lanskap persawahan di lereng Gunung Slamet, dan merasakan kehangatan masyarakat pedesaan.
                     </p>
                 </div>
             </section>
 
             {/* Main Content */}
-            <section className="bg-(--cream) py-20">
+            <section className="bg-(--cream-warm) py-20">
                 <div className="container mx-auto max-w-5xl section-padding-x">
                     
                     {/* Story */}
@@ -42,17 +42,16 @@ export default function About() {
                                 {aboutData.description}
                             </p>
                             <p className="text-(--charcoal-soft) leading-relaxed">
-                                Wisata Mrebet lahir dari gotong royong warga desa yang menyadari bahwa keindahan alam tidak boleh dinikmati sendirian, namun juga tidak boleh dieksploitasi. Dengan konsep pariwisata berkelanjutan, kami membangun fasilitas ramah lingkungan.
+                                Desa Wisata Serayu Larangan lahir dari gotong royong warga desa yang menyadari potensi alam dan budaya desa kami yang asri. Dengan prinsip pariwisata berkelanjutan, kami terus menjaga kelestarian lingkungan dan tradisi lokal.
                             </p>
                         </div>
-                        <div className="relative aspect-square overflow-hidden rounded-3xl md:aspect-4/3">
-                            {/* Ganti dengan foto warga/desa */}
-                            <img src="https://images.unsplash.com/photo-1621248035246-83c34f2d2508?auto=format&fit=crop&q=80" alt="Warga desa" className="h-full w-full object-cover" />
+                        <div className="relative aspect-square overflow-hidden rounded-3xl md:aspect-4/3 border border-(--line) shadow-sm">
+                            <img src="https://images.unsplash.com/photo-1621248035246-83c34f2d2508?auto=format&fit=crop&q=80" alt="Suasana Desa Serayu Larangan" className="h-full w-full object-cover" />
                         </div>
                     </div>
 
                     {/* Visi Misi */}
-                    <div className="rounded-3xl bg-white p-8 shadow-sm md:p-12 mb-24" data-reveal>
+                    <div className="rounded-3xl bg-white p-8 border border-(--line) shadow-sm md:p-12 mb-24" data-reveal>
                         <div className="mb-10 text-center">
                             <h2 className="font-display text-3xl font-bold text-(--forest-deep) mb-4">Visi & Misi</h2>
                             <p className="mx-auto max-w-2xl text-lg font-medium text-(--gold) italic">
@@ -61,11 +60,11 @@ export default function About() {
                         </div>
                         <div className="grid gap-6 md:grid-cols-2">
                             {aboutData.missions.map((mission, index) => (
-                                <div key={index} className="flex gap-4 items-start p-4 rounded-xl hover:bg-(--cream-soft) transition-colors">
-                                    <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-(--forest-mist)/20 text-(--forest)">
+                                <div key={index} className="flex gap-4 items-start p-4 rounded-xl hover:bg-(--cream-warm) transition-colors border border-transparent hover:border-(--line)">
+                                    <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-(--forest-mist) text-(--forest)">
                                         <Heart className="h-5 w-5" />
                                     </div>
-                                    <p className="text-(--charcoal) font-medium pt-2">{mission}</p>
+                                    <p className="text-(--charcoal) font-medium pt-1 text-sm md:text-base">{mission}</p>
                                 </div>
                             ))}
                         </div>
@@ -75,17 +74,17 @@ export default function About() {
                     <div className="text-center" data-reveal>
                         <h2 className="font-display text-3xl font-bold text-(--forest-deep) mb-4">Pengelola Desa Wisata</h2>
                         <p className="text-(--charcoal-soft) mb-12 max-w-2xl mx-auto">
-                            Wajah-wajah di balik keramahan dan keasrian desa wisata Mrebet.
+                            Wajah-wajah di balik keramahan dan keasrian Desa Wisata Serayu Larangan.
                         </p>
                         
                         <div className="grid gap-8 sm:grid-cols-2 md:grid-cols-3">
                             {aboutData.team.map((member, idx) => (
-                                <div key={idx} className="group">
-                                    <div className="mb-4 overflow-hidden rounded-2xl aspect-square bg-(--forest-mist)">
+                                <div key={idx} className="group bg-white p-4 rounded-2xl border border-(--line) shadow-sm hover:shadow-md transition-all">
+                                    <div className="mb-4 overflow-hidden rounded-xl aspect-square bg-(--forest-mist)">
                                         <img src={member.photo} alt={member.name} className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105" />
                                     </div>
                                     <h3 className="text-xl font-bold text-(--charcoal)">{member.name}</h3>
-                                    <p className="text-(--gold) font-medium">{member.role}</p>
+                                    <p className="text-(--forest) font-medium text-sm mt-1">{member.role}</p>
                                 </div>
                             ))}
                         </div>

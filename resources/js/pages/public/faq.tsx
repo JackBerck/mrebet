@@ -16,7 +16,7 @@ export default function FAQ() {
 
     return (
         <PublicLayout>
-            <Head title="FAQ - Wisata Mrebet" />
+            <Head title="FAQ - Desa Wisata Serayu Larangan" />
             
             {/* Hero Section */}
             <section className="bg-(--forest-deep) pt-32 pb-16 text-center text-white">
@@ -26,13 +26,13 @@ export default function FAQ() {
                     </div>
                     <h1 className="mb-4 font-display text-4xl font-bold md:text-5xl">Pertanyaan Umum</h1>
                     <p className="text-lg text-white/70">
-                        Temukan jawaban untuk pertanyaan yang paling sering ditanyakan oleh wisatawan kami.
+                        Temukan jawaban untuk pertanyaan yang sering ditanyakan seputar Desa Wisata Serayu Larangan.
                     </p>
                 </div>
             </section>
 
             {/* Content Section */}
-            <section className="bg-(--cream) py-12 lg:py-16">
+            <section className="bg-(--cream-warm) py-12 lg:py-16">
                 <div className="container mx-auto max-w-3xl section-padding-x">
                     {faqs.map((category, catIdx) => (
                         <div key={catIdx} className="mb-6 md:mb-10" data-reveal>
@@ -49,18 +49,18 @@ export default function FAQ() {
                                             key={id} 
                                             className={clsx(
                                                 "overflow-hidden rounded-xl md:rounded-2xl border transition-all duration-300",
-                                                isOpen ? "border-(--forest-mist) bg-white shadow-sm" : "border-black/5 bg-white/50 hover:bg-white"
+                                                isOpen ? "border-(--forest-mist) bg-white shadow-sm" : "border-(--line) bg-white hover:border-(--forest-mist)"
                                             )}
                                         >
                                             <button
                                                 onClick={() => toggleAccordion(id)}
-                                                className="flex w-full items-center justify-between p-3 md:p-4 text-left font-semibold text-(--charcoal) focus:outline-none"
+                                                className="flex w-full items-center justify-between p-3 md:p-4 text-left font-semibold text-(--charcoal) focus:outline-none text-sm md:text-base"
                                             >
                                                 <span>{item.question}</span>
                                                 <ChevronDown 
                                                     className={clsx(
-                                                        "h-5 w-5 shrink-0 text-(--gold) transition-transform duration-300",
-                                                        isOpen && "rotate-180"
+                                                        "h-5 w-5 shrink-0 text-(--forest) transition-transform duration-300",
+                                                        isOpen && "rotate-180 text-(--gold)"
                                                     )} 
                                                 />
                                             </button>
@@ -71,7 +71,7 @@ export default function FAQ() {
                                                 )}
                                             >
                                                 <div className="overflow-hidden">
-                                                    <div className="p-3 md:p-5 pt-0 text-(--charcoal-soft) leading-relaxed">
+                                                    <div className="p-3 md:p-5 pt-0 text-(--charcoal-soft) leading-relaxed text-sm md:text-base">
                                                         {item.answer}
                                                     </div>
                                                 </div>

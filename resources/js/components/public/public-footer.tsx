@@ -15,21 +15,19 @@ export default function PublicFooter() {
                         <Link
                             href="/"
                             className="mb-4 inline-flex items-center gap-2.5"
-                            aria-label="Wisata Mrebet — Beranda"
+                            aria-label="Desa Wisata Serayu Larangan — Beranda"
                         >
                             <img
                                 src="/logo.png"
-                                alt="Logo Mrebet"
+                                alt="Logo Serayu Larangan"
                                 className="h-9 w-auto object-contain drop-shadow-md"
                             />
                             <span className="font-display text-lg font-bold">
-                                Wisata Mrebet
+                                Serayu Larangan
                             </span>
                         </Link>
-                        <p className="mb-5 text-sm leading-relaxed text-white/60">
-                            Destinasi wisata alam di Purbalingga, Jawa Tengah —
-                            curug, hutan pinus, dan keheningan di kaki Gunung
-                            Slamet.
+                        <p className="mb-5 text-sm leading-relaxed text-white/80">
+                            Destinasi desa wisata asri di Desa Serayu Larangan, Kec. Mrebet, Kab. Purbalingga — keindahan alam persawahan, tradisi lokal, dan pesona di lereng timur Gunung Slamet.
                         </p>
                         {/* Social */}
                         <div className="flex items-center gap-3">
@@ -77,7 +75,7 @@ export default function PublicFooter() {
                                     key={social.label}
                                     href={social.href}
                                     aria-label={social.label}
-                                    className="flex h-9 w-9 items-center justify-center rounded-lg bg-white/10 text-white/70 transition-all duration-200 hover:bg-(--gold) hover:text-(--forest-deep)"
+                                    className="flex h-9 w-9 items-center justify-center rounded-lg bg-white/10 text-white/80 transition-all duration-200 hover:bg-(--gold)"
                                 >
                                     {social.icon}
                                 </a>
@@ -95,7 +93,7 @@ export default function PublicFooter() {
                                 <li key={link.href}>
                                     <Link
                                         href={link.href}
-                                        className="normal-footer-font-size text-white/60 transition-colors duration-150 hover:text-(--gold)"
+                                        className="normal-footer-font-size text-white/80 transition-colors duration-150 hover:text-(--gold)"
                                     >
                                         {link.label}
                                     </Link>
@@ -114,7 +112,7 @@ export default function PublicFooter() {
                                 <li key={link.href}>
                                     <Link
                                         href={link.href}
-                                        className="normal-footer-font-size text-white/60 transition-colors duration-150 hover:text-(--gold)"
+                                        className="normal-footer-font-size text-white/80 transition-colors duration-150 hover:text-(--gold)"
                                     >
                                         {link.label}
                                     </Link>
@@ -141,15 +139,15 @@ export default function PublicFooter() {
                                     icon: (
                                         <Mail className="mt-0.5 h-4 w-4 shrink-0" />
                                     ),
-                                    text: 'halo@wisatamrebet.id',
-                                    href: 'mailto:halo@wisatamrebet.id',
+                                    text: 'info@serayularangan.desa.id',
+                                    href: 'mailto:info@serayularangan.desa.id',
                                 },
                                 {
                                     icon: (
                                         <MapPin className="mt-0.5 h-4 w-4 shrink-0" />
                                     ),
-                                    text: 'Kec. Mrebet, Kab. Purbalingga, Jawa Tengah',
-                                    href: 'https://www.google.com/maps/search/?api=1&query=Mrebet+Purbalingga',
+                                    text: 'Desa Serayu Larangan, Kec. Mrebet, Kab. Purbalingga, Jawa Tengah 53352',
+                                    href: 'https://www.google.com/maps/search/?api=1&query=Desa+Serayu+Larangan+Purbalingga',
                                 },
                             ].map((item, i) => (
                                 <li key={i}>
@@ -165,7 +163,7 @@ export default function PublicFooter() {
                                                 ? 'noopener noreferrer'
                                                 : undefined
                                         }
-                                        className="hhover:text-(--gold) normal-footer-font-size flex items-start gap-2.5 text-white/60 transition-colors duration-150"
+                                        className="hover:text-(--gold) normal-footer-font-size flex items-start gap-2.5 text-white/80 transition-colors duration-150"
                                     >
                                         {item.icon}
                                         <span>{item.text}</span>
@@ -179,7 +177,7 @@ export default function PublicFooter() {
                 {/* Bottom bar */}
                 <div className="normal-footer-font-size flex flex-col items-center justify-between gap-2 pt-6 text-white/40 sm:flex-row">
                     <div>
-                        © {year} Wisata Mrebet. Seluruh hak cipta dilindungi.
+                        © {year} Desa Wisata Serayu Larangan. Seluruh hak cipta dilindungi.
                     </div>
                 </div>
             </div>

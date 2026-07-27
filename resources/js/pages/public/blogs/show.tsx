@@ -31,8 +31,8 @@ export default function BlogShow({ blog, relatedBlogs }: Props) {
         if (navigator.share) {
             try {
                 await navigator.share({
-                    title: `${blog.title} - Wisata Mrebet`,
-                    text: 'Baca artikel ini di Wisata Mrebet!',
+                    title: `${blog.title} - Desa Wisata Serayu Larangan`,
+                    text: 'Baca artikel ini di Desa Wisata Serayu Larangan!',
                     url: shareUrl,
                 });
             } catch (error) {
@@ -62,12 +62,12 @@ export default function BlogShow({ blog, relatedBlogs }: Props) {
     // Extract excerpt for meta description (strip HTML and get first 150 chars)
     const excerpt = blog.content 
         ? blog.content.replace(/<[^>]*>?/gm, '').trim().substring(0, 150) + '...'
-        : 'Baca berita dan artikel terbaru dari Wisata Mrebet.';
+        : 'Baca berita dan artikel terbaru dari Desa Wisata Serayu Larangan.';
 
     return (
         <PublicLayout>
             <Head>
-                <title>{`${blog.title} | Mrebet Wisata`}</title>
+                <title>{`${blog.title} | Desa Wisata Serayu Larangan`}</title>
                 <meta name="description" content={excerpt} />
                 <link rel="canonical" href={shareUrl} />
                 
@@ -169,7 +169,7 @@ export default function BlogShow({ blog, relatedBlogs }: Props) {
                                     />
                                 ) : (
                                     <div className="w-full h-full flex items-center justify-center bg-(--forest-mist)/30 text-(--forest)/40">
-                                        <span className="text-xl font-display font-medium">Wisata Mrebet</span>
+                                        <span className="text-xl font-display font-medium">Serayu Larangan</span>
                                     </div>
                                 )}
                             </div>
@@ -239,7 +239,7 @@ export default function BlogShow({ blog, relatedBlogs }: Props) {
                                                 />
                                             ) : (
                                                 <div className="w-full h-full flex items-center justify-center bg-(--forest-mist)/30 text-(--forest)/40">
-                                                    <span className="font-display font-medium">Wisata Mrebet</span>
+                                                    <span className="font-display font-medium">Serayu Larangan</span>
                                                 </div>
                                             )}
                                         </div>

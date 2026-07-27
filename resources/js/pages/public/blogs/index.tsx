@@ -55,10 +55,10 @@ export default function BlogsIndex({ blogs, filters }: Props) {
     return (
         <PublicLayout>
             <Head>
-                <title>Blog & Berita — Wisata Mrebet</title>
+                <title>Blog & Berita — Desa Wisata Serayu Larangan</title>
                 <meta
                     name="description"
-                    content="Kumpulan artikel, kabar desa, cerita perjalanan, dan berita terbaru dari seluruh desa wisata di Kecamatan Mrebet."
+                    content="Kumpulan artikel, kabar desa, cerita kegiatan, dan berita terbaru dari Desa Wisata Serayu Larangan, Mrebet, Purbalingga."
                 />
             </Head>
 
@@ -71,7 +71,7 @@ export default function BlogsIndex({ blogs, filters }: Props) {
                             Blog & Berita
                         </h1>
                         <p className="text-base md:text-lg text-(--charcoal-soft) leading-relaxed">
-                            Kumpulan cerita inspiratif, kabar terbaru dari desa, informasi wisata, dan liputan kegiatan menarik dari seluruh pelosok Mrebet.
+                            Kumpulan cerita inspiratif, kabar terbaru dari desa, informasi wisata, dan liputan kegiatan warga Desa Serayu Larangan.
                         </p>
                     </div>
 

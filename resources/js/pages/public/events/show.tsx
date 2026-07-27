@@ -37,8 +37,8 @@ export default function EventShow({ event, relatedEvents }: Props) {
         if (navigator.share) {
             try {
                 await navigator.share({
-                    title: `${event.title} - Wisata Mrebet`,
-                    text: 'Lihat acara ini di Wisata Mrebet!',
+                    title: `${event.title} - Desa Wisata Serayu Larangan`,
+                    text: 'Lihat acara ini di Desa Wisata Serayu Larangan!',
                     url: shareUrl,
                 });
             } catch (error) {
@@ -53,7 +53,7 @@ export default function EventShow({ event, relatedEvents }: Props) {
     return (
         <PublicLayout>
             <Head>
-                <title>{`${event.title} — Acara Wisata Mrebet`}</title>
+                <title>{`${event.title} — Desa Wisata Serayu Larangan`}</title>
                 <meta name="description" content={event.title} />
             </Head>
 

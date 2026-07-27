@@ -31,8 +31,8 @@ export default function VillageShow({ village, destinations, events, blogs, rela
         if (navigator.share) {
             try {
                 await navigator.share({
-                    title: `Desa Wisata ${village.name} - Wisata Mrebet`,
-                    text: `Jelajahi potensi keindahan Desa Wisata ${village.name} di Kecamatan Mrebet!`,
+                    title: `Desa Wisata ${village.name} - Desa Wisata Serayu Larangan`,
+                    text: `Jelajahi potensi keindahan Desa Wisata ${village.name} di Serayu Larangan, Kecamatan Mrebet!`,
                     url: shareUrl,
                 });
             } catch (error) {
@@ -82,7 +82,7 @@ export default function VillageShow({ village, destinations, events, blogs, rela
     return (
         <PublicLayout>
             <Head>
-                <title>{`Desa Wisata ${village.name} — Wisata Mrebet`}</title>
+                <title>{`Desa Wisata ${village.name} — Desa Wisata Serayu Larangan`}</title>
                 <meta name="description" content={excerpt} />
                 <link rel="canonical" href={shareUrl} />
                 
@@ -473,7 +473,7 @@ export default function VillageShow({ village, destinations, events, blogs, rela
                                         <div className="p-5 flex flex-col grow">
                                             <h3 className="font-bold text-(--charcoal) group-hover:text-(--forest) transition-colors line-clamp-1 mb-2">Desa {item.name}</h3>
                                             <p className="text-xs text-(--charcoal-soft) line-clamp-2 mb-4">
-                                                {item.description ? item.description.replace(/<[^>]*>?/gm, '').trim() : 'Menyajikan keindahan khas pedesaan Mrebet.'}
+                                                {item.description ? item.description.replace(/<[^>]*>?/gm, '').trim() : 'Menyajikan keindahan khas pedesaan Serayu Larangan.'}
                                             </p>
                                             <div className="mt-auto pt-3 border-t border-(--line) flex items-center justify-between text-xs font-semibold text-(--forest)">
                                                 <span>{item.destinations_count || 0} Destinasi Wisata</span>

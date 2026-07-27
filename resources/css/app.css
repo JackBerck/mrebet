@@ -155,6 +155,7 @@
     --sidebar-ring: oklch(0.87 0 0);
 
     /* ── Mrebet Brand Tokens ──────────────────────────────────────────────── */
+    /* ── PRESET LAMA (Krem Warm / Pastel) ───────────────────────────────────
     --forest: oklch(0.38 0.08 145);
     --forest-deep: oklch(0.24 0.05 145);
     --forest-mist: oklch(0.92 0.02 145);
@@ -165,6 +166,27 @@
     --charcoal: oklch(0.22 0.01 85);
     --charcoal-soft: oklch(0.48 0.01 85);
     --line: oklch(0.22 0.01 85 / 8%);
+    ────────────────────────────────────────────────────────────────────────── */
+
+    /* ── TEMA BARU: Modern Slate Clean & Emerald-Teal (High Contrast) ──────── */
+    --forest: #047857;           /* Emerald 700 - Forest Utama */
+    --forest-deep: #064e3b;      /* Emerald 900 - Deep Title */
+    --forest-mist: #ecfdf5;      /* Emerald 50 - Light Badge / Highlight */
+    
+    --cream-warm: #f8fafc;       /* Slate 50 - Latar Belakang Clean Off-White */
+    --cream-soft: #ffffff;       /* Pure Crisp White - Latar Kartu / Container */
+    
+    --gold: #d97706;             /* Amber 600 - Emas Aksesibilitas */
+    --gold-soft: #fef3c7;        /* Amber 100 */
+    
+    --charcoal: #0f172a;        /* Slate 900 - Teks Utama (Kontras Tinggi) */
+    --charcoal-soft: #475569;   /* Slate 600 - Teks Subtitle (Keterbacaan Tinggi) */
+    
+    --line: #e2e8f0;            /* Slate 200 - Garis Batas / Border Card Jelas */
+    
+    /* Akses Tambahan Hijau-Biru (Ocean Teal / Cyan) */
+    --teal: #0d9488;            /* Teal 600 - Akses Hijau-Biru Segar */
+    --teal-soft: #ccfbf1;       /* Teal 100 - Light Hijau-Biru Mist */
     --ease: cubic-bezier(0.19, 1, 0.22, 1);
     --touch-min: 44px;
     --shadow-card: 0 8px 32px oklch(0.22 0.01 85 / 12%);

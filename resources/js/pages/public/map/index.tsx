@@ -75,10 +75,10 @@ export default function MapIndex({ destinations, villages, categories }: Props) 
     return (
         <PublicLayout>
             <Head>
-                <title>Peta Wisata Interaktif — Wisata Mrebet</title>
+                <title>Peta Wisata Interaktif — Desa Wisata Serayu Larangan</title>
                 <meta
                     name="description"
-                    content="Jelajahi peta interaktif sebaran lokasi destinasi wisata dan desa wisata di Kecamatan Mrebet."
+                    content="Jelajahi peta interaktif sebaran lokasi destinasi wisata dan titik pesona di Desa Wisata Serayu Larangan, Mrebet, Purbalingga."
                 />
             </Head>
 
@@ -91,10 +91,10 @@ export default function MapIndex({ destinations, villages, categories }: Props) 
                             GIS Interaktif
                         </span>
                         <h1 className="font-display text-3xl md:text-4xl lg:text-5xl font-bold text-(--forest-deep) mb-3">
-                            Peta Wisata Mrebet
+                            Peta Wisata Serayu Larangan
                         </h1>
                         <p className="text-sm md:text-base text-(--charcoal-soft) max-w-2xl">
-                            Temukan sebaran letak destinasi wisata dan desa wisata secara spasial di wilayah Kecamatan Mrebet.
+                            Temukan sebaran letak destinasi wisata dan titik potensi secara spasial di wilayah Desa Serayu Larangan, Kecamatan Mrebet.
                         </p>
                     </div>
 
@@ -300,7 +300,7 @@ export default function MapIndex({ destinations, villages, categories }: Props) 
                                                         </h3>
                                                         <p className="text-xs text-(--charcoal-soft) flex items-center gap-1 mt-0.5">
                                                             <MapPin className="w-3 h-3 text-(--forest) shrink-0" />
-                                                            <span className="truncate">{point.village_name || 'Kecamatan Mrebet'}</span>
+                                                            <span className="truncate">{point.village_name || 'Serayu Larangan'}</span>
                                                         </p>
                                                     </div>
 

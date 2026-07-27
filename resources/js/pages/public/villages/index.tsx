@@ -54,10 +54,10 @@ export default function VillagesIndex({ villages, filters }: Props) {
     return (
         <PublicLayout>
             <Head>
-                <title>Desa Wisata — Wisata Mrebet</title>
+                <title>Desa Wisata — Desa Wisata Serayu Larangan</title>
                 <meta
                     name="description"
-                    content="Jelajahi keunikan, kebudayaan, dan potensi pesona desa wisata yang tersebar di Kecamatan Mrebet."
+                    content="Jelajahi keunikan, kebudayaan, dan potensi pesona Desa Wisata Serayu Larangan di Kecamatan Mrebet, Purbalingga."
                 />
             </Head>
 
@@ -73,7 +73,7 @@ export default function VillagesIndex({ villages, filters }: Props) {
                             Desa Wisata
                         </h1>
                         <p className="text-base md:text-lg text-(--charcoal-soft) leading-relaxed">
-                            Nikmati kehangatan masyarakat lokal, tradisi budaya yang terjaga, serta panorama khas pedesaan di lereng Gunung Slamet.
+                            Nikmati kehangatan masyarakat lokal, tradisi budaya yang terjaga, serta panorama khas pedesaan Serayu Larangan di lereng Gunung Slamet.
                         </p>
                     </div>
 

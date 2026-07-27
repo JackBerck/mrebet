@@ -39,8 +39,8 @@ export default function DestinationShow({ destination, events, relatedDestinatio
         if (navigator.share) {
             try {
                 await navigator.share({
-                    title: `${destination.name} - Wisata Mrebet`,
-                    text: 'Lihat destinasi wisata ini di Wisata Mrebet!',
+                    title: `${destination.name} - Desa Wisata Serayu Larangan`,
+                    text: 'Lihat destinasi wisata ini di Desa Wisata Serayu Larangan!',
                     url: shareUrl,
                 });
             } catch (error) {
@@ -65,7 +65,7 @@ export default function DestinationShow({ destination, events, relatedDestinatio
         },
         "address": {
             "@type": "PostalAddress",
-            "addressLocality": destination.village?.name || 'Mrebet',
+            "addressLocality": destination.village?.name || 'Serayu Larangan',
             "addressRegion": "Jawa Tengah",
             "addressCountry": "ID"
         }
@@ -73,12 +73,12 @@ export default function DestinationShow({ destination, events, relatedDestinatio
 
     const excerpt = destination.description 
         ? destination.description.replace(/<[^>]*>?/gm, '').trim().substring(0, 150) + '...'
-        : `Kunjungi ${destination.name} di Desa ${destination.village?.name || 'Mrebet'}.`;
+        : `Kunjungi ${destination.name} di Desa ${destination.village?.name || 'Serayu Larangan'}.`;
 
     return (
         <PublicLayout>
             <Head>
-                <title>{`${destination.name} | Mrebet Wisata`}</title>
+                <title>{`${destination.name} | Desa Wisata Serayu Larangan`}</title>
                 <meta name="description" content={excerpt} />
                 <link rel="canonical" href={shareUrl} />
                 
@@ -317,7 +317,7 @@ export default function DestinationShow({ destination, events, relatedDestinatio
                                         <div>
                                             <p className="text-xs text-(--charcoal-soft) font-medium uppercase tracking-wider mb-1">Lokasi</p>
                                             <p className="font-semibold text-(--charcoal)">Desa Wisata {destination.village.name}</p>
-                                            <p className="text-sm text-(--charcoal-soft) mt-0.5">Kecamatan Mrebet, Kab. Purbalingga</p>
+                                            <p className="text-sm text-(--charcoal-soft) mt-0.5">Kec. Mrebet, Kab. Purbalingga</p>
                                         </div>
                                     </div>
                                 )}
@@ -463,7 +463,7 @@ export default function DestinationShow({ destination, events, relatedDestinatio
                                             <h3 className="font-bold text-(--charcoal) group-hover:text-(--forest) transition-colors line-clamp-1 mb-2">{related.name}</h3>
                                             <div className="flex items-center gap-1.5 text-xs text-(--charcoal-soft) mb-3">
                                                 <MapPin className="w-3.5 h-3.5 shrink-0" />
-                                                <span className="truncate">{related.village?.name || 'Mrebet'}</span>
+                                                <span className="truncate">{related.village?.name || 'Serayu Larangan'}</span>
                                             </div>
                                             <div className="mt-auto pt-3 border-t border-(--line) flex items-center gap-1.5 text-xs font-semibold text-(--charcoal)">
                                                 <Ticket className="w-3.5 h-3.5 text-(--gold)" />

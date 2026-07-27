@@ -30,7 +30,7 @@ export default function Guide() {
                 <Heading
                     variant="small"
                     title="Panduan"
-                    description="Panduan penggunaan sistem E-Desa Digital Mrebet"
+                    description="Panduan penggunaan sistem E-Desa Digital Serayu Larangan"
                 />
 
                 {/* Role info */}

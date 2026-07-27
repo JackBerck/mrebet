@@ -1,5 +1,5 @@
 import { Head, Link, router } from '@inertiajs/react';
-import { Search, Image as ImageIcon, MapPin, Ticket, Map } from 'lucide-react';
+import { Search, MapPin, Ticket, Map } from 'lucide-react';
 import PublicLayout from '@/layouts/public-layout';
 import { useMotionReveal } from '@/hooks/use-motion-reveal';
 import type { Destination } from '@/types/public';
@@ -67,10 +67,10 @@ export default function DestinationsIndex({ destinations, categories, filters }:
     return (
         <PublicLayout>
             <Head>
-                <title>Destinasi Wisata — Wisata Mrebet</title>
+                <title>Destinasi Wisata — Desa Wisata Serayu Larangan</title>
                 <meta
                     name="description"
-                    content="Jelajahi berbagai destinasi wisata alam, budaya, dan buatan yang menakjubkan di Kecamatan Mrebet."
+                    content="Jelajahi berbagai destinasi wisata alam, budaya, dan buatan di kawasan Desa Wisata Serayu Larangan, Mrebet, Purbalingga."
                 />
             </Head>
 
@@ -83,7 +83,7 @@ export default function DestinationsIndex({ destinations, categories, filters }:
                             Eksplorasi Destinasi
                         </h1>
                         <p className="text-base md:text-lg text-(--charcoal-soft) leading-relaxed">
-                            Temukan surga tersembunyi, nikmati pesona alam, dan pelajari kekayaan budaya yang membentang di seluruh wilayah Mrebet.
+                            Temukan keindahan lanskap alam, kearifan lokal, dan titik-titik pesona di Desa Wisata Serayu Larangan.
                         </p>
                     </div>
 
@@ -178,7 +178,7 @@ export default function DestinationsIndex({ destinations, categories, filters }:
                                         
                                         <div className="flex items-center gap-1.5 text-sm text-(--charcoal-soft) mb-4">
                                             <MapPin className="w-4 h-4 shrink-0" />
-                                            <span className="truncate">{dest.village?.name || 'Mrebet'}</span>
+                                            <span className="truncate">{dest.village?.name || 'Serayu Larangan'}</span>
                                         </div>
                                         
                                         <div className="mt-auto pt-4 border-t border-(--line) flex items-center justify-between">

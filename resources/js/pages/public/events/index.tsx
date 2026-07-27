@@ -16,10 +16,10 @@ export default function EventsIndex({ events, currentMonth }: Props) {
     return (
         <PublicLayout>
             <Head>
-                <title>Kalender Acara — Wisata Mrebet</title>
+                <title>Kalender Acara — Desa Wisata Serayu Larangan</title>
                 <meta
                     name="description"
-                    content="Jelajahi kalender acara dan kegiatan budaya, festival alam, serta event menarik lainnya di desa-desa wisata Kecamatan Mrebet."
+                    content="Jelajahi kalender acara, festival kebudayaan, serta kegiatan menarik di Desa Wisata Serayu Larangan, Mrebet, Purbalingga."
                 />
             </Head>
 
@@ -30,8 +30,7 @@ export default function EventsIndex({ events, currentMonth }: Props) {
                             Kalender Acara
                         </h1>
                         <p className="text-base md:text-lg leading-relaxed">
-                            Temukan berbagai festival budaya, perayaan alam, hingga pasar tradisional di Mrebet. 
-                            Simpan tanggalnya dan jadilah bagian dari cerita desa.
+                            Temukan berbagai festival budaya, perayaan alam, hingga kebersamaan warga di Desa Serayu Larangan. Simpan tanggalnya dan jadilah bagian dari cerita desa.
                         </p>
                     </div>
 
