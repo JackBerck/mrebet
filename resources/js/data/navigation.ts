@@ -1,11 +1,10 @@
 const mainLinks = [
     { label: 'Beranda', href: '/' },
-    { label: 'Desa Wisata', href: '/desa' },
+    { label: 'UMKM & Kuliner', href: '/umkm' },
     { label: 'Destinasi Wisata', href: '/destinasi' },
-    { label: 'Peta Wisata', href: '/peta' },
+    { label: 'Peta Interaktif', href: '/peta' },
     { label: 'Kalender Acara', href: '/event' },
     { label: 'Blog & Berita', href: '/berita' },
-    // { label: 'Tentang Kami', href: '/tentang' },
 ];
 
 const legalLinks = [

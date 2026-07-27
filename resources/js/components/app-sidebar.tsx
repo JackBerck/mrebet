@@ -4,7 +4,7 @@ import {
     Compass,
     FileText,
     LayoutDashboard,
-    MapPin,
+    Store,
     Users,
 } from 'lucide-react';
 import AppLogo from '@/components/app-logo';
@@ -25,8 +25,8 @@ import admin from '@/routes/admin';
 
 function getAdminNavItems(user: User | null | undefined): NavItem[] {
     if (!user) {
-return [];
-}
+        return [];
+    }
 
     const base: NavItem[] = [
         {
@@ -39,7 +39,7 @@ return [];
     if (user.role === 'admin') {
         return [
             ...base,
-            { title: 'Desa', href: admin.villages.index().url, icon: MapPin },
+            { title: 'UMKM Desa', href: '/admin/umkms', icon: Store },
             { title: 'Destinasi', href: admin.destinations.index().url, icon: Compass },
             { title: 'Event', href: admin.events.index().url, icon: CalendarDays },
             { title: 'Blog', href: admin.blogs.index().url, icon: FileText },
@@ -47,16 +47,12 @@ return [];
         ];
     }
 
-    // Manager — link langsung ke edit desanya sendiri
-    // Asumsikan user object yang dikirim dari HandleInertiaRequests punya data village
-    // Jika tidak ada data village di user, mungkin perlu fallback.
-    // Wait, let's use `auth.user.village?.slug`.
     return [
         ...base,
         {
-            title: 'Desa Saya',
-            href: admin.villages.index().url,
-            icon: MapPin,
+            title: 'UMKM Saya',
+            href: '/admin/umkms',
+            icon: Store,
         },
         { title: 'Destinasi', href: admin.destinations.index().url, icon: Compass },
         { title: 'Event', href: admin.events.index().url, icon: CalendarDays },

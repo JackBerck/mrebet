@@ -14,7 +14,6 @@ return new class extends Migration
     {
         Schema::create('destinations', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('village_id')->constrained('villages')->restrictOnDelete();
             $table->string('name');
             $table->string('slug')->unique();
             $table->enum('category', ['alam', 'budaya', 'buatan']);
@@ -27,7 +26,7 @@ return new class extends Migration
             $table->json('facilities')->nullable();
             $table->decimal('latitude', 10, 8)->nullable();
             $table->decimal('longitude', 11, 8)->nullable();
-            // POINT added via raw statement below
+            $table->text('gmaps_link')->nullable();
             $table->string('qr_code_target')->nullable();
             $table->enum('status', ['draft', 'published'])->default('draft');
             $table->timestamps();

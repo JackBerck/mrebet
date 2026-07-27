@@ -67,22 +67,18 @@ type Props = {
     destinations: PaginatedData<
         Destination & {
             primary_media?: { file_path: string } | null;
-            village?: { id: number; name: string } | null;
         }
     >;
-    villages: Pick<Village, 'id' | 'name'>[];
     filters: {
         search?: string;
         status?: string;
         category?: string;
-        village_id?: string;
     };
     isAdmin: boolean;
 };
 
 export default function DestinationsIndex({
     destinations,
-    villages,
     filters,
     isAdmin,
 }: Props) {
@@ -216,34 +212,6 @@ export default function DestinationsIndex({
                                 </SelectItem>
                             </SelectContent>
                         </Select>
-
-                        {isAdmin && (
-                            <Select
-                                value={filters.village_id || 'all'}
-                                onValueChange={(v) =>
-                                    applyFilter({
-                                        village_id: v === 'all' ? '' : v,
-                                    })
-                                }
-                            >
-                                <SelectTrigger className="w-[180px]">
-                                    <SelectValue placeholder="Desa" />
-                                </SelectTrigger>
-                                <SelectContent>
-                                    <SelectItem value="all">
-                                        Semua Desa
-                                    </SelectItem>
-                                    {villages.map((v) => (
-                                        <SelectItem
-                                            key={v.id}
-                                            value={String(v.id)}
-                                        >
-                                            {v.name}
-                                        </SelectItem>
-                                    ))}
-                                </SelectContent>
-                            </Select>
-                        )}
                     </CardContent>
                 </Card>
 
@@ -260,7 +228,6 @@ export default function DestinationsIndex({
                                 <TableRow className="border-(--line) hover:bg-transparent">
                                     <TableHead className="pl-6">Nama</TableHead>
                                     <TableHead>Kategori</TableHead>
-                                    {isAdmin && <TableHead>Desa</TableHead>}
                                     <TableHead>Harga</TableHead>
                                     <TableHead>Status</TableHead>
                                     {isAdmin && <TableHead>Terbit?</TableHead>}
@@ -321,11 +288,6 @@ export default function DestinationsIndex({
                                                     ] ?? dest.category}
                                                 </Badge>
                                             </TableCell>
-                                            {isAdmin && (
-                                                <TableCell className="text-sm text-(--charcoal-soft)">
-                                                    {dest.village?.name ?? '—'}
-                                                </TableCell>
-                                            )}
                                             <TableCell className="text-sm text-(--charcoal-soft)">
                                                 {Number(dest.ticket_price) === 0
                                                     ? 'Gratis'

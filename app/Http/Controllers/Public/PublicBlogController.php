@@ -15,7 +15,7 @@ class PublicBlogController extends Controller
     {
         $search = $request->input('search');
 
-        $blogs = Blog::with(['author:id,full_name', 'village:id,name'])
+        $blogs = Blog::with(['author:id,full_name'])
             ->where('status', ContentStatus::Published)
             ->when($search, function ($query, $search) {
                 $query->where(function ($q) use ($search) {
@@ -39,15 +39,11 @@ class PublicBlogController extends Controller
 
         $blog->incrementViews();
 
-        $blog->load(['author:id,full_name', 'village:id,name,slug']);
+        $blog->load(['author:id,full_name']);
 
-        $relatedBlogs = Blog::with(['author:id,full_name', 'village:id,name'])
+        $relatedBlogs = Blog::with(['author:id,full_name'])
             ->where('status', ContentStatus::Published)
             ->where('id', '!=', $blog->id)
-            ->where(function ($query) use ($blog) {
-                $query->where('village_id', $blog->village_id)
-                    ->orWhere('user_id', $blog->user_id);
-            })
             ->latest('published_at')
             ->limit(3)
             ->get();

@@ -18,7 +18,7 @@ class PublicDestinationController extends Controller
         $search = $request->input('search');
         $category = $request->input('category');
 
-        $destinations = Destination::with(['primaryMedia', 'village:id,name'])
+        $destinations = Destination::with(['primaryMedia'])
             ->where('status', ContentStatus::Published)
             ->when($search, function ($query, $search) {
                 $query->where(function ($q) use ($search) {
@@ -33,7 +33,6 @@ class PublicDestinationController extends Controller
             ->paginate(12)
             ->withQueryString();
 
-        // Get categories for filter chips
         $categories = collect(DestinationCategory::cases())->map(function ($cat) {
             return [
                 'value' => $cat->value,
@@ -41,7 +40,6 @@ class PublicDestinationController extends Controller
             ];
         });
 
-        // Add category_label to each destination for frontend display
         $destinations->getCollection()->transform(function ($destination) {
             $destination->category_label = $destination->category->label();
 
@@ -62,26 +60,22 @@ class PublicDestinationController extends Controller
     {
         abort_if(! $destination->isPublished(), 404);
 
-        $destination->load(['media', 'village:id,name,slug']);
+        $destination->load(['media']);
         $destination->category_label = $destination->category->label();
 
-        // Load events at this destination
         $events = $destination->events()
             ->with(['primaryMedia'])
             ->where('status', 'published')
-            ->whereDate('end_date', '>=', Carbon::today()) // Active or upcoming events
+            ->whereDate('end_date', '>=', Carbon::today())
             ->orderBy('start_date', 'asc')
             ->limit(3)
             ->get();
 
-        $relatedDestinations = Destination::with(['primaryMedia', 'village:id,name'])
+        $relatedDestinations = Destination::with(['primaryMedia'])
             ->where('status', ContentStatus::Published)
             ->where('id', '!=', $destination->id)
-            ->where(function ($query) use ($destination) {
-                $query->where('village_id', $destination->village_id)
-                    ->orWhere('category', $destination->category->value);
-            })
-            ->inRandomOrder() // Mix it up
+            ->where('category', $destination->category->value)
+            ->inRandomOrder()
             ->limit(3)
             ->get();
 

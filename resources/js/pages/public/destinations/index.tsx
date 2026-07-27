@@ -178,7 +178,7 @@ export default function DestinationsIndex({ destinations, categories, filters }:
                                         
                                         <div className="flex items-center gap-1.5 text-sm text-(--charcoal-soft) mb-4">
                                             <MapPin className="w-4 h-4 shrink-0" />
-                                            <span className="truncate">{dest.village?.name || 'Serayu Larangan'}</span>
+                                            <span className="truncate">Desa Serayu Larangan</span>
                                         </div>
                                         
                                         <div className="mt-auto pt-4 border-t border-(--line) flex items-center justify-between">

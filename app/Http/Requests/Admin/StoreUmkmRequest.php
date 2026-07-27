@@ -3,17 +3,16 @@
 namespace App\Http\Requests\Admin;
 
 use App\Enums\ContentStatus;
-use App\Enums\DestinationCategory;
-use App\Models\Destination;
+use App\Enums\UmkmCategory;
 use Illuminate\Contracts\Validation\ValidationRule;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
 
-class StoreDestinationRequest extends FormRequest
+class StoreUmkmRequest extends FormRequest
 {
     public function authorize(): bool
     {
-        return $this->user()?->can('create', Destination::class) ?? false;
+        return $this->user()?->isAdmin() ?? false;
     }
 
     /**
@@ -23,21 +22,19 @@ class StoreDestinationRequest extends FormRequest
     {
         return [
             'name' => ['required', 'string', 'max:255'],
-            'category' => ['required', Rule::enum(DestinationCategory::class)],
+            'category' => ['required', Rule::enum(UmkmCategory::class)],
+            'owner_name' => ['nullable', 'string', 'max:255'],
             'description' => ['nullable', 'string'],
-            'ticket_price' => ['required', 'numeric', 'min:0'],
-            'ticket_info' => ['nullable', 'string'],
-            'open_time' => ['nullable', 'date_format:H:i,H:i:s'],
-            'close_time' => ['nullable', 'date_format:H:i,H:i:s'],
-            'operational_days' => ['nullable', 'string', 'max:255'],
-            'facilities' => ['nullable', 'array'],
-            'facilities.*' => ['string'],
+            'address' => ['nullable', 'string'],
+            'contact_phone' => ['nullable', 'string', 'max:20'],
+            'price_range' => ['nullable', 'string', 'max:100'],
             'latitude' => ['nullable', 'numeric', 'between:-90,90'],
             'longitude' => ['nullable', 'numeric', 'between:-180,180'],
             'gmaps_link' => ['nullable', 'string', 'max:1000'],
             'status' => ['required', Rule::enum(ContentStatus::class)],
-            'images' => ['nullable', 'array', 'max:10'],
-            'images.*' => ['image', 'max:5120'],
+            'primary_image' => ['nullable', 'image', 'max:5120'], // 5MB max
+            'gallery_images' => ['nullable', 'array', 'max:10'],
+            'gallery_images.*' => ['image', 'max:5120'],
         ];
     }
 }

@@ -121,12 +121,10 @@ export default function BlogsIndex({ blogs, filters }: Props) {
                                                 <ImageIcon className="w-10 h-10" />
                                             </div>
                                         )}
-                                        {blog.village && (
-                                            <div className="absolute top-3 left-3 bg-white/90 backdrop-blur text-(--forest-deep) text-xs font-semibold px-2.5 py-1 rounded-lg flex items-center gap-1.5 shadow-sm">
-                                                <MapPin className="w-3.5 h-3.5 text-(--forest)" />
-                                                Desa {blog.village.name}
-                                            </div>
-                                        )}
+                                        <div className="absolute top-3 left-3 bg-white/90 backdrop-blur text-(--forest-deep) text-xs font-semibold px-2.5 py-1 rounded-lg flex items-center gap-1.5 shadow-sm">
+                                            <MapPin className="w-3.5 h-3.5 text-(--forest)" />
+                                            Desa Serayu Larangan
+                                        </div>
                                     </div>
                                     
                                     {/* Content */}

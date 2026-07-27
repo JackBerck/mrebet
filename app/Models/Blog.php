@@ -14,7 +14,7 @@ use Spatie\Sluggable\SlugOptions;
 /**
  * @property int $id
  * @property int $user_id
- * @property int|null $village_id
+ * @property int|null $umkm_id
  * @property string $title
  * @property string $slug
  * @property string $content
@@ -32,7 +32,6 @@ class Blog extends Model
 
     protected $fillable = [
         'user_id',
-        'village_id',
         'title',
         'slug',
         'content',
@@ -42,9 +41,6 @@ class Blog extends Model
         'published_at',
     ];
 
-    /**
-     * Slug di-generate dari kolom title.
-     */
     public function getSlugOptions(): SlugOptions
     {
         return SlugOptions::create()
@@ -54,17 +50,11 @@ class Blog extends Model
             ->usingSeparator('-');
     }
 
-    /**
-     * Set rute default menggunakan slug (untuk URL yang SEO friendly).
-     */
     public function getRouteKeyName(): string
     {
         return 'slug';
     }
 
-    /**
-     * @return array<string, string>
-     */
     protected function casts(): array
     {
         return [
@@ -75,29 +65,16 @@ class Blog extends Model
         ];
     }
 
-    /**
-     * Penulis blog ini.
-     * Business rule: manager hanya bisa buat blog untuk desanya sendiri.
-     * Enforce ini di controller/policy, bukan di sini.
-     */
     public function author(): BelongsTo
     {
         return $this->belongsTo(User::class, 'user_id');
     }
 
-    /** Desa yang dikaitkan dengan blog ini (opsional). */
-    public function village(): BelongsTo
-    {
-        return $this->belongsTo(Village::class);
-    }
-
-    /** Tambah hitungan view (atomic increment). */
     public function incrementViews(): void
     {
         $this->increment('views_count');
     }
 
-    /** Cek status published. */
     public function isPublished(): bool
     {
         return $this->status === ContentStatus::Published;

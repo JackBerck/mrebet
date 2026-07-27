@@ -128,12 +128,10 @@ export default function BlogShow({ blog, relatedBlogs }: Props) {
                         <div className="lg:col-span-8 lg:col-start-3" data-reveal>
                             {/* Header */}
                             <header className="mb-8 text-center">
-                                {blog.village && (
-                                    <Link href={`/desa/${blog.village.slug}`} className="inline-flex items-center justify-center gap-1.5 text-(--forest) font-medium bg-(--forest-mist)/50 px-3 py-1.5 rounded-full text-xs mb-4 hover:bg-(--forest-mist) transition-colors">
-                                        <MapPin className="w-3.5 h-3.5" />
-                                        Desa {blog.village.name}
-                                    </Link>
-                                )}
+                                <div className="inline-flex items-center justify-center gap-1.5 text-(--forest) font-medium bg-(--forest-mist)/50 px-3 py-1.5 rounded-full text-xs mb-4">
+                                    <MapPin className="w-3.5 h-3.5" />
+                                    Desa Serayu Larangan
+                                </div>
                                 
                                 <h1 className="font-display text-3xl md:text-4xl lg:text-5xl font-bold text-(--forest-deep) leading-tight mb-6 text-balance">
                                     {blog.title}

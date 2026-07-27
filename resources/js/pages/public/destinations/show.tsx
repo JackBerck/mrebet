@@ -139,12 +139,10 @@ export default function DestinationShow({ destination, events, relatedDestinatio
                             <span className="bg-(--forest-deep) text-white text-xs font-bold uppercase tracking-wider px-3 py-1.5 rounded-full shadow-sm">
                                 {destination.category_label}
                             </span>
-                            {destination.village && (
-                                <Link href={`/desa/${destination.village.slug}`} className="flex items-center gap-1.5 text-(--forest) font-medium bg-(--forest-mist)/50 px-3 py-1.5 rounded-full text-xs hover:bg-(--forest-mist) transition-colors">
-                                    <MapPin className="w-3.5 h-3.5" />
-                                    Desa {destination.village.name}
-                                </Link>
-                            )}
+                            <div className="flex items-center gap-1.5 text-(--forest) font-medium bg-(--forest-mist)/50 px-3 py-1.5 rounded-full text-xs">
+                                <MapPin className="w-3.5 h-3.5" />
+                                Desa Serayu Larangan
+                            </div>
                         </div>
                         <h1 className="font-display text-4xl md:text-5xl lg:text-6xl font-bold text-(--forest-deep) leading-tight mb-4 text-balance">
                             {destination.name}
@@ -309,94 +307,16 @@ export default function DestinationShow({ destination, events, relatedDestinatio
                                 )}
                                 
                                 {/* Location Text */}
-                                {destination.village && (
-                                    <div className="flex items-start gap-4">
-                                        <div className="w-10 h-10 rounded-full bg-(--forest-mist) flex items-center justify-center shrink-0 text-(--forest)">
-                                            <MapPin className="w-5 h-5" />
-                                        </div>
-                                        <div>
-                                            <p className="text-xs text-(--charcoal-soft) font-medium uppercase tracking-wider mb-1">Lokasi</p>
-                                            <p className="font-semibold text-(--charcoal)">Desa Wisata {destination.village.name}</p>
-                                            <p className="text-sm text-(--charcoal-soft) mt-0.5">Kec. Mrebet, Kab. Purbalingga</p>
-                                        </div>
+                                <div className="flex items-start gap-4">
+                                    <div className="w-10 h-10 rounded-full bg-(--forest-mist) flex items-center justify-center shrink-0 text-(--forest)">
+                                        <MapPin className="w-5 h-5" />
                                     </div>
-                                )}
-
-                                {/* QR Code Button */}
-                                {destination.qr_code_target && (
-                                    <div className="pt-4 border-t border-(--line)">
-                                        <Dialog>
-                                            <DialogTrigger asChild>
-                                                <Button className="w-full bg-(--forest) hover:bg-(--forest-deep) text-white font-semibold">
-                                                    <QrCode className="w-4 h-4 mr-2" />
-                                                    Pindai Info Tambahan
-                                                </Button>
-                                            </DialogTrigger>
-                                            <DialogContent className="sm:max-w-md">
-                                                <DialogHeader>
-                                                    <DialogTitle>QR Code {destination.name}</DialogTitle>
-                                                    <DialogDescription>
-                                                        Pindai QR Code di bawah ini untuk mengakses tiket atau informasi lebih lanjut terkait destinasi ini.
-                                                    </DialogDescription>
-                                                </DialogHeader>
-                                                <div className="flex justify-center py-6">
-                                                    <div className="w-48 h-48 bg-white border border-dashed border-gray-300 flex items-center justify-center rounded-lg relative overflow-hidden">
-                                                        <QrCode className="w-24 h-24 text-gray-300 absolute" />
-                                                        {/* In a real scenario you would generate the QR dynamically */}
-                                                    </div>
-                                                </div>
-                                                <div className="text-center text-sm">
-                                                    <a href={destination.qr_code_target} target="_blank" rel="noreferrer" className="text-(--forest) hover:underline break-all">
-                                                        Buka Tautan Langsung
-                                                    </a>
-                                                </div>
-                                            </DialogContent>
-                                        </Dialog>
+                                    <div>
+                                        <p className="text-xs text-(--charcoal-soft) font-medium uppercase tracking-wider mb-1">Lokasi</p>
+                                        <p className="font-semibold text-(--charcoal)">Desa Serayu Larangan</p>
+                                        <p className="text-sm text-(--charcoal-soft) mt-0.5">Kec. Mrebet, Kab. Purbalingga</p>
                                     </div>
-                                )}
-                            </div>
-
-                            {/* Map Card */}
-                            {destination.latitude && destination.longitude && (
-                                <div className="bg-white rounded-2xl p-6 border border-(--line) shadow-sm flex flex-col" data-reveal data-reveal-delay="150">
-                                    <h3 className="font-display text-lg font-bold text-(--forest-deep) mb-4 flex items-center gap-2">
-                                        <MapIcon className="w-5 h-5 text-(--forest)" />
-                                        Peta Lokasi
-                                    </h3>
-                                    <div className="grow rounded-xl overflow-hidden min-h-62.5 relative">
-                                        <Suspense fallback={<div className="w-full h-full bg-neutral-100 flex items-center justify-center min-h-62.5 animate-pulse"><MapIcon className="w-8 h-8 text-neutral-300" /></div>}>
-                                            <DestinationMap 
-                                                latitude={destination.latitude} 
-                                                longitude={destination.longitude} 
-                                                title={destination.name} 
-                                            />
-                                        </Suspense>
-                                    </div>
-                                    <a 
-                                        href={`https://www.google.com/maps/search/?api=1&query=${destination.latitude},${destination.longitude}`}
-                                        target="_blank" 
-                                        rel="noopener noreferrer"
-                                        className="mt-4 flex"
-                                    >
-                                        <Button variant="outline" className="w-full border-(--line) hover:bg-(--cream-warm) hover:text-(--forest) group">
-                                            <Navigation className="w-4 h-4 mr-2 group-hover:text-(--forest)" />
-                                            Buka di Google Maps
-                                        </Button>
-                                    </a>
                                 </div>
-                            )}
-                            
-                            {/* Explore Village CTA */}
-                            {destination.village && (
-                                <div className="bg-(--forest-deep) rounded-2xl p-6 text-white text-center shadow-lg" data-reveal data-reveal-delay="200">
-                                    <MapIcon className="w-8 h-8 text-(--gold) mx-auto mb-3" />
-                                    <h4 className="font-display text-lg font-bold mb-2">Jelajahi Desa {destination.village.name}</h4>
-                                    <p className="text-sm text-white/70 mb-4">Temukan destinasi lain dan keindahan desa wisata ini secara lengkap.</p>
-                                    <Link href={`/desa/${destination.village.slug}`} className="inline-flex items-center justify-center w-full bg-white text-(--forest-deep) rounded-full py-2.5 text-sm font-semibold hover:bg-(--cream-warm) transition-colors">
-                                        Lihat Profil Desa
-                                    </Link>
-                                </div>
-                            )}
 
                             {/* Share */}
                             <div className="bg-white rounded-2xl p-6 border border-(--line) shadow-sm text-center" data-reveal data-reveal-delay="250">

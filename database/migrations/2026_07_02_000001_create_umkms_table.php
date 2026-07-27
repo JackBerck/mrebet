@@ -12,28 +12,32 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('villages', function (Blueprint $table) {
+        Schema::create('umkms', function (Blueprint $table) {
             $table->id();
             $table->string('name');
             $table->string('slug')->unique();
+            $table->enum('category', ['kuliner', 'kerajinan', 'pertanian_olahan', 'jasa', 'warung', 'lainnya'])->default('kuliner');
+            $table->string('owner_name')->nullable();
             $table->longText('description')->nullable();
-            $table->string('head_name')->nullable();
+            $table->text('address')->nullable();
             $table->string('contact_phone', 20)->nullable();
+            $table->string('price_range')->nullable();
             $table->decimal('latitude', 10, 8)->nullable();
             $table->decimal('longitude', 11, 8)->nullable();
-            // POINT column added via raw statement below (requires NOT NULL for SPATIAL INDEX)
+            $table->text('gmaps_link')->nullable();
             $table->string('qr_code_target')->nullable();
             $table->enum('status', ['draft', 'published'])->default('draft');
             $table->timestamps();
             $table->softDeletes();
 
             $table->index('slug');
+            $table->index('category');
             $table->index('status');
         });
 
         $driver = DB::connection()->getDriverName();
         if ($driver === 'sqlite') {
-            Schema::table('villages', function (Blueprint $table) {
+            Schema::table('umkms', function (Blueprint $table) {
                 $table->geometry('point')->nullable()->after('longitude');
             });
         } else {
@@ -46,16 +50,16 @@ return new class extends Migration
             }
 
             if ($isMariaDb) {
-                DB::statement('ALTER TABLE villages ADD COLUMN point POINT NOT NULL AFTER longitude');
+                DB::statement('ALTER TABLE umkms ADD COLUMN point POINT NOT NULL AFTER longitude');
             } else {
-                DB::statement('ALTER TABLE villages ADD COLUMN point POINT NOT NULL SRID 4326 AFTER longitude');
+                DB::statement('ALTER TABLE umkms ADD COLUMN point POINT NOT NULL SRID 4326 AFTER longitude');
             }
-            DB::statement('ALTER TABLE villages ADD SPATIAL INDEX idx_villages_point (point)');
+            DB::statement('ALTER TABLE umkms ADD SPATIAL INDEX idx_umkms_point (point)');
         }
 
-        // Add village_id FK to users after villages table is ready
+        // Add umkm_id FK to users
         Schema::table('users', function (Blueprint $table) {
-            $table->foreignId('village_id')->nullable()->after('role')->constrained('villages')->nullOnDelete();
+            $table->foreignId('umkm_id')->nullable()->after('role')->constrained('umkms')->nullOnDelete();
         });
     }
 
@@ -65,9 +69,9 @@ return new class extends Migration
     public function down(): void
     {
         Schema::table('users', function (Blueprint $table) {
-            $table->dropConstrainedForeignId('village_id');
+            $table->dropConstrainedForeignId('umkm_id');
         });
 
-        Schema::dropIfExists('villages');
+        Schema::dropIfExists('umkms');
     }
 };

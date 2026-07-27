@@ -275,12 +275,12 @@ export default function Home({
                 <section
                     id="discover"
                     className="bg-(--cream-warm) py-12 lg:py-16"
-                    aria-label="Tentang Mrebet"
+                    aria-label="Tentang Serayu Larangan"
                 >
                     <div className="section-padding-x container mx-auto max-w-7xl">
                         <div className="grid grid-cols-1 items-center gap-12 lg:grid-cols-2 lg:gap-16">
                             <div data-reveal>
-                                <div className="eyebrow">Tentang Mrebet</div>
+                                <div className="eyebrow">Desa Anti-Korupsi & Mandiri</div>
                                 <h2
                                     className="mb-2 md:mb-4 font-display font-semibold text-(--forest-deep)"
                                     style={{
@@ -288,16 +288,13 @@ export default function Home({
                                             'clamp(1.75rem, 3.5vw, 2.5rem)',
                                     }}
                                 >
-                                    Sebuah desa kecil, dijaga oleh sungai yang
-                                    jatuh dari perbukitan.
+                                    Pusat Kerajinan Nira, Kuliner Khas & Transparansi Publik.
                                 </h2>
                                 <p className="leading-relaxed text-(--charcoal-soft)">
                                     Desa Serayu Larangan menyimpan keindahan alam persawahan terasering, kesejukan mata air alami, serta kerajinan penderes gula kelapa khas pedesaan Banyumasan.
                                 </p>
                                 <p className="mb-4 md:mb-6 leading-relaxed text-(--charcoal-soft)">
-                                    Di sinilah curug-curug tersembunyi mengalir
-                                    tanpa terburu-buru, dan setiap sudut terasa
-                                    seperti ditemukan, bukan dikunjungi.
+                                    Dikelilingi persawahan terasering yang asri, nikmati aneka sajian kuliner warung warga serta produk gula semut organik murni hasil karya warga lokal.
                                 </p>
                                 <div className="grid grid-cols-3 gap-4 border-t border-(--line) pt-6">
                                     {[
@@ -333,10 +330,10 @@ export default function Home({
                                 {/* Floating card */}
                                 <div className="absolute -bottom-4 -left-4 rounded-xl border border-(--line) bg-white p-4 shadow-(--shadow-card)">
                                     <div className="font-display text-xl font-bold text-(--forest)">
-                                        {stats.villages}
+                                        Serayu Larangan
                                     </div>
                                     <div className="text-xs text-(--charcoal-soft)">
-                                        Desa Wisata
+                                        Kecamatan Mrebet
                                     </div>
                                 </div>
                             </div>

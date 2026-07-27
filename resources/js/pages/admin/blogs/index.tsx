@@ -49,13 +49,11 @@ const breadcrumbs: BreadcrumbItem[] = [
 
 type BlogWithRelations = Blog & {
     author?: { id: number; name: string } | null;
-    village?: { id: number; name: string } | null;
 };
 
 type Props = {
     blogs: PaginatedData<BlogWithRelations>;
-    villages: Pick<Village, 'id' | 'name'>[];
-    filters: { search?: string; status?: string; village_id?: string };
+    filters: { search?: string; status?: string };
     isAdmin: boolean;
 };
 
@@ -69,7 +67,6 @@ function formatDate(dateStr: string) {
 
 export default function BlogsIndex({
     blogs,
-    villages,
     filters,
     isAdmin,
 }: Props) {
@@ -180,34 +177,6 @@ export default function BlogsIndex({
                                 <SelectItem value="draft">Draft</SelectItem>
                             </SelectContent>
                         </Select>
-
-                        {isAdmin && (
-                            <Select
-                                value={filters.village_id || 'all'}
-                                onValueChange={(v) =>
-                                    applyFilter({
-                                        village_id: v === 'all' ? '' : v,
-                                    })
-                                }
-                            >
-                                <SelectTrigger className="w-[180px]">
-                                    <SelectValue placeholder="Desa" />
-                                </SelectTrigger>
-                                <SelectContent>
-                                    <SelectItem value="all">
-                                        Semua Desa
-                                    </SelectItem>
-                                    {villages.map((v) => (
-                                        <SelectItem
-                                            key={v.id}
-                                            value={String(v.id)}
-                                        >
-                                            {v.name}
-                                        </SelectItem>
-                                    ))}
-                                </SelectContent>
-                            </Select>
-                        )}
                     </CardContent>
                 </Card>
 
@@ -225,7 +194,6 @@ export default function BlogsIndex({
                                     <TableHead className="pl-6">
                                         Judul
                                     </TableHead>
-                                    {isAdmin && <TableHead>Desa</TableHead>}
                                     <TableHead>Penulis</TableHead>
                                     <TableHead>Views</TableHead>
                                     <TableHead>Status</TableHead>
@@ -240,7 +208,7 @@ export default function BlogsIndex({
                                 {blogs.data.length === 0 ? (
                                     <TableRow>
                                         <TableCell
-                                            colSpan={isAdmin ? 8 : 6}
+                                            colSpan={isAdmin ? 7 : 6}
                                             className="py-12 text-center text-(--charcoal-soft)"
                                         >
                                             Tidak ada artikel ditemukan.
@@ -275,12 +243,7 @@ export default function BlogsIndex({
                                                     </div>
                                                 </div>
                                             </TableCell>
-                                            {isAdmin && (
-                                                <TableCell className="text-sm text-(--charcoal-soft)">
-                                                    {blog.village?.name ?? '—'}
-                                                </TableCell>
-                                            )}
-                                            <TableCell className="text-sm text-(--charcoal-soft)">
+                                            <TableCell className="text-sm text-(--charcoal-soft)">">
                                                 {blog.author?.name ?? '—'}
                                             </TableCell>
                                             <TableCell className="text-sm text-(--charcoal-soft)">
@@ -416,14 +379,6 @@ export default function BlogsIndex({
                                     </span>
                                     <span className="col-span-3 text-sm">
                                         {blogToView.author?.name ?? '—'}
-                                    </span>
-                                </div>
-                                <div className="grid grid-cols-4 items-center gap-4">
-                                    <span className="text-right text-sm font-medium text-(--charcoal-soft)">
-                                        Desa
-                                    </span>
-                                    <span className="col-span-3 text-sm">
-                                        {blogToView.village?.name ?? '—'}
                                     </span>
                                 </div>
                                 <div className="grid grid-cols-4 items-center gap-4">

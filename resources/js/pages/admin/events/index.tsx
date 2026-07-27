@@ -52,11 +52,9 @@ type Props = {
     events: PaginatedData<
         Event & { primary_media?: { file_path: string } | null }
     >;
-    villages: Pick<Village, 'id' | 'name'>[];
     filters: {
         search?: string;
         status?: string;
-        village_id?: string;
         date_from?: string;
         date_to?: string;
     };
@@ -73,7 +71,6 @@ function formatDate(dateStr: string) {
 
 export default function EventsIndex({
     events,
-    villages,
     filters,
     isAdmin,
 }: Props) {
@@ -204,34 +201,6 @@ export default function EventsIndex({
                                 />
                             </div>
                         </div>
-
-                        {isAdmin && (
-                            <Select
-                                value={filters.village_id || 'all'}
-                                onValueChange={(v) =>
-                                    applyFilter({
-                                        village_id: v === 'all' ? '' : v,
-                                    })
-                                }
-                            >
-                                <SelectTrigger className="w-[180px]">
-                                    <SelectValue placeholder="Desa" />
-                                </SelectTrigger>
-                                <SelectContent>
-                                    <SelectItem value="all">
-                                        Semua Desa
-                                    </SelectItem>
-                                    {villages.map((v) => (
-                                        <SelectItem
-                                            key={v.id}
-                                            value={String(v.id)}
-                                        >
-                                            {v.name}
-                                        </SelectItem>
-                                    ))}
-                                </SelectContent>
-                            </Select>
-                        )}
                     </CardContent>
                 </Card>
 
@@ -249,7 +218,6 @@ export default function EventsIndex({
                                     <TableHead className="pl-6">
                                         Judul Event
                                     </TableHead>
-                                    {isAdmin && <TableHead>Desa</TableHead>}
                                     <TableHead>Tgl Mulai</TableHead>
                                     <TableHead>Harga</TableHead>
                                     <TableHead>Status</TableHead>
@@ -263,7 +231,7 @@ export default function EventsIndex({
                                 {events.data.length === 0 ? (
                                     <TableRow>
                                         <TableCell
-                                            colSpan={isAdmin ? 7 : 5}
+                                            colSpan={isAdmin ? 6 : 5}
                                             className="py-12 text-center text-(--charcoal-soft)"
                                         >
                                             Tidak ada event ditemukan.
@@ -298,11 +266,6 @@ export default function EventsIndex({
                                                     </div>
                                                 </div>
                                             </TableCell>
-                                            {isAdmin && (
-                                                <TableCell className="text-sm text-(--charcoal-soft)">
-                                                    {event.village?.name ?? '—'}
-                                                </TableCell>
-                                            )}
                                             <TableCell className="text-sm text-(--charcoal-soft)">
                                                 {formatDate(event.start_date)}
                                                 {event.start_time && (
@@ -468,14 +431,6 @@ export default function EventsIndex({
                                         {Number(eventToView.ticket_price) === 0
                                             ? 'Gratis'
                                             : `Rp ${Number(eventToView.ticket_price).toLocaleString('id-ID')}`}
-                                    </span>
-                                </div>
-                                <div className="grid grid-cols-4 items-start gap-4">
-                                    <span className="mt-1 text-right text-sm font-medium text-(--charcoal-soft)">
-                                        Desa
-                                    </span>
-                                    <span className="col-span-3 text-sm">
-                                        {eventToView.village?.name || '—'}
                                     </span>
                                 </div>
                                 <div className="grid grid-cols-4 items-start gap-4">

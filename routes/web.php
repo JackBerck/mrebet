@@ -4,14 +4,14 @@ use App\Http\Controllers\Admin\AdminBlogController;
 use App\Http\Controllers\Admin\AdminDashboardController;
 use App\Http\Controllers\Admin\AdminDestinationController;
 use App\Http\Controllers\Admin\AdminEventController;
-use App\Http\Controllers\Admin\AdminVillageController;
+use App\Http\Controllers\Admin\AdminUmkmController;
 use App\Http\Controllers\Public\HomeController;
 use App\Http\Controllers\Public\PageController;
 use App\Http\Controllers\Public\PublicBlogController;
 use App\Http\Controllers\Public\PublicDestinationController;
 use App\Http\Controllers\Public\PublicEventController;
 use App\Http\Controllers\Public\PublicMapController;
-use App\Http\Controllers\Public\PublicVillageController;
+use App\Http\Controllers\Public\PublicUmkmController;
 use Illuminate\Support\Facades\Route;
 use Laravel\Fortify\Http\Controllers\RegisteredUserController;
 
@@ -28,8 +28,8 @@ Route::get('/berita', [PublicBlogController::class, 'index'])->name('blogs.index
 Route::get('/berita/{blog:slug}', [PublicBlogController::class, 'show'])->name('blogs.show');
 Route::get('/destinasi', [PublicDestinationController::class, 'index'])->name('destinations.index');
 Route::get('/destinasi/{destination:slug}', [PublicDestinationController::class, 'show'])->name('destinations.show');
-Route::get('/desa', [PublicVillageController::class, 'index'])->name('villages.index');
-Route::get('/desa/{village:slug}', [PublicVillageController::class, 'show'])->name('villages.show');
+Route::get('/umkm', [PublicUmkmController::class, 'index'])->name('umkms.index');
+Route::get('/umkm/{umkm:slug}', [PublicUmkmController::class, 'show'])->name('umkms.show');
 Route::get('/peta', [PublicMapController::class, 'index'])->name('map.index');
 
 // Guard /register — only admin role can access; guests redirected to home
@@ -42,7 +42,6 @@ Route::get('/register', function () {
         return redirect()->route('home');
     }
 
-    // Let Fortify handle the view for authenticated admins
     return app()->call(RegisteredUserController::class.'@create');
 })->middleware('web')->name('register');
 
@@ -55,12 +54,10 @@ Route::prefix('admin')
 
         Route::get('/dashboard', [AdminDashboardController::class, 'index'])->name('dashboard');
 
-        // Villages
-        Route::get('villages/edit', [AdminVillageController::class, 'editManager'])->name('villages.manager.edit');
-        Route::put('villages/edit', [AdminVillageController::class, 'updateManager'])->name('villages.manager.update');
-        Route::resource('villages', AdminVillageController::class)->except(['show']);
-        Route::patch('villages/{village}/status', [AdminVillageController::class, 'updateStatus'])
-            ->name('villages.status')
+        // UMKM
+        Route::resource('umkms', AdminUmkmController::class)->except(['show']);
+        Route::patch('umkms/{umkm}/status', [AdminUmkmController::class, 'updateStatus'])
+            ->name('umkms.status')
             ->middleware('admin');
 
         // Destinations

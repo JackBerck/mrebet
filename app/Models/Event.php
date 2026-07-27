@@ -15,7 +15,7 @@ use Spatie\Sluggable\SlugOptions;
 
 /**
  * @property int $id
- * @property int|null $village_id
+ * @property int|null $umkm_id
  * @property int|null $destination_id
  * @property string $title
  * @property string $slug
@@ -28,6 +28,7 @@ use Spatie\Sluggable\SlugOptions;
  * @property string|null $organizer
  * @property string|null $instagram
  * @property string|null $contact_person
+ * @property string|null $gmaps_link
  * @property string|null $qr_code_target
  * @property ContentStatus $status
  * @property Carbon|null $created_at
@@ -39,7 +40,6 @@ class Event extends Model
     use HasFactory, HasSlug, SoftDeletes;
 
     protected $fillable = [
-        'village_id',
         'destination_id',
         'title',
         'slug',
@@ -52,13 +52,11 @@ class Event extends Model
         'organizer',
         'instagram',
         'contact_person',
+        'gmaps_link',
         'qr_code_target',
         'status',
     ];
 
-    /**
-     * Slug di-generate dari kolom title event.
-     */
     public function getSlugOptions(): SlugOptions
     {
         return SlugOptions::create()
@@ -68,17 +66,11 @@ class Event extends Model
             ->usingSeparator('-');
     }
 
-    /**
-     * Set rute default menggunakan slug (untuk URL yang SEO friendly).
-     */
     public function getRouteKeyName(): string
     {
         return 'slug';
     }
 
-    /**
-     * @return array<string, string>
-     */
     protected function casts(): array
     {
         return [
@@ -90,37 +82,26 @@ class Event extends Model
         ];
     }
 
-    /** Desa penyelenggara event (opsional). */
-    public function village(): BelongsTo
-    {
-        return $this->belongsTo(Village::class);
-    }
-
-    /** Destinasi lokasi event (opsional). */
     public function destination(): BelongsTo
     {
         return $this->belongsTo(Destination::class);
     }
 
-    /** Foto/media event. */
     public function media(): MorphMany
     {
         return $this->morphMany(Media::class, 'mediable');
     }
 
-    /** Foto cover/primary (singular). */
     public function primaryMedia(): MorphOne
     {
         return $this->morphOne(Media::class, 'mediable')->where('is_primary', true);
     }
 
-    /** Cek apakah event masih akan berlangsung. */
     public function isUpcoming(): bool
     {
         return $this->start_date->isFuture();
     }
 
-    /** Cek apakah event sudah selesai. */
     public function isFinished(): bool
     {
         $endDate = $this->end_date ?? $this->start_date;
@@ -128,7 +109,6 @@ class Event extends Model
         return $endDate->isPast();
     }
 
-    /** Cek apakah event gratis. */
     public function isFree(): bool
     {
         return $this->ticket_price == 0;

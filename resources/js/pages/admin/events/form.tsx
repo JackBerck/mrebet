@@ -34,10 +34,6 @@ import type { BreadcrumbItem, Destination, Event, Village } from '@/types';
 // ── Zod Schema ────────────────────────────────────────────────────────────────
 const eventSchema = z.object({
     title: z.string().min(1, 'Judul event wajib diisi').max(255),
-    village_id: z
-        .number({ message: 'Desa wajib dipilih' })
-        .int()
-        .positive('Desa wajib dipilih'),
     start_date: z.string().min(1, 'Tanggal mulai wajib diisi'),
     end_date: z.string().optional().or(z.literal('')),
     start_time: z.string().optional().or(z.literal('')),
@@ -63,14 +59,12 @@ type Props = {
               media?: { id: number; file_path: string; is_primary: boolean }[];
           })
         | null;
-    villages: Pick<Village, 'id' | 'name'>[];
-    destinations: Pick<Destination, 'id' | 'name' | 'village_id'>[];
+    destinations: Pick<Destination, 'id' | 'name'>[];
     isAdmin: boolean;
 };
 
 export default function EventForm({
     event,
-    villages,
     destinations,
     isAdmin,
 }: Props) {
@@ -87,7 +81,6 @@ export default function EventForm({
             }
         >({
             title: event?.title ?? '',
-            village_id: event?.village_id ?? villages[0]?.id ?? 0,
             destination_id: event?.destination_id ?? null,
             start_date: event?.start_date ?? '',
             end_date: event?.end_date ?? '',
@@ -107,225 +100,8 @@ export default function EventForm({
             primary_media_id: null,
         });
 
-    // Filter destinations by selected village (admin only)
-    const [filteredDestinations, setFilteredDestinations] =
-        useState(destinations);
-
-    useEffect(() => {
-        if (isAdmin && data.village_id) {
-            setFilteredDestinations(
-                destinations.filter((d) => d.village_id === data.village_id),
-            );
-            setData('destination_id', null);
-        }
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [data.village_id]);
-
-    const editor = useEditor({
-        extensions: [
-            StarterKit,
-            Placeholder.configure({
-                placeholder:
-                    'Deskripsikan event ini: kegiatan, jadwal, informasi penting...',
-            }),
-        ],
-        content: event?.description ?? '',
-        onUpdate({ editor: e }) {
-            setData('description', e.getHTML());
-        },
-    });
-
-    const validate = (): boolean => {
-        const result = eventSchema.safeParse({
-            ...data,
-            village_id: Number(data.village_id),
-            ticket_price: Number(data.ticket_price),
-        });
-
-        if (!result.success) {
-            clearErrors();
-            result.error.issues.forEach((err) => {
-                setError(err.path[0] as keyof typeof errors, err.message);
-            });
-            toast.error(
-                'Mohon periksa kembali isian form yang ditandai merah.',
-            );
-
-            return false;
-        }
-
-        // Extra: validate end_date >= start_date
-        if (
-            data.end_date &&
-            data.start_date &&
-            data.end_date < data.start_date
-        ) {
-            setError(
-                'end_date' as keyof typeof errors,
-                'Tanggal selesai harus sama atau setelah tanggal mulai.',
-            );
-
-            return false;
-        }
-
-        clearErrors();
-
-        return true;
-    };
-
-    const submit = (e: React.FormEvent, publishNow = false) => {
-        e.preventDefault();
-
-        if (!validate()) {
-return;
-}
-
-        const finalData = { ...data };
-
-        if (publishNow) {
-finalData.status = 'published';
-}
-
-        const options = {
-            forceFormData: true,
-            onError: (errs: Record<string, string>) => {
-                toast.error('Terjadi kesalahan validasi dari server.');
-            },
-        };
-
-        if (isEditing) {
-            router.post(
-                `/admin/events/${event.slug}`,
-                { ...finalData, _method: 'PUT' } as unknown as Record<string, any>,
-                options,
-            );
-        } else {
-            router.post(
-                '/admin/events',
-                finalData as unknown as Record<string, any>,
-                options,
-            );
-        }
-    };
-
-    const handleMediaChange = useCallback(
-        (files: File[], deletedIds: number[], primaryId: number | null) => {
-            setData((prev) => ({
-                ...prev,
-                images: files,
-                deleted_media_ids: deletedIds,
-                primary_media_id: primaryId,
-            }));
-        },
-        [setData],
-    );
-
-    return (
-        <>
-            <Head title={isEditing ? `Edit ${event.title}` : 'Tambah Event'} />
-
-            <form onSubmit={submit} className="flex flex-col gap-6 p-6">
-                {/* Header */}
-                <div>
-                    <h1 className="font-display text-2xl font-semibold text-(--forest-deep)">
-                        {isEditing
-                            ? `Edit: ${event.title}`
-                            : 'Tambah Event Baru'}
-                    </h1>
-                    <p className="mt-0.5 text-sm text-(--charcoal-soft)">
-                        Lengkapi semua informasi event.
-                    </p>
-                </div>
-
-                {/* Section 1: Informasi Dasar */}
-                <Card className="border-(--line) shadow-none">
-                    <CardHeader>
-                        <CardTitle className="font-display text-lg text-(--forest-deep)">
-                            Informasi Dasar
-                        </CardTitle>
-                        <CardDescription>
-                            Judul, desa penyelenggara, dan lokasi event.
-                        </CardDescription>
-                    </CardHeader>
-                    <CardContent className="flex flex-col gap-5">
-                        <div className="flex flex-col gap-1.5">
-                            <Label htmlFor="title">
-                                Judul Event{' '}
-                                <span className="text-destructive">*</span>
-                            </Label>
-                            <Input
-                                id="title"
-                                value={data.title}
-                                onChange={(e) =>
-                                    setData('title', e.target.value)
-                                }
-                                placeholder="contoh: Festival Budaya Desa Onje 2025"
-                                className={
-                                    errors.title ? 'border-destructive' : ''
-                                }
-                            />
-                            {errors.title && (
-                                <p className="text-xs text-destructive">
-                                    {errors.title}
-                                </p>
-                            )}
-                        </div>
-
                         <div className="grid gap-5 sm:grid-cols-2">
-                            <div className="flex flex-col gap-1.5">
-                                <Label htmlFor="village_id">
-                                    Desa Penyelenggara{' '}
-                                    <span className="text-destructive">*</span>
-                                </Label>
-                                {isAdmin ? (
-                                    <Select
-                                        value={String(data.village_id)}
-                                        onValueChange={(v) =>
-                                            setData('village_id', Number(v))
-                                        }
-                                    >
-                                        <SelectTrigger
-                                            id="village_id"
-                                            className={
-                                                errors.village_id
-                                                    ? 'border-destructive'
-                                                    : ''
-                                            }
-                                        >
-                                            <SelectValue placeholder="Pilih desa..." />
-                                        </SelectTrigger>
-                                        <SelectContent>
-                                            {villages.map((v) => (
-                                                <SelectItem
-                                                    key={v.id}
-                                                    value={String(v.id)}
-                                                >
-                                                    {v.name}
-                                                </SelectItem>
-                                            ))}
-                                        </SelectContent>
-                                    </Select>
-                                ) : (
-                                    <div className="flex flex-col gap-1">
-                                        <Input
-                                            value={villages[0]?.name ?? ''}
-                                            disabled
-                                            className="bg-muted/50 font-medium text-muted-foreground"
-                                        />
-                                        <p className="text-xs text-(--charcoal-soft)">
-                                            Desa penyelenggara (otomatis desa
-                                            Anda).
-                                        </p>
-                                    </div>
-                                )}
-                                {errors.village_id && (
-                                    <p className="text-xs text-destructive">
-                                        {errors.village_id}
-                                    </p>
-                                )}
-                            </div>
-
-                            <div className="flex flex-col gap-1.5">
+                            <div className="flex flex-col gap-1.5 sm:col-span-2">
                                 <Label htmlFor="destination_id">
                                     Lokasi Destinasi (opsional)
                                 </Label>
@@ -349,7 +125,7 @@ finalData.status = 'published';
                                         <SelectItem value="none">
                                             — Tidak ada —
                                         </SelectItem>
-                                        {filteredDestinations.map((d) => (
+                                        {destinations.map((d) => (
                                             <SelectItem
                                                 key={d.id}
                                                 value={String(d.id)}

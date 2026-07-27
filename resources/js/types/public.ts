@@ -13,8 +13,8 @@ export type Destination = {
     facilities: string[] | null;
     latitude: number | null;
     longitude: number | null;
+    gmaps_link?: string | null;
     qr_code_target: string | null;
-    village: { id: number; name: string; slug?: string } | null;
     primary_media: { file_path: string } | null;
     media?: { id: number; file_path: string; is_primary: boolean }[];
 };
@@ -32,8 +32,8 @@ export type Event = {
     organizer: string | null;
     contact_person: string | null;
     instagram: string | null;
+    gmaps_link?: string | null;
     qr_code_target: string | null;
-    village: { id: number; name: string; slug?: string } | null;
     destination?: { id: number; name: string; slug: string } | null;
     primary_media: { file_path: string } | null;
     media?: { id: number; file_path: string; is_primary: boolean }[];
@@ -48,31 +48,33 @@ export type Blog = {
     views_count: number;
     published_at: string;
     author: { id: number; name: string } | null;
-    village: { id: number; name: string; slug?: string } | null;
     reading_time?: number;
 };
 
-export type Village = {
+export type Umkm = {
     id: number;
     name: string;
     slug: string;
+    category: string;
+    category_label?: string;
+    owner_name: string | null;
     description: string | null;
-    head_name: string | null;
+    address: string | null;
     contact_phone: string | null;
+    price_range: string | null;
     latitude: number | null;
     longitude: number | null;
+    gmaps_link?: string | null;
     qr_code_target: string | null;
-    destinations_count?: number;
-    events_count?: number;
     primary_media: { file_path: string } | null;
     media?: { id: number; file_path: string; is_primary: boolean }[];
-    destinations?: Destination[];
-    events?: Event[];
-    blogs?: Blog[];
 };
 
+/** @deprecated Use Umkm instead */
+export type Village = Umkm;
+
 export type Stats = {
-    villages: number;
+    umkms: number;
     destinations: number;
     events: number;
 };

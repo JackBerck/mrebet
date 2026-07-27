@@ -8,7 +8,6 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\Admin\StoreDestinationRequest;
 use App\Http\Requests\Admin\UpdateDestinationRequest;
 use App\Models\Destination;
-use App\Models\Village;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
@@ -23,26 +22,17 @@ class AdminDestinationController extends Controller
         $user = $request->user();
         $isAdmin = $user->role === UserRole::Admin;
 
-        $query = Destination::with(['primaryMedia', 'village:id,name'])
+        $destinations = Destination::with(['primaryMedia'])
             ->when($request->search, fn ($q, $s) => $q->where('name', 'like', "%{$s}%"))
             ->when($request->status, fn ($q, $s) => $q->where('status', $s))
             ->when($request->category, fn ($q, $c) => $q->where('category', $c))
-            ->when(! $isAdmin, fn ($q) => $q->where('village_id', $user->village_id));
-
-        if ($isAdmin && $request->village_id) {
-            $query->where('village_id', $request->village_id);
-        }
-
-        $destinations = $query->latest()->paginate(15)->withQueryString();
-
-        $villages = $isAdmin
-            ? Village::orderBy('name')->get(['id', 'name'])
-            : collect();
+            ->latest()
+            ->paginate(15)
+            ->withQueryString();
 
         return Inertia::render('admin/destinations/index', [
             'destinations' => $destinations,
-            'villages' => $villages,
-            'filters' => $request->only('search', 'status', 'category', 'village_id'),
+            'filters' => $request->only('search', 'status', 'category'),
             'isAdmin' => $isAdmin,
         ]);
     }
@@ -54,13 +44,8 @@ class AdminDestinationController extends Controller
         $user = $request->user();
         $isAdmin = $user->role === UserRole::Admin;
 
-        $villages = $isAdmin
-            ? Village::orderBy('name')->get(['id', 'name'])
-            : collect([['id' => $user->village_id, 'name' => $user->village?->name]]);
-
         return Inertia::render('admin/destinations/form', [
             'destination' => null,
-            'villages' => $villages,
             'isAdmin' => $isAdmin,
         ]);
     }
@@ -69,15 +54,7 @@ class AdminDestinationController extends Controller
     {
         $this->authorize('create', Destination::class);
 
-        $user = $request->user();
-        $isAdmin = $user->role === UserRole::Admin;
-
         $validated = $request->validated();
-
-        // Manager always uses their own village
-        if (! $isAdmin) {
-            $validated['village_id'] = $user->village_id;
-        }
 
         $destination = Destination::create($validated);
 
@@ -97,13 +74,8 @@ class AdminDestinationController extends Controller
 
         $destination->load(['media' => fn ($q) => $q->orderByDesc('is_primary')]);
 
-        $villages = $isAdmin
-            ? Village::orderBy('name')->get(['id', 'name'])
-            : collect([['id' => $user->village_id, 'name' => $user->village?->name]]);
-
         return Inertia::render('admin/destinations/form', [
             'destination' => $destination,
-            'villages' => $villages,
             'isAdmin' => $isAdmin,
         ]);
     }
@@ -112,20 +84,12 @@ class AdminDestinationController extends Controller
     {
         $this->authorize('update', $destination);
 
-        $user = $request->user();
-        $isAdmin = $user->role === UserRole::Admin;
-
         $validated = $request->validated();
-
-        if (! $isAdmin) {
-            $validated['village_id'] = $destination->village_id;
-        }
 
         $destination->update($validated);
 
         $this->handleMediaUploads($request, $destination);
 
-        // Delete removed media
         if ($request->deleted_media_ids) {
             $toDelete = $destination->media()->whereIn('id', $request->deleted_media_ids)->get();
             foreach ($toDelete as $media) {
@@ -134,7 +98,6 @@ class AdminDestinationController extends Controller
             }
         }
 
-        // Update primary media
         if ($request->primary_media_id) {
             $destination->media()->update(['is_primary' => false]);
             $destination->media()->where('id', $request->primary_media_id)->update(['is_primary' => true]);

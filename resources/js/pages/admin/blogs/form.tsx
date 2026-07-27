@@ -146,18 +146,16 @@ inputRef.current.value = '';
 // ── Props ─────────────────────────────────────────────────────────────────────
 type Props = {
     blog: Blog | null;
-    villages: Pick<Village, 'id' | 'name'>[];
     isAdmin: boolean;
 };
 
-export default function BlogForm({ blog, villages, isAdmin }: Props) {
+export default function BlogForm({ blog, isAdmin }: Props) {
     const isEditing = !!blog;
 
     const { data, setData, processing, errors, setError, clearErrors } =
         useForm<
             BlogFormData & {
                 content: string;
-                village_id: number | null;
                 cover_image: File | null;
                 remove_cover: boolean;
             }
@@ -165,7 +163,6 @@ export default function BlogForm({ blog, villages, isAdmin }: Props) {
             title: blog?.title ?? '',
             status: blog?.status ?? 'draft',
             content: blog?.content ?? '',
-            village_id: blog?.village_id ?? null,
             cover_image: null,
             remove_cover: false,
         });
@@ -306,63 +303,6 @@ finalData.status = 'published';
                             {errors.title && (
                                 <p className="text-xs text-destructive">
                                     {errors.title}
-                                </p>
-                            )}
-                        </div>
-
-                        <div className="flex flex-col gap-1.5">
-                            <Label htmlFor="village_id">Desa Terkait</Label>
-                            {isAdmin ? (
-                                <Select
-                                    value={
-                                        data.village_id
-                                            ? String(data.village_id)
-                                            : 'none'
-                                    }
-                                    onValueChange={(v) =>
-                                        setData(
-                                            'village_id',
-                                            v === 'none' ? null : Number(v),
-                                        )
-                                    }
-                                >
-                                    <SelectTrigger
-                                        id="village_id"
-                                        className="w-full sm:w-[280px]"
-                                    >
-                                        <SelectValue placeholder="Pilih desa (opsional)..." />
-                                    </SelectTrigger>
-                                    <SelectContent>
-                                        <SelectItem value="none">
-                                            — Blog Umum (tidak spesifik desa) —
-                                        </SelectItem>
-                                        {villages.map((v) => (
-                                            <SelectItem
-                                                key={v.id}
-                                                value={String(v.id)}
-                                            >
-                                                {v.name}
-                                            </SelectItem>
-                                        ))}
-                                    </SelectContent>
-                                </Select>
-                            ) : (
-                                <div className="flex flex-col gap-1">
-                                    <Input
-                                        value={villages[0]?.name ?? ''}
-                                        disabled
-                                        className="bg-muted/50 font-medium text-muted-foreground"
-                                    />
-                                    <p className="text-xs text-(--charcoal-soft)">
-                                        Artikel otomatis dikaitkan dengan desa
-                                        Anda.
-                                    </p>
-                                </div>
-                            )}
-                            {isAdmin && (
-                                <p className="text-xs text-(--charcoal-soft)">
-                                    Pilih desa jika artikel ini berkaitan dengan
-                                    desa tertentu.
                                 </p>
                             )}
                         </div>

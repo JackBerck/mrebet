@@ -8,7 +8,6 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\Admin\StoreBlogRequest;
 use App\Http\Requests\Admin\UpdateBlogRequest;
 use App\Models\Blog;
-use App\Models\Village;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
@@ -23,25 +22,16 @@ class AdminBlogController extends Controller
         $user = $request->user();
         $isAdmin = $user->role === UserRole::Admin;
 
-        $query = Blog::with(['author:id,full_name', 'village:id,name'])
+        $blogs = Blog::with(['author:id,full_name'])
             ->when($request->search, fn ($q, $s) => $q->where('title', 'like', "%{$s}%"))
             ->when($request->status, fn ($q, $s) => $q->where('status', $s))
-            ->when(! $isAdmin, fn ($q) => $q->where('village_id', $user->village_id));
-
-        if ($isAdmin && $request->village_id) {
-            $query->where('village_id', $request->village_id);
-        }
-
-        $blogs = $query->latest()->paginate(15)->withQueryString();
-
-        $villages = $isAdmin
-            ? Village::orderBy('name')->get(['id', 'name'])
-            : collect();
+            ->latest()
+            ->paginate(15)
+            ->withQueryString();
 
         return Inertia::render('admin/blogs/index', [
             'blogs' => $blogs,
-            'villages' => $villages,
-            'filters' => $request->only('search', 'status', 'village_id'),
+            'filters' => $request->only('search', 'status'),
             'isAdmin' => $isAdmin,
         ]);
     }
@@ -53,13 +43,8 @@ class AdminBlogController extends Controller
         $user = $request->user();
         $isAdmin = $user->role === UserRole::Admin;
 
-        $villages = $isAdmin
-            ? Village::orderBy('name')->get(['id', 'name'])
-            : collect([['id' => $user->village_id, 'name' => $user->village?->name]]);
-
         return Inertia::render('admin/blogs/form', [
             'blog' => null,
-            'villages' => $villages,
             'isAdmin' => $isAdmin,
         ]);
     }
@@ -68,20 +53,10 @@ class AdminBlogController extends Controller
     {
         $this->authorize('create', Blog::class);
 
-        $user = $request->user();
-        $isAdmin = $user->role === UserRole::Admin;
+        $validated = $request->validated();
+        $validated['user_id'] = $request->user()->id;
 
-        $validated = $request->safe()->except('cover_image');
-
-        // Manager auto-assign village
-        if (! $isAdmin) {
-            $validated['village_id'] = $user->village_id;
-        }
-
-        $validated['user_id'] = $user->id;
-
-        // Auto-set published_at when publishing
-        if ($validated['status'] === ContentStatus::Published->value) {
+        if ($request->status === ContentStatus::Published->value) {
             $validated['published_at'] = now();
         }
 
@@ -93,7 +68,7 @@ class AdminBlogController extends Controller
 
         return redirect()
             ->route('admin.blogs.edit', $blog)
-            ->with('success', 'Artikel berhasil ditambahkan.');
+            ->with('success', 'Berita berhasil ditambahkan.');
     }
 
     public function edit(Blog $blog, Request $request): Response
@@ -103,13 +78,8 @@ class AdminBlogController extends Controller
         $user = $request->user();
         $isAdmin = $user->role === UserRole::Admin;
 
-        $villages = $isAdmin
-            ? Village::orderBy('name')->get(['id', 'name'])
-            : collect([['id' => $user->village_id, 'name' => $user->village?->name]]);
-
         return Inertia::render('admin/blogs/form', [
             'blog' => $blog,
-            'villages' => $villages,
             'isAdmin' => $isAdmin,
         ]);
     }
@@ -118,20 +88,12 @@ class AdminBlogController extends Controller
     {
         $this->authorize('update', $blog);
 
-        $validated = $request->safe()->except(['cover_image', 'remove_cover']);
+        $validated = $request->validated();
 
-        // Auto-set published_at on first publish
-        if ($validated['status'] === ContentStatus::Published->value && ! $blog->published_at) {
+        if ($blog->status !== ContentStatus::Published && $request->status === ContentStatus::Published->value) {
             $validated['published_at'] = now();
         }
 
-        // Remove old cover if requested
-        if ($request->boolean('remove_cover') && $blog->cover_image) {
-            Storage::disk('public')->delete($blog->cover_image);
-            $validated['cover_image'] = null;
-        }
-
-        // Upload new cover
         if ($request->hasFile('cover_image')) {
             if ($blog->cover_image) {
                 Storage::disk('public')->delete($blog->cover_image);
@@ -141,14 +103,13 @@ class AdminBlogController extends Controller
 
         $blog->update($validated);
 
-        return back()->with('success', 'Artikel berhasil diperbarui.');
+        return back()->with('success', 'Berita berhasil diperbarui.');
     }
 
     public function destroy(Blog $blog): RedirectResponse
     {
         $this->authorize('delete', $blog);
 
-        // Delete cover image from disk
         if ($blog->cover_image) {
             Storage::disk('public')->delete($blog->cover_image);
         }
@@ -157,7 +118,7 @@ class AdminBlogController extends Controller
 
         return redirect()
             ->route('admin.blogs.index')
-            ->with('success', 'Artikel berhasil dihapus.');
+            ->with('success', 'Berita berhasil dihapus.');
     }
 
     public function updateStatus(Request $request, Blog $blog): RedirectResponse
@@ -166,14 +127,13 @@ class AdminBlogController extends Controller
 
         $request->validate(['status' => ['required', Rule::enum(ContentStatus::class)]]);
 
-        $updates = ['status' => $request->status];
-
+        $data = ['status' => $request->status];
         if ($request->status === ContentStatus::Published->value && ! $blog->published_at) {
-            $updates['published_at'] = now();
+            $data['published_at'] = now();
         }
 
-        $blog->update($updates);
+        $blog->update($data);
 
-        return back()->with('success', 'Status artikel diperbarui.');
+        return back()->with('success', 'Status berita diperbarui.');
     }
 }

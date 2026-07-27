@@ -4,9 +4,9 @@ namespace App\Providers;
 
 use App\Http\Responses\LoginResponse;
 use App\Models\Destination;
-use App\Models\Village;
+use App\Models\Umkm;
 use App\Observers\DestinationObserver;
-use App\Observers\VillageObserver;
+use App\Observers\UmkmObserver;
 use Carbon\CarbonImmutable;
 use Illuminate\Support\Facades\Date;
 use Illuminate\Support\Facades\DB;
@@ -30,7 +30,7 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
-        Village::observe(VillageObserver::class);
+        Umkm::observe(UmkmObserver::class);
         Destination::observe(DestinationObserver::class);
 
         $this->configureDefaults();

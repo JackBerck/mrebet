@@ -59,10 +59,6 @@ const DAYS_OPTIONS = [
 // ── Zod Schema ────────────────────────────────────────────────────────────────
 const destinationSchema = z.object({
     name: z.string().min(1, 'Nama destinasi wajib diisi').max(255),
-    village_id: z
-        .number({ message: 'Desa wajib dipilih' })
-        .int()
-        .positive('Desa wajib dipilih'),
     category: z.enum(['alam', 'budaya', 'buatan'], {
         message: 'Kategori wajib dipilih',
     }),
@@ -89,13 +85,11 @@ type Props = {
               media?: { id: number; file_path: string; is_primary: boolean }[];
           })
         | null;
-    villages: Pick<Village, 'id' | 'name'>[];
     isAdmin: boolean;
 };
 
 export default function DestinationForm({
     destination,
-    villages,
     isAdmin,
 }: Props) {
     const isEditing = !!destination;
@@ -114,7 +108,6 @@ export default function DestinationForm({
             }
         >({
             name: destination?.name ?? '',
-            village_id: destination?.village_id ?? villages[0]?.id ?? 0,
             category: destination?.category ?? 'alam',
             ticket_price: Number(destination?.ticket_price ?? 0),
             ticket_info: destination?.ticket_info ?? '',
@@ -299,62 +292,8 @@ finalData.status = 'published';
                         </div>
 
                         <div className="grid gap-5 sm:grid-cols-2">
-                            {/* Village selector */}
-                            <div className="flex flex-col gap-1.5">
-                                <Label htmlFor="village_id">
-                                    Desa{' '}
-                                    <span className="text-destructive">*</span>
-                                </Label>
-                                {isAdmin ? (
-                                    <Select
-                                        value={String(data.village_id)}
-                                        onValueChange={(v) =>
-                                            setData('village_id', Number(v))
-                                        }
-                                    >
-                                        <SelectTrigger
-                                            id="village_id"
-                                            className={
-                                                errors.village_id
-                                                    ? 'border-destructive'
-                                                    : ''
-                                            }
-                                        >
-                                            <SelectValue placeholder="Pilih desa..." />
-                                        </SelectTrigger>
-                                        <SelectContent>
-                                            {villages.map((v) => (
-                                                <SelectItem
-                                                    key={v.id}
-                                                    value={String(v.id)}
-                                                >
-                                                    {v.name}
-                                                </SelectItem>
-                                            ))}
-                                        </SelectContent>
-                                    </Select>
-                                ) : (
-                                    <div className="flex flex-col gap-1">
-                                        <Input
-                                            value={villages[0]?.name ?? ''}
-                                            disabled
-                                            className="bg-muted/50 font-medium text-muted-foreground"
-                                        />
-                                        <p className="text-xs text-(--charcoal-soft)">
-                                            Desa penyelenggara (otomatis desa
-                                            Anda).
-                                        </p>
-                                    </div>
-                                )}
-                                {errors.village_id && (
-                                    <p className="text-xs text-destructive">
-                                        {errors.village_id}
-                                    </p>
-                                )}
-                            </div>
-
                             {/* Category */}
-                            <div className="flex flex-col gap-1.5">
+                            <div className="flex flex-col gap-1.5 sm:col-span-2">
                                 <Label htmlFor="category">
                                     Kategori{' '}
                                     <span className="text-destructive">*</span>

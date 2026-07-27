@@ -26,8 +26,7 @@ class PublicEventController extends Controller
         $startDate = $parsedDate->copy()->startOfMonth();
         $endDate = $parsedDate->copy()->endOfMonth();
 
-        // Get events that overlap with this month
-        $events = Event::with(['primaryMedia', 'village:id,name'])
+        $events = Event::with(['primaryMedia'])
             ->where('status', ContentStatus::Published)
             ->where(function ($query) use ($startDate, $endDate) {
                 $query->whereBetween('start_date', [$startDate, $endDate])
@@ -50,12 +49,11 @@ class PublicEventController extends Controller
     {
         abort_if($event->status !== ContentStatus::Published, 404);
 
-        $event->load(['media', 'village:id,name,slug', 'destination:id,name,slug']);
+        $event->load(['media', 'destination:id,name,slug']);
 
-        $relatedEvents = Event::with(['primaryMedia', 'village:id,name'])
+        $relatedEvents = Event::with(['primaryMedia'])
             ->where('status', ContentStatus::Published)
             ->where('id', '!=', $event->id)
-            ->where('village_id', $event->village_id)
             ->whereDate('start_date', '>=', Carbon::today())
             ->orderBy('start_date', 'asc')
             ->limit(3)

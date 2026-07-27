@@ -26,7 +26,7 @@ use Laravel\Fortify\TwoFactorAuthenticatable;
  * @property Carbon|null $email_verified_at
  * @property string|null $avatar
  * @property UserRole $role
- * @property int|null $village_id
+ * @property int|null $umkm_id
  * @property bool $is_active
  * @property string|null $two_factor_secret
  * @property string|null $two_factor_recovery_codes
@@ -35,7 +35,7 @@ use Laravel\Fortify\TwoFactorAuthenticatable;
  * @property Carbon|null $created_at
  * @property Carbon|null $updated_at
  */
-#[Fillable(['full_name', 'email', 'phone_number', 'password', 'avatar', 'role', 'village_id', 'is_active'])]
+#[Fillable(['full_name', 'email', 'phone_number', 'password', 'avatar', 'role', 'umkm_id', 'is_active'])]
 #[Hidden(['password', 'two_factor_secret', 'two_factor_recovery_codes', 'remember_token'])]
 class User extends Authenticatable implements PasskeyUser
 {
@@ -58,31 +58,26 @@ class User extends Authenticatable implements PasskeyUser
         ];
     }
 
-    /** Desa yang dikelola user ini (untuk role manager). */
-    public function village(): BelongsTo
+    public function umkm(): BelongsTo
     {
-        return $this->belongsTo(Village::class);
+        return $this->belongsTo(Umkm::class);
     }
 
-    /** Semua blog yang ditulis user ini. */
     public function blogs(): HasMany
     {
         return $this->hasMany(Blog::class);
     }
 
-    /** Cek apakah user adalah super admin. */
     public function isAdmin(): bool
     {
         return $this->role === UserRole::Admin;
     }
 
-    /** Cek apakah user adalah manager desa. */
     public function isManager(): bool
     {
         return $this->role === UserRole::Manager;
     }
 
-    /** Accessor untuk compatibility dengan frontend yang expect user.name */
     protected function name(): Attribute
     {
         return Attribute::make(

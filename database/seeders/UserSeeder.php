@@ -14,15 +14,11 @@ class UserSeeder extends Seeder
      */
     public function run(): void
     {
-        $villageOnje = DB::table('villages')->where('slug', 'onje')->first();
-        $villageCipaku = DB::table('villages')->where('slug', 'cipaku')->first();
-        $villageMrebet = DB::table('villages')->where('slug', 'mrebet')->first();
-        $villageSerayuLarangan = DB::table('villages')->where('slug', 'serayu-larangan')->first();
-        $villagePengadegan = DB::table('villages')->where('slug', 'pengadegan')->first();
-        $villageTangkisan = DB::table('villages')->where('slug', 'tangkisan')->first();
+        $sentraGula = DB::table('umkms')->where('slug', 'like', '%sentra-gula%')->first();
+        $warungMbokSri = DB::table('umkms')->where('slug', 'like', '%warung-makan%')->first();
 
         $users = [
-            // SUPER ADMIN — mengelola seluruh sistem Desa Wisata Serayu Larangan & Mrebet
+            // SUPER ADMIN
             [
                 'full_name' => 'Administrator Serayu Larangan',
                 'email' => 'admin@serayularangan.desa.id',
@@ -30,10 +26,10 @@ class UserSeeder extends Seeder
                 'password' => Hash::make('password'),
                 'avatar' => null,
                 'role' => 'admin',
-                'village_id' => null,
+                'umkm_id' => null,
                 'is_active' => true,
             ],
-            // MANAGER SERAYU LARANGAN (UTAMA)
+            // MANAGER SENTRA GULA NIRA
             [
                 'full_name' => 'Fajar Prasetyo Utomo',
                 'email' => 'manager.serayularangan@serayularangan.desa.id',
@@ -41,63 +37,19 @@ class UserSeeder extends Seeder
                 'password' => Hash::make('password'),
                 'avatar' => null,
                 'role' => 'manager',
-                'village_id' => $villageSerayuLarangan?->id,
+                'umkm_id' => $sentraGula?->id,
                 'is_active' => true,
             ],
-            // MANAGER ONJE
+            // MANAGER WARUNG KULINER
             [
-                'full_name' => 'Mugi Ari Purwono',
-                'email' => 'manager.onje@serayularangan.desa.id',
+                'full_name' => 'Siti Srimulyati',
+                'email' => 'manager.kuliner@serayularangan.desa.id',
                 'phone_number' => '082227961243',
                 'password' => Hash::make('password'),
                 'avatar' => null,
                 'role' => 'manager',
-                'village_id' => $villageOnje?->id,
+                'umkm_id' => $warungMbokSri?->id,
                 'is_active' => true,
-            ],
-            // MANAGER CIPAKU
-            [
-                'full_name' => 'Sugiarto',
-                'email' => 'manager.cipaku@serayularangan.desa.id',
-                'phone_number' => '081345678901',
-                'password' => Hash::make('password'),
-                'avatar' => null,
-                'role' => 'manager',
-                'village_id' => $villageCipaku?->id,
-                'is_active' => true,
-            ],
-            // MANAGER MREBET
-            [
-                'full_name' => 'Mudrikah',
-                'email' => 'manager.mrebet@serayularangan.desa.id',
-                'phone_number' => '081456789012',
-                'password' => Hash::make('password'),
-                'avatar' => null,
-                'role' => 'manager',
-                'village_id' => $villageMrebet?->id,
-                'is_active' => true,
-            ],
-            // MANAGER PENGADEGAN
-            [
-                'full_name' => 'Suwanto',
-                'email' => 'manager.pengadegan@serayularangan.desa.id',
-                'phone_number' => '081678901234',
-                'password' => Hash::make('password'),
-                'avatar' => null,
-                'role' => 'manager',
-                'village_id' => $villagePengadegan?->id,
-                'is_active' => true,
-            ],
-            // MANAGER TANGKISAN
-            [
-                'full_name' => 'Sutrisno',
-                'email' => 'manager.tangkisan@serayularangan.desa.id',
-                'phone_number' => '081789012345',
-                'password' => Hash::make('password'),
-                'avatar' => null,
-                'role' => 'manager',
-                'village_id' => $villageTangkisan?->id,
-                'is_active' => false,
             ],
         ];
 
@@ -110,7 +62,7 @@ class UserSeeder extends Seeder
                 'email_verified_at' => Carbon::now(),
                 'avatar' => $user['avatar'],
                 'role' => $user['role'],
-                'village_id' => $user['village_id'],
+                'umkm_id' => $user['umkm_id'],
                 'is_active' => $user['is_active'],
                 'created_at' => Carbon::now(),
                 'updated_at' => Carbon::now(),

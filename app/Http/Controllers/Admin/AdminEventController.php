@@ -9,7 +9,6 @@ use App\Http\Requests\Admin\StoreEventRequest;
 use App\Http\Requests\Admin\UpdateEventRequest;
 use App\Models\Destination;
 use App\Models\Event;
-use App\Models\Village;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
@@ -24,27 +23,19 @@ class AdminEventController extends Controller
         $user = $request->user();
         $isAdmin = $user->role === UserRole::Admin;
 
-        $query = Event::with(['primaryMedia', 'village:id,name'])
+        $events = Event::with(['primaryMedia', 'destination:id,name'])
             ->when($request->search, fn ($q, $s) => $q->where('title', 'like', "%{$s}%"))
             ->when($request->status, fn ($q, $s) => $q->where('status', $s))
-            ->when($request->date_from, fn ($q, $d) => $q->where('start_date', '>=', $d))
-            ->when($request->date_to, fn ($q, $d) => $q->where('start_date', '<=', $d))
-            ->when(! $isAdmin, fn ($q) => $q->where('village_id', $user->village_id));
+            ->latest()
+            ->paginate(15)
+            ->withQueryString();
 
-        if ($isAdmin && $request->village_id) {
-            $query->where('village_id', $request->village_id);
-        }
-
-        $events = $query->orderByDesc('start_date')->paginate(15)->withQueryString();
-
-        $villages = $isAdmin
-            ? Village::orderBy('name')->get(['id', 'name'])
-            : collect();
+        $destinations = Destination::orderBy('name')->get(['id', 'name']);
 
         return Inertia::render('admin/events/index', [
             'events' => $events,
-            'villages' => $villages,
-            'filters' => $request->only('search', 'status', 'village_id', 'date_from', 'date_to'),
+            'destinations' => $destinations,
+            'filters' => $request->only('search', 'status'),
             'isAdmin' => $isAdmin,
         ]);
     }
@@ -56,21 +47,10 @@ class AdminEventController extends Controller
         $user = $request->user();
         $isAdmin = $user->role === UserRole::Admin;
 
-        $villages = $isAdmin
-            ? Village::orderBy('name')->get(['id', 'name'])
-            : collect([['id' => $user->village_id, 'name' => $user->village?->name]]);
-
-        // Destinations scoped to user's village for manager
-        $destinations = $isAdmin
-            ? collect()
-            : Destination::where('village_id', $user->village_id)
-                ->where('status', 'published')
-                ->orderBy('name')
-                ->get(['id', 'name', 'village_id']);
+        $destinations = Destination::orderBy('name')->get(['id', 'name']);
 
         return Inertia::render('admin/events/form', [
             'event' => null,
-            'villages' => $villages,
             'destinations' => $destinations,
             'isAdmin' => $isAdmin,
         ]);
@@ -80,14 +60,7 @@ class AdminEventController extends Controller
     {
         $this->authorize('create', Event::class);
 
-        $user = $request->user();
-        $isAdmin = $user->role === UserRole::Admin;
-
         $validated = $request->validated();
-
-        if (! $isAdmin) {
-            $validated['village_id'] = $user->village_id;
-        }
 
         $event = Event::create($validated);
 
@@ -107,20 +80,10 @@ class AdminEventController extends Controller
 
         $event->load(['media' => fn ($q) => $q->orderByDesc('is_primary')]);
 
-        $villages = $isAdmin
-            ? Village::orderBy('name')->get(['id', 'name'])
-            : collect([['id' => $user->village_id, 'name' => $user->village?->name]]);
-
-        $villageId = $isAdmin ? $event->village_id : $user->village_id;
-
-        $destinations = Destination::where('village_id', $villageId)
-            ->where('status', 'published')
-            ->orderBy('name')
-            ->get(['id', 'name', 'village_id']);
+        $destinations = Destination::orderBy('name')->get(['id', 'name']);
 
         return Inertia::render('admin/events/form', [
             'event' => $event,
-            'villages' => $villages,
             'destinations' => $destinations,
             'isAdmin' => $isAdmin,
         ]);
@@ -130,14 +93,7 @@ class AdminEventController extends Controller
     {
         $this->authorize('update', $event);
 
-        $user = $request->user();
-        $isAdmin = $user->role === UserRole::Admin;
-
         $validated = $request->validated();
-
-        if (! $isAdmin) {
-            $validated['village_id'] = $event->village_id;
-        }
 
         $event->update($validated);
 

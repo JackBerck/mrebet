@@ -1,12 +1,16 @@
-export type Village = {
+export type Umkm = {
     id: number;
     name: string;
     slug: string;
+    category: string;
+    owner_name: string | null;
     description: string | null;
-    head_name: string | null;
+    address: string | null;
     contact_phone: string | null;
+    price_range: string | null;
     latitude: number | null;
     longitude: number | null;
+    gmaps_link: string | null;
     qr_code_target: string | null;
     status: 'draft' | 'published';
     created_at: string;
@@ -16,7 +20,10 @@ export type Village = {
     media?: MediaItem[];
 };
 
-/** Generic polymorphic media record (used by Village, Destination, Event) */
+/** @deprecated Use Umkm instead */
+export type Village = Umkm;
+
+/** Generic polymorphic media record (used by Umkm, Destination, Event) */
 export type MediaItem = {
     id: number;
     mediable_id: number;
@@ -32,7 +39,6 @@ export type VillageMedia = MediaItem;
 
 export type Destination = {
     id: number;
-    village_id: number;
     name: string;
     slug: string;
     category: 'alam' | 'budaya' | 'buatan';
@@ -45,6 +51,7 @@ export type Destination = {
     facilities: string[] | null;
     latitude: number | null;
     longitude: number | null;
+    gmaps_link: string | null;
     qr_code_target: string | null;
     status: 'draft' | 'published';
     created_at: string;
@@ -52,12 +59,10 @@ export type Destination = {
     deleted_at: string | null;
     primary_media?: MediaItem | null;
     media?: MediaItem[];
-    village?: Pick<Village, 'id' | 'name'> | null;
 };
 
 export type Event = {
     id: number;
-    village_id: number;
     destination_id: number | null;
     title: string;
     slug: string;
@@ -70,6 +75,7 @@ export type Event = {
     organizer: string | null;
     instagram: string | null;
     contact_person: string | null;
+    gmaps_link: string | null;
     qr_code_target: string | null;
     status: 'draft' | 'published';
     created_at: string;
@@ -77,14 +83,12 @@ export type Event = {
     deleted_at: string | null;
     primary_media?: MediaItem | null;
     media?: MediaItem[];
-    village?: Pick<Village, 'id' | 'name'> | null;
     destination?: Pick<Destination, 'id' | 'name'> | null;
 };
 
 export type Blog = {
     id: number;
     user_id: number | null;
-    village_id: number | null;
     title: string;
     slug: string;
     content: string;
@@ -96,7 +100,6 @@ export type Blog = {
     updated_at: string;
     deleted_at: string | null;
     author?: { id: number; name: string } | null;
-    village?: Pick<Village, 'id' | 'name'> | null;
 };
 
 export type PaginatedData<T> = {
