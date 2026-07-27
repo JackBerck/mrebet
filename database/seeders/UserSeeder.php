@@ -22,10 +22,10 @@ class UserSeeder extends Seeder
         $villageTangkisan = DB::table('villages')->where('slug', 'tangkisan')->first();
 
         $users = [
-            // SUPER ADMIN — mengelola seluruh kecamatan
+            // SUPER ADMIN — mengelola seluruh sistem Desa Wisata Serayu Larangan & Mrebet
             [
-                'full_name' => 'Administrator Mrebet',
-                'email' => 'admin@mrebet.id',
+                'full_name' => 'Administrator Serayu Larangan',
+                'email' => 'admin@serayularangan.desa.id',
                 'phone_number' => '081100001111',
                 'password' => Hash::make('password'),
                 'avatar' => null,
@@ -33,10 +33,21 @@ class UserSeeder extends Seeder
                 'village_id' => null,
                 'is_active' => true,
             ],
+            // MANAGER SERAYU LARANGAN (UTAMA)
+            [
+                'full_name' => 'Fajar Prasetyo Utomo',
+                'email' => 'manager.serayularangan@serayularangan.desa.id',
+                'phone_number' => '081398480422',
+                'password' => Hash::make('password'),
+                'avatar' => null,
+                'role' => 'manager',
+                'village_id' => $villageSerayuLarangan?->id,
+                'is_active' => true,
+            ],
             // MANAGER ONJE
             [
                 'full_name' => 'Mugi Ari Purwono',
-                'email' => 'manager.onje@mrebet.id',
+                'email' => 'manager.onje@serayularangan.desa.id',
                 'phone_number' => '082227961243',
                 'password' => Hash::make('password'),
                 'avatar' => null,
@@ -47,7 +58,7 @@ class UserSeeder extends Seeder
             // MANAGER CIPAKU
             [
                 'full_name' => 'Sugiarto',
-                'email' => 'manager.cipaku@mrebet.id',
+                'email' => 'manager.cipaku@serayularangan.desa.id',
                 'phone_number' => '081345678901',
                 'password' => Hash::make('password'),
                 'avatar' => null,
@@ -58,7 +69,7 @@ class UserSeeder extends Seeder
             // MANAGER MREBET
             [
                 'full_name' => 'Mudrikah',
-                'email' => 'manager.mrebet@mrebet.id',
+                'email' => 'manager.mrebet@serayularangan.desa.id',
                 'phone_number' => '081456789012',
                 'password' => Hash::make('password'),
                 'avatar' => null,
@@ -66,21 +77,10 @@ class UserSeeder extends Seeder
                 'village_id' => $villageMrebet?->id,
                 'is_active' => true,
             ],
-            // MANAGER SERAYU LARANGAN
-            [
-                'full_name' => 'Fajar Prasetyo Utomo',
-                'email' => 'manager.serayularangan@mrebet.id',
-                'phone_number' => '081567890123',
-                'password' => Hash::make('password'),
-                'avatar' => null,
-                'role' => 'manager',
-                'village_id' => $villageSerayuLarangan?->id,
-                'is_active' => true,
-            ],
             // MANAGER PENGADEGAN
             [
                 'full_name' => 'Suwanto',
-                'email' => 'manager.pengadegan@mrebet.id',
+                'email' => 'manager.pengadegan@serayularangan.desa.id',
                 'phone_number' => '081678901234',
                 'password' => Hash::make('password'),
                 'avatar' => null,
@@ -88,10 +88,10 @@ class UserSeeder extends Seeder
                 'village_id' => $villagePengadegan?->id,
                 'is_active' => true,
             ],
-            // MANAGER TANGKISAN (nonaktif - untuk testing is_active=false)
+            // MANAGER TANGKISAN
             [
                 'full_name' => 'Sutrisno',
-                'email' => 'manager.tangkisan@mrebet.id',
+                'email' => 'manager.tangkisan@serayularangan.desa.id',
                 'phone_number' => '081789012345',
                 'password' => Hash::make('password'),
                 'avatar' => null,

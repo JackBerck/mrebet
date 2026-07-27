@@ -17,6 +17,15 @@ class VillageSeeder extends Seeder
     {
         $villages = [
             [
+                'name' => 'Serayu Larangan',
+                'description' => 'Desa Wisata unggulan di Kecamatan Mrebet yang terletak di lereng timur Gunung Slamet. Dikenal nasional sebagai Desa Percontohan Anti-Korupsi oleh KPK RI. Menyajikan panorama persawahan terasering yang asri, tradisi penderes nira gula kelapa, kesenian Ebeg Banyumasan, dan pelayanan publik digital yang transparan.',
+                'head_name' => 'Fajar Prasetyo Utomo',
+                'contact_phone' => '+6281398480422',
+                'latitude' => -7.29139,
+                'longitude' => 109.33083,
+                'status' => 'published',
+            ],
+            [
                 'name' => 'Onje',
                 'description' => 'Desa wisata religi bersejarah yang pernah menjadi pusat Kadipaten Onje, cikal bakal terbentuknya Kabupaten Purbalingga. Terkenal dengan situs Makam Adipati Onje II dan Masjid Raden Sayyid Kuning, salah satu masjid tertua di Jawa Tengah.',
                 'head_name' => 'Mugi Ari Purwono',
@@ -41,15 +50,6 @@ class VillageSeeder extends Seeder
                 'contact_phone' => null,
                 'latitude' => -7.31639,
                 'longitude' => 109.34833,
-                'status' => 'published',
-            ],
-            [
-                'name' => 'Serayu Larangan',
-                'description' => 'Desa percontohan anti-korupsi nasional yang ditunjuk oleh KPK RI. Memiliki tata kelola irigasi pertanian yang maju, digitalisasi layanan desa, dan akuntabilitas dana publik yang tinggi.',
-                'head_name' => 'Fajar Prasetyo Utomo',
-                'contact_phone' => '+622817700040',
-                'latitude' => -7.29139,
-                'longitude' => 109.33083,
                 'status' => 'published',
             ],
             [
@@ -86,10 +86,9 @@ class VillageSeeder extends Seeder
             $lat = $data['latitude'];
             $lng = $data['longitude'];
 
-            // Google Maps URL format yang benar: maps/search/?api=1&query=lat,lng
             $googleMapsUrl = "https://www.google.com/maps/search/?api=1&query={$lat},{$lng}";
 
-            $id = DB::table('villages')->insertGetId([
+            DB::table('villages')->insert([
                 'name' => $data['name'],
                 'slug' => $slug,
                 'description' => $data['description'],
