@@ -8,17 +8,11 @@ use App\Models\User;
 class BlogPolicy
 {
     /**
-     * Admin lihat semua blog. Manager lihat blog miliknya sendiri atau desanya.
+     * Admin & Manager bisa lihat blog.
      */
     public function view(User $user, Blog $blog): bool
     {
-        if ($user->isAdmin()) {
-            return true;
-        }
-
-        // Manager bisa lihat blog yang dia tulis, atau blog yang dikaitkan ke desanya
-        return $blog->user_id === $user->id
-            || $blog->village_id === $user->village_id;
+        return true;
     }
 
     /**
@@ -31,7 +25,6 @@ class BlogPolicy
 
     /**
      * Admin edit semua. Manager hanya edit blog yang dia tulis sendiri.
-     * Business rule: manager tidak bisa edit blog yang ditulis manager desa lain.
      */
     public function update(User $user, Blog $blog): bool
     {

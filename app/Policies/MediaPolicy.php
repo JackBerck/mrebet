@@ -3,13 +3,13 @@
 namespace App\Policies;
 
 use App\Models\Media;
+use App\Models\Umkm;
 use App\Models\User;
-use App\Models\Village;
 
 class MediaPolicy
 {
     /**
-     * Admin lihat semua media.
+     * Admin & Manager bisa lihat media.
      */
     public function view(User $user, Media $media): bool
     {
@@ -25,7 +25,7 @@ class MediaPolicy
     }
 
     /**
-     * Admin edit semua. Manager edit media milik entitas desanya.
+     * Admin edit semua. Manager edit media miliknya.
      */
     public function update(User $user, Media $media): bool
     {
@@ -33,7 +33,7 @@ class MediaPolicy
     }
 
     /**
-     * Admin delete semua. Manager delete media entitas desanya.
+     * Admin delete semua. Manager delete media miliknya.
      */
     public function delete(User $user, Media $media): bool
     {
@@ -41,8 +41,7 @@ class MediaPolicy
     }
 
     /**
-     * Cek apakah user memiliki akses ke parent entity media (Village / Destination).
-     * Event diasumsikan selalu dikelola admin atau manager desa terkait.
+     * Cek apakah user memiliki akses ke parent entity media.
      */
     private function ownsMediaOwner(User $user, Media $media): bool
     {
@@ -52,16 +51,10 @@ class MediaPolicy
             return false;
         }
 
-        // Jika owner adalah Village
-        if ($owner instanceof Village) {
-            return $user->village_id === $owner->id;
+        if ($owner instanceof Umkm) {
+            return $user->umkm_id === $owner->id;
         }
 
-        // Jika owner adalah Destination atau Event (keduanya punya village_id)
-        if (property_exists($owner, 'village_id')) {
-            return $user->village_id === $owner->village_id;
-        }
-
-        return false;
+        return true;
     }
 }

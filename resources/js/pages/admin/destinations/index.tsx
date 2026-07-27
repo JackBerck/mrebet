@@ -252,24 +252,24 @@ export default function DestinationsIndex({
                                             key={dest.id}
                                             className="border-(--line) transition-colors hover:bg-(--cream-warm)"
                                         >
-                                            <TableCell className="pl-6">
+                                            <TableCell className="pl-6 max-w-[240px] md:max-w-[300px]">
                                                 <div className="flex items-center gap-3">
                                                     {dest.primary_media ? (
                                                         <img
                                                             src={`/storage/${dest.primary_media.file_path}`}
                                                             alt={dest.name}
-                                                            className="h-9 w-9 rounded-lg object-cover"
+                                                            className="h-9 w-9 shrink-0 rounded-lg object-cover"
                                                         />
                                                     ) : (
-                                                        <div className="flex h-9 w-9 items-center justify-center rounded-lg bg-(--forest-mist)">
+                                                        <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-(--forest-mist)">
                                                             <MapPin className="h-4 w-4 text-(--forest)" />
                                                         </div>
                                                     )}
-                                                    <div>
-                                                        <p className="font-medium text-[oklch(0.22_0.01_85)]">
+                                                    <div className="min-w-0 flex-1">
+                                                        <p className="truncate font-medium text-[oklch(0.22_0.01_85)]" title={dest.name}>
                                                             {dest.name}
                                                         </p>
-                                                        <p className="text-xs text-(--charcoal-soft)">
+                                                        <p className="truncate text-xs text-(--charcoal-soft)">
                                                             /{dest.slug}
                                                         </p>
                                                     </div>

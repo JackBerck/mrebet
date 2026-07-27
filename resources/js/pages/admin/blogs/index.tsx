@@ -220,31 +220,33 @@ export default function BlogsIndex({
                                             key={blog.id}
                                             className="border-(--line) transition-colors hover:bg-(--cream-warm)"
                                         >
-                                            <TableCell className="pl-6">
+                                            <TableCell className="pl-6 max-w-[240px] md:max-w-[300px]">
                                                 <div className="flex items-center gap-3">
                                                     {blog.cover_image ? (
                                                         <img
                                                             src={`/storage/${blog.cover_image}`}
                                                             alt={blog.title}
-                                                            className="h-9 w-9 rounded-lg object-cover"
+                                                            className="h-9 w-9 shrink-0 rounded-lg object-cover"
                                                         />
                                                     ) : (
-                                                        <div className="flex h-9 w-9 items-center justify-center rounded-lg bg-(--forest-mist)">
+                                                        <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-(--forest-mist)">
                                                             <FileText className="h-4 w-4 text-(--forest)" />
                                                         </div>
                                                     )}
-                                                    <div>
-                                                        <p className="max-w-[200px] truncate font-medium text-[oklch(0.22_0.01_85)]">
+                                                    <div className="min-w-0 flex-1">
+                                                        <p className="truncate font-medium text-[oklch(0.22_0.01_85)]" title={blog.title}>
                                                             {blog.title}
                                                         </p>
-                                                        <p className="text-xs text-(--charcoal-soft)">
+                                                        <p className="truncate text-xs text-(--charcoal-soft)">
                                                             /{blog.slug}
                                                         </p>
                                                     </div>
                                                 </div>
                                             </TableCell>
-                                            <TableCell className="text-sm text-(--charcoal-soft)">">
-                                                {blog.author?.name ?? '—'}
+                                            <TableCell className="max-w-[140px] text-sm text-(--charcoal-soft)">
+                                                <p className="truncate" title={blog.author?.name ?? '—'}>
+                                                    {blog.author?.name ?? '—'}
+                                                </p>
                                             </TableCell>
                                             <TableCell className="text-sm text-(--charcoal-soft)">
                                                 {blog.views_count.toLocaleString(

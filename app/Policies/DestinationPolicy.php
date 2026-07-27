@@ -8,47 +8,35 @@ use App\Models\User;
 class DestinationPolicy
 {
     /**
-     * Admin bisa lihat semua destinasi. Manager hanya lihat destinasi di desanya.
+     * Admin & Manager dapat melihat destinasi.
      */
     public function view(User $user, Destination $destination): bool
     {
-        if ($user->isAdmin()) {
-            return true;
-        }
-
-        return $user->village_id === $destination->village_id;
+        return true;
     }
 
     /**
-     * Manager hanya bisa buat destinasi untuk desanya sendiri.
+     * Semua user terautentikasi (Admin / Manager) bisa membuat destinasi.
      */
     public function create(User $user): bool
     {
-        return true; // Semua user bisa buat — village_id enforce di controller
+        return true;
     }
 
     /**
-     * Admin edit semua. Manager hanya edit destinasi milik desanya.
+     * Admin & Manager bisa mengedit destinasi.
      */
     public function update(User $user, Destination $destination): bool
     {
-        if ($user->isAdmin()) {
-            return true;
-        }
-
-        return $user->village_id === $destination->village_id;
+        return true;
     }
 
     /**
-     * Admin delete semua. Manager hanya delete destinasi milik desanya.
+     * Admin & Manager bisa menghapus destinasi.
      */
     public function delete(User $user, Destination $destination): bool
     {
-        if ($user->isAdmin()) {
-            return true;
-        }
-
-        return $user->village_id === $destination->village_id;
+        return true;
     }
 
     /**

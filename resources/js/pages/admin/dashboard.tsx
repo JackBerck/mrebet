@@ -271,11 +271,11 @@ export default function Dashboard(props: DashboardProps) {
                                             key={umkm.id}
                                             className="flex items-center justify-between px-6 py-3 transition-colors hover:bg-(--cream-warm)"
                                         >
-                                            <div>
-                                                <p className="font-medium text-[oklch(0.22_0.01_85)]">
+                                            <div className="min-w-0 flex-1 pr-4">
+                                                <p className="truncate font-medium text-[oklch(0.22_0.01_85)]" title={umkm.name}>
                                                     {umkm.name}
                                                 </p>
-                                                <p className="text-xs text-(--charcoal-soft)">
+                                                <p className="truncate text-xs text-(--charcoal-soft)" title={umkm.owner_name ?? '—'}>
                                                     Pemilik: {umkm.owner_name ?? '—'}
                                                 </p>
                                             </div>

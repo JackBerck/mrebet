@@ -8,19 +8,15 @@ use App\Models\User;
 class EventPolicy
 {
     /**
-     * Admin lihat semua event. Manager lihat event yang village_id-nya miliknya.
+     * Admin & Manager lihat semua event.
      */
     public function view(User $user, Event $event): bool
     {
-        if ($user->isAdmin()) {
-            return true;
-        }
-
-        return $user->village_id === $event->village_id;
+        return true;
     }
 
     /**
-     * Semua user terautentikasi bisa buat event. village_id di-scope di controller.
+     * Semua user terautentikasi bisa buat event.
      */
     public function create(User $user): bool
     {
@@ -28,27 +24,19 @@ class EventPolicy
     }
 
     /**
-     * Admin edit semua. Manager edit event desanya.
+     * Admin & Manager bisa edit event.
      */
     public function update(User $user, Event $event): bool
     {
-        if ($user->isAdmin()) {
-            return true;
-        }
-
-        return $user->village_id === $event->village_id;
+        return true;
     }
 
     /**
-     * Admin delete semua. Manager delete event desanya.
+     * Admin & Manager bisa delete event.
      */
     public function delete(User $user, Event $event): bool
     {
-        if ($user->isAdmin()) {
-            return true;
-        }
-
-        return $user->village_id === $event->village_id;
+        return true;
     }
 
     /**

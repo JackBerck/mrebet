@@ -216,40 +216,42 @@ export default function UmkmsIndex({ umkms, categories, filters, isAdmin }: Prop
                                             key={umkm.id}
                                             className="border-(--line) transition-colors hover:bg-(--cream-warm)"
                                         >
-                                            <TableCell className="pl-6">
+                                            <TableCell className="pl-6 max-w-[240px] md:max-w-[300px]">
                                                 <div className="flex items-center gap-3">
                                                     {umkm.primary_media ? (
                                                         <img
                                                             src={umkm.primary_media.file_path.startsWith('http') ? umkm.primary_media.file_path : `/storage/${umkm.primary_media.file_path}`}
                                                             alt={umkm.name}
-                                                            className="h-10 w-10 rounded-lg object-cover"
+                                                            className="h-10 w-10 shrink-0 rounded-lg object-cover"
                                                         />
                                                     ) : (
-                                                        <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-(--forest-mist)">
+                                                        <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-(--forest-mist)">
                                                             <span className="text-xs font-semibold text-(--forest)">
                                                                 {umkm.name.charAt(0)}
                                                             </span>
                                                         </div>
                                                     )}
-                                                    <div>
-                                                        <p className="font-medium text-[oklch(0.22_0.01_85)]">
+                                                    <div className="min-w-0 flex-1">
+                                                        <p className="truncate font-medium text-[oklch(0.22_0.01_85)]" title={umkm.name}>
                                                             {umkm.name}
                                                         </p>
-                                                        <p className="text-xs text-(--charcoal-soft)">
+                                                        <p className="truncate text-xs text-(--charcoal-soft)">
                                                             {umkm.price_range ? `Harga: ${umkm.price_range}` : `/${umkm.slug}`}
                                                         </p>
                                                     </div>
                                                 </div>
                                             </TableCell>
-                                            <TableCell className="text-sm text-(--charcoal-soft)">
-                                                {umkm.owner_name ?? '—'}
+                                            <TableCell className="max-w-[160px] text-sm text-(--charcoal-soft)">
+                                                <p className="truncate" title={umkm.owner_name ?? '—'}>
+                                                    {umkm.owner_name ?? '—'}
+                                                </p>
                                             </TableCell>
-                                            <TableCell>
+                                            <TableCell className="whitespace-nowrap">
                                                 <Badge variant="outline" className="capitalize text-xs">
                                                     {categories.find(c => c.value === umkm.category)?.label ?? umkm.category}
                                                 </Badge>
                                             </TableCell>
-                                            <TableCell className="text-sm text-(--charcoal-soft)">
+                                            <TableCell className="whitespace-nowrap text-sm text-(--charcoal-soft)">
                                                 <div className="flex flex-col gap-0.5">
                                                     <span>{umkm.contact_phone ?? '—'}</span>
                                                     {umkm.gmaps_link && (
