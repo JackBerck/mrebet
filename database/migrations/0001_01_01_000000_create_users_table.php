@@ -19,7 +19,7 @@ return new class extends Migration
             $table->string('password');
             $table->timestamp('email_verified_at')->nullable();
             $table->string('avatar')->nullable();
-            $table->enum('role', ['admin', 'manager'])->default('manager');
+            $table->enum('role', ['admin'])->default('admin');
             // village_id added after villages table is created (see villages migration)
             $table->boolean('is_active')->default(true);
             $table->rememberToken();

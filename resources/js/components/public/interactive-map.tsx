@@ -4,13 +4,15 @@ import { Layers, X } from 'lucide-react';
 
 export interface MapPoint {
     id: number;
-    type: 'destination' | 'village';
+    type: 'destination' | 'umkm' | 'village';
     name: string;
     slug: string;
     category?: string;
     category_label?: string;
     ticket_price?: number;
     ticket_info?: string | null;
+    owner_name?: string | null;
+    price_range?: string | null;
     open_time?: string | null;
     close_time?: string | null;
     latitude: number;
@@ -26,13 +28,13 @@ interface Props {
     onSelectItem: (item: MapPoint | null) => void;
 }
 
-export default function InteractiveMap({ items, selectedItem, onSelectItem }: Props) {
+export default function InteractiveMap({ items = [], selectedItem, onSelectItem }: Props) {
     const mapRef = useRef<HTMLDivElement>(null);
     const mapInstance = useRef<LeafletMap | null>(null);
     const markersRef = useRef<Map<string, LeafletMarker>>(new Map());
     const [legendOpen, setLegendOpen] = useState(false);
 
-    // Initial default center: Mrebet / Purbalingga (~ -7.3195, 109.3468)
+    // Initial default center: Serayu Larangan / Mrebet (~ -7.3195, 109.3468)
     const defaultLat = -7.3195;
     const defaultLng = 109.3468;
 
@@ -58,7 +60,7 @@ export default function InteractiveMap({ items, selectedItem, onSelectItem }: Pr
             if (!mapInstance.current && mapRef.current) {
                 const instance = L.map(mapRef.current, {
                     zoomControl: false,
-                }).setView([defaultLat, defaultLng], 12);
+                }).setView([defaultLat, defaultLng], 13);
 
                 // Add zoom control top right
                 L.control.zoom({ position: 'topright' }).addTo(instance);
@@ -83,7 +85,7 @@ export default function InteractiveMap({ items, selectedItem, onSelectItem }: Pr
             markersRef.current.forEach((marker) => marker.remove());
             markersRef.current.clear();
 
-            if (items.length === 0) return;
+            if (!items || items.length === 0) return;
 
             const bounds = L.latLngBounds([]);
 
@@ -92,10 +94,13 @@ export default function InteractiveMap({ items, selectedItem, onSelectItem }: Pr
                 bounds.extend([item.latitude, item.longitude]);
 
                 // Determine marker color and icon symbol based on type/category
-                let bgColor = '#15803d'; // Default forest green
+                let bgColor = '#15803d'; // Default forest green for natural destination
                 let iconSymbol = '🌲';
 
-                if (item.type === 'village') {
+                if (item.type === 'umkm') {
+                    bgColor = '#047857'; // Emerald green for UMKM & Kuliner
+                    iconSymbol = '🏪';
+                } else if (item.type === 'village') {
                     bgColor = '#c2410c'; // Orange-brown for village
                     iconSymbol = '🏡';
                 } else if (item.category === 'budaya') {
@@ -134,21 +139,26 @@ export default function InteractiveMap({ items, selectedItem, onSelectItem }: Pr
                 });
 
                 // Create popup HTML
-                const imageHtml = item.primary_media 
-                    ? `<img src="/storage/${item.primary_media.file_path}" alt="${item.name}" style="width:100%; height:120px; object-fit:cover; border-radius: 8px 8px 0 0;" />`
+                const imagePath = item.primary_media?.file_path;
+                const imageUrl = imagePath 
+                    ? (imagePath.startsWith('http') ? imagePath : `/storage/${imagePath}`)
+                    : null;
+
+                const imageHtml = imageUrl 
+                    ? `<img src="${imageUrl}" alt="${item.name}" style="width:100%; height:120px; object-fit:cover; border-radius: 8px 8px 0 0;" />`
                     : `<div style="width:100%; height:75px; background:#e5e7eb; display:flex; align-items:center; justify-content:center; color:#9ca3af; font-size:12px; border-radius: 8px 8px 0 0;">Tanpa Foto</div>`;
 
                 const subtext = item.type === 'destination' 
                     ? `<span style="font-size:11px; background:#f3f4f6; color:#374151; padding:2px 6px; border-radius:4px; font-weight:600;">${item.category_label || 'Wisata'}</span>`
-                    : `<span style="font-size:11px; background:#ffedd5; color:#c2410c; padding:2px 6px; border-radius:4px; font-weight:600;">Desa Wisata</span>`;
+                    : `<span style="font-size:11px; background:#ecfdf5; color:#047857; padding:2px 6px; border-radius:4px; font-weight:600;">${item.category_label || 'UMKM & Kuliner'}</span>`;
 
                 const priceOrCount = item.type === 'destination'
                     ? (item.ticket_price && item.ticket_price > 0 
                         ? `Rp ${item.ticket_price.toLocaleString('id-ID')}` 
                         : 'Gratis')
-                    : `${item.destinations_count || 0} Destinasi Wisata`;
+                    : (item.price_range ? item.price_range : (item.owner_name ? `Pemilik: ${item.owner_name}` : 'UMKM Desa'));
 
-                const detailUrl = item.type === 'destination' ? `/destinasi/${item.slug}` : `/desa/${item.slug}`;
+                const detailUrl = item.type === 'destination' ? `/destinasi/${item.slug}` : `/umkm/${item.slug}`;
 
                 const popupContent = `
                     <div style="width: 220px; font-family: sans-serif; text-align: left; border-radius:8px; overflow:hidden;">
@@ -246,15 +256,15 @@ export default function InteractiveMap({ items, selectedItem, onSelectItem }: Pr
                             </div>
                             <div className="flex items-center gap-2.5">
                                 <span className="w-6 h-6 rounded-full bg-[#b45309] text-white flex items-center justify-center text-xs shrink-0 shadow-sm">🏛️</span>
-                                <span className="font-medium">Wisata Budaya & Religi</span>
+                                <span className="font-medium">Wisata Budaya</span>
                             </div>
                             <div className="flex items-center gap-2.5">
                                 <span className="w-6 h-6 rounded-full bg-[#0284c7] text-white flex items-center justify-center text-xs shrink-0 shadow-sm">🎡</span>
                                 <span className="font-medium">Wisata Buatan</span>
                             </div>
                             <div className="flex items-center gap-2.5">
-                                <span className="w-6 h-6 rounded-full bg-[#c2410c] text-white flex items-center justify-center text-xs shrink-0 shadow-sm">🏡</span>
-                                <span className="font-medium">Desa Wisata</span>
+                                <span className="w-6 h-6 rounded-full bg-[#047857] text-white flex items-center justify-center text-xs shrink-0 shadow-sm">🏪</span>
+                                <span className="font-medium">UMKM & Kuliner</span>
                             </div>
                         </div>
                     </div>

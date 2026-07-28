@@ -29,7 +29,7 @@ import {
 import { Switch } from '@/components/ui/switch';
 import { TimePicker } from '@/components/ui/time-picker';
 import AppLayout from '@/layouts/app-layout';
-import type { BreadcrumbItem, Destination, Event, Village } from '@/types';
+import type { BreadcrumbItem, Destination, Event } from '@/types';
 
 // ── Zod Schema ────────────────────────────────────────────────────────────────
 const eventSchema = z.object({
@@ -100,6 +100,123 @@ export default function EventForm({
             primary_media_id: null,
         });
 
+    const editor = useEditor({
+        extensions: [
+            StarterKit,
+            Placeholder.configure({
+                placeholder:
+                    'Deskripsikan event ini: jadwal kegiatan, narasumber, ketentuan peserta...',
+            }),
+        ],
+        content: event?.description ?? '',
+        onUpdate({ editor: e }) {
+            setData('description', e.getHTML());
+        },
+    });
+
+    const validate = (): boolean => {
+        const result = eventSchema.safeParse({
+            ...data,
+            ticket_price: Number(data.ticket_price),
+        });
+
+        if (!result.success) {
+            clearErrors();
+            result.error.issues.forEach((err) => {
+                setError(err.path[0] as keyof typeof errors, err.message);
+            });
+            toast.error(
+                'Mohon periksa kembali isian form yang ditandai merah.',
+            );
+            return false;
+        }
+
+        return true;
+    };
+
+    const submit = (e: React.FormEvent, forcePublish = false) => {
+        e.preventDefault();
+        if (!validate()) return;
+
+        const targetStatus = forcePublish ? 'published' : data.status;
+
+        if (isEditing && event) {
+            router.post(
+                `/admin/events/${event.slug}`,
+                {
+                    _method: 'put',
+                    ...data,
+                    status: targetStatus,
+                },
+                {
+                    onError: (errs) => {
+                        toast.error(
+                            'Gagal menyimpan event. Periksa kembali form.',
+                        );
+                    },
+                },
+            );
+        } else {
+            router.post(
+                '/admin/events',
+                {
+                    ...data,
+                    status: targetStatus,
+                },
+                {
+                    onError: (errs) => {
+                        toast.error(
+                            'Gagal menambahkan event. Periksa kembali form.',
+                        );
+                    },
+                },
+            );
+        }
+    };
+
+    return (
+        <>
+            <Head
+                title={
+                    isEditing ? `Edit Event: ${event.title}` : 'Tambah Event'
+                }
+            />
+
+            <form onSubmit={(e) => submit(e)} className="flex flex-col gap-6 p-6">
+                {/* Section 1: Informasi Utama */}
+                <Card className="border-(--line) shadow-none">
+                    <CardHeader>
+                        <CardTitle className="font-display text-lg text-(--forest-deep)">
+                            Informasi Utama Event
+                        </CardTitle>
+                        <CardDescription>
+                            Judul, status publikasi, dan destinasi lokasi event.
+                        </CardDescription>
+                    </CardHeader>
+                    <CardContent className="flex flex-col gap-5">
+                        <div className="flex flex-col gap-1.5">
+                            <Label htmlFor="title">
+                                Judul Event{' '}
+                                <span className="text-destructive">*</span>
+                            </Label>
+                            <Input
+                                id="title"
+                                value={data.title}
+                                onChange={(e) =>
+                                    setData('title', e.target.value)
+                                }
+                                placeholder="Contoh: Festival Larangan Sewu Tumpeng 2026"
+                                className={
+                                    errors.title ? 'border-destructive' : ''
+                                }
+                            />
+                            {errors.title && (
+                                <p className="text-xs text-destructive">
+                                    {errors.title}
+                                </p>
+                            )}
+                        </div>
+
                         <div className="grid gap-5 sm:grid-cols-2">
                             <div className="flex flex-col gap-1.5 sm:col-span-2">
                                 <Label htmlFor="destination_id">
@@ -135,6 +252,34 @@ export default function EventForm({
                                         ))}
                                     </SelectContent>
                                 </Select>
+                            </div>
+                        </div>
+
+                        <div className="flex items-center justify-between pt-2">
+                            <div>
+                                <Label className="text-base font-semibold">
+                                    Status Publikasi
+                                </Label>
+                                <p className="text-xs text-(--charcoal-soft)">
+                                    Event terbit akan langsung terlihat oleh
+                                    pengunjung publik.
+                                </p>
+                            </div>
+                            <div className="flex items-center gap-2">
+                                <span className="text-sm font-medium">
+                                    {data.status === 'published'
+                                        ? 'Terbit'
+                                        : 'Draft'}
+                                </span>
+                                <Switch
+                                    checked={data.status === 'published'}
+                                    onCheckedChange={(checked) =>
+                                        setData(
+                                            'status',
+                                            checked ? 'published' : 'draft',
+                                        )
+                                    }
+                                />
                             </div>
                         </div>
                     </CardContent>
@@ -219,7 +364,7 @@ export default function EventForm({
                     </CardContent>
                 </Card>
 
-                {/* Section 4: Detail */}
+                {/* Section 4: Detail & Kontak */}
                 <Card className="border-(--line) shadow-none">
                     <CardHeader>
                         <CardTitle className="font-display text-lg text-(--forest-deep)">
@@ -248,105 +393,58 @@ export default function EventForm({
                                     )
                                 }
                                 placeholder="0 = gratis"
+                                className={
+                                    errors.ticket_price
+                                        ? 'border-destructive'
+                                        : ''
+                                }
                             />
-                            <p className="text-xs text-(--charcoal-soft)">
-                                Isi 0 jika gratis.
-                            </p>
+                            {errors.ticket_price && (
+                                <p className="text-xs text-destructive">
+                                    {errors.ticket_price}
+                                </p>
+                            )}
                         </div>
+
                         <div className="flex flex-col gap-1.5">
                             <Label htmlFor="organizer">Penyelenggara</Label>
                             <Input
                                 id="organizer"
-                                value={data.organizer ?? ''}
+                                value={data.organizer}
                                 onChange={(e) =>
                                     setData('organizer', e.target.value)
                                 }
-                                placeholder="contoh: Pokdarwis Desa Onje"
+                                placeholder="Pokdarwis / Karang Taruna Desa"
                             />
                         </div>
+
                         <div className="flex flex-col gap-1.5">
-                            <Label htmlFor="contact_person">
-                                Kontak Person (WA/HP)
-                            </Label>
+                            <Label htmlFor="contact_person">Nomor Kontak / WA</Label>
                             <Input
                                 id="contact_person"
-                                value={data.contact_person ?? ''}
+                                value={data.contact_person}
                                 onChange={(e) =>
                                     setData('contact_person', e.target.value)
                                 }
-                                placeholder="contoh: 08123456789"
+                                placeholder="081234567890"
                             />
                         </div>
+
                         <div className="flex flex-col gap-1.5">
-                            <Label htmlFor="instagram">Instagram</Label>
+                            <Label htmlFor="instagram">Akun Instagram</Label>
                             <Input
                                 id="instagram"
-                                value={data.instagram ?? ''}
+                                value={data.instagram}
                                 onChange={(e) =>
                                     setData('instagram', e.target.value)
                                 }
-                                placeholder="contoh: @desaonje"
+                                placeholder="@serayularangan"
                             />
                         </div>
-                    </CardContent>
-                </Card>
 
-                {/* Section 5: Foto */}
-                <Card className="border-(--line) shadow-none">
-                    <CardHeader>
-                        <CardTitle className="font-display text-lg text-(--forest-deep)">
-                            Foto Event
-                        </CardTitle>
-                        <CardDescription>
-                            Upload foto poster atau dokumentasi event.
-                        </CardDescription>
-                    </CardHeader>
-                    <CardContent>
-                        <ImageUploader
-                            existing={event?.media ?? []}
-                            onChange={handleMediaChange}
-                        />
-                    </CardContent>
-                </Card>
-
-                {/* Section 6: Pengaturan */}
-                <Card className="border-(--line) shadow-none">
-                    <CardHeader>
-                        <CardTitle className="font-display text-lg text-(--forest-deep)">
-                            Pengaturan
-                        </CardTitle>
-                    </CardHeader>
-                    <CardContent className="flex flex-col gap-5">
-                        <div className="flex flex-col gap-1.5">
-                            <Label htmlFor="status">Status Publikasi</Label>
-                            <Select
-                                value={data.status}
-                                onValueChange={(v) =>
-                                    setData(
-                                        'status',
-                                        v as 'draft' | 'published',
-                                    )
-                                }
-                            >
-                                <SelectTrigger
-                                    id="status"
-                                    className="w-full sm:w-[220px]"
-                                >
-                                    <SelectValue />
-                                </SelectTrigger>
-                                <SelectContent>
-                                    <SelectItem value="draft">
-                                        Draft (Tidak tampil publik)
-                                    </SelectItem>
-                                    <SelectItem value="published">
-                                        Terbit (Tampil di website)
-                                    </SelectItem>
-                                </SelectContent>
-                            </Select>
-                        </div>
-                        <div className="flex flex-col gap-1.5">
+                        <div className="flex flex-col gap-1.5 sm:col-span-2">
                             <Label htmlFor="qr_code_target">
-                                URL Target QR Code
+                                Link Pendaftaran / Tiket (QR Code Target)
                             </Label>
                             <Input
                                 id="qr_code_target"
@@ -372,6 +470,28 @@ export default function EventForm({
                                 </p>
                             )}
                         </div>
+                    </CardContent>
+                </Card>
+
+                {/* Section 5: Galeri Foto */}
+                <Card className="border-(--line) shadow-none">
+                    <CardHeader>
+                        <CardTitle className="font-display text-lg text-(--forest-deep)">
+                            Foto Event
+                        </CardTitle>
+                        <CardDescription>
+                            Upload foto brosur atau galeri event.
+                        </CardDescription>
+                    </CardHeader>
+                    <CardContent>
+                        <ImageUploader
+                            existing={event?.media ?? []}
+                            onChange={(files, deletedIds, primaryId) => {
+                                setData('images', files);
+                                setData('deleted_media_ids', deletedIds);
+                                setData('primary_media_id', primaryId);
+                            }}
+                        />
                     </CardContent>
                 </Card>
 

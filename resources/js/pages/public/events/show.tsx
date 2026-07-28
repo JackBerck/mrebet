@@ -263,7 +263,34 @@ export default function EventShow({ event, relatedEvents }: Props) {
                                     )}
                                 </div>
                             </div>
-                            
+                        </div>
+                    </div>
+
+                    {/* Related Events */}
+                    {relatedEvents && relatedEvents.length > 0 && (
+                        <div className="mt-16 pt-16 border-t border-(--line)" data-reveal>
+                            <h2 className="font-display text-2xl font-bold text-(--forest-deep) mb-8">
+                                Acara Lainnya di Desa Ini
+                            </h2>
+                            <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+                                {relatedEvents.map(related => (
+                                    <Link key={related.id} href={`/event/${related.slug}`} className="group bg-white rounded-2xl overflow-hidden border border-(--line) hover:border-(--forest-mist) transition-colors flex flex-col h-full shadow-sm hover:shadow-md">
+                                        <div className="aspect-video w-full overflow-hidden bg-neutral-200">
+                                            {related.primary_media ? (
+                                                <img src={`/storage/${related.primary_media.file_path}`} alt={related.title} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
+                                            ) : (
+                                                <div className="w-full h-full flex items-center justify-center bg-(--forest-mist)/30 text-(--forest)/40">
+                                                    <Calendar className="w-8 h-8" />
+                                                </div>
+                                            )}
+                                        </div>
+                                        <div className="p-5 flex flex-col grow">
+                                            <h3 className="font-bold text-(--charcoal) group-hover:text-(--forest) transition-colors line-clamp-2 mb-3">{related.title}</h3>
+                                            <div className="mt-auto space-y-2 text-sm text-(--charcoal-soft)">
+                                                <div className="flex items-center gap-2">
+                                                    <Calendar className="w-4 h-4 shrink-0" />
+                                                    <span>{format(parseISO(related.start_date), 'd MMM yyyy', { locale: id })}</span>
+                                                </div>
                                                 <div className="flex items-center gap-2">
                                                     <MapPin className="w-4 h-4 shrink-0" />
                                                     <span>Desa Serayu Larangan</span>

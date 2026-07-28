@@ -75,7 +75,7 @@ class User extends Authenticatable implements PasskeyUser
 
     public function isManager(): bool
     {
-        return $this->role === UserRole::Manager;
+        return false;
     }
 
     protected function name(): Attribute

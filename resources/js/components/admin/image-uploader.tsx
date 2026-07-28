@@ -15,7 +15,7 @@ type PreviewImage = {
 };
 
 type ImageUploaderProps = {
-    existing: ExistingMedia[];
+    existing?: ExistingMedia[];
     onChange: (
         files: File[],
         deletedIds: number[],
@@ -25,14 +25,14 @@ type ImageUploaderProps = {
 };
 
 export function ImageUploader({
-    existing,
+    existing = [],
     onChange,
     maxFiles = 10,
 }: ImageUploaderProps) {
     const [previews, setPreviews] = useState<PreviewImage[]>(
-        existing.map((m) => ({
+        (existing || []).map((m) => ({
             id: m.id,
-            url: `/storage/${m.file_path}`,
+            url: m.file_path.startsWith('http') ? m.file_path : `/storage/${m.file_path}`,
             is_primary: m.is_primary,
         })),
     );

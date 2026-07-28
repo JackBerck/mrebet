@@ -1,12 +1,18 @@
 import { Head, Link, router } from '@inertiajs/react';
-import { Search, Store, MapPin, Phone, ExternalLink } from 'lucide-react';
-import { useState } from 'react';
+import { Search, Store, MapPin, Tag, ChevronLeft, ChevronRight } from 'lucide-react';
+import { useState, useCallback, useEffect, useRef } from 'react';
 import PublicLayout from '@/layouts/public-layout';
 import { useMotionReveal } from '@/hooks/use-motion-reveal';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
-import { Badge } from '@/components/ui/badge';
-import type { PaginatedData } from '@/types';
+import {
+    Select,
+    SelectContent,
+    SelectItem,
+    SelectTrigger,
+    SelectValue,
+} from '@/components/ui/select';
+import type { PaginatedData } from '@/types/models';
 
 interface UmkmPublic {
     id: number;
@@ -23,189 +29,280 @@ interface UmkmPublic {
     primary_media?: { file_path: string } | null;
 }
 
+interface CategoryOption {
+    value: string;
+    label: string;
+}
+
 interface Props {
     umkms: PaginatedData<UmkmPublic>;
-    categories: { value: string; label: string }[];
-    filters: { search?: string; category?: string };
+    categories: CategoryOption[];
+    filters: {
+        search: string | null;
+        category: string | null;
+    };
 }
 
 export default function UmkmsPublicIndex({ umkms, categories, filters }: Props) {
     useMotionReveal();
-    const [search, setSearch] = useState(filters.search ?? '');
-    const [activeCategory, setActiveCategory] = useState(filters.category ?? '');
+    const [search, setSearch] = useState(filters.search || '');
+    const [activeCategory, setActiveCategory] = useState<string | null>(filters.category || null);
+    const timeoutRef = useRef<NodeJS.Timeout | null>(null);
 
-    const handleSearch = (e: React.FormEvent) => {
-        e.preventDefault();
-        router.get('/umkm', { search, category: activeCategory }, { preserveState: true });
+    const updateFilters = useCallback((query: string, cat: string | null) => {
+        const payload: Record<string, string> = {};
+        if (query) payload.search = query;
+        if (cat) payload.category = cat;
+
+        router.get('/umkm', payload, { preserveState: true, replace: true });
+    }, []);
+
+    const debouncedSearch = useCallback(
+        (query: string) => {
+            if (timeoutRef.current) clearTimeout(timeoutRef.current);
+            timeoutRef.current = setTimeout(() => {
+                updateFilters(query, activeCategory);
+            }, 400);
+        },
+        [activeCategory, updateFilters]
+    );
+
+    useEffect(() => {
+        if (search !== (filters.search || '')) {
+            debouncedSearch(search);
+        }
+        return () => {
+            if (timeoutRef.current) clearTimeout(timeoutRef.current);
+        };
+    }, [search, debouncedSearch, filters.search]);
+
+    const handleClearSearch = () => {
+        setSearch('');
+        updateFilters('', activeCategory);
     };
 
-    const handleCategoryClick = (catVal: string) => {
-        const newCat = activeCategory === catVal ? '' : catVal;
-        setActiveCategory(newCat);
-        router.get('/umkm', { search, category: newCat }, { preserveState: true });
+    const handleCategorySelect = (val: string | null) => {
+        setActiveCategory(val);
+        updateFilters(search, val);
     };
 
     return (
         <PublicLayout>
             <Head>
-                <title>UMKM & Kuliner Desa — Serayu Larangan</title>
+                <title>UMKM & Kuliner Desa — Desa Wisata Serayu Larangan</title>
                 <meta
                     name="description"
                     content="Jelajahi berbagai UMKM lokal, kerajinan olahan nira kelapa, warung kuliner tradisional khas Desa Serayu Larangan, Purbalingga."
                 />
             </Head>
 
-            <section className="pt-28 md:pt-32 lg:pt-40 pb-16 bg-(--cream-warm) min-h-screen">
+            <section className="pt-28 md:pt-32 lg:pt-40 pb-12 lg:pb-20 bg-(--cream-warm) min-h-screen">
                 <div className="container mx-auto max-w-7xl section-padding-x">
-                    {/* Header Banner */}
-                    <div className="mb-10 max-w-3xl bg-(--forest-deep) text-white p-6 md:p-8 rounded-2xl shadow-sm" data-reveal>
-                        <Badge className="bg-(--gold) text-(--forest-deep) border-0 mb-3 px-3 py-1 font-semibold">
-                            Ekonomi & Usaha Lokal
-                        </Badge>
-                        <h1 className="font-display text-3xl md:text-5xl font-bold mb-3">
+                    
+                    {/* Header */}
+                    <div className="mb-10 md:mb-12 max-w-3xl" data-reveal>
+                        <h1 className="font-display text-4xl md:text-5xl font-bold text-(--forest-deep) mb-4">
                             UMKM & Kuliner Desa
                         </h1>
-                        <p className="text-sm md:text-base leading-relaxed text-white/90">
-                            Dukung perekonomian warga Desa Serayu Larangan dengan membeli produk murni penderes nira, gula semut organik, batik tulis lokal, hingga berbagai sajian kuliner warung tradisional.
+                        <p className="text-base md:text-lg text-(--charcoal-soft) leading-relaxed">
+                            Dukung perekonomian warga Desa Serayu Larangan dengan membeli produk lokal penderes nira, gula semut murni, kerajinan bambu, batik tulis, hingga sajian kuliner warung tradisional.
                         </p>
                     </div>
 
-                    {/* Filter & Search */}
-                    <div className="mb-8 flex flex-col md:flex-row gap-4 justify-between items-stretch md:items-center" data-reveal data-reveal-delay="50">
-                        <form onSubmit={handleSearch} className="flex gap-2 max-w-md w-full">
-                            <div className="relative flex-1">
-                                <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-(--charcoal-soft)" />
-                                <Input
-                                    placeholder="Cari produk / nama warung..."
-                                    value={search}
-                                    onChange={(e) => setSearch(e.target.value)}
-                                    className="pl-9 bg-white border-(--line)"
-                                />
-                            </div>
-                            <Button type="submit" className="bg-(--forest) hover:bg-(--forest-deep)">
-                                Cari
-                            </Button>
-                        </form>
-
-                        {/* Category Badges */}
-                        <div className="flex flex-wrap gap-2">
-                            <Button
-                                variant={activeCategory === '' ? 'default' : 'outline'}
-                                size="sm"
-                                onClick={() => handleCategoryClick('')}
-                                className={activeCategory === '' ? 'bg-(--forest) text-white' : 'bg-white border-(--line)'}
-                            >
-                                Semua
-                            </Button>
-                            {categories.map((cat) => (
-                                <Button
-                                    key={cat.value}
-                                    variant={activeCategory === cat.value ? 'default' : 'outline'}
-                                    size="sm"
-                                    onClick={() => handleCategoryClick(cat.value)}
-                                    className={activeCategory === cat.value ? 'bg-(--forest) text-white' : 'bg-white border-(--line)'}
+                    {/* Filter & Search Controls */}
+                    <div className="flex flex-col md:flex-row md:items-center justify-between gap-6 mb-10" data-reveal data-reveal-delay="50">
+                        
+                        {/* Category Filters (Mobile Shadcn Dropdown & Desktop Chips) */}
+                        <div className="w-full md:w-auto">
+                            {/* Mobile View: Shadcn Select Dropdown */}
+                            <div className="md:hidden flex items-center gap-2">
+                                <span className="text-xs text-(--charcoal-soft) font-medium shrink-0">Kategori:</span>
+                                <Select 
+                                    value={activeCategory || 'all'} 
+                                    onValueChange={(val) => handleCategorySelect(val === 'all' ? null : val)}
                                 >
-                                    {cat.label}
-                                </Button>
-                            ))}
+                                    <SelectTrigger className="w-full bg-white border-(--line) text-sm h-11 rounded-full shadow-sm">
+                                        <SelectValue placeholder="Pilih Kategori UMKM" />
+                                    </SelectTrigger>
+                                    <SelectContent>
+                                        <SelectItem value="all">Semua Kategori</SelectItem>
+                                        {categories.map((cat) => (
+                                            <SelectItem key={cat.value} value={cat.value}>
+                                                {cat.label}
+                                            </SelectItem>
+                                        ))}
+                                    </SelectContent>
+                                </Select>
+                            </div>
+
+                            {/* Desktop View: Chips */}
+                            <div className="hidden md:flex flex-wrap items-center gap-2">
+                                <button
+                                    onClick={() => handleCategorySelect(null)}
+                                    className={`px-4 py-2 rounded-full text-sm font-medium transition-all ${
+                                        !activeCategory 
+                                            ? 'bg-(--forest) text-white shadow-sm' 
+                                            : 'bg-white border border-(--line) text-(--charcoal) hover:border-(--forest-mist) hover:bg-(--forest-mist)/30'
+                                    }`}
+                                >
+                                    Semua
+                                </button>
+                                {categories.map((cat) => (
+                                    <button
+                                        key={cat.value}
+                                        onClick={() => handleCategorySelect(cat.value)}
+                                        className={`px-4 py-2 rounded-full text-sm font-medium transition-all ${
+                                            activeCategory === cat.value 
+                                                ? 'bg-(--forest) text-white shadow-sm' 
+                                                : 'bg-white border border-(--line) text-(--charcoal) hover:border-(--forest-mist) hover:bg-(--forest-mist)/30'
+                                        }`}
+                                    >
+                                        {cat.label}
+                                    </button>
+                                ))}
+                            </div>
                         </div>
+
+                        {/* Search Bar */}
+                        <div className="relative w-full md:w-80 shrink-0">
+                            <div className="absolute inset-y-0 left-0 flex items-center pl-3.5 pointer-events-none">
+                                <Search className="w-4 h-4 text-(--charcoal-soft)" />
+                            </div>
+                            <Input
+                                type="text"
+                                className="pl-10 h-11 rounded-full border-(--line) bg-white focus-visible:ring-(--forest) shadow-sm text-sm"
+                                placeholder="Cari produk / nama warung..."
+                                value={search}
+                                onChange={(e) => setSearch(e.target.value)}
+                            />
+                            {search && (
+                                <button 
+                                    onClick={handleClearSearch}
+                                    className="absolute inset-y-0 right-0 flex items-center pr-4 text-xs font-medium text-(--charcoal-soft) hover:text-(--forest)"
+                                >
+                                    Reset
+                                </button>
+                            )}
+                        </div>
+
                     </div>
 
                     {/* Grid List */}
-                    {umkms.data.length === 0 ? (
-                        <div className="text-center py-16 bg-white rounded-2xl border border-(--line) p-8" data-reveal>
-                            <Store className="h-12 w-12 text-(--charcoal-soft) mx-auto mb-3 opacity-40" />
-                            <h3 className="font-display text-xl font-bold text-(--forest-deep) mb-1">
-                                UMKM Tidak Ditemukan
-                            </h3>
-                            <p className="text-sm text-(--charcoal-soft)">
-                                Coba ubah kata kunci pencarian atau pilih kategori lainnya.
-                            </p>
-                        </div>
-                    ) : (
-                        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6" data-reveal data-reveal-delay="100">
+                    {umkms.data.length > 0 ? (
+                        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-8" data-reveal data-reveal-delay="100">
                             {umkms.data.map((umkm) => (
-                                <div
-                                    key={umkm.id}
-                                    className="group flex flex-col bg-white rounded-2xl border border-(--line) shadow-xs overflow-hidden transition-all duration-300 hover:shadow-md hover:border-(--forest-mist)"
+                                <Link 
+                                    key={umkm.id} 
+                                    href={`/umkm/${umkm.slug}`} 
+                                    className="group bg-white rounded-2xl overflow-hidden border border-(--line) shadow-sm hover:shadow-md hover:border-(--forest-mist) transition-all flex flex-col h-full"
                                 >
                                     {/* Cover Image */}
-                                    <div className="relative h-52 overflow-hidden bg-neutral-100">
+                                    <div className="relative aspect-4/3 w-full overflow-hidden bg-neutral-200">
                                         {umkm.primary_media ? (
                                             <img
                                                 src={umkm.primary_media.file_path.startsWith('http') ? umkm.primary_media.file_path : `/storage/${umkm.primary_media.file_path}`}
                                                 alt={umkm.name}
-                                                className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
+                                                className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
                                             />
                                         ) : (
-                                            <div className="w-full h-full flex items-center justify-center bg-(--forest-mist)/30">
-                                                <Store className="h-10 w-10 text-(--forest) opacity-40" />
+                                            <div className="w-full h-full flex items-center justify-center bg-(--forest-mist)/30 text-(--forest)/40">
+                                                <Store className="w-12 h-12" />
                                             </div>
                                         )}
 
+                                        {/* Category Badge */}
                                         <div className="absolute top-3 left-3">
-                                            <Badge className="bg-white/90 text-(--forest-deep) border-0 backdrop-blur-xs font-semibold px-2.5 py-1 text-xs">
+                                            <span className="bg-white/90 backdrop-blur text-(--forest-deep) text-[11px] font-bold uppercase tracking-wider px-2.5 py-1.5 rounded-lg shadow-sm border border-white/20">
                                                 {umkm.category_label ?? umkm.category}
-                                            </Badge>
+                                            </span>
                                         </div>
                                     </div>
 
-                                    {/* Body */}
-                                    <div className="flex flex-col flex-1 p-5">
-                                        <h3 className="font-display text-xl font-bold text-(--forest-deep) mb-1 line-clamp-1 group-hover:text-(--forest) transition-colors">
+                                    {/* Content Body */}
+                                    <div className="p-5 md:p-6 flex flex-col grow">
+                                        <h2 className="font-display text-xl font-bold text-(--forest-deep) group-hover:text-(--forest) transition-colors line-clamp-1 mb-2">
                                             {umkm.name}
-                                        </h3>
+                                        </h2>
 
-                                        {umkm.owner_name && (
-                                            <p className="text-xs text-(--charcoal-soft) mb-2">
-                                                Pemilik: <span className="font-medium text-(--charcoal)">{umkm.owner_name}</span>
-                                            </p>
-                                        )}
+                                        <div className="flex items-center gap-1.5 text-sm text-(--charcoal-soft) mb-4">
+                                            <MapPin className="w-4 h-4 shrink-0" />
+                                            <span className="truncate">
+                                                {umkm.owner_name ? `Pemilik: ${umkm.owner_name}` : 'Desa Serayu Larangan'}
+                                            </span>
+                                        </div>
 
-                                        <p className="text-sm text-(--charcoal-soft) line-clamp-2 leading-relaxed mb-4">
-                                            {umkm.description?.replace(/<[^>]*>?/gm, '') ?? 'Produk unggulan berkualitas khas Desa Serayu Larangan.'}
-                                        </p>
-
-                                        {/* Footer Metadata */}
                                         <div className="mt-auto pt-4 border-t border-(--line) flex items-center justify-between">
-                                            {umkm.price_range ? (
-                                                <span className="text-xs font-semibold text-(--forest-deep) bg-(--cream-warm) px-2.5 py-1 rounded-full border border-(--line)">
-                                                    {umkm.price_range}
+                                            <div className="flex items-center gap-1.5 text-sm font-semibold text-(--forest-deep)">
+                                                <Tag className="w-4 h-4 text-(--gold)" />
+                                                <span>
+                                                    {umkm.price_range ? umkm.price_range : 'Produk Lokal'}
                                                 </span>
-                                            ) : (
-                                                <span className="text-xs text-(--charcoal-soft)">
-                                                    Serayu Larangan
-                                                </span>
-                                            )}
-
-                                            <Button asChild size="sm" className="bg-(--forest) hover:bg-(--forest-deep) text-xs">
-                                                <Link href={`/umkm/${umkm.slug}`}>
-                                                    Lihat Usaha
-                                                </Link>
-                                            </Button>
+                                            </div>
+                                            
+                                            <span className="text-xs font-semibold text-(--forest) group-hover:translate-x-1 transition-transform">
+                                                Lihat Usaha &rarr;
+                                            </span>
                                         </div>
                                     </div>
-                                </div>
+                                </Link>
                             ))}
+                        </div>
+                    ) : (
+                        <div className="bg-white rounded-2xl border border-(--line) p-12 text-center" data-reveal>
+                            <div className="w-16 h-16 bg-(--forest-mist)/50 rounded-full flex items-center justify-center mx-auto mb-4 text-(--forest)">
+                                <Store className="w-8 h-8" />
+                            </div>
+                            <h3 className="font-display text-xl font-bold text-(--forest-deep) mb-2">UMKM Tidak Ditemukan</h3>
+                            <p className="text-(--charcoal-soft) max-w-md mx-auto">
+                                Tidak ada UMKM atau usaha kuliner yang cocok dengan kata kunci atau filter yang dipilih. Coba sesuaikan filter Anda.
+                            </p>
+                            {(search || activeCategory) && (
+                                <Button 
+                                    variant="outline" 
+                                    className="mt-6 border-(--line)"
+                                    onClick={() => {
+                                        setSearch('');
+                                        setActiveCategory(null);
+                                        updateFilters('', null);
+                                    }}
+                                >
+                                    Reset Filter
+                                </Button>
+                            )}
                         </div>
                     )}
 
                     {/* Pagination */}
                     {umkms.last_page > 1 && (
-                        <div className="mt-12 flex justify-center gap-2">
-                            {umkms.links.map((link, i) => (
+                        <div className="mt-12 flex flex-col sm:flex-row items-center justify-between gap-4 border-t border-(--line) pt-8" data-reveal>
+                            <p className="text-sm text-(--charcoal-soft)">
+                                Menampilkan <span className="font-medium text-(--charcoal)">{umkms.from}</span> hingga <span className="font-medium text-(--charcoal)">{umkms.to}</span> dari <span className="font-medium text-(--charcoal)">{umkms.total}</span> UMKM
+                            </p>
+                            <div className="flex items-center gap-2">
                                 <Button
-                                    key={i}
-                                    variant={link.active ? 'default' : 'outline'}
+                                    variant="outline"
                                     size="sm"
-                                    disabled={!link.url}
-                                    onClick={() => link.url && router.get(link.url)}
-                                    className={link.active ? 'bg-(--forest) text-white' : 'bg-white'}
-                                    dangerouslySetInnerHTML={{ __html: link.label }}
-                                />
-                            ))}
+                                    disabled={!umkms.prev_page_url}
+                                    className="border-(--line)"
+                                    onClick={() => umkms.prev_page_url && router.get(umkms.prev_page_url)}
+                                >
+                                    <ChevronLeft className="w-4 h-4 mr-1" />
+                                    Sebelumnya
+                                </Button>
+                                <Button
+                                    variant="outline"
+                                    size="sm"
+                                    disabled={!umkms.next_page_url}
+                                    className="border-(--line)"
+                                    onClick={() => umkms.next_page_url && router.get(umkms.next_page_url)}
+                                >
+                                    Selanjutnya
+                                    <ChevronRight className="w-4 h-4 ml-1" />
+                                </Button>
+                            </div>
                         </div>
                     )}
+
                 </div>
             </section>
         </PublicLayout>

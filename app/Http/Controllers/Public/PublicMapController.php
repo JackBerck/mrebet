@@ -15,7 +15,7 @@ class PublicMapController extends Controller
 {
     public function index(): Response
     {
-        $destinations = Destination::with(['primaryMedia', 'umkm:id,name,slug'])
+        $destinations = Destination::with(['primaryMedia'])
             ->where('status', ContentStatus::Published)
             ->whereNotNull('latitude')
             ->whereNotNull('longitude')
@@ -35,8 +35,6 @@ class PublicMapController extends Controller
                     'latitude' => (float) $destination->latitude,
                     'longitude' => (float) $destination->longitude,
                     'gmaps_link' => $destination->gmaps_link,
-                    'umkm_name' => $destination->umkm?->name,
-                    'umkm_slug' => $destination->umkm?->slug,
                     'primary_media' => $destination->primaryMedia ? [
                         'file_path' => $destination->primaryMedia->file_path,
                     ] : null,

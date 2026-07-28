@@ -8,6 +8,9 @@ use App\Enums\UserRole;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Admin\StoreUmkmRequest;
 use App\Http\Requests\Admin\UpdateUmkmRequest;
+use App\Models\Blog;
+use App\Models\Destination;
+use App\Models\Event;
 use App\Models\Umkm;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
@@ -28,9 +31,9 @@ class AdminUmkmController extends Controller
             if ($umkm) {
                 $umkm->load(['media' => fn ($q) => $q->orderByDesc('is_primary')]);
 
-                $recentDestinations = $umkm->destinations()->latest()->take(5)->get(['id', 'name', 'slug', 'category', 'status', 'created_at']);
-                $recentEvents = $umkm->events()->latest()->take(5)->get(['id', 'title', 'slug', 'start_date', 'start_time', 'status', 'ticket_price']);
-                $recentBlogs = $umkm->blogs()->latest()->take(5)->get(['id', 'title', 'slug', 'status', 'views_count', 'created_at']);
+                $recentDestinations = Destination::latest()->take(5)->get(['id', 'name', 'slug', 'category', 'status', 'created_at']);
+                $recentEvents = Event::latest()->take(5)->get(['id', 'title', 'slug', 'start_date', 'start_time', 'status', 'ticket_price']);
+                $recentBlogs = Blog::latest()->take(5)->get(['id', 'title', 'slug', 'status', 'views_count', 'created_at']);
 
                 return Inertia::render('admin/umkms/show', [
                     'umkm' => $umkm,
@@ -87,9 +90,9 @@ class AdminUmkmController extends Controller
 
         $umkm->load(['media' => fn ($q) => $q->orderByDesc('is_primary')]);
 
-        $recentDestinations = $umkm->destinations()->latest()->take(5)->get(['id', 'name', 'slug', 'category', 'status', 'created_at']);
-        $recentEvents = $umkm->events()->latest()->take(5)->get(['id', 'title', 'slug', 'start_date', 'start_time', 'status', 'ticket_price']);
-        $recentBlogs = $umkm->blogs()->latest()->take(5)->get(['id', 'title', 'slug', 'status', 'views_count', 'created_at']);
+        $recentDestinations = Destination::latest()->take(5)->get(['id', 'name', 'slug', 'category', 'status', 'created_at']);
+        $recentEvents = Event::latest()->take(5)->get(['id', 'title', 'slug', 'start_date', 'start_time', 'status', 'ticket_price']);
+        $recentBlogs = Blog::latest()->take(5)->get(['id', 'title', 'slug', 'status', 'views_count', 'created_at']);
 
         return Inertia::render('admin/umkms/show', [
             'umkm' => $umkm,

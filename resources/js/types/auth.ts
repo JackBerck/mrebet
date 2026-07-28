@@ -4,7 +4,7 @@ export type User = {
     name: string; // kept for compatibility
     email: string;
     phone_number?: string | null;
-    role: 'admin' | 'manager';
+    role: 'admin';
     village_id: number | null;
     is_active: boolean;
     avatar?: string | null;

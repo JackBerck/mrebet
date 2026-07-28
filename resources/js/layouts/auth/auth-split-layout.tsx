@@ -13,14 +13,27 @@ export default function AuthSplitLayout({
     return (
         <div className="relative grid h-dvh flex-col items-center justify-center px-8 sm:px-0 lg:max-w-none lg:grid-cols-2 lg:px-0">
             <div className="relative hidden h-full flex-col bg-muted p-10 text-white lg:flex">
-                <div className="absolute inset-0 bg-zinc-900" />
+                <div 
+                    className="absolute inset-0 bg-zinc-900 bg-cover bg-center" 
+                    style={{ backgroundImage: "url('/images/login-bg.png')" }}
+                />
+                <div className="absolute inset-0 bg-black/40" /> {/* Overlay for readability */}
                 <Link
                     href={home()}
                     className="relative z-20 flex items-center text-lg font-medium"
                 >
                     <AppLogoIcon className="mr-2 size-8 fill-current text-white" />
-                    {name}
+                    <span className="font-display font-bold tracking-tight">{name}</span>
                 </Link>
+                
+                <div className="relative z-20 mt-auto">
+                    <h2 className="font-display text-4xl font-bold tracking-tight mb-2">
+                        Kelola Potensi Desa
+                    </h2>
+                    <p className="text-lg text-white/80 max-w-md">
+                        Platform terintegrasi untuk mengelola UMKM, Destinasi Wisata, dan Event di desa Anda.
+                    </p>
+                </div>
             </div>
             <div className="w-full lg:p-8">
                 <div className="mx-auto flex w-full flex-col justify-center space-y-6 sm:w-[350px]">

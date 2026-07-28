@@ -21,6 +21,16 @@ import {
     TableHeader,
     TableRow,
 } from '@/components/ui/table';
+import {
+    AlertDialog,
+    AlertDialogAction,
+    AlertDialogCancel,
+    AlertDialogContent,
+    AlertDialogDescription,
+    AlertDialogFooter,
+    AlertDialogHeader,
+    AlertDialogTitle,
+} from '@/components/ui/alert-dialog';
 import AppLayout from '@/layouts/app-layout';
 import type { BreadcrumbItem, PaginatedData } from '@/types';
 
@@ -56,6 +66,7 @@ type Props = {
 
 export default function UmkmsIndex({ umkms, categories, filters, isAdmin }: Props) {
     const [search, setSearch] = useState(filters.search ?? '');
+    const [umkmToDelete, setUmkmToDelete] = useState<UmkmItem | null>(null);
 
     const applyFilter = useCallback(
         (params: Record<string, string>) => {
@@ -90,10 +101,11 @@ export default function UmkmsIndex({ umkms, categories, filters, isAdmin }: Prop
         );
     };
 
-    const handleDelete = (umkm: UmkmItem) => {
-        if (confirm(`Hapus UMKM "${umkm.name}"?`)) {
-            router.delete(`/admin/umkms/${umkm.slug}`, {
+    const confirmDelete = () => {
+        if (umkmToDelete) {
+            router.delete(`/admin/umkms/${umkmToDelete.slug}`, {
                 preserveScroll: true,
+                onSuccess: () => setUmkmToDelete(null),
             });
         }
     };
@@ -287,17 +299,17 @@ export default function UmkmsIndex({ umkms, categories, filters, isAdmin }: Prop
                                             )}
                                             <TableCell className="pr-6 text-right">
                                                 <div className="flex justify-end gap-1">
-                                                    <Button variant="ghost" size="icon" asChild>
+                                                     <Button variant="ghost" size="icon" asChild>
                                                         <Link href={`/admin/umkms/${umkm.slug}/edit`} title="Edit UMKM">
                                                             <Edit className="h-4 w-4" />
                                                         </Link>
-                                                    </Button>
-                                                    {isAdmin && (
+                                                     </Button>
+                                                     {isAdmin && (
                                                         <Button
                                                             variant="ghost"
                                                             size="icon"
                                                             className="text-destructive hover:text-destructive"
-                                                            onClick={() => handleDelete(umkm)}
+                                                            onClick={() => setUmkmToDelete(umkm)}
                                                         >
                                                             <Trash2 className="h-4 w-4" />
                                                         </Button>
@@ -333,6 +345,35 @@ export default function UmkmsIndex({ umkms, categories, filters, isAdmin }: Prop
                         )}
                     </CardContent>
                 </Card>
+
+                {/* Dialog Delete Confirm */}
+                <AlertDialog
+                    open={!!umkmToDelete}
+                    onOpenChange={(o) => !o && setUmkmToDelete(null)}
+                >
+                    <AlertDialogContent>
+                        <AlertDialogHeader>
+                            <AlertDialogTitle>
+                                Apakah Anda yakin?
+                            </AlertDialogTitle>
+                            <AlertDialogDescription>
+                                Anda akan menghapus UMKM{' '}
+                                <strong>{umkmToDelete?.name}</strong>. Data yang
+                                sudah dihapus akan masuk ke keranjang sampah
+                                (soft delete).
+                            </AlertDialogDescription>
+                        </AlertDialogHeader>
+                        <AlertDialogFooter>
+                            <AlertDialogCancel>Batal</AlertDialogCancel>
+                            <AlertDialogAction
+                                onClick={confirmDelete}
+                                className="bg-destructive text-destructive-foreground hover:bg-destructive/90"
+                            >
+                                Ya, Hapus
+                            </AlertDialogAction>
+                        </AlertDialogFooter>
+                    </AlertDialogContent>
+                </AlertDialog>
             </div>
         </>
     );

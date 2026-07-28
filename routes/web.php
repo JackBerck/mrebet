@@ -5,6 +5,7 @@ use App\Http\Controllers\Admin\AdminDashboardController;
 use App\Http\Controllers\Admin\AdminDestinationController;
 use App\Http\Controllers\Admin\AdminEventController;
 use App\Http\Controllers\Admin\AdminUmkmController;
+use App\Http\Controllers\Admin\AdminUserController;
 use App\Http\Controllers\Public\HomeController;
 use App\Http\Controllers\Public\PageController;
 use App\Http\Controllers\Public\PublicBlogController;
@@ -32,18 +33,7 @@ Route::get('/umkm', [PublicUmkmController::class, 'index'])->name('umkms.index')
 Route::get('/umkm/{umkm:slug}', [PublicUmkmController::class, 'show'])->name('umkms.show');
 Route::get('/peta', [PublicMapController::class, 'index'])->name('map.index');
 
-// Guard /register — only admin role can access; guests redirected to home
-Route::get('/register', function () {
-    if (! auth()->check()) {
-        return redirect()->route('home');
-    }
 
-    if (auth()->user()->role?->value !== 'admin') {
-        return redirect()->route('home');
-    }
-
-    return app()->call(RegisteredUserController::class.'@create');
-})->middleware('web')->name('register');
 
 // Admin panel — requires auth + verified + is_active
 Route::prefix('admin')
@@ -76,6 +66,12 @@ Route::prefix('admin')
         Route::resource('blogs', AdminBlogController::class)->except(['show']);
         Route::patch('blogs/{blog}/status', [AdminBlogController::class, 'updateStatus'])
             ->name('blogs.status')
+            ->middleware('admin');
+
+        // Users
+        Route::resource('users', AdminUserController::class)->except(['show', 'destroy']);
+        Route::patch('users/{user}/status', [AdminUserController::class, 'updateStatus'])
+            ->name('users.status')
             ->middleware('admin');
     });
 

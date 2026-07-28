@@ -1,5 +1,5 @@
 import { Head, Link } from '@inertiajs/react';
-import { Search, MapPin, Map as MapIcon, Compass, X, Landmark } from 'lucide-react';
+import { Search, MapPin, Map as MapIcon, Compass, X, Store } from 'lucide-react';
 import PublicLayout from '@/layouts/public-layout';
 import { useMotionReveal } from '@/hooks/use-motion-reveal';
 import { useState, useMemo, Suspense, lazy } from 'react';
@@ -22,33 +22,34 @@ interface CategoryOption {
 
 interface Props {
     destinations: MapPoint[];
-    villages: MapPoint[];
+    umkms: MapPoint[];
     categories: CategoryOption[];
+    umkmCategories: CategoryOption[];
 }
 
-export default function MapIndex({ destinations, villages, categories }: Props) {
+export default function MapIndex({ destinations = [], umkms = [], categories = [] }: Props) {
     useMotionReveal();
 
     const [search, setSearch] = useState('');
-    const [selectedType, setSelectedType] = useState<'all' | 'destination' | 'village'>('all');
+    const [selectedType, setSelectedType] = useState<'all' | 'destination' | 'umkm'>('all');
     const [selectedCategory, setSelectedCategory] = useState<string | null>(null);
     const [selectedPoint, setSelectedPoint] = useState<MapPoint | null>(null);
     const [mobileView, setMobileView] = useState<'map' | 'list'>('map');
 
     // Combine all points
     const allPoints = useMemo(() => {
-        return [...destinations, ...villages];
-    }, [destinations, villages]);
+        return [...(destinations || []), ...(umkms || [])];
+    }, [destinations, umkms]);
 
     // Filtered points
     const filteredPoints = useMemo(() => {
         return allPoints.filter((point) => {
             // Type filter
             if (selectedType === 'destination' && point.type !== 'destination') return false;
-            if (selectedType === 'village' && point.type !== 'village') return false;
+            if (selectedType === 'umkm' && point.type !== 'umkm') return false;
 
-            // Category filter (only applies to destinations)
-            if (selectedCategory && point.type === 'destination' && point.category !== selectedCategory) {
+            // Category filter (applies to destinations or umkms)
+            if (selectedCategory && point.category !== selectedCategory) {
                 return false;
             }
 
@@ -56,8 +57,8 @@ export default function MapIndex({ destinations, villages, categories }: Props) 
             if (search.trim() !== '') {
                 const query = search.toLowerCase();
                 const matchName = point.name.toLowerCase().includes(query);
-                const matchVillage = point.village_name ? point.village_name.toLowerCase().includes(query) : false;
-                if (!matchName && !matchVillage) return false;
+                const matchOwner = point.owner_name ? point.owner_name.toLowerCase().includes(query) : false;
+                if (!matchName && !matchOwner) return false;
             }
 
             return true;
@@ -75,10 +76,10 @@ export default function MapIndex({ destinations, villages, categories }: Props) 
     return (
         <PublicLayout>
             <Head>
-                <title>Peta Wisata Interaktif — Desa Wisata Serayu Larangan</title>
+                <title>Peta Wisata & UMKM Interaktif — Desa Wisata Serayu Larangan</title>
                 <meta
                     name="description"
-                    content="Jelajahi peta interaktif sebaran lokasi destinasi wisata dan titik pesona di Desa Wisata Serayu Larangan, Mrebet, Purbalingga."
+                    content="Jelajahi peta interaktif sebaran lokasi destinasi wisata dan UMKM di Desa Wisata Serayu Larangan, Mrebet, Purbalingga."
                 />
             </Head>
 
@@ -91,10 +92,10 @@ export default function MapIndex({ destinations, villages, categories }: Props) 
                             GIS Interaktif
                         </span>
                         <h1 className="font-display text-3xl md:text-4xl lg:text-5xl font-bold text-(--forest-deep) mb-3">
-                            Peta Wisata Serayu Larangan
+                            Peta Wisata & UMKM Serayu Larangan
                         </h1>
                         <p className="text-sm md:text-base text-(--charcoal-soft) max-w-2xl">
-                            Temukan sebaran letak destinasi wisata dan titik potensi secara spasial di wilayah Desa Serayu Larangan, Kecamatan Mrebet.
+                            Temukan sebaran letak destinasi wisata, warung kuliner, dan titik usaha warga secara spasial di wilayah Desa Serayu Larangan, Mrebet.
                         </p>
                     </div>
 
@@ -115,7 +116,7 @@ export default function MapIndex({ destinations, villages, categories }: Props) 
                                     Semua ({allPoints.length})
                                 </button>
                                 <button
-                                    onClick={() => setSelectedType('destination')}
+                                    onClick={() => { setSelectedType('destination'); setSelectedCategory(null); }}
                                     className={`px-3.5 py-1.5 rounded-full text-xs font-semibold transition-all ${
                                         selectedType === 'destination' 
                                             ? 'bg-(--forest) text-white shadow-sm' 
@@ -125,14 +126,14 @@ export default function MapIndex({ destinations, villages, categories }: Props) 
                                     Destinasi Wisata ({destinations.length})
                                 </button>
                                 <button
-                                    onClick={() => { setSelectedType('village'); setSelectedCategory(null); }}
+                                    onClick={() => { setSelectedType('umkm'); setSelectedCategory(null); }}
                                     className={`px-3.5 py-1.5 rounded-full text-xs font-semibold transition-all ${
-                                        selectedType === 'village' 
+                                        selectedType === 'umkm' 
                                             ? 'bg-(--forest) text-white shadow-sm' 
                                             : 'bg-(--cream-warm) text-(--charcoal) hover:bg-(--forest-mist)/50'
                                     }`}
                                 >
-                                    Desa Wisata ({villages.length})
+                                    UMKM & Kuliner ({umkms.length})
                                 </button>
                             </div>
 
@@ -144,7 +145,7 @@ export default function MapIndex({ destinations, villages, categories }: Props) 
                                 <Input
                                     type="text"
                                     className="pl-9 h-10 rounded-full border-(--line) bg-(--cream-warm) text-xs"
-                                    placeholder="Cari lokasi atau desa..."
+                                    placeholder="Cari destinasi atau UMKM..."
                                     value={search}
                                     onChange={(e) => setSearch(e.target.value)}
                                 />
@@ -160,8 +161,8 @@ export default function MapIndex({ destinations, villages, categories }: Props) 
 
                         </div>
 
-                        {/* Category Sub-Filters (When All or Destination is selected) */}
-                        {selectedType !== 'village' && (
+                        {/* Category Sub-Filters (When Destination is selected) */}
+                        {selectedType === 'destination' && (
                             <div className="pt-3 border-t border-(--line)">
                                 
                                 {/* Mobile View: Shadcn Select Dropdown */}
@@ -270,13 +271,13 @@ export default function MapIndex({ destinations, villages, categories }: Props) 
                                                 <div className="w-20 h-20 shrink-0 rounded-lg overflow-hidden bg-neutral-100 relative">
                                                     {point.primary_media ? (
                                                         <img 
-                                                            src={`/storage/${point.primary_media.file_path}`} 
+                                                            src={point.primary_media.file_path.startsWith('http') ? point.primary_media.file_path : `/storage/${point.primary_media.file_path}`} 
                                                             alt={point.name}
                                                             className="w-full h-full object-cover"
                                                         />
                                                     ) : (
                                                         <div className="w-full h-full flex items-center justify-center bg-(--forest-mist)/30 text-(--forest)/40">
-                                                            {point.type === 'destination' ? <MapIcon className="w-6 h-6" /> : <Landmark className="w-6 h-6" />}
+                                                            {point.type === 'destination' ? <MapIcon className="w-6 h-6" /> : <Store className="w-6 h-6" />}
                                                         </div>
                                                     )}
                                                 </div>
@@ -290,8 +291,8 @@ export default function MapIndex({ destinations, villages, categories }: Props) 
                                                                     {point.category_label || 'Wisata'}
                                                                 </span>
                                                             ) : (
-                                                                <span className="bg-orange-100 text-orange-700 text-[10px] font-bold uppercase px-1.5 py-0.5 rounded">
-                                                                    Desa Wisata
+                                                                <span className="bg-emerald-100 text-emerald-800 text-[10px] font-bold uppercase px-1.5 py-0.5 rounded">
+                                                                    {point.category_label || 'UMKM'}
                                                                 </span>
                                                             )}
                                                         </div>
@@ -300,7 +301,7 @@ export default function MapIndex({ destinations, villages, categories }: Props) 
                                                         </h3>
                                                         <p className="text-xs text-(--charcoal-soft) flex items-center gap-1 mt-0.5">
                                                             <MapPin className="w-3 h-3 text-(--forest) shrink-0" />
-                                                            <span className="truncate">{point.village_name || 'Serayu Larangan'}</span>
+                                                            <span className="truncate">Desa Serayu Larangan</span>
                                                         </p>
                                                     </div>
 
@@ -308,11 +309,11 @@ export default function MapIndex({ destinations, villages, categories }: Props) 
                                                         <span className="text-(--gold-deep)">
                                                             {point.type === 'destination' 
                                                                 ? (point.ticket_price && point.ticket_price > 0 ? `Rp ${point.ticket_price.toLocaleString('id-ID')}` : 'Gratis')
-                                                                : `${point.destinations_count || 0} Destinasi`}
+                                                                : (point.price_range ? point.price_range : 'UMKM')}
                                                         </span>
                                                         
                                                         <Link 
-                                                            href={point.type === 'destination' ? `/destinasi/${point.slug}` : `/desa/${point.slug}`}
+                                                            href={point.type === 'destination' ? `/destinasi/${point.slug}` : `/umkm/${point.slug}`}
                                                             onClick={(e) => e.stopPropagation()}
                                                             className="text-(--forest) hover:underline text-[11px] font-bold"
                                                         >
@@ -337,7 +338,7 @@ export default function MapIndex({ destinations, villages, categories }: Props) 
                                 <div className="w-full h-[500px] lg:h-[620px] rounded-2xl bg-neutral-100 border border-(--line) flex items-center justify-center animate-pulse">
                                     <div className="text-center text-(--charcoal-soft)">
                                         <MapIcon className="w-10 h-10 text-neutral-300 mx-auto mb-2" />
-                                        <p className="text-xs font-medium">Memuat Peta Wisata...</p>
+                                        <p className="text-xs font-medium">Memuat Peta Wisata & UMKM...</p>
                                     </div>
                                 </div>
                             }>
