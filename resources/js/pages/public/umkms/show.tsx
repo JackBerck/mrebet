@@ -3,6 +3,8 @@ import { ArrowLeft, MapPin, Phone, Globe, Store, Tag, Share2, Navigation } from 
 import PublicLayout from '@/layouts/public-layout';
 import { useMotionReveal } from '@/hooks/use-motion-reveal';
 import { Button } from '@/components/ui/button';
+import DestinationMap from '@/components/public/destination-map';
+import { getGoogleMapsEmbedUrl } from '@/lib/map-utils';
 
 interface UmkmPublicDetail {
     id: number;
@@ -18,6 +20,7 @@ interface UmkmPublicDetail {
     gmaps_link?: string | null;
     latitude?: number | null;
     longitude?: number | null;
+    primary_media?: { id?: number; file_path: string } | null;
     media?: { id: number; file_path: string; is_primary: boolean }[];
 }
 
@@ -29,8 +32,9 @@ interface Props {
 export default function UmkmsPublicShow({ umkm, relatedUmkms }: Props) {
     useMotionReveal();
 
-    const primaryMedia = umkm.media?.find((m) => m.is_primary) ?? umkm.media?.[0];
+    const primaryMedia = umkm.primary_media ?? umkm.media?.find((m) => m.is_primary) ?? umkm.media?.[0];
     const shareUrl = typeof window !== 'undefined' ? window.location.href : '';
+    const embedUrl = getGoogleMapsEmbedUrl(umkm);
 
     const handleShare = async () => {
         if (navigator.share) {
@@ -62,8 +66,8 @@ export default function UmkmsPublicShow({ umkm, relatedUmkms }: Props) {
             {/* Top spacing */}
             <div className="pt-16 md:pt-20 lg:pt-24 bg-(--cream-warm)"></div>
 
-            {/* Back & Breadcrumb Navigation */}
-            <div className="bg-(--cream-warm) border-b border-(--line) py-4 sticky top-16 md:top-20 lg:top-24 z-30">
+            {/* Back & Breadcrumb Navigation (un-stickied) */}
+            <div className="bg-(--cream-warm) border-b border-(--line) py-4">
                 <div className="container mx-auto max-w-7xl section-padding-x flex flex-wrap items-center justify-between gap-4">
                     <Link
                         href="/umkm"
@@ -217,6 +221,41 @@ export default function UmkmsPublicShow({ umkm, relatedUmkms }: Props) {
                                     </div>
                                 )}
                             </div>
+
+                            {/* Map Preview Card */}
+                            {umkm.gmaps_link ? (
+                                <div className="bg-white rounded-2xl p-6 border border-(--line) shadow-sm space-y-4">
+                                    <h3 className="font-display text-base font-bold text-(--forest-deep) flex items-center gap-2">
+                                        <MapPin className="w-4 h-4 text-(--forest)" />
+                                        Peta Lokasi Usaha
+                                    </h3>
+                                    <div className="aspect-video w-full rounded-xl overflow-hidden border border-(--line) bg-neutral-100">
+                                        <iframe
+                                            title={`Peta Google Maps ${umkm.name}`}
+                                            width="100%"
+                                            height="100%"
+                                            className="w-full h-full border-0"
+                                            loading="lazy"
+                                            allowFullScreen
+                                            src={embedUrl}
+                                        />
+                                    </div>
+                                </div>
+                            ) : umkm.latitude && umkm.longitude ? (
+                                <div className="bg-white rounded-2xl p-6 border border-(--line) shadow-sm space-y-4">
+                                    <h3 className="font-display text-base font-bold text-(--forest-deep) flex items-center gap-2">
+                                        <MapPin className="w-4 h-4 text-(--forest)" />
+                                        Peta Lokasi Usaha
+                                    </h3>
+                                    <div className="h-56 w-full rounded-xl overflow-hidden border border-(--line)">
+                                        <DestinationMap
+                                            latitude={umkm.latitude}
+                                            longitude={umkm.longitude}
+                                            title={umkm.name}
+                                        />
+                                    </div>
+                                </div>
+                            ) : null}
 
                             {/* Share Banner */}
                             <div className="bg-white rounded-2xl p-6 border border-(--line) shadow-sm text-center">

@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Concerns\HasGmapsCoordinates;
 use App\Enums\ContentStatus;
 use App\Enums\UmkmCategory;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -35,7 +36,7 @@ use Spatie\Sluggable\SlugOptions;
  */
 class Umkm extends Model
 {
-    use HasFactory, HasSlug, SoftDeletes;
+    use HasFactory, HasGmapsCoordinates, HasSlug, SoftDeletes;
 
     protected $table = 'umkms';
 
