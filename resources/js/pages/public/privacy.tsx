@@ -31,24 +31,26 @@ export default function Privacy() {
                         
                         <h2 className="text-(--forest-deep) font-display mt-4 mb-2 font-bold text-xl">1. Informasi yang Kami Kumpulkan</h2>
                         <p>Kami dapat mengumpulkan informasi kontak pribadi ketika Anda mendaftar, memesan reservasi paket wisata, atau mengisi formulir pertanyaan di website kami, meliputi:</p>
-                        <ul>
+                        <ol className="list-decimal pl-6">
                             <li>Nama lengkap & nomor telepon / WhatsApp</li>
-                            <li>Alamat e-mail</li>
-                            <li>Informasi pemesanan dan pertanyaan layanan desa wisata</li>
-                        </ul>
+                            <li>Alamat e-mail aktif</li>
+                            <li>Detail pemesanan dan pertanyaan seputar layanan desa wisata</li>
+                        </ol>
 
                         <h2 className="text-(--forest-deep) font-display mt-4 mb-2 font-bold text-xl">2. Penggunaan Informasi</h2>
                         <p>Informasi yang kami kumpulkan hanya digunakan untuk kepentingan:</p>
-                        <ul>
-                            <li>Memproses reservasi kunjungan & layanan informasi</li>
-                            <li>Menghubungi Anda terkait konfirmasi acara / kunjungan</li>
-                            <li>Meningkatkan kualitas pelayanan di Desa Wisata Serayu Larangan</li>
-                        </ul>
+                        <ol className="list-decimal pl-6">
+                            <li>Memproses reservasi kunjungan & layanan informasi desa</li>
+                            <li>Menghubungi Anda terkait konfirmasi acara atau jadwal kunjungan</li>
+                            <li>Meningkatkan kualitas pelayanan dan fasilitas di Desa Wisata Serayu Larangan</li>
+                        </ol>
 
                         <h2 className="text-(--forest-deep) font-display mt-4 mb-2 font-bold text-xl">3. Keamanan Data</h2>
-                        <p>
-                            Kami menerapkan langkah-langkah keamanan teknis dan organisasional yang sesuai untuk perlindungan data Anda. Kami tidak akan menjual atau menyewakan informasi pribadi Anda kepada pihak ketiga manapun.
-                        </p>
+                        <p>Prinsip dan jaminan perlindungan data pengunjung:</p>
+                        <ol className="list-decimal pl-6">
+                            <li>Kami menerapkan langkah-langkah keamanan teknis dan organisasional yang sesuai untuk perlindungan data Anda.</li>
+                            <li>Kami tidak akan menjual, menyewakan, atau membagikan informasi pribadi Anda kepada pihak ketiga tanpa persetujuan.</li>
+                        </ol>
                     </article>
                 </div>
             </section>

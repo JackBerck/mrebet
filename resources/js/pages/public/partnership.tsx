@@ -29,13 +29,23 @@ export default function Partnership() {
                             Kelompok Sadar Wisata (Pokdarwis) dan Pemerintah Desa Serayu Larangan sangat terbuka dengan berbagai bentuk kolaborasi. Kami mengundang institusi pendidikan, agen perjalanan, maupun pelaku industri kreatif untuk bersinergi.
                         </p>
 
-                        <h2 className="text-(--forest-deep) font-display mt-4 mb-2 font-bold text-xl">Bentuk Kerja Sama:</h2>
-                        <ul>
-                            <li>Paket Kunjungan Edukasi & Live-in Desa Wisata</li>
-                            <li>Pengembangan Produk UMKM Lokal (Gula Nira & Olahan Tradisional)</li>
-                            <li>Kegiatan Pengabdian Masyarakat & Penelitian Mahasiswa</li>
-                            <li>Liputan Media & Promosi Kebudayaan Banyumasan</li>
-                        </ul>
+                        <h2 className="text-(--forest-deep) font-display mt-4 mb-2 font-bold text-xl">1. Bentuk Kerja Sama & Kolaborasi</h2>
+                        <p>Bidang kemitraan yang dapat dikembangkan bersama Desa Wisata Serayu Larangan:</p>
+                        <ol className="list-decimal pl-6">
+                            <li>Paket Kunjungan Edukasi, Study Tour & Program Live-in Desa Wisata.</li>
+                            <li>Pengembangan Produk UMKM Lokal (Gula Kelapa Organik, Gula Semut, & Kuliner Tradisional).</li>
+                            <li>Kegiatan Pengabdian Masyarakat, KKN, & Penelitian Akademis Mahasiswa/Dosen.</li>
+                            <li>Liputan Media, Content Creator Partnership, & Promosi Kebudayaan Banyumasan.</li>
+                        </ol>
+
+                        <h2 className="text-(--forest-deep) font-display mt-4 mb-2 font-bold text-xl">2. Alur Pengajuan Kemitraan</h2>
+                        <p>Tahapan mudah untuk memulai kolaborasi:</p>
+                        <ol className="list-decimal pl-6">
+                            <li>Hubungi pengelola Pokdarwis Desa Serayu Larangan melalui WhatsApp resmi.</li>
+                            <li>Sampaikan proposal atau konsep awal kegiatan/kerja sama yang ingin dijalankan.</li>
+                            <li>Diskusi jadwal, lokasi, serta pematangan teknis bersama tim pengelola desa.</li>
+                            <li>Pelaksanaan kegiatan kolaborasi di kawasan Desa Wisata Serayu Larangan.</li>
+                        </ol>
 
                         <div className="mt-8 pt-6 border-t border-(--line) text-center">
                             <p className="font-semibold text-(--charcoal) mb-4">Ingin berkolaborasi dengan kami?</p>

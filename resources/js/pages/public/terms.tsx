@@ -31,27 +31,33 @@ export default function Terms() {
                         
                         <h2 className="text-(--forest-deep) font-display mt-4 mb-2 font-bold text-xl">1. Aturan Kawasan Desa Wisata</h2>
                         <p>Seluruh pengunjung wajib mematuhi aturan berikut selama berada di lingkungan Desa Serayu Larangan:</p>
-                        <ul>
+                        <ol className="list-decimal pl-6">
                             <li>Dilarang membuang sampah sembarangan. Gunakan tempat sampah yang telah disediakan di balai desa dan spot wisata.</li>
-                            <li>Dilarang melakukan tindakan asusila, konsumsi alkohol, atau obat-obatan terlarang.</li>
-                            <li>Hormati norma dan kebudayaan masyarakat lokal Banyumasan di Desa Serayu Larangan.</li>
-                            <li>Patuhi petunjuk keselamatan saat berada di sekitar persawahan dan aliran sungai.</li>
-                        </ul>
+                            <li>Dilarang melakukan tindakan asusila, konsumsi alkohol, atau membawa obat-obatan terlarang.</li>
+                            <li>Hormati kearifan lokal, norma kesopanan, dan kebudayaan masyarakat lokal Banyumasan.</li>
+                            <li>Patuhi petunjuk keselamatan pengelola saat berada di sekitar persawahan, tebing, dan aliran sungai.</li>
+                        </ol>
 
                         <h2 className="text-(--forest-deep) font-display mt-4 mb-2 font-bold text-xl">2. Tiket & Reservasi</h2>
-                        <p>
-                            Pembelian tiket dapat dilakukan di titik lokasi atau melalui reservasi rombongan. Untuk pembatalan reservasi rombongan yang sudah dibayar, pengembalian dana (<span className='font-semibold text-(--forest-deep)'>refund</span>) tunduk pada kebijakan pengelola Pokdarwis Desa Serayu Larangan (maksimal H-3 sebelum kedatangan).
-                        </p>
+                        <p>Ketentuan pemesanan tiket dan reservasi kunjungan:</p>
+                        <ol className="list-decimal pl-6">
+                            <li>Pembelian tiket dapat dilakukan langsung di tempat (<span className="font-semibold text-(--forest-deep)">on-spot</span>) atau melalui reservasi rombongan terlebih dahulu.</li>
+                            <li>Untuk pembatalan reservasi rombongan yang sudah dibayar, pengembalian dana (<span className="font-semibold text-(--forest-deep)">refund</span>) tunduk pada kebijakan pengelola Pokdarwis Desa Serayu Larangan (dapat menghubungi pengelola lebih lanjut).</li>
+                        </ol>
 
                         <h2 className="text-(--forest-deep) font-display mt-4 mb-2 font-bold text-xl">3. Tanggung Jawab Barang Bawaan</h2>
-                        <p>
-                            Pengunjung bertanggung jawab penuh atas barang bawaan pribadi. Pengelola Desa Wisata Serayu Larangan tidak bertanggung jawab atas kehilangan atau kerusakan barang bawaan pribadi di lokasi.
-                        </p>
+                        <p>Ketentuan mengenai keamanan barang pribadi:</p>
+                        <ol className="list-decimal pl-6">
+                            <li>Pengunjung bertanggung jawab penuh terhadap barang bawaan dan barang berharga pribadi masing-masing.</li>
+                            <li>Pengelola Desa Wisata Serayu Larangan tidak bertanggung jawab atas kerugian, kerusakan, atau kehilangan barang bawaan pribadi di area lokasi wisata.</li>
+                        </ol>
 
                         <h2 className="text-(--forest-deep) font-display mt-4 mb-2 font-bold text-xl">4. Perubahan Syarat & Ketentuan</h2>
-                        <p>
-                            Pengelola berhak mengupdate syarat dan ketentuan ini sewaktu-waktu demi kenyamanan bersama.
-                        </p>
+                        <p>Ketentuan pembaruan aturan:</p>
+                        <ol className="list-decimal pl-6">
+                            <li>Pengelola berhak memperbarui atau mengubah syarat dan ketentuan ini sewaktu-waktu demi kenyamanan dan keselamatan bersama.</li>
+                            <li>Perubahan aturan berlaku efektif sejak dipublikasikan melalui situs resmi Desa Wisata Serayu Larangan.</li>
+                        </ol>
                     </article>
                 </div>
             </section>

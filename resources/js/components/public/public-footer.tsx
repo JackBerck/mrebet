@@ -147,7 +147,7 @@ export default function PublicFooter() {
                                         <MapPin className="mt-0.5 h-4 w-4 shrink-0" />
                                     ),
                                     text: 'Desa Serayu Larangan, Kec. Mrebet, Kab. Purbalingga, Jawa Tengah 53352',
-                                    href: 'https://www.google.com/maps/search/?api=1&query=Desa+Serayu+Larangan+Purbalingga',
+                                    href: 'https://maps.app.goo.gl/FMsGayqxuncMJUuU7',
                                 },
                             ].map((item, i) => (
                                 <li key={i}>
