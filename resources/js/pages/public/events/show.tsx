@@ -1,19 +1,13 @@
 import { Head, Link } from '@inertiajs/react';
-import { ArrowLeft, Calendar, Clock, MapPin, Map, Share2, Ticket, User, Phone, Instagram, QrCode } from 'lucide-react';
+import { ArrowLeft, Calendar, Clock, MapPin, Map, Share2, Ticket, User, Phone, Instagram, Navigation } from 'lucide-react';
 import PublicLayout from '@/layouts/public-layout';
 import { useMotionReveal } from '@/hooks/use-motion-reveal';
 import type { Event } from '@/types/public';
 import { Button } from '@/components/ui/button';
 import { format, parseISO, isSameDay } from 'date-fns';
 import { id } from 'date-fns/locale';
-import {
-    Dialog,
-    DialogContent,
-    DialogDescription,
-    DialogHeader,
-    DialogTitle,
-    DialogTrigger,
-} from "@/components/ui/dialog";
+import { getGoogleMapsEmbedUrl } from '@/lib/map-utils';
+import { SafeImage } from '@/components/public/safe-image';
 
 interface Props {
     event: Event;
@@ -32,6 +26,7 @@ export default function EventShow({ event, relatedEvents }: Props) {
         : `${format(startDate, 'd', { locale: id })} - ${format(endDate, 'd MMMM yyyy', { locale: id })}`;
 
     const shareUrl = typeof window !== 'undefined' ? window.location.href : '';
+    const embedUrl = getGoogleMapsEmbedUrl(event);
 
     const handleShare = async () => {
         if (navigator.share) {
@@ -60,9 +55,9 @@ export default function EventShow({ event, relatedEvents }: Props) {
             {/* Top spacing for fixed navbar */}
             <div className="pt-16 md:pt-20 lg:pt-24 bg-(--cream-warm)"></div>
 
-            {/* Back Navigation */}
+            {/* Back Navigation (un-stickied) */}
             <div className="bg-(--cream-warm) border-b border-(--line) py-4">
-                <div className="container mx-auto max-w-7xl section-padding-x flex items-center justify-between">
+                <div className="container mx-auto max-w-7xl section-padding-x flex flex-wrap items-center justify-between gap-4">
                     <Link
                         href={'/event'}
                         className="inline-flex items-center gap-2 text-sm font-medium text-(--charcoal-soft) hover:text-(--forest) transition-colors"
@@ -71,51 +66,53 @@ export default function EventShow({ event, relatedEvents }: Props) {
                         Kembali ke Kalender
                     </Link>
                     
-                    <Button variant="ghost" size="sm" onClick={handleShare} className="text-(--charcoal-soft) hover:text-(--forest)">
-                        <Share2 className="w-4 h-4 mr-2" />
-                        Bagikan
-                    </Button>
+                    <div className="flex items-center gap-2 text-sm text-(--charcoal-soft)">
+                        <Link href="/" className="hover:text-(--forest)">Beranda</Link>
+                        <span>/</span>
+                        <Link href="/event" className="hover:text-(--forest)">Event</Link>
+                        <span>/</span>
+                        <span className="truncate max-w-37.5 md:max-w-75 text-(--charcoal) font-medium">{event.title}</span>
+                    </div>
                 </div>
             </div>
 
             <article className="py-8 lg:py-12 bg-(--cream-warm) min-h-screen">
                 <div className="container mx-auto max-w-7xl section-padding-x">
-                    <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 lg:gap-12">
-                        
-                        {/* Main Content */}
-                        <div className="lg:col-span-2 space-y-8" data-reveal>
-                            {/* Header */}
-                            <div>
-                                <h1 className="font-display text-3xl md:text-4xl lg:text-5xl font-bold text-(--forest-deep) leading-tight mb-4 text-balance">
-                                    {event.title}
-                                </h1>
-                                <div className="flex flex-wrap items-center gap-2">
-                                    <div className="flex items-center gap-2 text-(--forest) font-medium bg-(--forest-mist)/50 px-3 py-1.5 rounded-full text-sm">
-                                        <MapPin className="w-4 h-4" />
-                                        Desa Serayu Larangan
-                                    </div>
-                                    {event.destination && (
-                                        <div className="flex items-center gap-2 text-(--gold) font-medium bg-(--gold-soft)/30 px-3 py-1.5 rounded-full text-sm">
-                                            <Map className="w-4 h-4" />
-                                            {event.destination.name}
-                                        </div>
-                                    )}
-                                </div>
+
+                    {/* Header */}
+                    <header className="mb-8 md:mb-12" data-reveal>
+                        <div className="flex flex-wrap items-center gap-2 mb-4">
+                            <div className="flex items-center gap-2 text-(--forest) font-medium bg-(--forest-mist)/50 px-3 py-1.5 rounded-full text-xs">
+                                <MapPin className="w-3.5 h-3.5" />
+                                Desa Serayu Larangan
                             </div>
+                            {event.destination && (
+                                <div className="flex items-center gap-2 text-(--gold) font-medium bg-(--gold-soft)/30 px-3 py-1.5 rounded-full text-xs">
+                                    <Map className="w-3.5 h-3.5" />
+                                    {event.destination.name}
+                                </div>
+                            )}
+                        </div>
+
+                        <h1 className="font-display text-3xl md:text-4xl lg:text-5xl font-bold text-(--forest-deep) leading-tight mb-4 text-balance">
+                            {event.title}
+                        </h1>
+                    </header>
+
+                    <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12">
+                        
+                        {/* Main Content (8 cols) */}
+                        <div className="lg:col-span-8 space-y-8" data-reveal>
 
                             {/* Cover Image */}
-                            <div className="aspect-video w-full rounded-2xl overflow-hidden bg-neutral-200 border border-(--line)">
-                                {event.primary_media ? (
-                                    <img 
-                                        src={`/storage/${event.primary_media.file_path}`} 
-                                        alt={event.title}
-                                        className="w-full h-full object-cover"
-                                    />
-                                ) : (
-                                    <div className="w-full h-full flex items-center justify-center bg-(--forest-mist)/30 text-(--forest)/40">
-                                        <Calendar className="w-16 h-16" />
-                                    </div>
-                                )}
+                            <div className="aspect-video w-full rounded-2xl overflow-hidden bg-neutral-200 border border-(--line) shadow-sm">
+                                <SafeImage
+                                    src={event.primary_media ? `/storage/${event.primary_media.file_path}` : null}
+                                    alt={event.title}
+                                    fallbackIcon={Calendar}
+                                    iconClassName="w-16 h-16"
+                                    className="w-full h-full object-cover"
+                                />
                             </div>
 
                             {/* Description */}
@@ -142,9 +139,11 @@ export default function EventShow({ event, relatedEvents }: Props) {
                                     <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
                                         {event.media.filter(m => !m.is_primary).map(media => (
                                             <div key={media.id} className="aspect-square rounded-xl overflow-hidden border border-(--line)">
-                                                <img 
+                                                <SafeImage 
                                                     src={`/storage/${media.file_path}`} 
                                                     alt="Galeri event" 
+                                                    fallbackIcon={Calendar}
+                                                    iconClassName="w-8 h-8"
                                                     className="w-full h-full object-cover hover:scale-105 transition-transform duration-300"
                                                 />
                                             </div>
@@ -154,8 +153,9 @@ export default function EventShow({ event, relatedEvents }: Props) {
                             )}
                         </div>
 
-                        {/* Sidebar Info */}
-                        <div className="space-y-6" data-reveal data-reveal-delay="100">
+                        {/* Sidebar Info (4 cols) */}
+                        <div className="lg:col-span-4 space-y-6" data-reveal data-reveal-delay="100">
+                            
                             {/* Key Info Card */}
                             <div className="bg-white rounded-2xl p-6 border border-(--line) shadow-sm space-y-6">
                                 <div className="flex items-start gap-4">
@@ -198,39 +198,39 @@ export default function EventShow({ event, relatedEvents }: Props) {
                                         </p>
                                     </div>
                                 </div>
-                                
-                                {event.qr_code_target && (
+
+                                {event.gmaps_link && (
                                     <div className="pt-4 border-t border-(--line)">
-                                        <Dialog>
-                                            <DialogTrigger asChild>
-                                                <Button className="w-full bg-(--forest) hover:bg-(--forest-deep) text-white font-semibold">
-                                                    <QrCode className="w-4 h-4 mr-2" />
-                                                    Pindai QR Code Tiket/Info
-                                                </Button>
-                                            </DialogTrigger>
-                                            <DialogContent className="sm:max-w-md">
-                                                <DialogHeader>
-                                                    <DialogTitle>QR Code Acara</DialogTitle>
-                                                    <DialogDescription>
-                                                        Pindai QR Code di bawah ini untuk mengakses tiket atau informasi lebih lanjut.
-                                                    </DialogDescription>
-                                                </DialogHeader>
-                                                <div className="flex justify-center py-6">
-                                                    {/* In a real app, generate QR from event.qr_code_target */}
-                                                    <div className="w-48 h-48 bg-white border border-dashed border-gray-300 flex items-center justify-center rounded-lg">
-                                                        <QrCode className="w-24 h-24 text-gray-300" />
-                                                    </div>
-                                                </div>
-                                                <div className="text-center text-sm">
-                                                    <a href={event.qr_code_target} target="_blank" rel="noreferrer" className="text-(--forest) hover:underline break-all">
-                                                        {event.qr_code_target}
-                                                    </a>
-                                                </div>
-                                            </DialogContent>
-                                        </Dialog>
+                                        <Button asChild className="w-full bg-(--forest) hover:bg-(--forest-deep) text-white font-semibold">
+                                            <a href={event.gmaps_link} target="_blank" rel="noopener noreferrer">
+                                                <Navigation className="w-4 h-4 mr-2" />
+                                                Petunjuk Google Maps
+                                            </a>
+                                        </Button>
                                     </div>
                                 )}
                             </div>
+
+                            {/* Map Preview Card */}
+                            {event.gmaps_link && (
+                                <div className="bg-white rounded-2xl p-6 border border-(--line) shadow-sm space-y-4">
+                                    <h3 className="font-display text-base font-bold text-(--forest-deep) flex items-center gap-2">
+                                        <MapPin className="w-4 h-4 text-(--forest)" />
+                                        Peta Lokasi Acara
+                                    </h3>
+                                    <div className="aspect-video w-full rounded-xl overflow-hidden border border-(--line) bg-neutral-100">
+                                        <iframe
+                                            title={`Peta Google Maps ${event.title}`}
+                                            width="100%"
+                                            height="100%"
+                                            className="w-full h-full border-0"
+                                            loading="lazy"
+                                            allowFullScreen
+                                            src={embedUrl}
+                                        />
+                                    </div>
+                                </div>
+                            )}
 
                             {/* Organizer Card */}
                             <div className="bg-white rounded-2xl p-6 border border-(--line) shadow-sm">
@@ -263,6 +263,16 @@ export default function EventShow({ event, relatedEvents }: Props) {
                                     )}
                                 </div>
                             </div>
+
+                            {/* Share Banner */}
+                            <div className="bg-white rounded-2xl p-6 border border-(--line) shadow-sm text-center">
+                                <p className="text-sm font-semibold text-(--charcoal) mb-3">Bagikan Acara Ini</p>
+                                <Button variant="outline" className="w-full border-(--line) hover:bg-(--cream-warm) hover:text-(--forest)" onClick={handleShare}>
+                                    <Share2 className="w-4 h-4 mr-2" />
+                                    Bagikan Halaman
+                                </Button>
+                            </div>
+
                         </div>
                     </div>
 
@@ -276,13 +286,12 @@ export default function EventShow({ event, relatedEvents }: Props) {
                                 {relatedEvents.map(related => (
                                     <Link key={related.id} href={`/event/${related.slug}`} className="group bg-white rounded-2xl overflow-hidden border border-(--line) hover:border-(--forest-mist) transition-colors flex flex-col h-full shadow-sm hover:shadow-md">
                                         <div className="aspect-video w-full overflow-hidden bg-neutral-200">
-                                            {related.primary_media ? (
-                                                <img src={`/storage/${related.primary_media.file_path}`} alt={related.title} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
-                                            ) : (
-                                                <div className="w-full h-full flex items-center justify-center bg-(--forest-mist)/30 text-(--forest)/40">
-                                                    <Calendar className="w-8 h-8" />
-                                                </div>
-                                            )}
+                                            <SafeImage
+                                                src={related.primary_media ? `/storage/${related.primary_media.file_path}` : null}
+                                                alt={related.title}
+                                                fallbackIcon={Calendar}
+                                                className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                                            />
                                         </div>
                                         <div className="p-5 flex flex-col grow">
                                             <h3 className="font-bold text-(--charcoal) group-hover:text-(--forest) transition-colors line-clamp-2 mb-3">{related.title}</h3>

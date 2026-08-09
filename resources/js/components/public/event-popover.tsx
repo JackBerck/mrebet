@@ -19,10 +19,29 @@ export function EventPopover({ date, events, children }: EventPopoverProps) {
 
     const formattedDate = format(date, 'EEEE, d MMMM yyyy', { locale: id });
 
+    const handleMouseEnter = () => {
+        if (typeof window !== 'undefined' && window.innerWidth >= 768) {
+            setOpen(true);
+        }
+    };
+
+    const handleMouseLeave = () => {
+        if (typeof window !== 'undefined' && window.innerWidth >= 768) {
+            setOpen(false);
+        }
+    };
+
     return (
         <Popover open={open} onOpenChange={setOpen}>
-            <PopoverTrigger asChild>{children}</PopoverTrigger>
-            <PopoverContent className="w-[calc(100vw-32px)] sm:w-80 p-0" align="start">
+            <div onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave} className="contents">
+                <PopoverTrigger asChild>{children}</PopoverTrigger>
+            </div>
+            <PopoverContent 
+                className="w-[calc(100vw-32px)] sm:w-80 p-0" 
+                align="start"
+                onMouseEnter={handleMouseEnter}
+                onMouseLeave={handleMouseLeave}
+            >
                 <div className="bg-(--cream-warm) border-b border-(--line) px-4 py-3">
                     <h4 className="font-semibold text-(--forest-deep)">{formattedDate}</h4>
                     <p className="text-xs text-(--charcoal-soft)">
@@ -53,10 +72,10 @@ export function EventPopover({ date, events, children }: EventPopoverProps) {
                                         </div>
                                     )}
                                     
-                                    {event.village && (
+                                    {(event.destination?.name || 'Desa Serayu Larangan') && (
                                         <div className="flex items-center gap-1.5 text-xs text-(--charcoal-soft) mb-2">
                                             <MapPin className="w-3.5 h-3.5" />
-                                            <span>{event.village.name}</span>
+                                            <span>{event.destination?.name || 'Desa Serayu Larangan'}</span>
                                         </div>
                                     )}
 

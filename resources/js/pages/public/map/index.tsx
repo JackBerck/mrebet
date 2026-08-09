@@ -252,7 +252,7 @@ export default function MapIndex({ destinations = [], umkms = [], categories = [
                                 </span>
                             </div>
 
-                            <div className="max-h-[600px] overflow-y-auto space-y-3 pr-1">
+                            <div className="max-h-150 overflow-y-auto space-y-3 pr-1">
                                 {filteredPoints.length > 0 ? (
                                     filteredPoints.map((point) => {
                                         const isSelected = selectedPoint?.id === point.id && selectedPoint?.type === point.type;
@@ -335,7 +335,7 @@ export default function MapIndex({ destinations = [], umkms = [], categories = [
                         {/* Interactive Map (Right - 8 cols on desktop) */}
                         <div className={`lg:col-span-8 ${mobileView === 'list' ? 'hidden lg:block' : 'block'}`}>
                             <Suspense fallback={
-                                <div className="w-full h-[500px] lg:h-[620px] rounded-2xl bg-neutral-100 border border-(--line) flex items-center justify-center animate-pulse">
+                                <div className="w-full h-125 lg:h-155 rounded-2xl bg-neutral-100 border border-(--line) flex items-center justify-center animate-pulse">
                                     <div className="text-center text-(--charcoal-soft)">
                                         <MapIcon className="w-10 h-10 text-neutral-300 mx-auto mb-2" />
                                         <p className="text-xs font-medium">Memuat Peta Wisata & UMKM...</p>

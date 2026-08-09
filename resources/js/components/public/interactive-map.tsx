@@ -227,7 +227,7 @@ export default function InteractiveMap({ items = [], selectedItem, onSelectItem 
     }, [selectedItem]);
 
     return (
-        <div className="w-full h-[500px] lg:h-[620px] rounded-2xl overflow-hidden border border-(--line) relative shadow-sm bg-neutral-100">
+        <div className="w-full h-125 lg:h-155 rounded-2xl overflow-hidden border border-(--line) relative shadow-sm bg-neutral-100">
             {/* Map Container directly with w-full h-full */}
             <div ref={mapRef} className="w-full h-full z-0" />
 
