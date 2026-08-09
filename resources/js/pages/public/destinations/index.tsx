@@ -5,9 +5,18 @@ import { useMotionReveal } from '@/hooks/use-motion-reveal';
 import type { Destination } from '@/types/public';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
+import {
+    Select,
+    SelectContent,
+    SelectItem,
+    SelectTrigger,
+    SelectValue,
+} from '@/components/ui/select';
 import { useState, useCallback, useEffect, useRef } from 'react';
 import type { PaginatedData } from '@/types/models';
 import { ChevronLeft, ChevronRight } from 'lucide-react';
+
+import { SafeImage } from '@/components/public/safe-image';
 
 interface CategoryOption {
     value: string;
@@ -87,33 +96,58 @@ export default function DestinationsIndex({ destinations, categories, filters }:
                         </p>
                     </div>
 
-                    {/* Filter / Search Row */}
+                    {/* Filter & Search Controls */}
                     <div className="flex flex-col md:flex-row md:items-center justify-between gap-6 mb-10" data-reveal data-reveal-delay="50">
-                        {/* Category Chips */}
-                        <div className="flex flex-wrap items-center gap-2">
-                            <button
-                                onClick={() => handleCategoryClick(null)}
-                                className={`px-4 py-2 rounded-full text-sm font-medium transition-all ${
-                                    !filters.category 
-                                        ? 'bg-(--forest) text-white shadow-sm' 
-                                        : 'bg-white border border-(--line) text-(--charcoal) hover:border-(--forest-mist) hover:bg-(--forest-mist)/30'
-                                }`}
-                            >
-                                Semua
-                            </button>
-                            {categories.map((cat) => (
+                        
+                        {/* Category Filters (Mobile Select & Desktop Chips) */}
+                        <div className="w-full md:w-auto">
+                            {/* Mobile View: Select Dropdown */}
+                            <div className="md:hidden flex items-center gap-2">
+                                <span className="text-xs text-(--charcoal-soft) font-medium shrink-0">Kategori:</span>
+                                <Select 
+                                    value={filters.category || 'all'} 
+                                    onValueChange={(val) => handleCategoryClick(val === 'all' ? null : val)}
+                                >
+                                    <SelectTrigger className="w-full bg-white border-(--line) text-sm h-11 rounded-full shadow-sm">
+                                        <SelectValue placeholder="Pilih Kategori Destinasi" />
+                                    </SelectTrigger>
+                                    <SelectContent>
+                                        <SelectItem value="all">Semua Kategori</SelectItem>
+                                        {categories.map((cat) => (
+                                            <SelectItem key={cat.value} value={cat.value}>
+                                                {cat.label}
+                                            </SelectItem>
+                                        ))}
+                                    </SelectContent>
+                                </Select>
+                            </div>
+
+                            {/* Desktop View: Chips */}
+                            <div className="hidden md:flex flex-wrap items-center gap-2">
                                 <button
-                                    key={cat.value}
-                                    onClick={() => handleCategoryClick(cat.value)}
+                                    onClick={() => handleCategoryClick(null)}
                                     className={`px-4 py-2 rounded-full text-sm font-medium transition-all ${
-                                        filters.category === cat.value 
+                                        !filters.category 
                                             ? 'bg-(--forest) text-white shadow-sm' 
                                             : 'bg-white border border-(--line) text-(--charcoal) hover:border-(--forest-mist) hover:bg-(--forest-mist)/30'
                                     }`}
                                 >
-                                    {cat.label}
+                                    Semua
                                 </button>
-                            ))}
+                                {categories.map((cat) => (
+                                    <button
+                                        key={cat.value}
+                                        onClick={() => handleCategoryClick(cat.value)}
+                                        className={`px-4 py-2 rounded-full text-sm font-medium transition-all ${
+                                            filters.category === cat.value 
+                                                ? 'bg-(--forest) text-white shadow-sm' 
+                                                : 'bg-white border border-(--line) text-(--charcoal) hover:border-(--forest-mist) hover:bg-(--forest-mist)/30'
+                                        }`}
+                                    >
+                                        {cat.label}
+                                    </button>
+                                ))}
+                            </div>
                         </div>
 
                         {/* Search Bar */}
@@ -150,17 +184,12 @@ export default function DestinationsIndex({ destinations, categories, filters }:
                                 >
                                     {/* Cover */}
                                     <div className="relative aspect-4/3 w-full overflow-hidden bg-neutral-200">
-                                        {dest.primary_media ? (
-                                            <img 
-                                                src={`/storage/${dest.primary_media.file_path}`} 
-                                                alt={dest.name} 
-                                                className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" 
-                                            />
-                                        ) : (
-                                            <div className="w-full h-full flex items-center justify-center bg-(--forest-mist)/30 text-(--forest)/40">
-                                                <Map className="w-12 h-12" />
-                                            </div>
-                                        )}
+                                        <SafeImage
+                                            src={dest.primary_media ? `/storage/${dest.primary_media.file_path}` : null}
+                                            alt={dest.name}
+                                            fallbackIcon={Map}
+                                            className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                                        />
                                         
                                         {/* Category Badge */}
                                         <div className="absolute top-3 left-3">

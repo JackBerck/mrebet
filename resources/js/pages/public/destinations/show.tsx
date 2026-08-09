@@ -2,7 +2,7 @@ import { Head, Link } from '@inertiajs/react';
 import {
     ArrowLeft, MapPin, Ticket, Map as MapIcon,
     Share2, Calendar, Clock, Phone, Globe, Info,
-    Navigation, QrCode, Facebook, Twitter, CheckCircle2, ArrowRight
+    Navigation, QrCode, CheckCircle2, ArrowRight
 } from 'lucide-react';
 import PublicLayout from '@/layouts/public-layout';
 import { useMotionReveal } from '@/hooks/use-motion-reveal';
@@ -11,14 +11,8 @@ import { Button } from '@/components/ui/button';
 import { format, parseISO } from 'date-fns';
 import { id as localeId } from 'date-fns/locale';
 import React, { Suspense, lazy } from 'react';
-import {
-    Dialog,
-    DialogContent,
-    DialogDescription,
-    DialogHeader,
-    DialogTitle,
-    DialogTrigger,
-} from "@/components/ui/dialog";
+import { getGoogleMapsEmbedUrl } from '@/lib/map-utils';
+import { SafeImage } from '@/components/public/safe-image';
 
 // Lazy load map component to avoid SSR issues with Leaflet
 const DestinationMap = lazy(() => import('@/components/public/destination-map'));
@@ -34,6 +28,7 @@ export default function DestinationShow({ destination, events, relatedDestinatio
 
     const shareUrl = typeof window !== 'undefined' ? window.location.href : '';
     const ticketPrice = parseFloat(destination.ticket_price);
+    const embedUrl = getGoogleMapsEmbedUrl(destination);
 
     const handleShare = async () => {
         if (navigator.share) {
@@ -65,7 +60,7 @@ export default function DestinationShow({ destination, events, relatedDestinatio
         },
         "address": {
             "@type": "PostalAddress",
-            "addressLocality": destination.village?.name || 'Serayu Larangan',
+            "addressLocality": 'Serayu Larangan',
             "addressRegion": "Jawa Tengah",
             "addressCountry": "ID"
         }
@@ -73,7 +68,7 @@ export default function DestinationShow({ destination, events, relatedDestinatio
 
     const excerpt = destination.description
         ? destination.description.replace(/<[^>]*>?/gm, '').trim().substring(0, 150) + '...'
-        : `Kunjungi ${destination.name} di Desa ${destination.village?.name || 'Serayu Larangan'}.`;
+        : `Kunjungi ${destination.name} di Desa Serayu Larangan.`;
 
     return (
         <PublicLayout>
@@ -109,8 +104,8 @@ export default function DestinationShow({ destination, events, relatedDestinatio
             {/* Top spacing */}
             <div className="pt-16 md:pt-20 lg:pt-24 bg-(--cream-warm)"></div>
 
-            {/* Back Navigation */}
-            <div className="bg-(--cream-warm) border-b border-(--line) py-4 sticky top-16 md:top-20 lg:top-24 z-30">
+            {/* Back Navigation (un-stickied) */}
+            <div className="bg-(--cream-warm) border-b border-(--line) py-4">
                 <div className="container mx-auto max-w-7xl section-padding-x flex flex-wrap items-center justify-between gap-4">
                     <Link
                         href="/destinasi"
@@ -157,26 +152,24 @@ export default function DestinationShow({ destination, events, relatedDestinatio
                             {/* Gallery */}
                             <div className="space-y-4" data-reveal>
                                 <div className="aspect-video w-full rounded-2xl overflow-hidden bg-neutral-200 border border-(--line) shadow-sm">
-                                    {destination.primary_media ? (
-                                        <img
-                                            src={`/storage/${destination.primary_media.file_path}`}
-                                            alt={destination.name}
-                                            className="w-full h-full object-cover"
-                                        />
-                                    ) : (
-                                        <div className="w-full h-full flex items-center justify-center bg-(--forest-mist)/30 text-(--forest)/40">
-                                            <MapIcon className="w-16 h-16" />
-                                        </div>
-                                    )}
+                                    <SafeImage
+                                        src={destination.primary_media ? `/storage/${destination.primary_media.file_path}` : null}
+                                        alt={destination.name}
+                                        fallbackIcon={MapIcon}
+                                        iconClassName="w-16 h-16"
+                                        className="w-full h-full object-cover"
+                                    />
                                 </div>
 
                                 {destination.media && destination.media.filter(m => !m.is_primary).length > 0 && (
                                     <div className="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-5 gap-3">
                                         {destination.media.filter(m => !m.is_primary).map((media) => (
                                             <div key={media.id} className="aspect-square rounded-xl overflow-hidden border border-(--line) bg-neutral-100">
-                                                <img
+                                                <SafeImage
                                                     src={`/storage/${media.file_path}`}
                                                     alt="Galeri Destinasi"
+                                                    fallbackIcon={MapIcon}
+                                                    iconClassName="w-8 h-8"
                                                     className="w-full h-full object-cover hover:scale-110 transition-transform duration-500 cursor-pointer"
                                                 />
                                             </div>
@@ -237,13 +230,13 @@ export default function DestinationShow({ destination, events, relatedDestinatio
                                                 className="bg-white rounded-xl border border-(--line) p-4 flex gap-4 hover:border-(--forest-mist) hover:shadow-md transition-all group"
                                             >
                                                 <div className="w-20 h-20 shrink-0 rounded-lg overflow-hidden bg-neutral-100">
-                                                    {event.primary_media ? (
-                                                        <img src={`/storage/${event.primary_media.file_path}`} alt={event.title} className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" />
-                                                    ) : (
-                                                        <div className="w-full h-full flex items-center justify-center bg-(--forest-mist)/30 text-(--forest)/40">
-                                                            <Calendar className="w-6 h-6" />
-                                                        </div>
-                                                    )}
+                                                    <SafeImage
+                                                        src={event.primary_media ? `/storage/${event.primary_media.file_path}` : null}
+                                                        alt={event.title}
+                                                        fallbackIcon={Calendar}
+                                                        iconClassName="w-6 h-6"
+                                                        className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
+                                                    />
                                                 </div>
                                                 <div className="flex flex-col justify-center">
                                                     <h3 className="font-bold text-(--charcoal) group-hover:text-(--forest) transition-colors line-clamp-2 mb-1">{event.title}</h3>
@@ -318,26 +311,62 @@ export default function DestinationShow({ destination, events, relatedDestinatio
                                     </div>
                                 </div>
 
-                                {/* Share */}
-                                <div className="bg-white rounded-2xl p-6 border border-(--line) shadow-sm text-center" data-reveal data-reveal-delay="250">
-                                    <p className="text-sm font-semibold text-(--charcoal) mb-3">Bagikan Destinasi</p>
-                                    <div className="flex items-center justify-center gap-2">
-                                        <Button variant="outline" size="icon" className="rounded-full border-(--line) hover:text-(--forest) hover:border-(--forest)" onClick={handleShare}>
-                                            <Share2 className="w-4 h-4" />
+                                {destination.gmaps_link && (
+                                    <div className="pt-4 border-t border-(--line)">
+                                        <Button asChild className="w-full bg-(--forest) hover:bg-(--forest-deep) text-white font-semibold">
+                                            <a href={destination.gmaps_link} target="_blank" rel="noopener noreferrer">
+                                                <Navigation className="w-4 h-4 mr-2" />
+                                                Petunjuk Google Maps
+                                            </a>
                                         </Button>
-                                        <a href={`https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(shareUrl)}`} target="_blank" rel="noopener noreferrer">
-                                            <Button variant="outline" size="icon" className="rounded-full border-(--line) hover:text-[#1877F2] hover:border-[#1877F2]">
-                                                <Facebook className="w-4 h-4" />
-                                            </Button>
-                                        </a>
-                                        <a href={`https://twitter.com/intent/tweet?url=${encodeURIComponent(shareUrl)}&text=${encodeURIComponent('Destinasi Wisata: ' + destination.name)}`} target="_blank" rel="noopener noreferrer">
-                                            <Button variant="outline" size="icon" className="rounded-full border-(--line) hover:text-[#1DA1F2] hover:border-[#1DA1F2]">
-                                                <Twitter className="w-4 h-4" />
-                                            </Button>
-                                        </a>
+                                    </div>
+                                )}
+                            </div>
+
+                            {/* Map Preview Card */}
+                            {destination.gmaps_link ? (
+                                <div className="bg-white rounded-2xl p-6 border border-(--line) shadow-sm space-y-4">
+                                    <h3 className="font-display text-base font-bold text-(--forest-deep) flex items-center gap-2">
+                                        <MapPin className="w-4 h-4 text-(--forest)" />
+                                        Peta Lokasi Destinasi
+                                    </h3>
+                                    <div className="aspect-video w-full rounded-xl overflow-hidden border border-(--line) bg-neutral-100">
+                                        <iframe
+                                            title={`Peta Google Maps ${destination.name}`}
+                                            width="100%"
+                                            height="100%"
+                                            className="w-full h-full border-0"
+                                            loading="lazy"
+                                            allowFullScreen
+                                            src={embedUrl}
+                                        />
                                     </div>
                                 </div>
+                            ) : destination.latitude && destination.longitude ? (
+                                <div className="bg-white rounded-2xl p-6 border border-(--line) shadow-sm space-y-4">
+                                    <h3 className="font-display text-base font-bold text-(--forest-deep) flex items-center gap-2">
+                                        <MapPin className="w-4 h-4 text-(--forest)" />
+                                        Peta Lokasi Destinasi
+                                    </h3>
+                                    <div className="h-56 w-full rounded-xl overflow-hidden border border-(--line)">
+                                        <Suspense fallback={<div className="w-full h-full bg-neutral-100 animate-pulse" />}>
+                                            <DestinationMap
+                                                latitude={destination.latitude}
+                                                longitude={destination.longitude}
+                                                title={destination.name}
+                                            />
+                                        </Suspense>
+                                    </div>
+                                </div>
+                            ) : null}
 
+                            {/* Share Banner */}
+                            <div className="bg-white rounded-2xl p-6 border border-(--line) shadow-sm text-center">
+                                <p className="text-sm font-semibold text-(--charcoal) mb-3">Bagikan Destinasi Ini</p>
+                                <Button variant="outline" className="w-full border-(--line) hover:bg-(--cream-warm) hover:text-(--forest)" onClick={handleShare}>
+                                    <Share2 className="w-4 h-4 mr-2" />
+                                    Bagikan Halaman
+                                </Button>
                             </div>
                         </div>
 
@@ -362,17 +391,12 @@ export default function DestinationShow({ destination, events, relatedDestinatio
                                             className="group bg-white rounded-2xl overflow-hidden border border-(--line) shadow-sm hover:shadow-md hover:border-(--forest-mist) transition-all flex flex-col h-full"
                                         >
                                             <div className="relative aspect-4/3 w-full overflow-hidden bg-neutral-200">
-                                                {related.primary_media ? (
-                                                    <img
-                                                        src={`/storage/${related.primary_media.file_path}`}
-                                                        alt={related.name}
-                                                        className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
-                                                    />
-                                                ) : (
-                                                    <div className="w-full h-full flex items-center justify-center bg-(--forest-mist)/30 text-(--forest)/40">
-                                                        <MapIcon className="w-12 h-12" />
-                                                    </div>
-                                                )}
+                                                <SafeImage
+                                                    src={related.primary_media ? `/storage/${related.primary_media.file_path}` : null}
+                                                    alt={related.name}
+                                                    fallbackIcon={MapIcon}
+                                                    className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                                                />
                                                 <div className="absolute top-3 left-3">
                                                     <span className="bg-white/90 backdrop-blur text-(--forest-deep) text-[10px] font-bold uppercase tracking-wider px-2 py-1 rounded-md shadow-sm">
                                                         {related.category_label}
@@ -383,7 +407,7 @@ export default function DestinationShow({ destination, events, relatedDestinatio
                                                 <h3 className="font-bold text-(--charcoal) group-hover:text-(--forest) transition-colors line-clamp-1 mb-2">{related.name}</h3>
                                                 <div className="flex items-center gap-1.5 text-xs text-(--charcoal-soft) mb-3">
                                                     <MapPin className="w-3.5 h-3.5 shrink-0" />
-                                                    <span className="truncate">{related.village?.name || 'Serayu Larangan'}</span>
+                                                    <span className="truncate">Serayu Larangan</span>
                                                 </div>
                                                 <div className="mt-auto pt-3 border-t border-(--line) flex items-center gap-1.5 text-xs font-semibold text-(--charcoal)">
                                                     <Ticket className="w-3.5 h-3.5 text-(--gold)" />

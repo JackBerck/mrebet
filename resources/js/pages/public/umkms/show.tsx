@@ -5,6 +5,7 @@ import { useMotionReveal } from '@/hooks/use-motion-reveal';
 import { Button } from '@/components/ui/button';
 import DestinationMap from '@/components/public/destination-map';
 import { getGoogleMapsEmbedUrl } from '@/lib/map-utils';
+import { SafeImage } from '@/components/public/safe-image';
 
 interface UmkmPublicDetail {
     id: number;
@@ -120,17 +121,13 @@ export default function UmkmsPublicShow({ umkm, relatedUmkms }: Props) {
                         <div className="lg:col-span-8 space-y-8" data-reveal>
                             {/* Primary Image / Hero */}
                             <div className="aspect-video w-full rounded-2xl overflow-hidden bg-neutral-200 border border-(--line) shadow-sm">
-                                {primaryMedia ? (
-                                    <img
-                                        src={primaryMedia.file_path.startsWith('http') ? primaryMedia.file_path : `/storage/${primaryMedia.file_path}`}
-                                        alt={umkm.name}
-                                        className="w-full h-full object-cover"
-                                    />
-                                ) : (
-                                    <div className="w-full h-full flex items-center justify-center bg-(--forest-mist)/30 text-(--forest)/40">
-                                        <Store className="w-16 h-16" />
-                                    </div>
-                                )}
+                                <SafeImage
+                                    src={primaryMedia ? (primaryMedia.file_path.startsWith('http') ? primaryMedia.file_path : `/storage/${primaryMedia.file_path}`) : null}
+                                    alt={umkm.name}
+                                    fallbackIcon={Store}
+                                    iconClassName="w-16 h-16"
+                                    className="w-full h-full object-cover"
+                                />
                             </div>
 
                             {/* Description Card */}
@@ -151,9 +148,11 @@ export default function UmkmsPublicShow({ umkm, relatedUmkms }: Props) {
                                     <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
                                         {umkm.media.filter((m) => !m.is_primary).map((m) => (
                                             <div key={m.id} className="aspect-square rounded-xl overflow-hidden border border-(--line)">
-                                                <img
+                                                <SafeImage
                                                     src={m.file_path.startsWith('http') ? m.file_path : `/storage/${m.file_path}`}
                                                     alt="Galeri UMKM"
+                                                    fallbackIcon={Store}
+                                                    iconClassName="w-8 h-8"
                                                     className="w-full h-full object-cover hover:scale-105 transition-transform duration-300"
                                                 />
                                             </div>
@@ -280,15 +279,13 @@ export default function UmkmsPublicShow({ umkm, relatedUmkms }: Props) {
                                                 className="flex items-center gap-3 p-2 rounded-xl hover:bg-(--cream-warm) transition-colors group"
                                             >
                                                 <div className="w-12 h-12 rounded-lg bg-neutral-100 overflow-hidden shrink-0">
-                                                    {rel.primary_media ? (
-                                                        <img
-                                                            src={rel.primary_media.file_path.startsWith('http') ? rel.primary_media.file_path : `/storage/${rel.primary_media.file_path}`}
-                                                            alt={rel.name}
-                                                            className="w-full h-full object-cover"
-                                                        />
-                                                    ) : (
-                                                        <Store className="w-full h-full p-3 text-(--forest) opacity-40" />
-                                                    )}
+                                                    <SafeImage
+                                                        src={rel.primary_media ? (rel.primary_media.file_path.startsWith('http') ? rel.primary_media.file_path : `/storage/${rel.primary_media.file_path}`) : null}
+                                                        alt={rel.name}
+                                                        fallbackIcon={Store}
+                                                        iconClassName="w-6 h-6"
+                                                        className="w-full h-full object-cover"
+                                                    />
                                                 </div>
                                                 <div className="min-w-0 flex-1">
                                                     <h4 className="font-medium text-sm text-(--forest-deep) group-hover:text-(--forest) truncate">

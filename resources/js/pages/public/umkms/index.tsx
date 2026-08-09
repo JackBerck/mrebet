@@ -13,6 +13,7 @@ import {
     SelectValue,
 } from '@/components/ui/select';
 import type { PaginatedData } from '@/types/models';
+import { SafeImage } from '@/components/public/safe-image';
 
 interface UmkmPublic {
     id: number;
@@ -89,10 +90,10 @@ export default function UmkmsPublicIndex({ umkms, categories, filters }: Props) 
     return (
         <PublicLayout>
             <Head>
-                <title>UMKM & Kuliner Desa — Desa Wisata Serayu Larangan</title>
+                <title>UMKM & Kuliner — Desa Wisata Serayu Larangan</title>
                 <meta
                     name="description"
-                    content="Jelajahi berbagai UMKM lokal, kerajinan olahan nira kelapa, warung kuliner tradisional khas Desa Serayu Larangan, Purbalingga."
+                    content="Jelajahi berbagai usaha mikro, kerajinan gula jawa, gula semut murni, dan tempat kuliner khas Desa Serayu Larangan, Purbalingga."
                 />
             </Head>
 
@@ -198,17 +199,12 @@ export default function UmkmsPublicIndex({ umkms, categories, filters }: Props) 
                                 >
                                     {/* Cover Image */}
                                     <div className="relative aspect-4/3 w-full overflow-hidden bg-neutral-200">
-                                        {umkm.primary_media ? (
-                                            <img
-                                                src={umkm.primary_media.file_path.startsWith('http') ? umkm.primary_media.file_path : `/storage/${umkm.primary_media.file_path}`}
-                                                alt={umkm.name}
-                                                className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
-                                            />
-                                        ) : (
-                                            <div className="w-full h-full flex items-center justify-center bg-(--forest-mist)/30 text-(--forest)/40">
-                                                <Store className="w-12 h-12" />
-                                            </div>
-                                        )}
+                                        <SafeImage
+                                            src={umkm.primary_media ? (umkm.primary_media.file_path.startsWith('http') ? umkm.primary_media.file_path : `/storage/${umkm.primary_media.file_path}`) : null}
+                                            alt={umkm.name}
+                                            fallbackIcon={Store}
+                                            className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                                        />
 
                                         {/* Category Badge */}
                                         <div className="absolute top-3 left-3">
