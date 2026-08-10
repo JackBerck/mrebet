@@ -113,6 +113,20 @@ export default function Home({
                 <meta name="twitter:title" content="Desa Wisata Serayu Larangan — Pesona Alam & Gula Kelapa Purbalingga" />
                 <meta name="twitter:description" content="Desa Wisata Serayu Larangan di Kecamatan Mrebet, Purbalingga, Jawa Tengah. Lanskap persawahan asri, pengrajin gula kelapa, dan tradisi lokal lereng Gunung Slamet." />
                 <meta name="twitter:image" content="/images/backgrounds/pemandangan-serayu-larangan.webp" />
+                <script type="application/ld+json">
+                    {JSON.stringify({
+                        "@context": "https://schema.org",
+                        "@type": "TouristDestination",
+                        "name": "Desa Wisata Serayu Larangan",
+                        "description": "Desa Wisata Serayu Larangan di Kecamatan Mrebet, Purbalingga, Jawa Tengah. Lanskap persawahan asri, pengrajin gula kelapa, dan tradisi lokal lereng Gunung Slamet.",
+                        "address": {
+                            "@type": "PostalAddress",
+                            "addressLocality": "Serayu Larangan, Mrebet",
+                            "addressRegion": "Jawa Tengah",
+                            "addressCountry": "ID"
+                        }
+                    })}
+                </script>
             </Head>
             {/* ── HERO ───────────────────────────────────────────────────── */}
             <section
