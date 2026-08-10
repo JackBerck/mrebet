@@ -101,14 +101,14 @@ export default function UmkmsPublicIndex({ umkms, categories, filters }: Props) 
                 <div className="container mx-auto max-w-7xl section-padding-x">
                     
                     {/* Header */}
-                    <div className="mb-10 md:mb-12 max-w-3xl" data-reveal>
+                    <header className="mb-10 md:mb-12 max-w-3xl" data-reveal>
                         <h1 className="font-display text-4xl md:text-5xl font-bold text-(--forest-deep) mb-4">
                             UMKM & Kuliner Desa
                         </h1>
                         <p className="text-base md:text-lg text-(--charcoal-soft) leading-relaxed">
                             Dukung perekonomian warga Desa Serayu Larangan dengan membeli produk lokal penderes nira, gula semut murni, kerajinan bambu, batik tulis, hingga sajian kuliner warung tradisional.
                         </p>
-                    </div>
+                    </header>
 
                     {/* Filter & Search Controls */}
                     <div className="flex flex-col md:flex-row md:items-center justify-between gap-6 mb-10" data-reveal data-reveal-delay="50">
@@ -195,7 +195,8 @@ export default function UmkmsPublicIndex({ umkms, categories, filters }: Props) 
                                 <Link 
                                     key={umkm.id} 
                                     href={`/umkm/${umkm.slug}`} 
-                                    className="group bg-white rounded-2xl overflow-hidden border border-(--line) shadow-sm hover:shadow-md hover:border-(--forest-mist) transition-all flex flex-col h-full"
+                                    as="article"
+                                    className="group bg-white rounded-2xl overflow-hidden border border-(--line) shadow-sm hover:shadow-md hover:border-(--forest-mist) transition-all flex flex-col h-full cursor-pointer"
                                 >
                                     {/* Cover Image */}
                                     <div className="relative aspect-4/3 w-full overflow-hidden bg-neutral-200">
@@ -270,7 +271,7 @@ export default function UmkmsPublicIndex({ umkms, categories, filters }: Props) 
 
                     {/* Pagination */}
                     {umkms.last_page > 1 && (
-                        <div className="mt-12 flex flex-col sm:flex-row items-center justify-between gap-4 border-t border-(--line) pt-8" data-reveal>
+                        <nav className="mt-12 flex flex-col sm:flex-row items-center justify-between gap-4 border-t border-(--line) pt-8" data-reveal aria-label="Navigasi halaman">
                             <p className="text-sm text-(--charcoal-soft)">
                                 Menampilkan <span className="font-medium text-(--charcoal)">{umkms.from}</span> hingga <span className="font-medium text-(--charcoal)">{umkms.to}</span> dari <span className="font-medium text-(--charcoal)">{umkms.total}</span> UMKM
                             </p>
@@ -296,7 +297,7 @@ export default function UmkmsPublicIndex({ umkms, categories, filters }: Props) 
                                     <ChevronRight className="w-4 h-4 ml-1" />
                                 </Button>
                             </div>
-                        </div>
+                        </nav>
                     )}
 
                 </div>

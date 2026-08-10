@@ -10,7 +10,7 @@ export default function Terms() {
         <PublicLayout>
             <Head title="Syarat & Ketentuan - Desa Wisata Serayu Larangan" />
             
-            <section className="bg-(--forest-deep) pt-32 pb-16 text-center text-white">
+            <header className="bg-(--forest-deep) pt-32 pb-16 text-center text-white">
                 <div className="container mx-auto max-w-3xl section-padding-x" data-reveal>
                     <div className="mx-auto mb-6 flex h-16 w-16 items-center justify-center rounded-2xl bg-white/10 backdrop-blur-sm">
                         <FileText className="h-8 w-8 text-(--gold)" />
@@ -20,7 +20,7 @@ export default function Terms() {
                         Persetujuan penggunaan fasilitas dan layanan Desa Wisata Serayu Larangan.
                     </p>
                 </div>
-            </section>
+            </header>
 
             <section className="bg-(--cream-warm) py-12 lg:py-16">
                 <div className="container mx-auto max-w-3xl section-padding-x" data-reveal>

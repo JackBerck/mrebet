@@ -78,3 +78,29 @@ Route::prefix('admin')
     });
 
 require __DIR__.'/settings.php';
+
+// Stub routes for Wayfinder frontend type generation when Fortify features are disabled
+Route::name('register')->get('/register', fn () => abort(404));
+Route::name('register.store')->post('/register', fn () => abort(404));
+Route::name('verification.notice')->get('/email/verify', fn () => abort(404));
+Route::name('verification.send')->post('/email/verification-notification', fn () => abort(404));
+Route::name('two-factor.login')->get('/two-factor-challenge', fn () => abort(404));
+Route::name('two-factor.login.store')->post('/two-factor/login', fn () => abort(404));
+Route::name('two-factor.enable')->post('/user/two-factor-authentication', fn () => abort(404));
+Route::name('two-factor.disable')->delete('/user/two-factor-authentication', fn () => abort(404));
+Route::name('two-factor.confirm')->post('/user/confirmed-two-factor-authentication', fn () => abort(404));
+Route::name('two-factor.regenerate-recovery-codes')->post('/user/two-factor-recovery-codes', fn () => abort(404));
+Route::name('two-factor.qr-code')->get('/user/two-factor-qr-code', fn () => abort(404));
+Route::name('two-factor.secret-key')->get('/user/two-factor-secret-key', fn () => abort(404));
+Route::name('two-factor.recovery-codes')->get('/user/two-factor-recovery-codes', fn () => abort(404));
+Route::name('password.email')->post('/forgot-password', fn () => abort(404));
+Route::name('password.update')->post('/reset-password', fn () => abort(404));
+
+use Laravel\Passkeys\Http\Controllers\PasskeyConfirmationController;
+use Laravel\Passkeys\Http\Controllers\PasskeyRegistrationController;
+
+Route::get('/user/passkeys/confirm', [PasskeyConfirmationController::class, 'index']);
+Route::post('/user/passkeys/confirm', [PasskeyConfirmationController::class, 'store']);
+Route::get('/user/passkeys', [PasskeyRegistrationController::class, 'index']);
+Route::post('/user/passkeys', [PasskeyRegistrationController::class, 'store']);
+Route::delete('/user/passkeys/{passkey}', [PasskeyRegistrationController::class, 'destroy']);

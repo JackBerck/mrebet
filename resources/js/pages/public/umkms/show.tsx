@@ -132,7 +132,7 @@ export default function UmkmsPublicShow({ umkm, relatedUmkms }: Props) {
                             </div>
 
                             {/* Description Card */}
-                            <div className="bg-white rounded-2xl p-6 md:p-8 border border-(--line) shadow-sm">
+                            <section className="bg-white rounded-2xl p-6 md:p-8 border border-(--line) shadow-sm" aria-label="Tentang Usaha & Produk">
                                 <h2 className="font-display text-xl md:text-2xl font-bold text-(--forest-deep) mb-4">
                                     Tentang Usaha & Produk
                                 </h2>
@@ -140,11 +140,11 @@ export default function UmkmsPublicShow({ umkm, relatedUmkms }: Props) {
                                     className="prose-html max-w-none"
                                     dangerouslySetInnerHTML={{ __html: umkm.description || '<p className="text-(--charcoal-soft) italic">Belum ada deskripsi untuk usaha ini.</p>' }}
                                 />
-                            </div>
+                            </section>
 
                             {/* Gallery Images (if any) */}
                             {umkm.media && umkm.media.filter((m) => !m.is_primary).length > 0 && (
-                                <div className="space-y-4">
+                                <section className="space-y-4" aria-label="Galeri Produk">
                                     <h3 className="font-display text-xl font-bold text-(--forest-deep)">Foto Galeri Produk</h3>
                                     <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
                                         {umkm.media.filter((m) => !m.is_primary).map((m) => (
@@ -159,12 +159,12 @@ export default function UmkmsPublicShow({ umkm, relatedUmkms }: Props) {
                                             </div>
                                         ))}
                                     </div>
-                                </div>
+                                </section>
                             )}
                         </div>
 
                         {/* Sidebar Info & Map (4 Cols) */}
-                        <div className="lg:col-span-4 space-y-6" data-reveal data-reveal-delay="100">
+                        <aside className="lg:col-span-4 space-y-6" data-reveal data-reveal-delay="100">
                             
                             {/* Key Info Card */}
                             <div className="bg-white rounded-2xl p-6 border border-(--line) shadow-sm space-y-6">
@@ -276,7 +276,7 @@ export default function UmkmsPublicShow({ umkm, relatedUmkms }: Props) {
 
                             {/* Related UMKM */}
                             {relatedUmkms.length > 0 && (
-                                <div className="bg-white rounded-2xl p-6 border border-(--line) shadow-sm">
+                                <section className="bg-white rounded-2xl p-6 border border-(--line) shadow-sm" aria-label="UMKM Serupa Lainnya">
                                     <h3 className="font-display text-lg font-bold text-(--forest-deep) mb-4">
                                         UMKM Serupa Lainnya
                                     </h3>
@@ -285,7 +285,8 @@ export default function UmkmsPublicShow({ umkm, relatedUmkms }: Props) {
                                             <Link
                                                 key={rel.id}
                                                 href={`/umkm/${rel.slug}`}
-                                                className="flex items-center gap-3 p-2 rounded-xl hover:bg-(--cream-warm) transition-colors group"
+                                                as="article"
+                                                className="flex items-center gap-3 p-2 rounded-xl hover:bg-(--cream-warm) transition-colors group cursor-pointer"
                                             >
                                                 <div className="w-12 h-12 rounded-lg bg-neutral-100 overflow-hidden shrink-0">
                                                     <SafeImage
@@ -301,16 +302,16 @@ export default function UmkmsPublicShow({ umkm, relatedUmkms }: Props) {
                                                         {rel.name}
                                                     </h4>
                                                     <p className="text-xs text-(--charcoal-soft) truncate">
-                                                        {rel.price_range ?? rel.category_label}
+                                                        {rel.category_label ?? rel.category}
                                                     </p>
                                                 </div>
                                             </Link>
                                         ))}
                                     </div>
-                                </div>
+                                </section>
                             )}
 
-                        </div>
+                        </aside>
                     </div>
                 </div>
             </article>

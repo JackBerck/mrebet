@@ -10,7 +10,7 @@ export default function Partnership() {
         <PublicLayout>
             <Head title="Kemitraan - Desa Wisata Serayu Larangan" />
             
-            <section className="bg-(--forest-deep) pt-32 pb-16 text-center text-white">
+            <header className="bg-(--forest-deep) pt-32 pb-16 text-center text-white">
                 <div className="container mx-auto max-w-3xl section-padding-x" data-reveal>
                     <div className="mx-auto mb-6 flex h-16 w-16 items-center justify-center rounded-2xl bg-white/10 backdrop-blur-sm">
                         <Handshake className="h-8 w-8 text-(--gold)" />
@@ -20,7 +20,7 @@ export default function Partnership() {
                         Bersinergi bersama Pokdarwis & Pemerintah Desa Serayu Larangan untuk memajukan pariwisata berkelanjutan.
                     </p>
                 </div>
-            </section>
+            </header>
 
             <section className="bg-(--cream-warm) py-12 lg:py-16">
                 <div className="container mx-auto max-w-3xl section-padding-x" data-reveal>

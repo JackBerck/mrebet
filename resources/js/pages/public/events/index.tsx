@@ -25,14 +25,14 @@ export default function EventsIndex({ events, currentMonth }: Props) {
 
             <section className="pt-28 md:pt-32 lg:pt-40 pb-12 lg:pb-20 bg-(--cream-warm) min-h-screen">
                 <div className="container mx-auto max-w-5xl section-padding-x">
-                    <div className="mb-10 md:mb-12 max-w-2xl bg-(--forest-deep) text-white p-4 rounded-lg" data-reveal>
+                    <header className="mb-10 md:mb-12 max-w-2xl bg-(--forest-deep) text-white p-4 rounded-lg" data-reveal>
                         <h1 className="font-display text-4xl md:text-5xl font-bold mb-4">
                             Kalender Acara
                         </h1>
                         <p className="text-base md:text-lg leading-relaxed">
                             Temukan berbagai festival budaya, perayaan alam, hingga kebersamaan warga di Desa Serayu Larangan. Simpan tanggalnya dan jadilah bagian dari cerita desa.
                         </p>
-                    </div>
+                    </header>
 
                     <div className="mb-6 flex flex-col sm:flex-row sm:items-center justify-between gap-4" data-reveal data-reveal-delay="50">
                         <div>

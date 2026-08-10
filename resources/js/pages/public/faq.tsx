@@ -19,7 +19,7 @@ export default function FAQ() {
             <Head title="FAQ - Desa Wisata Serayu Larangan" />
             
             {/* Hero Section */}
-            <section className="bg-(--forest-deep) pt-32 pb-16 text-center text-white">
+            <header className="bg-(--forest-deep) pt-32 pb-16 text-center text-white">
                 <div className="container mx-auto max-w-3xl section-padding-x" data-reveal>
                     <div className="mx-auto mb-6 flex h-16 w-16 items-center justify-center rounded-2xl bg-white/10 backdrop-blur-sm">
                         <MessageCircleQuestion className="h-8 w-8 text-(--gold)" />
@@ -29,7 +29,7 @@ export default function FAQ() {
                         Temukan jawaban untuk pertanyaan yang sering ditanyakan seputar Desa Wisata Serayu Larangan.
                     </p>
                 </div>
-            </section>
+            </header>
 
             {/* Content Section */}
             <section className="bg-(--cream-warm) py-12 lg:py-16">

@@ -106,7 +106,7 @@ export default function DestinationShow({ destination, events, relatedDestinatio
             <div className="pt-16 md:pt-20 lg:pt-24 bg-(--cream-warm)"></div>
 
             {/* Back Navigation (un-stickied) */}
-            <div className="bg-(--cream-warm) border-b border-(--line) py-4">
+            <nav className="bg-(--cream-warm) border-b border-(--line) py-4" aria-label="Breadcrumb">
                 <div className="container mx-auto max-w-7xl section-padding-x flex flex-wrap items-center justify-between gap-4">
                     <Link
                         href="/destinasi"
@@ -124,7 +124,7 @@ export default function DestinationShow({ destination, events, relatedDestinatio
                         <span className="truncate max-w-37.5 md:max-w-75 text-(--charcoal) font-medium">{destination.name}</span>
                     </div>
                 </div>
-            </div>
+            </nav>
 
             <article className="py-8 lg:py-12 bg-(--cream-warm) min-h-screen">
                 <div className="container mx-auto max-w-7xl section-padding-x">
@@ -180,7 +180,7 @@ export default function DestinationShow({ destination, events, relatedDestinatio
                             </div>
 
                             {/* Description */}
-                            <div className="bg-white rounded-2xl p-6 md:p-8 lg:p-10 border border-(--line) shadow-sm" data-reveal>
+                            <section className="bg-white rounded-2xl p-6 md:p-8 lg:p-10 border border-(--line) shadow-sm" data-reveal aria-label="Tentang Destinasi">
                                 <h2 className="font-display text-2xl font-bold text-(--forest-deep) mb-6 flex items-center gap-2">
                                     <Info className="w-6 h-6 text-(--forest)" />
                                     Tentang Destinasi
@@ -196,11 +196,11 @@ export default function DestinationShow({ destination, events, relatedDestinatio
                                         Belum ada deskripsi untuk destinasi ini.
                                     </p>
                                 )}
-                            </div>
+                            </section>
 
                             {/* Facilities */}
                             {destination.facilities && destination.facilities.length > 0 && (
-                                <div className="bg-white rounded-2xl p-6 md:p-8 border border-(--line) shadow-sm" data-reveal>
+                                <section className="bg-white rounded-2xl p-6 md:p-8 border border-(--line) shadow-sm" data-reveal aria-label="Fasilitas Tersedia">
                                     <h2 className="font-display text-2xl font-bold text-(--forest-deep) mb-6 flex items-center gap-2">
                                         <CheckCircle2 className="w-6 h-6 text-(--forest)" />
                                         Fasilitas Tersedia
@@ -213,12 +213,12 @@ export default function DestinationShow({ destination, events, relatedDestinatio
                                             </div>
                                         ))}
                                     </div>
-                                </div>
+                                </section>
                             )}
 
                             {/* Events at this destination */}
                             {events && events.length > 0 && (
-                                <div className="bg-(--cream-soft) rounded-2xl p-6 md:p-8 border border-(--line) shadow-sm" data-reveal>
+                                <section className="bg-(--cream-soft) rounded-2xl p-6 md:p-8 border border-(--line) shadow-sm" data-reveal aria-label="Acara di Lokasi Ini">
                                     <h2 className="font-display text-2xl font-bold text-(--forest-deep) mb-6 flex items-center gap-2">
                                         <Calendar className="w-6 h-6 text-(--forest)" />
                                         Acara di Lokasi Ini
@@ -248,12 +248,12 @@ export default function DestinationShow({ destination, events, relatedDestinatio
                                             </Link>
                                         ))}
                                     </div>
-                                </div>
+                                </section>
                             )}
                         </div>
 
                         {/* Sidebar (Right - 4 cols) */}
-                        <div className="lg:col-span-4 space-y-6">
+                        <aside className="lg:col-span-4 space-y-6">
 
                             {/* Key Info Card */}
                             <div className="bg-white rounded-2xl p-6 border border-(--line) shadow-sm space-y-6" data-reveal data-reveal-delay="100">
@@ -377,11 +377,11 @@ export default function DestinationShow({ destination, events, relatedDestinatio
                                     Bagikan Halaman
                                 </Button>
                             </div>
-                        </div>
+                        </aside>
 
                         {/* Related Destinations */}
                         {relatedDestinations && relatedDestinations.length > 0 && (
-                            <div className="mt-20 pt-16 border-t border-(--line)" data-reveal>
+                            <section className="mt-20 pt-16 border-t border-(--line)" data-reveal aria-label="Destinasi Terkait">
                                 <div className="flex flex-col sm:flex-row items-center justify-between gap-4 mb-8">
                                     <h2 className="font-display text-2xl font-bold text-(--forest-deep)">
                                         Destinasi Terkait
@@ -397,7 +397,8 @@ export default function DestinationShow({ destination, events, relatedDestinatio
                                         <Link
                                             key={related.id}
                                             href={`/destinasi/${related.slug}`}
-                                            className="group bg-white rounded-2xl overflow-hidden border border-(--line) shadow-sm hover:shadow-md hover:border-(--forest-mist) transition-all flex flex-col h-full"
+                                            as="article"
+                                            className="group bg-white rounded-2xl overflow-hidden border border-(--line) shadow-sm hover:shadow-md hover:border-(--forest-mist) transition-all flex flex-col h-full cursor-pointer"
                                         >
                                             <div className="relative aspect-4/3 w-full overflow-hidden bg-neutral-200">
                                                 <SafeImage
@@ -430,7 +431,7 @@ export default function DestinationShow({ destination, events, relatedDestinatio
                                         </Link>
                                     ))}
                                 </div>
-                            </div>
+                            </section>
                         )}
                     </div>
                 </div>

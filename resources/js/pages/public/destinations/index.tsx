@@ -87,14 +87,14 @@ export default function DestinationsIndex({ destinations, categories, filters }:
                 <div className="container mx-auto max-w-7xl section-padding-x">
                     
                     {/* Header */}
-                    <div className="mb-10 md:mb-12 max-w-3xl" data-reveal>
+                    <header className="mb-10 md:mb-12 max-w-3xl" data-reveal>
                         <h1 className="font-display text-4xl md:text-5xl font-bold text-(--forest-deep) mb-4">
                             Eksplorasi Destinasi
                         </h1>
                         <p className="text-base md:text-lg text-(--charcoal-soft) leading-relaxed">
                             Temukan keindahan lanskap alam, kearifan lokal, dan titik-titik pesona di Desa Wisata Serayu Larangan.
                         </p>
-                    </div>
+                    </header>
 
                     {/* Filter & Search Controls */}
                     <div className="flex flex-col md:flex-row md:items-center justify-between gap-6 mb-10" data-reveal data-reveal-delay="50">
@@ -180,7 +180,8 @@ export default function DestinationsIndex({ destinations, categories, filters }:
                                 <Link 
                                     key={dest.id} 
                                     href={`/destinasi/${dest.slug}`} 
-                                    className="group bg-white rounded-2xl overflow-hidden border border-(--line) shadow-sm hover:shadow-md hover:border-(--forest-mist) transition-all flex flex-col h-full"
+                                    as="article"
+                                    className="group bg-white rounded-2xl overflow-hidden border border-(--line) shadow-sm hover:shadow-md hover:border-(--forest-mist) transition-all flex flex-col h-full cursor-pointer"
                                 >
                                     {/* Cover */}
                                     <div className="relative aspect-4/3 w-full overflow-hidden bg-neutral-200">
@@ -253,7 +254,7 @@ export default function DestinationsIndex({ destinations, categories, filters }:
 
                     {/* Pagination */}
                     {destinations.last_page > 1 && (
-                        <div className="mt-12 flex flex-col sm:flex-row items-center justify-between gap-4 border-t border-(--line) pt-8" data-reveal>
+                        <nav className="mt-12 flex flex-col sm:flex-row items-center justify-between gap-4 border-t border-(--line) pt-8" data-reveal aria-label="Navigasi halaman">
                             <p className="text-sm text-(--charcoal-soft)">
                                 Menampilkan <span className="font-medium text-(--charcoal)">{destinations.from}</span> hingga <span className="font-medium text-(--charcoal)">{destinations.to}</span> dari <span className="font-medium text-(--charcoal)">{destinations.total}</span> destinasi
                             </p>
@@ -279,7 +280,7 @@ export default function DestinationsIndex({ destinations, categories, filters }:
                                     <ChevronRight className="w-4 h-4 ml-1" />
                                 </Button>
                             </div>
-                        </div>
+                        </nav>
                     )}
 
                 </div>

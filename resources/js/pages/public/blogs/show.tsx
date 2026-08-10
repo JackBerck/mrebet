@@ -103,7 +103,7 @@ export default function BlogShow({ blog, relatedBlogs }: Props) {
             <div className="pt-16 md:pt-20 lg:pt-24 bg-(--cream-warm)"></div>
 
             {/* Back Navigation */}
-            <div className="bg-(--cream-warm) border-b border-(--line) py-4 sticky top-16 md:top-20 lg:top-24 z-30">
+            <nav className="bg-(--cream-warm) border-b border-(--line) py-4 sticky top-16 md:top-20 lg:top-24 z-30" aria-label="Breadcrumb">
                 <div className="container mx-auto max-w-7xl section-padding-x flex flex-wrap items-center justify-between gap-4">
                     <Link
                         href="/berita"
@@ -121,7 +121,7 @@ export default function BlogShow({ blog, relatedBlogs }: Props) {
                         <span className="truncate max-w-37.5 md:max-w-75 text-(--charcoal) font-medium">{blog.title}</span>
                     </div>
                 </div>
-            </div>
+            </nav>
 
             <article className="py-8 lg:py-12 bg-(--cream-warm) min-h-screen">
                 <div className="container mx-auto max-w-7xl section-padding-x">
@@ -216,29 +216,30 @@ export default function BlogShow({ blog, relatedBlogs }: Props) {
 
                     {/* Related Blogs */}
                     {relatedBlogs && relatedBlogs.length > 0 && (
-                        <div className="mt-20 pt-16 border-t border-(--line)" data-reveal>
+                        <section className="mt-20 pt-16 border-t border-(--line)" data-reveal aria-label="Artikel Terkait">
                             <div className="flex flex-col sm:flex-row items-center justify-between gap-4 mb-8">
                                 <h2 className="font-display text-2xl font-bold text-(--forest-deep)">
-                                    Artikel Terkait
+                                    Artikel & Berita Terkait
                                 </h2>
                                 <Link href="/berita" className="text-sm font-semibold text-(--forest) hover:text-(--forest-deep) transition-colors flex items-center gap-1">
-                                    Lihat Semua
+                                    Lihat Semua Artikel
                                     <ArrowRight className="w-4 h-4" />
                                 </Link>
                             </div>
                             
                             <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-                                {relatedBlogs.map(related => (
+                                {relatedBlogs.map(rel => (
                                     <Link 
-                                        key={related.id} 
-                                        href={`/berita/${related.slug}`} 
-                                        className="group bg-white rounded-2xl overflow-hidden border border-(--line) shadow-sm hover:shadow-md hover:border-(--forest-mist) transition-all flex flex-col h-full"
+                                        key={rel.id} 
+                                        href={`/berita/${rel.slug}`} 
+                                        as="article"
+                                        className="group bg-white rounded-2xl overflow-hidden border border-(--line) shadow-sm hover:shadow-md hover:border-(--forest-mist) transition-all flex flex-col h-full cursor-pointer"
                                     >
                                         <div className="relative aspect-video w-full overflow-hidden bg-neutral-200">
-                                            {related.cover_image ? (
+                                            {rel.cover_image ? (
                                                 <img 
-                                                    src={`/storage/${related.cover_image}`} 
-                                                    alt={related.title} 
+                                                    src={`/storage/${rel.cover_image}`} 
+                                                    alt={rel.title} 
                                                     className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" 
                                                 />
                                             ) : (
@@ -248,18 +249,15 @@ export default function BlogShow({ blog, relatedBlogs }: Props) {
                                             )}
                                         </div>
                                         <div className="p-5 flex flex-col grow">
-                                            <div className="flex items-center gap-4 text-[11px] text-(--charcoal-soft) mb-2">
-                                                <div className="flex items-center gap-1">
-                                                    <Calendar className="w-3 h-3" />
-                                                    <span>{format(parseISO(related.published_at), 'd MMM yyyy', { locale: localeId })}</span>
-                                                </div>
-                                            </div>
-                                            <h3 className="font-bold text-(--charcoal) group-hover:text-(--forest) transition-colors line-clamp-2">{related.title}</h3>
+                                            <h3 className="font-bold text-(--charcoal) group-hover:text-(--forest) transition-colors line-clamp-2 mb-2">{rel.title}</h3>
+                                            <p className="text-xs text-(--charcoal-soft) mt-auto">
+                                                {format(parseISO(rel.published_at), 'd MMMM yyyy', { locale: localeId })}
+                                            </p>
                                         </div>
                                     </Link>
                                 ))}
                             </div>
-                        </div>
+                        </section>
                     )}
                 </div>
             </article>

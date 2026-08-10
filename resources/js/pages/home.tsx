@@ -384,7 +384,7 @@ export default function Home({
                             data-reveal-stagger
                         >
                             {featuredDestinations.map((dest, i) => (
-                                <div
+                                <article
                                     key={dest.id}
                                     className="hover-card group flex flex-col overflow-hidden rounded-2xl border border-(--line) bg-white"
                                     style={{
@@ -436,7 +436,7 @@ export default function Home({
                                             </a>
                                         </div>
                                     </div>
-                                </div>
+                                </article>
                             ))}
                         </div>
                     ) : (
@@ -483,20 +483,20 @@ export default function Home({
                         data-reveal-stagger
                     >
                         {activities.map((act) => (
-                            <div
+                            <article
                                 key={act.title}
                                 className="hover-card group flex flex-col items-center rounded-2xl border border-(--line) bg-white p-5 text-center"
                             >
                                 <div className="mb-3 flex h-12 w-12 items-center justify-center rounded-xl bg-(--forest-mist) text-(--forest) transition-colors duration-300 group-hover:bg-(--forest) group-hover:text-white">
                                     {act.icon}
                                 </div>
-                                <h4 className="mb-1.5 text-sm font-semibold text-(--charcoal)">
+                                <h3 className="mb-1.5 text-sm font-semibold text-(--charcoal)">
                                     {act.title}
-                                </h4>
+                                </h3>
                                 <p className="text-xs leading-relaxed text-(--charcoal-soft)">
                                     {act.desc}
                                 </p>
-                            </div>
+                            </article>
                         ))}
                     </div>
                 </div>

@@ -12,7 +12,7 @@ export default function About() {
             <Head title="Tentang Kami - Desa Wisata Serayu Larangan" />
             
             {/* Hero Section */}
-            <section className="relative flex items-center justify-center overflow-hidden pt-32 pb-20 md:pt-40 md:pb-32 bg-(--forest-deep) text-center">
+            <header className="relative flex items-center justify-center overflow-hidden pt-32 pb-20 md:pt-40 md:pb-32 bg-(--forest-deep) text-center">
                 <div className="absolute inset-0 bg-[url('https://images.unsplash.com/photo-1542035252-09436be8e45f?auto=format&fit=crop&q=80')] bg-cover bg-center opacity-30 mix-blend-overlay"></div>
                 <div className="absolute inset-0 bg-linear-to-b from-black/20 via-transparent to-(--forest-deep)"></div>
                 
@@ -28,7 +28,7 @@ export default function About() {
                         Kami mengundang Anda untuk menepi dari keramaian, menikmati lanskap persawahan di lereng Gunung Slamet, dan merasakan kehangatan masyarakat pedesaan.
                     </p>
                 </div>
-            </section>
+            </header>
 
             {/* Main Content */}
             <section className="bg-(--cream-warm) py-20">
@@ -45,9 +45,9 @@ export default function About() {
                                 Desa Wisata Serayu Larangan lahir dari gotong royong warga desa yang menyadari potensi alam dan budaya desa kami yang asri. Dengan prinsip pariwisata berkelanjutan, kami terus menjaga kelestarian lingkungan dan tradisi lokal.
                             </p>
                         </div>
-                        <div className="relative aspect-square overflow-hidden rounded-3xl md:aspect-4/3 border border-(--line) shadow-sm">
+                        <figure className="relative aspect-square overflow-hidden rounded-3xl md:aspect-4/3 border border-(--line) shadow-sm">
                             <img src="https://images.unsplash.com/photo-1621248035246-83c34f2d2508?auto=format&fit=crop&q=80" alt="Suasana Desa Serayu Larangan" className="h-full w-full object-cover" />
-                        </div>
+                        </figure>
                     </div>
 
                     {/* Visi Misi */}
@@ -79,13 +79,13 @@ export default function About() {
                         
                         <div className="grid gap-8 sm:grid-cols-2 md:grid-cols-3">
                             {aboutData.team.map((member, idx) => (
-                                <div key={idx} className="group bg-white p-4 rounded-2xl border border-(--line) shadow-sm hover:shadow-md transition-all">
+                                <article key={idx} className="group bg-white p-4 rounded-2xl border border-(--line) shadow-sm hover:shadow-md transition-all">
                                     <div className="mb-4 overflow-hidden rounded-xl aspect-square bg-(--forest-mist)">
                                         <img src={member.photo} alt={member.name} className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105" />
                                     </div>
                                     <h3 className="text-xl font-bold text-(--charcoal)">{member.name}</h3>
                                     <p className="text-(--forest) font-medium text-sm mt-1">{member.role}</p>
-                                </div>
+                                </article>
                             ))}
                         </div>
                     </div>

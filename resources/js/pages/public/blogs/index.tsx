@@ -66,14 +66,14 @@ export default function BlogsIndex({ blogs, filters }: Props) {
                 <div className="container mx-auto max-w-7xl section-padding-x">
                     
                     {/* Header */}
-                    <div className="mb-10 md:mb-12 max-w-3xl" data-reveal>
+                    <header className="mb-10 md:mb-12 max-w-3xl" data-reveal>
                         <h1 className="font-display text-4xl md:text-5xl font-bold text-(--forest-deep) mb-4">
                             Blog & Berita
                         </h1>
                         <p className="text-base md:text-lg text-(--charcoal-soft) leading-relaxed">
                             Kumpulan cerita inspiratif, kabar terbaru dari desa, informasi wisata, dan liputan kegiatan warga Desa Serayu Larangan.
                         </p>
-                    </div>
+                    </header>
 
                     {/* Filter / Search */}
                     <div className="mb-10" data-reveal data-reveal-delay="50">
@@ -106,7 +106,8 @@ export default function BlogsIndex({ blogs, filters }: Props) {
                                 <Link 
                                     key={blog.id} 
                                     href={`/berita/${blog.slug}`} 
-                                    className="group bg-white rounded-2xl overflow-hidden border border-(--line) shadow-sm hover:shadow-md hover:border-(--forest-mist) transition-all flex flex-col h-full"
+                                    as="article"
+                                    className="group bg-white rounded-2xl overflow-hidden border border-(--line) shadow-sm hover:shadow-md hover:border-(--forest-mist) transition-all flex flex-col h-full cursor-pointer"
                                 >
                                     {/* Cover */}
                                     <div className="relative aspect-video w-full overflow-hidden bg-neutral-200">
@@ -183,7 +184,7 @@ export default function BlogsIndex({ blogs, filters }: Props) {
 
                     {/* Pagination (if pages > 1) */}
                     {blogs.last_page > 1 && (
-                        <div className="mt-12 flex flex-col sm:flex-row items-center justify-between gap-4 border-t border-(--line) pt-8" data-reveal>
+                        <nav className="mt-12 flex flex-col sm:flex-row items-center justify-between gap-4 border-t border-(--line) pt-8" data-reveal aria-label="Navigasi halaman">
                             <p className="text-sm text-(--charcoal-soft)">
                                 Menampilkan <span className="font-medium text-(--charcoal)">{blogs.from}</span> hingga <span className="font-medium text-(--charcoal)">{blogs.to}</span> dari <span className="font-medium text-(--charcoal)">{blogs.total}</span> artikel
                             </p>
@@ -209,7 +210,7 @@ export default function BlogsIndex({ blogs, filters }: Props) {
                                     <ChevronRight className="w-4 h-4 ml-1" />
                                 </Button>
                             </div>
-                        </div>
+                        </nav>
                     )}
 
                 </div>

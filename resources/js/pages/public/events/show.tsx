@@ -117,7 +117,7 @@ export default function EventShow({ event, relatedEvents }: Props) {
                             </div>
 
                             {/* Description */}
-                            <div className="bg-white rounded-2xl p-6 md:p-8 border border-(--line) shadow-sm">
+                            <section className="bg-white rounded-2xl p-6 md:p-8 border border-(--line) shadow-sm" aria-label="Tentang Acara">
                                 <h2 className="font-display text-xl font-bold text-(--forest-deep) mb-4">
                                     Tentang Acara
                                 </h2>
@@ -131,31 +131,31 @@ export default function EventShow({ event, relatedEvents }: Props) {
                                         Belum ada deskripsi untuk acara ini.
                                     </p>
                                 )}
-                            </div>
+                            </section>
                             
                             {/* Gallery (if any other media exist besides primary) */}
                             {event.media && event.media.filter(m => !m.is_primary).length > 0 && (
-                                <div className="space-y-4">
+                                <section className="space-y-4" aria-label="Galeri Acara">
                                     <h3 className="font-display text-xl font-bold text-(--forest-deep)">Galeri</h3>
                                     <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
-                                        {event.media.filter(m => !m.is_primary).map(media => (
-                                            <div key={media.id} className="aspect-square rounded-xl overflow-hidden border border-(--line)">
-                                                <SafeImage 
-                                                    src={`/storage/${media.file_path}`} 
-                                                    alt="Galeri event" 
+                                        {event.media.filter(m => !m.is_primary).map((m) => (
+                                            <div key={m.id} className="aspect-video rounded-xl overflow-hidden bg-neutral-100 border border-(--line)">
+                                                <SafeImage
+                                                    src={`/storage/${m.file_path}`}
+                                                    alt="Galeri Event"
                                                     fallbackIcon={Calendar}
                                                     iconClassName="w-8 h-8"
-                                                    className="w-full h-full object-cover hover:scale-105 transition-transform duration-300"
+                                                    className="w-full h-full object-cover"
                                                 />
                                             </div>
                                         ))}
                                     </div>
-                                </div>
+                                </section>
                             )}
                         </div>
 
-                        {/* Sidebar Info (4 cols) */}
-                        <div className="lg:col-span-4 space-y-6" data-reveal data-reveal-delay="100">
+                        {/* Sidebar (4 cols) */}
+                        <aside className="lg:col-span-4 space-y-6" data-reveal data-reveal-delay="100">
                             
                             {/* Key Info Card */}
                             <div className="bg-white rounded-2xl p-6 border border-(--line) shadow-sm space-y-6">
@@ -294,18 +294,18 @@ export default function EventShow({ event, relatedEvents }: Props) {
                                 </Button>
                             </div>
 
-                        </div>
+                        </aside>
                     </div>
 
                     {/* Related Events */}
                     {relatedEvents && relatedEvents.length > 0 && (
-                        <div className="mt-16 pt-16 border-t border-(--line)" data-reveal>
+                        <section className="mt-16 pt-16 border-t border-(--line)" data-reveal aria-label="Acara Lainnya">
                             <h2 className="font-display text-2xl font-bold text-(--forest-deep) mb-8">
                                 Acara Lainnya di Desa Ini
                             </h2>
                             <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
                                 {relatedEvents.map(related => (
-                                    <Link key={related.id} href={`/event/${related.slug}`} className="group bg-white rounded-2xl overflow-hidden border border-(--line) hover:border-(--forest-mist) transition-colors flex flex-col h-full shadow-sm hover:shadow-md">
+                                    <Link key={related.id} href={`/event/${related.slug}`} as="article" className="group bg-white rounded-2xl overflow-hidden border border-(--line) hover:border-(--forest-mist) transition-colors flex flex-col h-full shadow-sm hover:shadow-md cursor-pointer">
                                         <div className="aspect-video w-full overflow-hidden bg-neutral-200">
                                             <SafeImage
                                                 src={related.primary_media ? `/storage/${related.primary_media.file_path}` : null}
@@ -330,7 +330,7 @@ export default function EventShow({ event, relatedEvents }: Props) {
                                     </Link>
                                 ))}
                             </div>
-                        </div>
+                        </section>
                     )}
                 </div>
             </article>

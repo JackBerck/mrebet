@@ -87,7 +87,7 @@ export default function MapIndex({ destinations = [], umkms = [], categories = [
                 <div className="container mx-auto max-w-7xl section-padding-x">
                     
                     {/* Header */}
-                    <div className="mb-8" data-reveal>
+                    <header className="mb-8" data-reveal>
                         <span className="text-(--forest) font-bold text-xs uppercase tracking-widest bg-(--forest-mist)/60 px-3.5 py-1.5 rounded-full inline-block mb-3">
                             GIS Interaktif
                         </span>
@@ -97,7 +97,7 @@ export default function MapIndex({ destinations = [], umkms = [], categories = [
                         <p className="text-sm md:text-base text-(--charcoal-soft) max-w-2xl">
                             Temukan sebaran letak destinasi wisata, warung kuliner, dan titik usaha warga secara spasial di wilayah Desa Serayu Larangan, Mrebet.
                         </p>
-                    </div>
+                    </header>
 
                     {/* Filter & Controls Bar */}
                     <div className="bg-white rounded-2xl p-4 md:p-5 border border-(--line) shadow-sm mb-6 space-y-4" data-reveal data-reveal-delay="50">
@@ -242,7 +242,7 @@ export default function MapIndex({ destinations = [], umkms = [], categories = [
                     <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 items-start" data-reveal data-reveal-delay="100">
                         
                         {/* Sidebar List (Left - 4 cols on desktop) */}
-                        <div className={`lg:col-span-4 space-y-3 ${mobileView === 'map' ? 'hidden lg:block' : 'block'}`}>
+                        <aside className={`lg:col-span-4 space-y-3 ${mobileView === 'map' ? 'hidden lg:block' : 'block'}`}>
                             <div className="bg-white rounded-2xl p-4 border border-(--line) shadow-sm flex items-center justify-between">
                                 <span className="font-display font-bold text-sm text-(--forest-deep)">
                                     Lokasi Ditemukan
@@ -330,7 +330,7 @@ export default function MapIndex({ destinations = [], umkms = [], categories = [
                                     </div>
                                 )}
                             </div>
-                        </div>
+                        </aside>
 
                         {/* Interactive Map (Right - 8 cols on desktop) */}
                         <div className={`lg:col-span-8 ${mobileView === 'list' ? 'hidden lg:block' : 'block'}`}>
