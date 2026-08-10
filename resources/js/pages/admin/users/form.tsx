@@ -56,39 +56,39 @@ export default function UserForm({ user, isAdmin }: Props) {
         <>
             <Head title={isEditing ? 'Edit Pengguna' : 'Tambah Pengguna'} />
 
-            <div className="flex flex-col gap-6 p-6">
+            <div className="flex flex-col gap-4 sm:gap-6 p-3 sm:p-6">
                 {/* Header */}
                 <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
                     <div>
-                        <h1 className="font-display text-2xl font-semibold text-(--forest-deep)">
+                        <h1 className="font-display text-xl sm:text-2xl font-semibold text-(--forest-deep)">
                             {isEditing ? 'Edit Pengguna' : 'Tambah Pengguna'}
                         </h1>
-                        <p className="mt-1 text-sm text-(--charcoal-soft)">
+                        <p className="mt-0.5 text-xs sm:text-sm text-(--charcoal-soft)">
                             {isEditing
                                 ? 'Ubah informasi akun pengguna.'
                                 : 'Tambahkan akun admin baru ke sistem.'}
                         </p>
                     </div>
-                    <Button variant="outline" asChild>
+                    <Button variant="outline" size="sm" asChild>
                         <Link href="/admin/users">
-                            <ArrowLeft className="mr-2 h-4 w-4" />
+                            <ArrowLeft className="mr-1.5 h-4 w-4" />
                             Kembali
                         </Link>
                     </Button>
                 </div>
 
-                <form onSubmit={submit} className="flex flex-col gap-6 max-w-2xl">
-                    <Card className="border-(--line) shadow-none">
-                        <CardHeader>
-                            <CardTitle className="font-display text-lg text-(--forest-deep)">
+                <form onSubmit={submit} className="flex flex-col gap-4 sm:gap-6 max-w-2xl">
+                    <Card className="border-(--line) shadow-none gap-2 sm:gap-3 py-0">
+                        <CardHeader className="p-3.5 pb-0 sm:p-5 sm:pb-0">
+                            <CardTitle className="font-display text-base sm:text-lg text-(--forest-deep)">
                                 Informasi Dasar
                             </CardTitle>
-                            <CardDescription>
+                            <CardDescription className="text-xs sm:text-sm">
                                 Detail profil dan kontak pengguna.
                             </CardDescription>
                         </CardHeader>
-                        <CardContent className="flex flex-col gap-6">
-                            <div className="flex flex-col gap-3">
+                        <CardContent className="flex flex-col gap-4 sm:gap-5 p-3.5 pt-0 sm:p-5 sm:pt-0">
+                            <div className="flex flex-col gap-1.5">
                                 <Label htmlFor="full_name" className="text-sm font-medium">
                                     Nama Lengkap <span className="text-red-500">*</span>
                                 </Label>
@@ -103,7 +103,7 @@ export default function UserForm({ user, isAdmin }: Props) {
                                 )}
                             </div>
 
-                            <div className="flex flex-col gap-3">
+                            <div className="flex flex-col gap-1.5">
                                 <Label htmlFor="email" className="text-sm font-medium">
                                     Email <span className="text-red-500">*</span>
                                 </Label>
@@ -119,7 +119,7 @@ export default function UserForm({ user, isAdmin }: Props) {
                                 )}
                             </div>
 
-                            <div className="flex flex-col gap-3">
+                            <div className="flex flex-col gap-1.5">
                                 <Label htmlFor="phone_number" className="text-sm font-medium">
                                     Nomor Telepon
                                 </Label>
@@ -136,17 +136,17 @@ export default function UserForm({ user, isAdmin }: Props) {
                         </CardContent>
                     </Card>
 
-                    <Card className="border-(--line) shadow-none">
-                        <CardHeader>
-                            <CardTitle className="font-display text-lg text-(--forest-deep)">
+                    <Card className="border-(--line) shadow-none gap-2 sm:gap-3 py-0">
+                        <CardHeader className="p-3.5 pb-0 sm:p-5 sm:pb-0">
+                            <CardTitle className="font-display text-base sm:text-lg text-(--forest-deep)">
                                 Keamanan & Akses
                             </CardTitle>
-                            <CardDescription>
+                            <CardDescription className="text-xs sm:text-sm">
                                 {isEditing ? 'Kosongkan jika tidak ingin mengubah password.' : 'Atur kata sandi untuk akun ini.'}
                             </CardDescription>
                         </CardHeader>
-                        <CardContent className="flex flex-col gap-6">
-                            <div className="flex flex-col gap-3">
+                        <CardContent className="flex flex-col gap-4 sm:gap-5 p-3.5 pt-0 sm:p-5 sm:pt-0">
+                            <div className="flex flex-col gap-1.5">
                                 <Label htmlFor="password" className="text-sm font-medium">
                                     Password {!isEditing && <span className="text-red-500">*</span>}
                                 </Label>
@@ -162,7 +162,7 @@ export default function UserForm({ user, isAdmin }: Props) {
                                 )}
                             </div>
 
-                            <div className="flex flex-col gap-3">
+                            <div className="flex flex-col gap-1.5">
                                 <Label htmlFor="password_confirmation" className="text-sm font-medium">
                                     Konfirmasi Password {!isEditing && <span className="text-red-500">*</span>}
                                 </Label>
@@ -177,10 +177,10 @@ export default function UserForm({ user, isAdmin }: Props) {
                                 )}
                             </div>
 
-                            <div className="flex flex-row items-center justify-between rounded-lg border border-(--line) p-4">
+                            <div className="flex flex-row items-center justify-between rounded-lg border border-(--line) p-3 sm:p-4">
                                 <div className="space-y-0.5">
-                                    <Label className="text-base">Akun Aktif</Label>
-                                    <p className="text-sm text-muted-foreground">
+                                    <Label className="text-sm sm:text-base">Akun Aktif</Label>
+                                    <p className="text-xs sm:text-sm text-muted-foreground">
                                         Izinkan pengguna ini masuk ke sistem.
                                     </p>
                                 </div>
@@ -193,19 +193,20 @@ export default function UserForm({ user, isAdmin }: Props) {
                     </Card>
 
                     {/* Sticky Submit */}
-                    <div className="sticky bottom-0 -mx-6 flex items-center justify-between border-t border-(--line) bg-white/90 px-6 py-4 backdrop-blur-sm sm:mx-0 sm:rounded-b-lg">
-                        <p className="text-sm text-(--charcoal-soft)">
+                    <div className="sticky bottom-0 -mx-3 sm:-mx-6 flex items-center justify-between border-t border-(--line) bg-white/90 px-4 sm:px-6 py-3 sm:py-4 backdrop-blur-sm">
+                        <p className="text-xs sm:text-sm text-(--charcoal-soft)">
                             Pastikan data sudah benar sebelum menyimpan.
                         </p>
                         <Button
                             type="submit"
+                            size="sm"
                             disabled={processing}
                             className="bg-(--forest) hover:bg-(--forest-deep)"
                         >
                             {processing ? (
-                                <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                                <Loader2 className="mr-1.5 h-4 w-4 animate-spin" />
                             ) : (
-                                <Save className="mr-2 h-4 w-4" />
+                                <Save className="mr-1.5 h-4 w-4" />
                             )}
                             Simpan Pengguna
                         </Button>

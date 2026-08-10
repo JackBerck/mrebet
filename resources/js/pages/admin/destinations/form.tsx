@@ -30,7 +30,7 @@ import {
 import { Switch } from '@/components/ui/switch';
 import { TimePicker } from '@/components/ui/time-picker';
 import AppLayout from '@/layouts/app-layout';
-import type { BreadcrumbItem, Destination, Village } from '@/types';
+import type { BreadcrumbItem, Destination } from '@/types';
 
 // ── Constants ─────────────────────────────────────────────────────────────────
 const FACILITIES_OPTIONS = [
@@ -146,7 +146,6 @@ export default function DestinationForm({
     const validate = (): boolean => {
         const result = destinationSchema.safeParse({
             ...data,
-            village_id: Number(data.village_id),
             ticket_price: Number(data.ticket_price),
         });
 
@@ -244,30 +243,30 @@ finalData.status = 'published';
                 }
             />
 
-            <form onSubmit={submit} className="flex flex-col gap-6 p-6">
+            <form onSubmit={submit} className="flex flex-col gap-4 sm:gap-6 p-3 sm:p-6">
                 {/* Header */}
                 <div>
-                    <h1 className="font-display text-2xl font-semibold text-(--forest-deep)">
+                    <h1 className="font-display text-xl sm:text-2xl font-semibold text-(--forest-deep)">
                         {isEditing
                             ? `Edit: ${destination.name}`
                             : 'Tambah Destinasi Baru'}
                     </h1>
-                    <p className="mt-0.5 text-sm text-(--charcoal-soft)">
-                        Lengkapi semua informasi destinasi wisata.
+                    <p className="mt-0.5 text-xs sm:text-sm text-(--charcoal-soft)">
+                        Lengkapi semua informasi destinasi wisata Desa Serayu Larangan.
                     </p>
                 </div>
 
                 {/* Section 1: Informasi Dasar */}
-                <Card className="border-(--line) shadow-none">
-                    <CardHeader>
-                        <CardTitle className="font-display text-lg text-(--forest-deep)">
+                <Card className="border-(--line) shadow-none gap-2 sm:gap-3 py-0">
+                    <CardHeader className="p-3.5 pb-0 sm:p-5 sm:pb-0">
+                        <CardTitle className="font-display text-base sm:text-lg text-(--forest-deep)">
                             Informasi Dasar
                         </CardTitle>
-                        <CardDescription>
-                            Identitas utama destinasi wisata.
+                        <CardDescription className="text-xs sm:text-sm">
+                            Identitas utama dan kategori destinasi wisata.
                         </CardDescription>
                     </CardHeader>
-                    <CardContent className="flex flex-col gap-5">
+                    <CardContent className="flex flex-col gap-4 sm:gap-5 p-3.5 pt-0 sm:p-5 sm:pt-0">
                         <div className="flex flex-col gap-1.5">
                             <Label htmlFor="name">
                                 Nama Destinasi{' '}
@@ -291,7 +290,7 @@ finalData.status = 'published';
                             )}
                         </div>
 
-                        <div className="grid gap-5 sm:grid-cols-2">
+                        <div className="grid gap-4 sm:gap-5 sm:grid-cols-2">
                             {/* Category */}
                             <div className="flex flex-col gap-1.5 sm:col-span-2">
                                 <Label htmlFor="category">
@@ -340,39 +339,39 @@ finalData.status = 'published';
                 </Card>
 
                 {/* Section 2: Deskripsi */}
-                <Card className="border-(--line) shadow-none">
-                    <CardHeader>
-                        <CardTitle className="font-display text-lg text-(--forest-deep)">
+                <Card className="border-(--line) shadow-none gap-2 sm:gap-3 py-0">
+                    <CardHeader className="p-3.5 pb-0 sm:p-5 sm:pb-0">
+                        <CardTitle className="font-display text-base sm:text-lg text-(--forest-deep)">
                             Deskripsi
                         </CardTitle>
-                        <CardDescription>
+                        <CardDescription className="text-xs sm:text-sm">
                             Ceritakan tentang destinasi: keindahan, keunikan,
                             dan tips berkunjung.
                         </CardDescription>
                     </CardHeader>
-                    <CardContent>
+                    <CardContent className="p-3.5 pt-0 sm:p-5 sm:pt-0">
                         <div className="overflow-hidden rounded-xl border border-(--line) transition-all focus-within:border-[oklch(0.38_0.08_145)] focus-within:ring-1 focus-within:ring-[oklch(0.38_0.08_145)]">
                             <EditorToolbar editor={editor} />
                             <EditorContent
                                 editor={editor}
-                                className="min-h-48 px-4 py-3 text-sm text-[oklch(0.22_0.01_85)] [&_.tiptap]:outline-none [&_.tiptap_.is-editor-empty:first-child::before]:pointer-events-none [&_.tiptap_.is-editor-empty:first-child::before]:float-left [&_.tiptap_.is-editor-empty:first-child::before]:h-0 [&_.tiptap_.is-editor-empty:first-child::before]:text-(--charcoal-soft) [&_.tiptap_.is-editor-empty:first-child::before]:content-[attr(data-placeholder)] [&_.tiptap_h2]:mb-2 [&_.tiptap_h2]:font-semibold [&_.tiptap_ol]:list-decimal [&_.tiptap_ol]:pl-4 [&_.tiptap_p]:mb-2 [&_.tiptap_ul]:list-disc [&_.tiptap_ul]:pl-4"
+                                className="min-h-48 px-3 py-2 sm:px-4 sm:py-3 text-sm text-[oklch(0.22_0.01_85)] [&_.tiptap]:outline-none [&_.tiptap_.is-editor-empty:first-child::before]:pointer-events-none [&_.tiptap_.is-editor-empty:first-child::before]:float-left [&_.tiptap_.is-editor-empty:first-child::before]:h-0 [&_.tiptap_.is-editor-empty:first-child::before]:text-(--charcoal-soft) [&_.tiptap_.is-editor-empty:first-child::before]:content-[attr(data-placeholder)] [&_.tiptap_h2]:mb-2 [&_.tiptap_h2]:font-semibold [&_.tiptap_ol]:list-decimal [&_.tiptap_ol]:pl-4 [&_.tiptap_p]:mb-2 [&_.tiptap_ul]:list-disc [&_.tiptap_ul]:pl-4"
                             />
                         </div>
                     </CardContent>
                 </Card>
 
                 {/* Section 3: Tiket & Operasional */}
-                <Card className="border-(--line) shadow-none">
-                    <CardHeader>
-                        <CardTitle className="font-display text-lg text-(--forest-deep)">
+                <Card className="border-(--line) shadow-none gap-2 sm:gap-3 py-0">
+                    <CardHeader className="p-3.5 pb-0 sm:p-5 sm:pb-0">
+                        <CardTitle className="font-display text-base sm:text-lg text-(--forest-deep)">
                             Tiket & Operasional
                         </CardTitle>
-                        <CardDescription>
+                        <CardDescription className="text-xs sm:text-sm">
                             Informasi harga tiket, jam buka, dan fasilitas.
                         </CardDescription>
                     </CardHeader>
-                    <CardContent className="flex flex-col gap-6">
-                        <div className="grid gap-5 sm:grid-cols-2">
+                    <CardContent className="flex flex-col gap-4 sm:gap-6 p-3.5 pt-0 sm:p-5 sm:pt-0">
+                        <div className="grid gap-4 sm:gap-5 sm:grid-cols-2">
                             <div className="flex flex-col gap-1.5">
                                 <Label htmlFor="ticket_price">
                                     Harga Tiket (Rp){' '}
@@ -421,7 +420,7 @@ finalData.status = 'published';
                             </div>
                         </div>
 
-                        <div className="grid gap-5 sm:grid-cols-2">
+                        <div className="grid gap-4 sm:gap-5 sm:grid-cols-2">
                             <div className="flex flex-col gap-1.5">
                                 <Label htmlFor="open_time">Jam Buka</Label>
                                 <TimePicker
@@ -491,12 +490,12 @@ finalData.status = 'published';
                 </Card>
 
                 {/* Section 4: Lokasi */}
-                <Card className="border-(--line) shadow-none">
-                    <CardHeader>
-                        <CardTitle className="font-display text-lg text-(--forest-deep)">
+                <Card className="border-(--line) shadow-none gap-2 sm:gap-3 py-0">
+                    <CardHeader className="p-3.5 pb-0 sm:p-5 sm:pb-0">
+                        <CardTitle className="font-display text-base sm:text-lg text-(--forest-deep)">
                             Lokasi
                         </CardTitle>
-                        <CardDescription>
+                        <CardDescription className="text-xs sm:text-sm">
                             <span className="flex items-center gap-1.5">
                                 <MapPin className="h-4 w-4 text-(--forest)" />
                                 Seret pin atau klik peta untuk menentukan
@@ -504,8 +503,8 @@ finalData.status = 'published';
                             </span>
                         </CardDescription>
                     </CardHeader>
-                    <CardContent className="flex flex-col gap-5">
-                        <div className="grid gap-5 sm:grid-cols-2">
+                    <CardContent className="flex flex-col gap-4 sm:gap-5 p-3.5 pt-0 sm:p-5 sm:pt-0">
+                        <div className="grid gap-4 sm:gap-5 sm:grid-cols-2">
                             <div className="flex flex-col gap-1.5">
                                 <Label htmlFor="latitude">Latitude</Label>
                                 <Input
@@ -558,17 +557,17 @@ finalData.status = 'published';
                 </Card>
 
                 {/* Section 5: Foto */}
-                <Card className="border-(--line) shadow-none">
-                    <CardHeader>
-                        <CardTitle className="font-display text-lg text-(--forest-deep)">
+                <Card className="border-(--line) shadow-none gap-2 sm:gap-3 py-0">
+                    <CardHeader className="p-3.5 pb-0 sm:p-5 sm:pb-0">
+                        <CardTitle className="font-display text-base sm:text-lg text-(--forest-deep)">
                             Foto Destinasi
                         </CardTitle>
-                        <CardDescription>
+                        <CardDescription className="text-xs sm:text-sm">
                             Upload foto-foto terbaik destinasi. Klik foto untuk
                             jadikan cover.
                         </CardDescription>
                     </CardHeader>
-                    <CardContent>
+                    <CardContent className="p-3.5 pt-0 sm:p-5 sm:pt-0">
                         <ImageUploader
                             existing={destination?.media ?? []}
                             onChange={handleMediaChange}
@@ -577,13 +576,16 @@ finalData.status = 'published';
                 </Card>
 
                 {/* Section 6: Pengaturan */}
-                <Card className="border-(--line) shadow-none">
-                    <CardHeader>
-                        <CardTitle className="font-display text-lg text-(--forest-deep)">
+                <Card className="border-(--line) shadow-none gap-2 sm:gap-3 py-0">
+                    <CardHeader className="p-3.5 pb-0 sm:p-5 sm:pb-0">
+                        <CardTitle className="font-display text-base sm:text-lg text-(--forest-deep)">
                             Pengaturan
                         </CardTitle>
+                        <CardDescription className="text-xs sm:text-sm">
+                            Atur status publikasi dan tautan QR Code destinasi.
+                        </CardDescription>
                     </CardHeader>
-                    <CardContent className="flex flex-col gap-5">
+                    <CardContent className="flex flex-col gap-4 sm:gap-5 p-3.5 pt-0 sm:p-5 sm:pt-0">
                         <div className="flex flex-col gap-1.5">
                             <Label htmlFor="status">Status Publikasi</Label>
                             <Select
@@ -597,7 +599,7 @@ finalData.status = 'published';
                             >
                                 <SelectTrigger
                                     id="status"
-                                    className="w-full sm:w-[220px]"
+                                    className="w-full sm:w-55"
                                 >
                                     <SelectValue />
                                 </SelectTrigger>
@@ -644,17 +646,18 @@ finalData.status = 'published';
                 </Card>
 
                 {/* Sticky Submit */}
-                <div className="sticky bottom-0 -mx-6 flex items-center justify-between border-t border-(--line) bg-white/90 px-6 py-4 backdrop-blur-sm">
-                    <p className="text-sm text-(--charcoal-soft)">
+                <div className="sticky bottom-0 -mx-3 sm:-mx-6 flex items-center justify-between border-t border-(--line) bg-white/90 px-4 sm:px-6 py-3 sm:py-4 backdrop-blur-sm">
+                    <p className="text-xs sm:text-sm text-(--charcoal-soft)">
                         {isEditing
                             ? 'Perubahan belum disimpan'
                             : 'Form belum tersimpan'}
                     </p>
-                    <div className="flex gap-3">
+                    <div className="flex gap-2 sm:gap-3">
                         {data.status === 'draft' && (
                             <Button
                                 type="button"
                                 variant="outline"
+                                size="sm"
                                 disabled={processing}
                                 onClick={(e) => submit(e, true)}
                             >
@@ -663,17 +666,18 @@ finalData.status = 'published';
                         )}
                         <Button
                             type="submit"
+                            size="sm"
                             disabled={processing}
                             className="bg-(--forest) hover:bg-(--forest-deep)"
                         >
                             {processing ? (
-                                <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                                <Loader2 className="mr-1.5 h-4 w-4 animate-spin" />
                             ) : (
-                                <Save className="mr-2 h-4 w-4" />
+                                <Save className="mr-1.5 h-4 w-4" />
                             )}
                             {isEditing
-                                ? 'Simpan Perubahan'
-                                : 'Tambah Destinasi'}
+                                ? 'Simpan'
+                                : 'Tambah'}
                         </Button>
                     </div>
                 </div>

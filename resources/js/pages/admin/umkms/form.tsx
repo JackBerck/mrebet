@@ -181,8 +181,8 @@ export default function UmkmForm({ umkm, categories, isAdmin }: Props) {
                 </div>
 
                 {/* Section 1: Informasi Usaha */}
-                <Card className="border-(--line) shadow-none gap-2 sm:gap-4 py-4 sm:py-6">
-                    <CardHeader className="p-3.5 pb-0 sm:p-6 sm:pb-0">
+                <Card className="border-(--line) shadow-none gap-2 sm:gap-3 py-0">
+                    <CardHeader className="p-3.5 pb-0 sm:p-5 sm:pb-0">
                         <CardTitle className="font-display text-base sm:text-lg text-(--forest-deep)">
                             Informasi Usaha & Pemilik
                         </CardTitle>
@@ -190,7 +190,7 @@ export default function UmkmForm({ umkm, categories, isAdmin }: Props) {
                             Isi nama usaha, kategori, nama pemilik, kontak, serta kisaran harga produk.
                         </CardDescription>
                     </CardHeader>
-                    <CardContent className="flex flex-col gap-4 sm:gap-5 p-3.5 pt-0 sm:p-6 sm:pt-0">
+                    <CardContent className="flex flex-col gap-4 sm:gap-5 p-3.5 pt-0 sm:p-5 sm:pt-0">
                         <div className="grid gap-4 sm:gap-5 sm:grid-cols-2">
                             <div className="flex flex-col gap-1.5">
                                 <Label htmlFor="name">
@@ -263,8 +263,8 @@ export default function UmkmForm({ umkm, categories, isAdmin }: Props) {
                 </Card>
 
                 {/* Section 2: Deskripsi */}
-                <Card className="border-(--line) shadow-none gap-2 sm:gap-4 py-4 sm:py-6">
-                    <CardHeader className="p-3.5 pb-0 sm:p-6 sm:pb-0">
+                <Card className="border-(--line) shadow-none gap-2 sm:gap-3 py-0">
+                    <CardHeader className="p-3.5 pb-0 sm:p-5 sm:pb-0">
                         <CardTitle className="font-display text-base sm:text-lg text-(--forest-deep)">
                             Deskripsi Produk / Usaha
                         </CardTitle>
@@ -272,7 +272,7 @@ export default function UmkmForm({ umkm, categories, isAdmin }: Props) {
                             Tuliskan profil usaha, cerita di balik produk, atau keunggulan UMKM.
                         </CardDescription>
                     </CardHeader>
-                    <CardContent className="p-3.5 pt-0 sm:p-6 sm:pt-0">
+                    <CardContent className="p-3.5 pt-0 sm:p-5 sm:pt-0">
                         <div className="overflow-hidden rounded-xl border border-(--line) transition-all focus-within:border-(--forest) focus-within:ring-1 focus-within:ring-(--forest)">
                             <EditorToolbar editor={editor} />
                             <EditorContent
@@ -284,8 +284,8 @@ export default function UmkmForm({ umkm, categories, isAdmin }: Props) {
                 </Card>
 
                 {/* Section 3: Lokasi & Link Google Maps */}
-                <Card className="border-(--line) shadow-none gap-2 sm:gap-4 py-4 sm:py-6">
-                    <CardHeader className="p-3.5 pb-0 sm:p-6 sm:pb-0">
+                <Card className="border-(--line) shadow-none gap-2 sm:gap-3 py-0">
+                    <CardHeader className="p-3.5 pb-0 sm:p-5 sm:pb-0">
                         <CardTitle className="font-display text-base sm:text-lg text-(--forest-deep)">
                             Alamat & Peta Lokasi
                         </CardTitle>
@@ -293,7 +293,7 @@ export default function UmkmForm({ umkm, categories, isAdmin }: Props) {
                             Isi alamat lengkap, link Google Maps, serta titik koordinat lokasi usaha.
                         </CardDescription>
                     </CardHeader>
-                    <CardContent className="flex flex-col gap-4 sm:gap-5 p-3.5 pt-0 sm:p-6 sm:pt-0">
+                    <CardContent className="flex flex-col gap-4 sm:gap-5 p-3.5 pt-0 sm:p-5 sm:pt-0">
                         <div className="flex flex-col gap-1.5">
                             <Label htmlFor="address">Alamat Lengkap</Label>
                             <Input
@@ -368,8 +368,8 @@ export default function UmkmForm({ umkm, categories, isAdmin }: Props) {
                 </Card>
 
                 {/* Section 4: Foto / Media */}
-                <Card className="border-(--line) shadow-none gap-2 sm:gap-4 py-4 sm:py-6">
-                    <CardHeader className="p-3.5 pb-0 sm:p-6 sm:pb-0">
+                <Card className="border-(--line) shadow-none gap-2 sm:gap-3 py-0">
+                    <CardHeader className="p-3.5 pb-0 sm:p-5 sm:pb-0">
                         <CardTitle className="font-display text-base sm:text-lg text-(--forest-deep)">
                             Galeri Foto Produk / Warung
                         </CardTitle>
@@ -377,7 +377,7 @@ export default function UmkmForm({ umkm, categories, isAdmin }: Props) {
                             Unggah foto produk, tempat usaha, atau proses pembuatan sebagai media promosi.
                         </CardDescription>
                     </CardHeader>
-                    <CardContent className="p-3.5 pt-0 sm:p-6 sm:pt-0">
+                    <CardContent className="p-3.5 pt-0 sm:p-5 sm:pt-0">
                         <ImageUploader
                             existing={umkm?.media ?? []}
                             onChange={handleMediaChange}
@@ -386,8 +386,8 @@ export default function UmkmForm({ umkm, categories, isAdmin }: Props) {
                 </Card>
 
                 {/* Section 5: Status Publikasi */}
-                <Card className="border-(--line) shadow-none gap-2 sm:gap-4 py-4 sm:py-6">
-                    <CardHeader className="p-3.5 pb-0 sm:p-6 sm:pb-0">
+                <Card className="border-(--line) shadow-none gap-2 sm:gap-3 py-0">
+                    <CardHeader className="p-3.5 pb-0 sm:p-5 sm:pb-0">
                         <CardTitle className="font-display text-base sm:text-lg text-(--forest-deep)">
                             Status Publikasi
                         </CardTitle>
@@ -395,7 +395,7 @@ export default function UmkmForm({ umkm, categories, isAdmin }: Props) {
                             Atur visibilitas data UMKM ini apakah disimpan sebagai draft atau langsung terbit di website.
                         </CardDescription>
                     </CardHeader>
-                    <CardContent className="p-3.5 pt-0 sm:p-6 sm:pt-0">
+                    <CardContent className="p-3.5 pt-0 sm:p-5 sm:pt-0">
                         <Select
                             value={data.status}
                             onValueChange={(v) => setData('status', v as 'draft' | 'published')}
