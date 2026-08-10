@@ -14,9 +14,11 @@ use App\Http\Controllers\Public\PublicDestinationController;
 use App\Http\Controllers\Public\PublicEventController;
 use App\Http\Controllers\Public\PublicMapController;
 use App\Http\Controllers\Public\PublicUmkmController;
+use App\Http\Controllers\Public\SitemapController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', [HomeController::class, 'index'])->name('home');
+Route::get('/sitemap.xml', [SitemapController::class, 'index'])->name('sitemap');
 Route::get('/tentang', [PageController::class, 'about'])->name('about');
 Route::get('/faq', [PageController::class, 'faq'])->name('faq');
 Route::get('/privacy-policy', [PageController::class, 'privacy'])->name('privacy');
