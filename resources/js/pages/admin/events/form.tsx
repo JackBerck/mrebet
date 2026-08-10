@@ -123,6 +123,58 @@ export default function EventForm({
         },
     });
 
+    const [isGeneratingAi, setIsGeneratingAi] = useState(false);
+
+    const handleGenerateAi = async () => {
+        if (!data.title.trim()) {
+            toast.error('Isi terlebih dahulu judul event sebelum membuat deskripsi AI.');
+            return;
+        }
+
+        setIsGeneratingAi(true);
+        try {
+            const res = await fetch('/admin/ai/generate-description', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Accept': 'application/json',
+                    'X-CSRF-TOKEN':
+                        (
+                            document.querySelector(
+                                'meta[name="csrf-token"]',
+                            ) as HTMLMetaElement
+                        )?.content || '',
+                },
+                body: JSON.stringify({
+                    type: 'event',
+                    title: data.title,
+                    context: {
+                        start_date: data.start_date,
+                        end_date: data.end_date,
+                        start_time: data.start_time,
+                        end_time: data.end_time,
+                        ticket_price: data.ticket_price,
+                        organizer: data.organizer,
+                        address: data.address,
+                    },
+                }),
+            });
+
+            const json = await res.json();
+            if (!res.ok || !json.success) {
+                throw new Error(json.message || 'Gagal membuat deskripsi dengan AI.');
+            }
+
+            editor?.commands.setContent(json.description);
+            setData('description', json.description);
+            toast.success('Deskripsi AI berhasil dibuat!');
+        } catch (err: any) {
+            toast.error(err.message || 'Terjadi kesalahan saat generate AI.');
+        } finally {
+            setIsGeneratingAi(false);
+        }
+    };
+
     const validate = (): boolean => {
         const result = eventSchema.safeParse({
             ...data,
@@ -370,13 +422,16 @@ export default function EventForm({
                             Deskripsi Event
                         </CardTitle>
                         <CardDescription className="text-xs sm:text-sm">
-                            Informasi lengkap tentang event, kegiatan, dan hal
-                            penting lainnya.
+                            Informasi lengkap event. Disarankan mengisikan data bidang lain (waktu &amp; detail) terlebih dahulu sebelum menekan tombol Buat AI Deskripsi.
                         </CardDescription>
                     </CardHeader>
                     <CardContent className="p-3.5 pt-0 sm:p-5 sm:pt-0">
                         <div className="overflow-hidden rounded-xl border border-(--line) transition-all focus-within:border-[oklch(0.38_0.08_145)] focus-within:ring-1 focus-within:ring-[oklch(0.38_0.08_145)]">
-                            <EditorToolbar editor={editor} />
+                            <EditorToolbar
+                                editor={editor}
+                                onGenerateAi={handleGenerateAi}
+                                isGeneratingAi={isGeneratingAi}
+                            />
                             <EditorContent
                                 editor={editor}
                                 className="min-h-48 px-3 py-2 sm:px-4 sm:py-3 text-sm text-[oklch(0.22_0.01_85)] [&_.tiptap]:outline-none [&_.tiptap_.is-editor-empty:first-child::before]:pointer-events-none [&_.tiptap_.is-editor-empty:first-child::before]:float-left [&_.tiptap_.is-editor-empty:first-child::before]:h-0 [&_.tiptap_.is-editor-empty:first-child::before]:text-(--charcoal-soft) [&_.tiptap_.is-editor-empty:first-child::before]:content-[attr(data-placeholder)] [&_.tiptap_h2]:mb-2 [&_.tiptap_h2]:font-semibold [&_.tiptap_ol]:list-decimal [&_.tiptap_ol]:pl-4 [&_.tiptap_p]:mb-2 [&_.tiptap_ul]:list-disc [&_.tiptap_ul]:pl-4"

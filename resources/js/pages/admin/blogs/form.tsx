@@ -180,6 +180,49 @@ export default function BlogForm({ blog, isAdmin }: Props) {
         },
     });
 
+    const [isGeneratingAi, setIsGeneratingAi] = useState(false);
+
+    const handleGenerateAi = async () => {
+        if (!data.title.trim()) {
+            toast.error('Isi terlebih dahulu judul artikel sebelum membuat konten AI.');
+            return;
+        }
+
+        setIsGeneratingAi(true);
+        try {
+            const res = await fetch('/admin/ai/generate-description', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Accept': 'application/json',
+                    'X-CSRF-TOKEN':
+                        (
+                            document.querySelector(
+                                'meta[name="csrf-token"]',
+                            ) as HTMLMetaElement
+                        )?.content || '',
+                },
+                body: JSON.stringify({
+                    type: 'blog',
+                    title: data.title,
+                }),
+            });
+
+            const json = await res.json();
+            if (!res.ok || !json.success) {
+                throw new Error(json.message || 'Gagal membuat artikel dengan AI.');
+            }
+
+            editor?.commands.setContent(json.description);
+            setData('content', json.description);
+            toast.success('Artikel AI berhasil dibuat!');
+        } catch (err: any) {
+            toast.error(err.message || 'Terjadi kesalahan saat generate AI.');
+        } finally {
+            setIsGeneratingAi(false);
+        }
+    };
+
     const validate = (): boolean => {
         const result = blogSchema.safeParse(data);
 
@@ -316,14 +359,18 @@ finalData.status = 'published';
                             Konten Artikel
                         </CardTitle>
                         <CardDescription className="text-xs sm:text-sm">
-                            Tulis isi artikel dengan lengkap dan informatif.
+                            Tulis isi artikel. Isikan judul artikel terlebih dahulu sebelum menekan tombol Buat AI Deskripsi.
                         </CardDescription>
                     </CardHeader>
                     <CardContent className="p-3.5 pt-0 sm:p-5 sm:pt-0">
                         <div
                             className={`overflow-hidden rounded-xl border transition-all focus-within:border-[oklch(0.38_0.08_145)] focus-within:ring-1 focus-within:ring-[oklch(0.38_0.08_145)] ${errors.content ? 'border-destructive' : 'border-(--line)'}`}
                         >
-                            <EditorToolbar editor={editor} />
+                            <EditorToolbar
+                                editor={editor}
+                                onGenerateAi={handleGenerateAi}
+                                isGeneratingAi={isGeneratingAi}
+                            />
                             <EditorContent
                                 editor={editor}
                                 className="min-h-64 px-3 py-2 sm:px-4 sm:py-3 text-sm text-[oklch(0.22_0.01_85)] [&_.tiptap]:outline-none [&_.tiptap_.is-editor-empty:first-child::before]:pointer-events-none [&_.tiptap_.is-editor-empty:first-child::before]:float-left [&_.tiptap_.is-editor-empty:first-child::before]:h-0 [&_.tiptap_.is-editor-empty:first-child::before]:text-(--charcoal-soft) [&_.tiptap_.is-editor-empty:first-child::before]:content-[attr(data-placeholder)] [&_.tiptap_blockquote]:border-l-4 [&_.tiptap_blockquote]:border-[oklch(0.38_0.08_145)] [&_.tiptap_blockquote]:pl-4 [&_.tiptap_blockquote]:italic [&_.tiptap_h2]:mb-2 [&_.tiptap_h2]:font-semibold [&_.tiptap_ol]:list-decimal [&_.tiptap_ol]:pl-4 [&_.tiptap_p]:mb-2 [&_.tiptap_ul]:list-disc [&_.tiptap_ul]:pl-4"

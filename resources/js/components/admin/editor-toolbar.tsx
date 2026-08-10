@@ -5,22 +5,30 @@ import {
     Italic,
     List,
     ListOrdered,
+    Loader2,
     Quote,
+    Redo,
+    Sparkles,
     Strikethrough,
     Undo,
-    Redo,
 } from 'lucide-react';
 
 type EditorInstance = ReturnType<typeof useEditor>;
 
 interface EditorToolbarProps {
     editor: EditorInstance;
+    onGenerateAi?: () => void;
+    isGeneratingAi?: boolean;
 }
 
-export function EditorToolbar({ editor }: EditorToolbarProps) {
+export function EditorToolbar({
+    editor,
+    onGenerateAi,
+    isGeneratingAi = false,
+}: EditorToolbarProps) {
     if (!editor) {
-return null;
-}
+        return null;
+    }
 
     const btn = (active: boolean) =>
         `rounded p-1.5 transition-colors ${active ? 'bg-(--forest-mist) text-(--forest-deep)' : 'text-(--charcoal-soft) hover:bg-(--cream-warm)'}`;
@@ -33,6 +41,7 @@ return null;
         <div className="flex flex-wrap items-center gap-1 border-b border-(--line) px-3 py-2">
             <button
                 type="button"
+                onMouseDown={(e) => e.preventDefault()}
                 onClick={() => editor.chain().focus().toggleBold().run()}
                 className={btn(editor.isActive('bold'))}
                 title="Bold"
@@ -41,6 +50,7 @@ return null;
             </button>
             <button
                 type="button"
+                onMouseDown={(e) => e.preventDefault()}
                 onClick={() => editor.chain().focus().toggleItalic().run()}
                 className={btn(editor.isActive('italic'))}
                 title="Italic"
@@ -49,6 +59,7 @@ return null;
             </button>
             <button
                 type="button"
+                onMouseDown={(e) => e.preventDefault()}
                 onClick={() => editor.chain().focus().toggleStrike().run()}
                 className={btn(editor.isActive('strike'))}
                 title="Strikethrough"
@@ -58,6 +69,7 @@ return null;
             {divider}
             <button
                 type="button"
+                onMouseDown={(e) => e.preventDefault()}
                 onClick={() =>
                     editor.chain().focus().toggleHeading({ level: 2 }).run()
                 }
@@ -69,6 +81,7 @@ return null;
             {divider}
             <button
                 type="button"
+                onMouseDown={(e) => e.preventDefault()}
                 onClick={() => editor.chain().focus().toggleBulletList().run()}
                 className={btn(editor.isActive('bulletList'))}
                 title="Bullet List"
@@ -77,6 +90,7 @@ return null;
             </button>
             <button
                 type="button"
+                onMouseDown={(e) => e.preventDefault()}
                 onClick={() => editor.chain().focus().toggleOrderedList().run()}
                 className={btn(editor.isActive('orderedList'))}
                 title="Ordered List"
@@ -85,6 +99,7 @@ return null;
             </button>
             <button
                 type="button"
+                onMouseDown={(e) => e.preventDefault()}
                 onClick={() => editor.chain().focus().toggleBlockquote().run()}
                 className={btn(editor.isActive('blockquote'))}
                 title="Blockquote"
@@ -94,6 +109,7 @@ return null;
             {divider}
             <button
                 type="button"
+                onMouseDown={(e) => e.preventDefault()}
                 onClick={() => editor.chain().focus().undo().run()}
                 disabled={!editor.can().undo()}
                 className={btn(false) + ' disabled:opacity-30'}
@@ -103,6 +119,7 @@ return null;
             </button>
             <button
                 type="button"
+                onMouseDown={(e) => e.preventDefault()}
                 onClick={() => editor.chain().focus().redo().run()}
                 disabled={!editor.can().redo()}
                 className={btn(false) + ' disabled:opacity-30'}
@@ -110,6 +127,25 @@ return null;
             >
                 <Redo className="h-4 w-4" />
             </button>
+
+            {onGenerateAi && (
+                <div className="ml-auto">
+                    <button
+                        type="button"
+                        onClick={onGenerateAi}
+                        disabled={isGeneratingAi}
+                        className="inline-flex items-center gap-1.5 rounded-lg border border-[oklch(0.8_0.08_145)] bg-[oklch(0.96_0.03_145)] px-2.5 py-1 text-xs font-medium text-(--forest-deep) shadow-2xs transition-all hover:bg-[oklch(0.92_0.05_145)] disabled:opacity-50"
+                        title="Buat deskripsi otomatis dengan AI berdasarkan data yang telah diisi"
+                    >
+                        {isGeneratingAi ? (
+                            <Loader2 className="h-3.5 w-3.5 animate-spin text-(--forest)" />
+                        ) : (
+                            <Sparkles className="h-3.5 w-3.5 text-(--forest)" />
+                        )}
+                        {isGeneratingAi ? 'Membuat AI...' : 'Buat AI Deskripsi'}
+                    </button>
+                </div>
+            )}
         </div>
     );
 }

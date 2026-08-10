@@ -3,7 +3,7 @@ import Placeholder from '@tiptap/extension-placeholder';
 import { EditorContent, useEditor } from '@tiptap/react';
 import StarterKit from '@tiptap/starter-kit';
 import { Loader2, MapPin, Save } from 'lucide-react';
-import { useCallback } from 'react';
+import { useCallback, useState } from 'react';
 import { toast } from 'sonner';
 import { z } from 'zod';
 import { EditorToolbar } from '@/components/admin/editor-toolbar';
@@ -144,6 +144,58 @@ export default function DestinationForm({
             setData('description', e.getHTML());
         },
     });
+
+    const [isGeneratingAi, setIsGeneratingAi] = useState(false);
+
+    const handleGenerateAi = async () => {
+        if (!data.name.trim()) {
+            toast.error('Isi terlebih dahulu nama destinasi sebelum membuat deskripsi AI.');
+            return;
+        }
+
+        setIsGeneratingAi(true);
+        try {
+            const res = await fetch('/admin/ai/generate-description', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Accept': 'application/json',
+                    'X-CSRF-TOKEN':
+                        (
+                            document.querySelector(
+                                'meta[name="csrf-token"]',
+                            ) as HTMLMetaElement
+                        )?.content || '',
+                },
+                body: JSON.stringify({
+                    type: 'destination',
+                    title: data.name,
+                    context: {
+                        category: data.category,
+                        ticket_price: data.ticket_price,
+                        ticket_info: data.ticket_info,
+                        operational_days: data.operational_days,
+                        open_time: data.open_time,
+                        close_time: data.close_time,
+                        facilities: data.facilities.join(', '),
+                    },
+                }),
+            });
+
+            const json = await res.json();
+            if (!res.ok || !json.success) {
+                throw new Error(json.message || 'Gagal membuat deskripsi dengan AI.');
+            }
+
+            editor?.commands.setContent(json.description);
+            setData('description', json.description);
+            toast.success('Deskripsi AI berhasil dibuat!');
+        } catch (err: any) {
+            toast.error(err.message || 'Terjadi kesalahan saat generate AI.');
+        } finally {
+            setIsGeneratingAi(false);
+        }
+    };
 
     const validate = (): boolean => {
         const result = destinationSchema.safeParse({
@@ -347,13 +399,16 @@ finalData.status = 'published';
                             Deskripsi
                         </CardTitle>
                         <CardDescription className="text-xs sm:text-sm">
-                            Ceritakan tentang destinasi: keindahan, keunikan,
-                            dan tips berkunjung.
+                            Ceritakan tentang destinasi. Disarankan mengisikan data bidang lain terlebih dahulu sebelum menekan tombol Buat AI Deskripsi.
                         </CardDescription>
                     </CardHeader>
                     <CardContent className="p-3.5 pt-0 sm:p-5 sm:pt-0">
                         <div className="overflow-hidden rounded-xl border border-(--line) transition-all focus-within:border-[oklch(0.38_0.08_145)] focus-within:ring-1 focus-within:ring-[oklch(0.38_0.08_145)]">
-                            <EditorToolbar editor={editor} />
+                            <EditorToolbar
+                                editor={editor}
+                                onGenerateAi={handleGenerateAi}
+                                isGeneratingAi={isGeneratingAi}
+                            />
                             <EditorContent
                                 editor={editor}
                                 className="min-h-48 px-3 py-2 sm:px-4 sm:py-3 text-sm text-[oklch(0.22_0.01_85)] [&_.tiptap]:outline-none [&_.tiptap_.is-editor-empty:first-child::before]:pointer-events-none [&_.tiptap_.is-editor-empty:first-child::before]:float-left [&_.tiptap_.is-editor-empty:first-child::before]:h-0 [&_.tiptap_.is-editor-empty:first-child::before]:text-(--charcoal-soft) [&_.tiptap_.is-editor-empty:first-child::before]:content-[attr(data-placeholder)] [&_.tiptap_h2]:mb-2 [&_.tiptap_h2]:font-semibold [&_.tiptap_ol]:list-decimal [&_.tiptap_ol]:pl-4 [&_.tiptap_p]:mb-2 [&_.tiptap_ul]:list-disc [&_.tiptap_ul]:pl-4"

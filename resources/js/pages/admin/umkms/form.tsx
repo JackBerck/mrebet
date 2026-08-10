@@ -3,7 +3,7 @@ import Placeholder from '@tiptap/extension-placeholder';
 import { EditorContent, useEditor } from '@tiptap/react';
 import StarterKit from '@tiptap/starter-kit';
 import { Loader2, MapPin, Save, Globe } from 'lucide-react';
-import { useCallback } from 'react';
+import { useCallback, useState } from 'react';
 import { z } from 'zod';
 import { EditorToolbar } from '@/components/admin/editor-toolbar';
 import { ImageUploader } from '@/components/admin/image-uploader';
@@ -28,6 +28,7 @@ import {
 import AppLayout from '@/layouts/app-layout';
 import type { BreadcrumbItem } from '@/types';
 import type { UmkmItem } from './index';
+import { toast } from 'sonner';
 
 const umkmSchema = z.object({
     name: z.string().min(1, 'Nama UMKM wajib diisi').max(255),
@@ -104,6 +105,56 @@ export default function UmkmForm({ umkm, categories, isAdmin }: Props) {
             setData('description', e.getHTML());
         },
     });
+
+    const [isGeneratingAi, setIsGeneratingAi] = useState(false);
+
+    const handleGenerateAi = async () => {
+        if (!data.name.trim()) {
+            toast.error('Isi terlebih dahulu nama usaha UMKM sebelum membuat deskripsi AI.');
+            return;
+        }
+
+        setIsGeneratingAi(true);
+        try {
+            const res = await fetch('/admin/ai/generate-description', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Accept': 'application/json',
+                    'X-CSRF-TOKEN':
+                        (
+                            document.querySelector(
+                                'meta[name="csrf-token"]',
+                            ) as HTMLMetaElement
+                        )?.content || '',
+                },
+                body: JSON.stringify({
+                    type: 'umkm',
+                    title: data.name,
+                    context: {
+                        category: data.category,
+                        owner_name: data.owner_name,
+                        address: data.address,
+                        contact_phone: data.contact_phone,
+                        price_range: data.price_range,
+                    },
+                }),
+            });
+
+            const json = await res.json();
+            if (!res.ok || !json.success) {
+                throw new Error(json.message || 'Gagal membuat deskripsi dengan AI.');
+            }
+
+            editor?.commands.setContent(json.description);
+            setData('description', json.description);
+            toast.success('Deskripsi AI berhasil dibuat!');
+        } catch (err: any) {
+            toast.error(err.message || 'Terjadi kesalahan saat generate AI.');
+        } finally {
+            setIsGeneratingAi(false);
+        }
+    };
 
     const validate = (): boolean => {
         const result = umkmSchema.safeParse({
@@ -266,15 +317,19 @@ export default function UmkmForm({ umkm, categories, isAdmin }: Props) {
                 <Card className="border-(--line) shadow-none gap-2 sm:gap-3 py-0">
                     <CardHeader className="p-3.5 pb-0 sm:p-5 sm:pb-0">
                         <CardTitle className="font-display text-base sm:text-lg text-(--forest-deep)">
-                            Deskripsi Produk / Usaha
+                            Deskripsi UMKM
                         </CardTitle>
                         <CardDescription className="text-xs sm:text-sm">
-                            Tuliskan profil usaha, cerita di balik produk, atau keunggulan UMKM.
+                            Tuliskan profil usaha dan cerita produk. Disarankan mengisikan data bidang lain terlebih dahulu sebelum menekan tombol Buat AI Deskripsi.
                         </CardDescription>
                     </CardHeader>
                     <CardContent className="p-3.5 pt-0 sm:p-5 sm:pt-0">
                         <div className="overflow-hidden rounded-xl border border-(--line) transition-all focus-within:border-(--forest) focus-within:ring-1 focus-within:ring-(--forest)">
-                            <EditorToolbar editor={editor} />
+                            <EditorToolbar
+                                editor={editor}
+                                onGenerateAi={handleGenerateAi}
+                                isGeneratingAi={isGeneratingAi}
+                            />
                             <EditorContent
                                 editor={editor}
                                 className="min-h-36 sm:min-h-40 px-3 py-2 sm:px-4 sm:py-3 text-sm text-(--charcoal) [&_.tiptap]:outline-none"

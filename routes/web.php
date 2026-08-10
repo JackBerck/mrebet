@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Admin\AdminAiController;
 use App\Http\Controllers\Admin\AdminBlogController;
 use App\Http\Controllers\Admin\AdminDashboardController;
 use App\Http\Controllers\Admin\AdminDestinationController;
@@ -14,7 +15,6 @@ use App\Http\Controllers\Public\PublicEventController;
 use App\Http\Controllers\Public\PublicMapController;
 use App\Http\Controllers\Public\PublicUmkmController;
 use Illuminate\Support\Facades\Route;
-use Laravel\Fortify\Http\Controllers\RegisteredUserController;
 
 Route::get('/', [HomeController::class, 'index'])->name('home');
 Route::get('/tentang', [PageController::class, 'about'])->name('about');
@@ -32,8 +32,6 @@ Route::get('/destinasi/{destination:slug}', [PublicDestinationController::class,
 Route::get('/umkm', [PublicUmkmController::class, 'index'])->name('umkms.index');
 Route::get('/umkm/{umkm:slug}', [PublicUmkmController::class, 'show'])->name('umkms.show');
 Route::get('/peta', [PublicMapController::class, 'index'])->name('map.index');
-
-
 
 // Admin panel — requires auth + verified + is_active
 Route::prefix('admin')
@@ -67,6 +65,10 @@ Route::prefix('admin')
         Route::patch('blogs/{blog}/status', [AdminBlogController::class, 'updateStatus'])
             ->name('blogs.status')
             ->middleware('admin');
+
+        // AI Generator
+        Route::post('/ai/generate-description', [AdminAiController::class, 'generateDescription'])
+            ->name('ai.generate-description');
 
         // Users
         Route::resource('users', AdminUserController::class)->except(['show', 'destroy']);
