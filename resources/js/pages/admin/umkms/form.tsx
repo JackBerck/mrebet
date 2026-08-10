@@ -168,27 +168,30 @@ export default function UmkmForm({ umkm, categories, isAdmin }: Props) {
                 }
             />
 
-            <form onSubmit={submit} className="flex flex-col gap-6 p-6">
+            <form onSubmit={submit} className="flex flex-col gap-4 sm:gap-6 p-3 sm:p-6">
                 <div className="flex flex-wrap items-center gap-4">
                     <div>
-                        <h1 className="font-display text-2xl font-semibold text-(--forest-deep)">
+                        <h1 className="font-display text-xl sm:text-2xl font-semibold text-(--forest-deep)">
                             {isEditing ? `Edit UMKM: ${umkm.name}` : 'Tambah UMKM / Warung Baru'}
                         </h1>
-                        <p className="mt-0.5 text-sm text-(--charcoal-soft)">
+                        <p className="mt-0.5 text-xs sm:text-sm text-(--charcoal-soft)">
                             Kelola data UMKM, kuliner, dan warung lokal Desa Serayu Larangan.
                         </p>
                     </div>
                 </div>
 
                 {/* Section 1: Informasi Usaha */}
-                <Card className="border-(--line) shadow-none">
-                    <CardHeader>
-                        <CardTitle className="font-display text-lg text-(--forest-deep)">
+                <Card className="border-(--line) shadow-none gap-2 sm:gap-4 py-4 sm:py-6">
+                    <CardHeader className="p-3.5 pb-0 sm:p-6 sm:pb-0">
+                        <CardTitle className="font-display text-base sm:text-lg text-(--forest-deep)">
                             Informasi Usaha & Pemilik
                         </CardTitle>
+                        <CardDescription className="text-xs sm:text-sm">
+                            Isi nama usaha, kategori, nama pemilik, kontak, serta kisaran harga produk.
+                        </CardDescription>
                     </CardHeader>
-                    <CardContent className="flex flex-col gap-5">
-                        <div className="grid gap-5 sm:grid-cols-2">
+                    <CardContent className="flex flex-col gap-4 sm:gap-5 p-3.5 pt-0 sm:p-6 sm:pt-0">
+                        <div className="grid gap-4 sm:gap-5 sm:grid-cols-2">
                             <div className="flex flex-col gap-1.5">
                                 <Label htmlFor="name">
                                     Nama UMKM / Warung <span className="text-destructive">*</span>
@@ -225,7 +228,7 @@ export default function UmkmForm({ umkm, categories, isAdmin }: Props) {
                             </div>
                         </div>
 
-                        <div className="grid gap-5 sm:grid-cols-3">
+                        <div className="grid gap-4 sm:gap-5 sm:grid-cols-3">
                             <div className="flex flex-col gap-1.5">
                                 <Label htmlFor="owner_name">Nama Pemilik / Pengelola</Label>
                                 <Input
@@ -260,34 +263,37 @@ export default function UmkmForm({ umkm, categories, isAdmin }: Props) {
                 </Card>
 
                 {/* Section 2: Deskripsi */}
-                <Card className="border-(--line) shadow-none">
-                    <CardHeader>
-                        <CardTitle className="font-display text-lg text-(--forest-deep)">
+                <Card className="border-(--line) shadow-none gap-2 sm:gap-4 py-4 sm:py-6">
+                    <CardHeader className="p-3.5 pb-0 sm:p-6 sm:pb-0">
+                        <CardTitle className="font-display text-base sm:text-lg text-(--forest-deep)">
                             Deskripsi Produk / Usaha
                         </CardTitle>
+                        <CardDescription className="text-xs sm:text-sm">
+                            Tuliskan profil usaha, cerita di balik produk, atau keunggulan UMKM.
+                        </CardDescription>
                     </CardHeader>
-                    <CardContent>
+                    <CardContent className="p-3.5 pt-0 sm:p-6 sm:pt-0">
                         <div className="overflow-hidden rounded-xl border border-(--line) transition-all focus-within:border-(--forest) focus-within:ring-1 focus-within:ring-(--forest)">
                             <EditorToolbar editor={editor} />
                             <EditorContent
                                 editor={editor}
-                                className="min-h-40 px-4 py-3 text-sm text-(--charcoal) [&_.tiptap]:outline-none"
+                                className="min-h-36 sm:min-h-40 px-3 py-2 sm:px-4 sm:py-3 text-sm text-(--charcoal) [&_.tiptap]:outline-none"
                             />
                         </div>
                     </CardContent>
                 </Card>
 
                 {/* Section 3: Lokasi & Link Google Maps */}
-                <Card className="border-(--line) shadow-none">
-                    <CardHeader>
-                        <CardTitle className="font-display text-lg text-(--forest-deep)">
+                <Card className="border-(--line) shadow-none gap-2 sm:gap-4 py-4 sm:py-6">
+                    <CardHeader className="p-3.5 pb-0 sm:p-6 sm:pb-0">
+                        <CardTitle className="font-display text-base sm:text-lg text-(--forest-deep)">
                             Alamat & Peta Lokasi
                         </CardTitle>
-                        <CardDescription>
+                        <CardDescription className="text-xs sm:text-sm">
                             Isi alamat lengkap, link Google Maps, serta titik koordinat lokasi usaha.
                         </CardDescription>
                     </CardHeader>
-                    <CardContent className="flex flex-col gap-5">
+                    <CardContent className="flex flex-col gap-4 sm:gap-5 p-3.5 pt-0 sm:p-6 sm:pt-0">
                         <div className="flex flex-col gap-1.5">
                             <Label htmlFor="address">Alamat Lengkap</Label>
                             <Input
@@ -312,7 +318,7 @@ export default function UmkmForm({ umkm, categories, isAdmin }: Props) {
                             />
                         </div>
 
-                        <div className="grid gap-5 sm:grid-cols-2">
+                        <div className="grid gap-4 sm:gap-5 sm:grid-cols-2">
                             <div className="flex flex-col gap-1.5">
                                 <Label htmlFor="latitude">Latitude</Label>
                                 <Input
@@ -362,13 +368,16 @@ export default function UmkmForm({ umkm, categories, isAdmin }: Props) {
                 </Card>
 
                 {/* Section 4: Foto / Media */}
-                <Card className="border-(--line) shadow-none">
-                    <CardHeader>
-                        <CardTitle className="font-display text-lg text-(--forest-deep)">
+                <Card className="border-(--line) shadow-none gap-2 sm:gap-4 py-4 sm:py-6">
+                    <CardHeader className="p-3.5 pb-0 sm:p-6 sm:pb-0">
+                        <CardTitle className="font-display text-base sm:text-lg text-(--forest-deep)">
                             Galeri Foto Produk / Warung
                         </CardTitle>
+                        <CardDescription className="text-xs sm:text-sm">
+                            Unggah foto produk, tempat usaha, atau proses pembuatan sebagai media promosi.
+                        </CardDescription>
                     </CardHeader>
-                    <CardContent>
+                    <CardContent className="p-3.5 pt-0 sm:p-6 sm:pt-0">
                         <ImageUploader
                             existing={umkm?.media ?? []}
                             onChange={handleMediaChange}
@@ -377,18 +386,21 @@ export default function UmkmForm({ umkm, categories, isAdmin }: Props) {
                 </Card>
 
                 {/* Section 5: Status Publikasi */}
-                <Card className="border-(--line) shadow-none">
-                    <CardHeader>
-                        <CardTitle className="font-display text-lg text-(--forest-deep)">
+                <Card className="border-(--line) shadow-none gap-2 sm:gap-4 py-4 sm:py-6">
+                    <CardHeader className="p-3.5 pb-0 sm:p-6 sm:pb-0">
+                        <CardTitle className="font-display text-base sm:text-lg text-(--forest-deep)">
                             Status Publikasi
                         </CardTitle>
+                        <CardDescription className="text-xs sm:text-sm">
+                            Atur visibilitas data UMKM ini apakah disimpan sebagai draft atau langsung terbit di website.
+                        </CardDescription>
                     </CardHeader>
-                    <CardContent>
+                    <CardContent className="p-3.5 pt-0 sm:p-6 sm:pt-0">
                         <Select
                             value={data.status}
                             onValueChange={(v) => setData('status', v as 'draft' | 'published')}
                         >
-                            <SelectTrigger id="status" className="w-full sm:w-[220px]">
+                            <SelectTrigger id="status" className="w-full sm:w-55">
                                 <SelectValue />
                             </SelectTrigger>
                             <SelectContent>
@@ -400,22 +412,23 @@ export default function UmkmForm({ umkm, categories, isAdmin }: Props) {
                 </Card>
 
                 {/* Submit Bar */}
-                <div className="sticky bottom-0 -mx-6 flex items-center justify-between border-t border-(--line) bg-white/90 px-6 py-4 backdrop-blur-sm">
-                    <p className="text-sm text-(--charcoal-soft)">
+                <div className="sticky bottom-0 -mx-3 sm:-mx-6 flex items-center justify-between border-t border-(--line) bg-white/90 px-4 sm:px-6 py-3 sm:py-4 backdrop-blur-sm">
+                    <p className="text-xs sm:text-sm text-(--charcoal-soft)">
                         {isEditing ? 'Perubahan belum disimpan' : 'Form belum tersimpan'}
                     </p>
-                    <div className="flex gap-3">
+                    <div className="flex gap-2 sm:gap-3">
                         <Button
                             type="submit"
                             disabled={processing}
                             className="bg-(--forest) hover:bg-(--forest-deep)"
+                            size="sm"
                         >
                             {processing ? (
-                                <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                                <Loader2 className="mr-1.5 h-4 w-4 animate-spin" />
                             ) : (
-                                <Save className="mr-2 h-4 w-4" />
+                                <Save className="mr-1.5 h-4 w-4" />
                             )}
-                            {isEditing ? 'Simpan Perubahan' : 'Tambah UMKM'}
+                            {isEditing ? 'Simpan' : 'Tambah'}
                         </Button>
                     </div>
                 </div>
