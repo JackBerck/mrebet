@@ -59,6 +59,7 @@ export type Destination = {
     deleted_at: string | null;
     primary_media?: MediaItem | null;
     media?: MediaItem[];
+    village?: { id: number; name: string } | null;
 };
 
 export type Event = {

@@ -2,8 +2,9 @@ import { Head, router, useForm } from '@inertiajs/react';
 import Placeholder from '@tiptap/extension-placeholder';
 import { EditorContent, useEditor } from '@tiptap/react';
 import StarterKit from '@tiptap/starter-kit';
-import { ImageIcon, Loader2, Save, X } from 'lucide-react';
+import { FileText, ImageIcon, Loader2, Save, Upload, X, QrCode } from 'lucide-react';
 import { useCallback, useRef, useState } from 'react';
+import { QrCodeModal } from '@/components/common/qr-code-modal';
 import { toast } from 'sonner';
 import { z } from 'zod';
 import { EditorToolbar } from '@/components/admin/editor-toolbar';
@@ -181,6 +182,7 @@ export default function BlogForm({ blog, isAdmin }: Props) {
     });
 
     const [isGeneratingAi, setIsGeneratingAi] = useState(false);
+    const [qrModalOpen, setQrModalOpen] = useState(false);
 
     const handleGenerateAi = async () => {
         if (!data.title.trim()) {
@@ -305,15 +307,28 @@ finalData.status = 'published';
 
             <form onSubmit={submit} className="flex flex-col gap-4 sm:gap-6 p-3 sm:p-6">
                 {/* Header */}
-                <div>
-                    <h1 className="font-display text-xl sm:text-2xl font-semibold text-(--forest-deep)">
-                        {isEditing
-                            ? `Edit: ${blog.title}`
-                            : 'Tulis Artikel Baru'}
-                    </h1>
-                    <p className="mt-0.5 text-xs sm:text-sm text-(--charcoal-soft)">
-                        Buat konten blog yang informatif dan menarik.
-                    </p>
+                <div className="flex flex-wrap items-center justify-between gap-4">
+                    <div>
+                        <h1 className="font-display text-xl sm:text-2xl font-semibold text-(--forest-deep)">
+                            {isEditing
+                                ? `Edit: ${blog.title}`
+                                : 'Tulis Artikel Baru'}
+                        </h1>
+                        <p className="mt-0.5 text-xs sm:text-sm text-(--charcoal-soft)">
+                            Kelola konten artikel dan berita Desa Serayu Larangan.
+                        </p>
+                    </div>
+                    {isEditing && (
+                        <Button
+                            type="button"
+                            variant="outline"
+                            onClick={() => setQrModalOpen(true)}
+                            className="border-(--line) hover:bg-(--cream-warm) text-xs font-semibold"
+                        >
+                            <QrCode className="mr-1.5 h-4 w-4 text-(--forest)" />
+                            Lihat & Unduh QR Code
+                        </Button>
+                    )}
                 </div>
 
                 {/* Section 1: Informasi Dasar */}
@@ -490,6 +505,17 @@ finalData.status = 'published';
                     </div>
                 </div>
             </form>
+
+            {isEditing && (
+                <QrCodeModal
+                    open={qrModalOpen}
+                    onOpenChange={setQrModalOpen}
+                    title={blog.title}
+                    category="Artikel & Berita"
+                    targetUrl={`${window.location.origin}/berita/${blog.slug}`}
+                    slug={blog.slug}
+                />
+            )}
         </>
     );
 }

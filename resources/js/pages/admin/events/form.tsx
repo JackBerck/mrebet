@@ -2,8 +2,9 @@ import { Head, router, useForm } from '@inertiajs/react';
 import Placeholder from '@tiptap/extension-placeholder';
 import { EditorContent, useEditor } from '@tiptap/react';
 import StarterKit from '@tiptap/starter-kit';
-import { MapPin, Loader2, Save } from 'lucide-react';
-import { useCallback, useEffect, useState } from 'react';
+import { CalendarIcon, Loader2, MapPin, Save, QrCode } from 'lucide-react';
+import { useCallback, useState } from 'react';
+import { QrCodeModal } from '@/components/common/qr-code-modal';
 import { toast } from 'sonner';
 import { z } from 'zod';
 import { DatePicker } from '@/components/admin/date-picker';
@@ -124,6 +125,7 @@ export default function EventForm({
     });
 
     const [isGeneratingAi, setIsGeneratingAi] = useState(false);
+    const [qrModalOpen, setQrModalOpen] = useState(false);
 
     const handleGenerateAi = async () => {
         if (!data.title.trim()) {
@@ -245,15 +247,28 @@ export default function EventForm({
 
             <form onSubmit={(e) => submit(e)} className="flex flex-col gap-4 sm:gap-6 p-3 sm:p-6">
                 {/* Header */}
-                <div>
-                    <h1 className="font-display text-xl sm:text-2xl font-semibold text-(--forest-deep)">
-                        {isEditing
-                            ? `Edit: ${event.title}`
-                            : 'Tambah Event Baru'}
-                    </h1>
-                    <p className="mt-0.5 text-xs sm:text-sm text-(--charcoal-soft)">
-                        Kelola data agenda dan event Desa Serayu Larangan.
-                    </p>
+                <div className="flex flex-wrap items-center justify-between gap-4">
+                    <div>
+                        <h1 className="font-display text-xl sm:text-2xl font-semibold text-(--forest-deep)">
+                            {isEditing
+                                ? `Edit: ${event.title}`
+                                : 'Tambah Event Baru'}
+                        </h1>
+                        <p className="mt-0.5 text-xs sm:text-sm text-(--charcoal-soft)">
+                            Kelola data agenda dan event Desa Serayu Larangan.
+                        </p>
+                    </div>
+                    {isEditing && (
+                        <Button
+                            type="button"
+                            variant="outline"
+                            onClick={() => setQrModalOpen(true)}
+                            className="border-(--line) hover:bg-(--cream-warm) text-xs font-semibold"
+                        >
+                            <QrCode className="mr-1.5 h-4 w-4 text-(--forest)" />
+                            Lihat & Unduh QR Code
+                        </Button>
+                    )}
                 </div>
 
                 {/* Section 1: Informasi Utama */}
@@ -703,6 +718,17 @@ export default function EventForm({
                     </div>
                 </div>
             </form>
+
+            {isEditing && (
+                <QrCodeModal
+                    open={qrModalOpen}
+                    onOpenChange={setQrModalOpen}
+                    title={event.title}
+                    category="Event & Acara"
+                    targetUrl={`${window.location.origin}/event/${event.slug}`}
+                    slug={event.slug}
+                />
+            )}
         </>
     );
 }

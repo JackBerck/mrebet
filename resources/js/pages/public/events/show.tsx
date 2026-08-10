@@ -8,6 +8,7 @@ import { format, parseISO, isSameDay } from 'date-fns';
 import { id } from 'date-fns/locale';
 import { getGoogleMapsEmbedUrl } from '@/lib/map-utils';
 import { SafeImage } from '@/components/public/safe-image';
+import { QrCodeSidebarCard } from '@/components/public/qr-code-sidebar-card';
 
 interface Props {
     event: Event;
@@ -275,6 +276,14 @@ export default function EventShow({ event, relatedEvents }: Props) {
                                     )}
                                 </div>
                             </div>
+
+                            {/* QR Code Card */}
+                            <QrCodeSidebarCard
+                                title={event.title}
+                                category="Event & Acara"
+                                targetUrl={shareUrl}
+                                slug={event.slug}
+                            />
 
                             {/* Share Banner */}
                             <div className="bg-white rounded-2xl p-6 border border-(--line) shadow-sm text-center">

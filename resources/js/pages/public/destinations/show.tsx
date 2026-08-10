@@ -12,6 +12,7 @@ import { format, parseISO } from 'date-fns';
 import { id as localeId } from 'date-fns/locale';
 import React, { Suspense, lazy } from 'react';
 import { getGoogleMapsEmbedUrl } from '@/lib/map-utils';
+import { QrCodeSidebarCard } from '@/components/public/qr-code-sidebar-card';
 import { SafeImage } from '@/components/public/safe-image';
 
 // Lazy load map component to avoid SSR issues with Leaflet
@@ -359,6 +360,14 @@ export default function DestinationShow({ destination, events, relatedDestinatio
                                     </div>
                                 </div>
                             ) : null}
+
+                            {/* QR Code Card */}
+                            <QrCodeSidebarCard
+                                title={destination.name}
+                                category={destination.category_label ?? destination.category}
+                                targetUrl={shareUrl}
+                                slug={destination.slug}
+                            />
 
                             {/* Share Banner */}
                             <div className="bg-white rounded-2xl p-6 border border-(--line) shadow-sm text-center">

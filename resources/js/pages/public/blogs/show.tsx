@@ -1,11 +1,13 @@
 import { Head, Link } from '@inertiajs/react';
-import { ArrowLeft, Calendar, User, Eye, MapPin, Share2, Facebook, Twitter, Link as LinkIcon, BookOpen, ArrowRight } from 'lucide-react';
+import { ArrowLeft, Calendar, User, Eye, MapPin, Share2, Facebook, Twitter, Link as LinkIcon, BookOpen, ArrowRight, QrCode } from 'lucide-react';
 import PublicLayout from '@/layouts/public-layout';
 import { useMotionReveal } from '@/hooks/use-motion-reveal';
 import type { Blog } from '@/types/public';
 import { Button } from '@/components/ui/button';
 import { format, parseISO } from 'date-fns';
 import { id as localeId } from 'date-fns/locale';
+import { useState } from 'react';
+import { QrCodeModal } from '@/components/common/qr-code-modal';
 
 interface Props {
     blog: Blog;
@@ -24,6 +26,7 @@ export default function BlogShow({ blog, relatedBlogs }: Props) {
         return Math.max(1, Math.ceil(words / 200)); // 200 WPM
     };
     
+    const [qrModalOpen, setQrModalOpen] = useState(false);
     const readingTime = blog.content ? calculateReadingTime(blog.content) : 1;
     const shareUrl = typeof window !== 'undefined' ? window.location.href : '';
 
@@ -189,7 +192,10 @@ export default function BlogShow({ blog, relatedBlogs }: Props) {
                                 <div className="mt-12 pt-8 border-t border-(--line) flex flex-col sm:flex-row items-center justify-between gap-4">
                                     <p className="font-semibold text-(--charcoal)">Bagikan artikel ini:</p>
                                     <div className="flex items-center gap-2">
-                                        <Button variant="outline" size="icon" className="rounded-full border-(--line) hover:text-(--forest) hover:border-(--forest)" onClick={handleShare}>
+                                        <Button variant="outline" size="icon" title="QR Code Artikel" className="rounded-full border-(--line) hover:text-(--forest) hover:border-(--forest)" onClick={() => setQrModalOpen(true)}>
+                                            <QrCode className="w-4 h-4" />
+                                        </Button>
+                                        <Button variant="outline" size="icon" title="Bagikan Halaman" className="rounded-full border-(--line) hover:text-(--forest) hover:border-(--forest)" onClick={handleShare}>
                                             <Share2 className="w-4 h-4" />
                                         </Button>
                                         <a href={`https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(shareUrl)}`} target="_blank" rel="noopener noreferrer">
@@ -257,6 +263,15 @@ export default function BlogShow({ blog, relatedBlogs }: Props) {
                     )}
                 </div>
             </article>
+
+            <QrCodeModal
+                open={qrModalOpen}
+                onOpenChange={setQrModalOpen}
+                title={blog.title}
+                category="Artikel & Berita"
+                targetUrl={shareUrl}
+                slug={blog.slug}
+            />
         </PublicLayout>
     );
 }

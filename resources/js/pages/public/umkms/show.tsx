@@ -6,6 +6,7 @@ import { Button } from '@/components/ui/button';
 import DestinationMap from '@/components/public/destination-map';
 import { getGoogleMapsEmbedUrl } from '@/lib/map-utils';
 import { SafeImage } from '@/components/public/safe-image';
+import { QrCodeSidebarCard } from '@/components/public/qr-code-sidebar-card';
 
 interface UmkmPublicDetail {
     id: number;
@@ -255,6 +256,14 @@ export default function UmkmsPublicShow({ umkm, relatedUmkms }: Props) {
                                     </div>
                                 </div>
                             ) : null}
+
+                            {/* QR Code Banner */}
+                            <QrCodeSidebarCard
+                                title={umkm.name}
+                                category={umkm.category_label ?? umkm.category}
+                                targetUrl={shareUrl}
+                                slug={umkm.slug}
+                            />
 
                             {/* Share Banner */}
                             <div className="bg-white rounded-2xl p-6 border border-(--line) shadow-sm text-center">

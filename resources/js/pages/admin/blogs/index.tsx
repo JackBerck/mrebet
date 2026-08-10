@@ -1,7 +1,8 @@
 import { parseISO } from 'date-fns';
 import { Head, Link, router } from '@inertiajs/react';
-import { Edit, Eye, FileText, Plus, Search, Trash2 } from 'lucide-react';
+import { Edit, Eye, FileText, Plus, Search, Trash2, QrCode } from 'lucide-react';
 import { useCallback, useState } from 'react';
+import { QrCodeModal } from '@/components/common/qr-code-modal';
 import {
     AlertDialog,
     AlertDialogAction,
@@ -77,6 +78,7 @@ export default function BlogsIndex({
     const [blogToView, setBlogToView] = useState<BlogWithRelations | null>(
         null,
     );
+    const [qrModalItem, setQrModalItem] = useState<{ title: string; category?: string; targetUrl: string; slug: string } | null>(null);
 
     const applyFilter = useCallback(
         (params: Record<string, string>) => {
@@ -286,6 +288,19 @@ export default function BlogsIndex({
                                                     <Button
                                                         variant="ghost"
                                                         size="icon"
+                                                        onClick={() => setQrModalItem({
+                                                            title: blog.title,
+                                                            category: 'Artikel & Berita',
+                                                            targetUrl: `${window.location.origin}/berita/${blog.slug}`,
+                                                            slug: blog.slug,
+                                                        })}
+                                                        title="Lihat & Unduh QR Code"
+                                                    >
+                                                        <QrCode className="h-4 w-4 text-(--forest)" />
+                                                    </Button>
+                                                    <Button
+                                                        variant="ghost"
+                                                        size="icon"
                                                         onClick={() =>
                                                             setBlogToView(blog)
                                                         }
@@ -446,6 +461,16 @@ export default function BlogsIndex({
                         </AlertDialogFooter>
                     </AlertDialogContent>
                 </AlertDialog>
+
+                {/* Modal QR Code */}
+                <QrCodeModal
+                    open={!!qrModalItem}
+                    onOpenChange={(o) => !o && setQrModalItem(null)}
+                    title={qrModalItem?.title ?? ''}
+                    category={qrModalItem?.category}
+                    targetUrl={qrModalItem?.targetUrl ?? ''}
+                    slug={qrModalItem?.slug}
+                />
             </div>
         </>
     );

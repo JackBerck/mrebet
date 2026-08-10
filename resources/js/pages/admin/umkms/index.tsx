@@ -1,6 +1,7 @@
 import { Head, Link, router } from '@inertiajs/react';
-import { Edit, Plus, Search, Trash2, Eye, MapPin, ExternalLink } from 'lucide-react';
+import { Edit, Plus, Search, Trash2, Eye, MapPin, ExternalLink, QrCode } from 'lucide-react';
 import { useCallback, useState } from 'react';
+import { QrCodeModal } from '@/components/common/qr-code-modal';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
@@ -67,6 +68,7 @@ type Props = {
 export default function UmkmsIndex({ umkms, categories, filters, isAdmin }: Props) {
     const [search, setSearch] = useState(filters.search ?? '');
     const [umkmToDelete, setUmkmToDelete] = useState<UmkmItem | null>(null);
+    const [qrModalItem, setQrModalItem] = useState<{ title: string; category?: string; targetUrl: string; slug: string } | null>(null);
 
     const applyFilter = useCallback(
         (params: Record<string, string>) => {
@@ -297,12 +299,25 @@ export default function UmkmsIndex({ umkms, categories, filters, isAdmin }: Prop
                                                     />
                                                 </TableCell>
                                             )}
-                                            <TableCell className="pr-6 text-right">
-                                                <div className="flex justify-end gap-1">
+                                             <TableCell className="pr-6 text-right">
+                                                 <div className="flex justify-end gap-1">
+                                                     <Button
+                                                         variant="ghost"
+                                                         size="icon"
+                                                         onClick={() => setQrModalItem({
+                                                             title: umkm.name,
+                                                             category: categories.find(c => c.value === umkm.category)?.label ?? umkm.category,
+                                                             targetUrl: `${window.location.origin}/umkm/${umkm.slug}`,
+                                                             slug: umkm.slug,
+                                                         })}
+                                                         title="Lihat & Unduh QR Code"
+                                                     >
+                                                         <QrCode className="h-4 w-4 text-(--forest)" />
+                                                     </Button>
                                                      <Button variant="ghost" size="icon" asChild>
-                                                        <Link href={`/admin/umkms/${umkm.slug}/edit`} title="Edit UMKM">
-                                                            <Edit className="h-4 w-4" />
-                                                        </Link>
+                                                         <Link href={`/admin/umkms/${umkm.slug}/edit`} title="Edit UMKM">
+                                                             <Edit className="h-4 w-4" />
+                                                         </Link>
                                                      </Button>
                                                      {isAdmin && (
                                                         <Button
@@ -374,6 +389,16 @@ export default function UmkmsIndex({ umkms, categories, filters, isAdmin }: Prop
                         </AlertDialogFooter>
                     </AlertDialogContent>
                 </AlertDialog>
+
+                {/* Modal QR Code */}
+                <QrCodeModal
+                    open={!!qrModalItem}
+                    onOpenChange={(o) => !o && setQrModalItem(null)}
+                    title={qrModalItem?.title ?? ''}
+                    category={qrModalItem?.category}
+                    targetUrl={qrModalItem?.targetUrl ?? ''}
+                    slug={qrModalItem?.slug}
+                />
             </div>
         </>
     );

@@ -1,7 +1,8 @@
 import { parseISO } from 'date-fns';
 import { Head, Link, router } from '@inertiajs/react';
-import { Calendar, Edit, Eye, Plus, Search, Trash2 } from 'lucide-react';
+import { Calendar, Edit, Eye, Plus, Search, Trash2, QrCode } from 'lucide-react';
 import { useCallback, useState } from 'react';
+import { QrCodeModal } from '@/components/common/qr-code-modal';
 import { DatePicker } from '@/components/admin/date-picker';
 import {
     AlertDialog,
@@ -77,6 +78,7 @@ export default function EventsIndex({
     const [search, setSearch] = useState(filters.search ?? '');
     const [eventToDelete, setEventToDelete] = useState<Event | null>(null);
     const [eventToView, setEventToView] = useState<Event | null>(null);
+    const [qrModalItem, setQrModalItem] = useState<{ title: string; category?: string; targetUrl: string; slug: string } | null>(null);
 
     const applyFilter = useCallback(
         (params: Record<string, string>) => {
@@ -311,6 +313,19 @@ export default function EventsIndex({
                                                     <Button
                                                         variant="ghost"
                                                         size="icon"
+                                                        onClick={() => setQrModalItem({
+                                                            title: event.title,
+                                                            category: 'Event & Acara',
+                                                            targetUrl: `${window.location.origin}/event/${event.slug}`,
+                                                            slug: event.slug,
+                                                        })}
+                                                        title="Lihat & Unduh QR Code"
+                                                    >
+                                                        <QrCode className="h-4 w-4 text-(--forest)" />
+                                                    </Button>
+                                                    <Button
+                                                        variant="ghost"
+                                                        size="icon"
                                                         onClick={() =>
                                                             setEventToView(
                                                                 event,
@@ -503,6 +518,16 @@ export default function EventsIndex({
                         </AlertDialogFooter>
                     </AlertDialogContent>
                 </AlertDialog>
+
+                {/* Modal QR Code */}
+                <QrCodeModal
+                    open={!!qrModalItem}
+                    onOpenChange={(o) => !o && setQrModalItem(null)}
+                    title={qrModalItem?.title ?? ''}
+                    category={qrModalItem?.category}
+                    targetUrl={qrModalItem?.targetUrl ?? ''}
+                    slug={qrModalItem?.slug}
+                />
             </div>
         </>
     );

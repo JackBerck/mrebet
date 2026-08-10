@@ -1,6 +1,7 @@
 import { Head, Link, router } from '@inertiajs/react';
-import { Edit, Eye, MapPin, Plus, Search, Trash2 } from 'lucide-react';
+import { Edit, Eye, MapPin, Plus, Search, Trash2, QrCode } from 'lucide-react';
 import { useCallback, useState } from 'react';
+import { QrCodeModal } from '@/components/common/qr-code-modal';
 import {
     AlertDialog,
     AlertDialogAction,
@@ -67,6 +68,7 @@ type Props = {
     destinations: PaginatedData<
         Destination & {
             primary_media?: { file_path: string } | null;
+            village?: { id: number; name: string } | null;
         }
     >;
     filters: {
@@ -85,6 +87,7 @@ export default function DestinationsIndex({
     const [search, setSearch] = useState(filters.search ?? '');
     const [destToDelete, setDestToDelete] = useState<Destination | null>(null);
     const [destToView, setDestToView] = useState<Destination | null>(null);
+    const [qrModalItem, setQrModalItem] = useState<{ title: string; category?: string; targetUrl: string; slug: string } | null>(null);
 
     const applyFilter = useCallback(
         (params: Record<string, string>) => {
@@ -323,6 +326,19 @@ export default function DestinationsIndex({
                                                     <Button
                                                         variant="ghost"
                                                         size="icon"
+                                                        onClick={() => setQrModalItem({
+                                                            title: dest.name,
+                                                            category: CATEGORY_LABELS[dest.category] ?? dest.category,
+                                                            targetUrl: `${window.location.origin}/destinasi/${dest.slug}`,
+                                                            slug: dest.slug,
+                                                        })}
+                                                        title="Lihat & Unduh QR Code"
+                                                    >
+                                                        <QrCode className="h-4 w-4 text-(--forest)" />
+                                                    </Button>
+                                                    <Button
+                                                        variant="ghost"
+                                                        size="icon"
                                                         onClick={() =>
                                                             setDestToView(dest)
                                                         }
@@ -532,6 +548,16 @@ export default function DestinationsIndex({
                         </AlertDialogFooter>
                     </AlertDialogContent>
                 </AlertDialog>
+
+                {/* Modal QR Code */}
+                <QrCodeModal
+                    open={!!qrModalItem}
+                    onOpenChange={(o) => !o && setQrModalItem(null)}
+                    title={qrModalItem?.title ?? ''}
+                    category={qrModalItem?.category}
+                    targetUrl={qrModalItem?.targetUrl ?? ''}
+                    slug={qrModalItem?.slug}
+                />
             </div>
         </>
     );
