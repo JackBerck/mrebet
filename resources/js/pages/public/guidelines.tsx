@@ -6,9 +6,28 @@ import PublicLayout from '@/layouts/public-layout';
 export default function Guidelines() {
     useMotionReveal();
 
+    const canonicalUrl = typeof window !== 'undefined' ? window.location.href : '';
+
     return (
         <PublicLayout>
-            <Head title="Panduan Wisatawan - Desa Wisata Serayu Larangan" />
+            <Head>
+                <title>Panduan Wisatawan — Desa Wisata Serayu Larangan</title>
+                <meta
+                    name="description"
+                    content="Tips dan panduan lengkap agar liburan Anda di kawasan Desa Wisata Serayu Larangan aman, nyaman, dan berkesan."
+                />
+                <link rel="canonical" href={canonicalUrl} />
+                <meta property="og:type" content="website" />
+                <meta property="og:title" content="Panduan Wisatawan — Desa Wisata Serayu Larangan" />
+                <meta property="og:description" content="Tips dan panduan lengkap agar liburan Anda di kawasan Desa Wisata Serayu Larangan aman, nyaman, dan berkesan." />
+                <meta property="og:image" content="/images/backgrounds/pemandangan-serayu-larangan.webp" />
+                <meta property="og:url" content={canonicalUrl} />
+                <meta property="og:site_name" content="Desa Wisata Serayu Larangan" />
+                <meta name="twitter:card" content="summary_large_image" />
+                <meta name="twitter:title" content="Panduan Wisatawan — Desa Wisata Serayu Larangan" />
+                <meta name="twitter:description" content="Tips dan panduan lengkap agar liburan Anda di kawasan Desa Wisata Serayu Larangan aman, nyaman, dan berkesan." />
+                <meta name="twitter:image" content="/images/backgrounds/pemandangan-serayu-larangan.webp" />
+            </Head>
             
             <header className="bg-(--forest-deep) pt-32 pb-16 text-center text-white">
                 <div className="container mx-auto max-w-3xl section-padding-x" data-reveal>

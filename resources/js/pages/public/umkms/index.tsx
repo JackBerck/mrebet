@@ -87,6 +87,8 @@ export default function UmkmsPublicIndex({ umkms, categories, filters }: Props) 
         updateFilters(search, val);
     };
 
+    const canonicalUrl = typeof window !== 'undefined' ? window.location.href : '';
+
     return (
         <PublicLayout>
             <Head>
@@ -95,6 +97,17 @@ export default function UmkmsPublicIndex({ umkms, categories, filters }: Props) 
                     name="description"
                     content="Jelajahi berbagai usaha mikro, kerajinan gula jawa, gula semut murni, dan tempat kuliner khas Desa Serayu Larangan, Purbalingga."
                 />
+                <link rel="canonical" href={canonicalUrl} />
+                <meta property="og:type" content="website" />
+                <meta property="og:title" content="UMKM & Kuliner — Desa Wisata Serayu Larangan" />
+                <meta property="og:description" content="Jelajahi berbagai usaha mikro, kerajinan gula jawa, gula semut murni, dan tempat kuliner khas Desa Serayu Larangan, Purbalingga." />
+                <meta property="og:image" content="/images/backgrounds/pemandangan-serayu-larangan.webp" />
+                <meta property="og:url" content={canonicalUrl} />
+                <meta property="og:site_name" content="Desa Wisata Serayu Larangan" />
+                <meta name="twitter:card" content="summary_large_image" />
+                <meta name="twitter:title" content="UMKM & Kuliner — Desa Wisata Serayu Larangan" />
+                <meta name="twitter:description" content="Jelajahi berbagai usaha mikro, kerajinan gula jawa, gula semut murni, dan tempat kuliner khas Desa Serayu Larangan, Purbalingga." />
+                <meta name="twitter:image" content="/images/backgrounds/pemandangan-serayu-larangan.webp" />
             </Head>
 
             <section className="pt-28 md:pt-32 lg:pt-40 pb-12 lg:pb-20 bg-(--cream-warm) min-h-screen">

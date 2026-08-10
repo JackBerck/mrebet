@@ -92,13 +92,27 @@ export default function Home({
 }: Props) {
     useMotionReveal();
 
+    const canonicalUrl = typeof window !== 'undefined' ? window.location.href : '';
+
     return (
         <PublicLayout>
             <Head>
-                <title>Desa Wisata Serayu Larangan — Pesona Alam & Tradisi Lereng Slamet</title>
+                <title>Desa Wisata Serayu Larangan — Pesona Alam & Gula Kelapa Purbalingga</title>
                 <meta
+                    name="description"
                     content="Desa Wisata Serayu Larangan di Kecamatan Mrebet, Purbalingga, Jawa Tengah. Lanskap persawahan asri, pengrajin gula kelapa, dan tradisi lokal lereng Gunung Slamet."
                 />
+                <link rel="canonical" href={canonicalUrl} />
+                <meta property="og:type" content="website" />
+                <meta property="og:title" content="Desa Wisata Serayu Larangan — Pesona Alam & Gula Kelapa Purbalingga" />
+                <meta property="og:description" content="Desa Wisata Serayu Larangan di Kecamatan Mrebet, Purbalingga, Jawa Tengah. Lanskap persawahan asri, pengrajin gula kelapa, dan tradisi lokal lereng Gunung Slamet." />
+                <meta property="og:image" content="/images/backgrounds/pemandangan-serayu-larangan.webp" />
+                <meta property="og:url" content={canonicalUrl} />
+                <meta property="og:site_name" content="Desa Wisata Serayu Larangan" />
+                <meta name="twitter:card" content="summary_large_image" />
+                <meta name="twitter:title" content="Desa Wisata Serayu Larangan — Pesona Alam & Gula Kelapa Purbalingga" />
+                <meta name="twitter:description" content="Desa Wisata Serayu Larangan di Kecamatan Mrebet, Purbalingga, Jawa Tengah. Lanskap persawahan asri, pengrajin gula kelapa, dan tradisi lokal lereng Gunung Slamet." />
+                <meta name="twitter:image" content="/images/backgrounds/pemandangan-serayu-larangan.webp" />
             </Head>
             {/* ── HERO ───────────────────────────────────────────────────── */}
             <section

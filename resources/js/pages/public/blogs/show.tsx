@@ -53,7 +53,7 @@ export default function BlogShow({ blog, relatedBlogs }: Props) {
         "@type": "NewsArticle",
         "headline": blog.title,
         "image": [
-            blog.cover_image ? `${window.location.origin}/storage/${blog.cover_image}` : `${window.location.origin}/default-og.jpg`
+            blog.cover_image ? `${window.location.origin}/storage/${blog.cover_image}` : `${window.location.origin}/images/backgrounds/pemandangan-serayu-larangan.webp`
         ],
         "datePublished": blog.published_at,
         "author": [{
@@ -80,9 +80,10 @@ export default function BlogShow({ blog, relatedBlogs }: Props) {
                 <meta property="og:description" content={excerpt} />
                 <meta 
                     property="og:image" 
-                    content={blog.cover_image ? `/storage/${blog.cover_image}` : '/default-og.jpg'} 
+                    content={blog.cover_image ? `/storage/${blog.cover_image}` : '/images/backgrounds/pemandangan-serayu-larangan.webp'} 
                 />
                 <meta property="og:url" content={shareUrl} />
+                <meta property="og:site_name" content="Desa Wisata Serayu Larangan" />
                 
                 {/* Twitter */}
                 <meta name="twitter:card" content="summary_large_image" />
@@ -90,7 +91,7 @@ export default function BlogShow({ blog, relatedBlogs }: Props) {
                 <meta name="twitter:description" content={excerpt} />
                 <meta 
                     name="twitter:image" 
-                    content={blog.cover_image ? `/storage/${blog.cover_image}` : '/default-og.jpg'} 
+                    content={blog.cover_image ? `/storage/${blog.cover_image}` : '/images/backgrounds/pemandangan-serayu-larangan.webp'} 
                 />
                 
                 {/* JSON-LD */}

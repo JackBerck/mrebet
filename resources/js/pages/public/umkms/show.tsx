@@ -55,14 +55,25 @@ export default function UmkmsPublicShow({ umkm, relatedUmkms }: Props) {
         }
     };
 
+    const excerpt = `Profil UMKM & Kuliner ${umkm.name} di Desa Serayu Larangan, Purbalingga. Pemilik: ${umkm.owner_name ?? 'Warga Desa'}.`;
+    const imageUrl = umkm.primary_media ? `/storage/${umkm.primary_media.file_path}` : '/images/backgrounds/pemandangan-serayu-larangan.webp';
+
     return (
         <PublicLayout>
             <Head>
                 <title>{`${umkm.name} — UMKM & Kuliner Desa Serayu Larangan`}</title>
-                <meta
-                    name="description"
-                    content={`Profil UMKM & Kuliner ${umkm.name} di Desa Serayu Larangan, Purbalingga. Pemilik: ${umkm.owner_name ?? 'Warga Desa'}.`}
-                />
+                <meta name="description" content={excerpt} />
+                <link rel="canonical" href={shareUrl} />
+                <meta property="og:type" content="article" />
+                <meta property="og:title" content={umkm.name} />
+                <meta property="og:description" content={excerpt} />
+                <meta property="og:image" content={imageUrl} />
+                <meta property="og:url" content={shareUrl} />
+                <meta property="og:site_name" content="Desa Wisata Serayu Larangan" />
+                <meta name="twitter:card" content="summary_large_image" />
+                <meta name="twitter:title" content={umkm.name} />
+                <meta name="twitter:description" content={excerpt} />
+                <meta name="twitter:image" content={imageUrl} />
             </Head>
 
             {/* Top spacing */}

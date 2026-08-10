@@ -73,6 +73,8 @@ export default function MapIndex({ destinations = [], umkms = [], categories = [
         }
     };
 
+    const canonicalUrl = typeof window !== 'undefined' ? window.location.href : '';
+
     return (
         <PublicLayout>
             <Head>
@@ -81,6 +83,17 @@ export default function MapIndex({ destinations = [], umkms = [], categories = [
                     name="description"
                     content="Jelajahi peta interaktif sebaran lokasi destinasi wisata dan UMKM di Desa Wisata Serayu Larangan, Mrebet, Purbalingga."
                 />
+                <link rel="canonical" href={canonicalUrl} />
+                <meta property="og:type" content="website" />
+                <meta property="og:title" content="Peta Wisata & UMKM Interaktif — Desa Wisata Serayu Larangan" />
+                <meta property="og:description" content="Jelajahi peta interaktif sebaran lokasi destinasi wisata dan UMKM di Desa Wisata Serayu Larangan, Mrebet, Purbalingga." />
+                <meta property="og:image" content="/images/backgrounds/pemandangan-serayu-larangan.webp" />
+                <meta property="og:url" content={canonicalUrl} />
+                <meta property="og:site_name" content="Desa Wisata Serayu Larangan" />
+                <meta name="twitter:card" content="summary_large_image" />
+                <meta name="twitter:title" content="Peta Wisata & UMKM Interaktif — Desa Wisata Serayu Larangan" />
+                <meta name="twitter:description" content="Jelajahi peta interaktif sebaran lokasi destinasi wisata dan UMKM di Desa Wisata Serayu Larangan, Mrebet, Purbalingga." />
+                <meta name="twitter:image" content="/images/backgrounds/pemandangan-serayu-larangan.webp" />
             </Head>
 
             <section className="pt-28 md:pt-32 lg:pt-36 pb-12 bg-(--cream-warm) min-h-screen">

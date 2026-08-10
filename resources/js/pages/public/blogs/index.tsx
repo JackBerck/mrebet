@@ -52,6 +52,8 @@ export default function BlogsIndex({ blogs, filters }: Props) {
         debouncedSearch('');
     };
 
+    const canonicalUrl = typeof window !== 'undefined' ? window.location.href : '';
+
     return (
         <PublicLayout>
             <Head>
@@ -60,6 +62,17 @@ export default function BlogsIndex({ blogs, filters }: Props) {
                     name="description"
                     content="Kumpulan artikel, kabar desa, cerita kegiatan, dan berita terbaru dari Desa Wisata Serayu Larangan, Mrebet, Purbalingga."
                 />
+                <link rel="canonical" href={canonicalUrl} />
+                <meta property="og:type" content="website" />
+                <meta property="og:title" content="Blog & Berita — Desa Wisata Serayu Larangan" />
+                <meta property="og:description" content="Kumpulan artikel, kabar desa, cerita kegiatan, dan berita terbaru dari Desa Wisata Serayu Larangan, Mrebet, Purbalingga." />
+                <meta property="og:image" content="/images/backgrounds/pemandangan-serayu-larangan.webp" />
+                <meta property="og:url" content={canonicalUrl} />
+                <meta property="og:site_name" content="Desa Wisata Serayu Larangan" />
+                <meta name="twitter:card" content="summary_large_image" />
+                <meta name="twitter:title" content="Blog & Berita — Desa Wisata Serayu Larangan" />
+                <meta name="twitter:description" content="Kumpulan artikel, kabar desa, cerita kegiatan, dan berita terbaru dari Desa Wisata Serayu Larangan, Mrebet, Purbalingga." />
+                <meta name="twitter:image" content="/images/backgrounds/pemandangan-serayu-larangan.webp" />
             </Head>
 
             <section className="pt-28 md:pt-32 lg:pt-40 pb-12 lg:pb-20 bg-(--cream-warm) min-h-screen">

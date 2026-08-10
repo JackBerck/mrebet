@@ -84,9 +84,10 @@ export default function DestinationShow({ destination, events, relatedDestinatio
                 <meta property="og:description" content={excerpt} />
                 <meta
                     property="og:image"
-                    content={destination.primary_media ? `/storage/${destination.primary_media.file_path}` : '/default-og.jpg'}
+                    content={destination.primary_media ? `/storage/${destination.primary_media.file_path}` : '/images/backgrounds/pemandangan-serayu-larangan.webp'}
                 />
                 <meta property="og:url" content={shareUrl} />
+                <meta property="og:site_name" content="Desa Wisata Serayu Larangan" />
 
                 {/* Twitter */}
                 <meta name="twitter:card" content="summary_large_image" />
@@ -94,7 +95,7 @@ export default function DestinationShow({ destination, events, relatedDestinatio
                 <meta name="twitter:description" content={excerpt} />
                 <meta
                     name="twitter:image"
-                    content={destination.primary_media ? `/storage/${destination.primary_media.file_path}` : '/default-og.jpg'}
+                    content={destination.primary_media ? `/storage/${destination.primary_media.file_path}` : '/images/backgrounds/pemandangan-serayu-larangan.webp'}
                 />
 
                 <script type="application/ld+json">

@@ -6,9 +6,28 @@ import PublicLayout from '@/layouts/public-layout';
 export default function Partnership() {
     useMotionReveal();
 
+    const canonicalUrl = typeof window !== 'undefined' ? window.location.href : '';
+
     return (
         <PublicLayout>
-            <Head title="Kemitraan - Desa Wisata Serayu Larangan" />
+            <Head>
+                <title>Kemitraan & Kolaborasi — Desa Wisata Serayu Larangan</title>
+                <meta
+                    name="description"
+                    content="Bersinergi bersama Pokdarwis & Pemerintah Desa Serayu Larangan untuk memajukan pariwisata berkelanjutan dan UMKM lokal."
+                />
+                <link rel="canonical" href={canonicalUrl} />
+                <meta property="og:type" content="website" />
+                <meta property="og:title" content="Kemitraan & Kolaborasi — Desa Wisata Serayu Larangan" />
+                <meta property="og:description" content="Bersinergi bersama Pokdarwis & Pemerintah Desa Serayu Larangan untuk memajukan pariwisata berkelanjutan dan UMKM lokal." />
+                <meta property="og:image" content="/images/backgrounds/pemandangan-serayu-larangan.webp" />
+                <meta property="og:url" content={canonicalUrl} />
+                <meta property="og:site_name" content="Desa Wisata Serayu Larangan" />
+                <meta name="twitter:card" content="summary_large_image" />
+                <meta name="twitter:title" content="Kemitraan & Kolaborasi — Desa Wisata Serayu Larangan" />
+                <meta name="twitter:description" content="Bersinergi bersama Pokdarwis & Pemerintah Desa Serayu Larangan untuk memajukan pariwisata berkelanjutan dan UMKM lokal." />
+                <meta name="twitter:image" content="/images/backgrounds/pemandangan-serayu-larangan.webp" />
+            </Head>
             
             <header className="bg-(--forest-deep) pt-32 pb-16 text-center text-white">
                 <div className="container mx-auto max-w-3xl section-padding-x" data-reveal>

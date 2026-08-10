@@ -46,11 +46,28 @@ export default function EventShow({ event, relatedEvents }: Props) {
         }
     };
 
+    const excerpt = event.description
+        ? event.description.replace(/<[^>]*>?/gm, '').trim().substring(0, 150) + '...'
+        : `Hadirilah ${event.title} di Desa Wisata Serayu Larangan.`;
+
+    const imageUrl = event.primary_media ? `/storage/${event.primary_media.file_path}` : '/images/backgrounds/pemandangan-serayu-larangan.webp';
+
     return (
         <PublicLayout>
             <Head>
                 <title>{`${event.title} — Desa Wisata Serayu Larangan`}</title>
-                <meta name="description" content={event.title} />
+                <meta name="description" content={excerpt} />
+                <link rel="canonical" href={shareUrl} />
+                <meta property="og:type" content="article" />
+                <meta property="og:title" content={event.title} />
+                <meta property="og:description" content={excerpt} />
+                <meta property="og:image" content={imageUrl} />
+                <meta property="og:url" content={shareUrl} />
+                <meta property="og:site_name" content="Desa Wisata Serayu Larangan" />
+                <meta name="twitter:card" content="summary_large_image" />
+                <meta name="twitter:title" content={event.title} />
+                <meta name="twitter:description" content={excerpt} />
+                <meta name="twitter:image" content={imageUrl} />
             </Head>
 
             {/* Top spacing for fixed navbar */}

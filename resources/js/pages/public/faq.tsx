@@ -14,9 +14,28 @@ export default function FAQ() {
         setOpenIndex(openIndex === id ? null : id);
     };
 
+    const canonicalUrl = typeof window !== 'undefined' ? window.location.href : '';
+
     return (
         <PublicLayout>
-            <Head title="FAQ - Desa Wisata Serayu Larangan" />
+            <Head>
+                <title>Pertanyaan Umum (FAQ) — Desa Wisata Serayu Larangan</title>
+                <meta
+                    name="description"
+                    content="Temukan jawaban untuk pertanyaan yang sering ditanyakan seputar wisata, lokasi, dan fasilitas di Desa Wisata Serayu Larangan."
+                />
+                <link rel="canonical" href={canonicalUrl} />
+                <meta property="og:type" content="website" />
+                <meta property="og:title" content="Pertanyaan Umum (FAQ) — Desa Wisata Serayu Larangan" />
+                <meta property="og:description" content="Temukan jawaban untuk pertanyaan yang sering ditanyakan seputar wisata, lokasi, dan fasilitas di Desa Wisata Serayu Larangan." />
+                <meta property="og:image" content="/images/backgrounds/pemandangan-serayu-larangan.webp" />
+                <meta property="og:url" content={canonicalUrl} />
+                <meta property="og:site_name" content="Desa Wisata Serayu Larangan" />
+                <meta name="twitter:card" content="summary_large_image" />
+                <meta name="twitter:title" content="Pertanyaan Umum (FAQ) — Desa Wisata Serayu Larangan" />
+                <meta name="twitter:description" content="Temukan jawaban untuk pertanyaan yang sering ditanyakan seputar wisata, lokasi, dan fasilitas di Desa Wisata Serayu Larangan." />
+                <meta name="twitter:image" content="/images/backgrounds/pemandangan-serayu-larangan.webp" />
+            </Head>
             
             {/* Hero Section */}
             <header className="bg-(--forest-deep) pt-32 pb-16 text-center text-white">

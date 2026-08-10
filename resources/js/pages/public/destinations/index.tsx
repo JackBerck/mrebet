@@ -73,6 +73,8 @@ export default function DestinationsIndex({ destinations, categories, filters }:
         updateFilters(search, val);
     };
 
+    const canonicalUrl = typeof window !== 'undefined' ? window.location.href : '';
+
     return (
         <PublicLayout>
             <Head>
@@ -81,6 +83,17 @@ export default function DestinationsIndex({ destinations, categories, filters }:
                     name="description"
                     content="Jelajahi berbagai destinasi wisata alam, budaya, dan buatan di kawasan Desa Wisata Serayu Larangan, Mrebet, Purbalingga."
                 />
+                <link rel="canonical" href={canonicalUrl} />
+                <meta property="og:type" content="website" />
+                <meta property="og:title" content="Destinasi Wisata — Desa Wisata Serayu Larangan" />
+                <meta property="og:description" content="Jelajahi berbagai destinasi wisata alam, budaya, dan buatan di kawasan Desa Wisata Serayu Larangan, Mrebet, Purbalingga." />
+                <meta property="og:image" content="/images/backgrounds/pemandangan-serayu-larangan.webp" />
+                <meta property="og:url" content={canonicalUrl} />
+                <meta property="og:site_name" content="Desa Wisata Serayu Larangan" />
+                <meta name="twitter:card" content="summary_large_image" />
+                <meta name="twitter:title" content="Destinasi Wisata — Desa Wisata Serayu Larangan" />
+                <meta name="twitter:description" content="Jelajahi berbagai destinasi wisata alam, budaya, dan buatan di kawasan Desa Wisata Serayu Larangan, Mrebet, Purbalingga." />
+                <meta name="twitter:image" content="/images/backgrounds/pemandangan-serayu-larangan.webp" />
             </Head>
 
             <section className="pt-28 md:pt-32 lg:pt-40 pb-12 lg:pb-20 bg-(--cream-warm) min-h-screen">

@@ -7,9 +7,28 @@ import PublicLayout from '@/layouts/public-layout';
 export default function About() {
     useMotionReveal();
 
+    const canonicalUrl = typeof window !== 'undefined' ? window.location.href : '';
+
     return (
         <PublicLayout>
-            <Head title="Tentang Kami - Desa Wisata Serayu Larangan" />
+            <Head>
+                <title>Tentang Kami — Desa Wisata Serayu Larangan</title>
+                <meta
+                    name="description"
+                    content="Mengenal profil, visi misi, sejarah, dan pengelola Desa Wisata Serayu Larangan di Kecamatan Mrebet, Purbalingga."
+                />
+                <link rel="canonical" href={canonicalUrl} />
+                <meta property="og:type" content="website" />
+                <meta property="og:title" content="Tentang Kami — Desa Wisata Serayu Larangan" />
+                <meta property="og:description" content="Mengenal profil, visi misi, sejarah, dan pengelola Desa Wisata Serayu Larangan di Kecamatan Mrebet, Purbalingga." />
+                <meta property="og:image" content="/images/backgrounds/pemandangan-serayu-larangan.webp" />
+                <meta property="og:url" content={canonicalUrl} />
+                <meta property="og:site_name" content="Desa Wisata Serayu Larangan" />
+                <meta name="twitter:card" content="summary_large_image" />
+                <meta name="twitter:title" content="Tentang Kami — Desa Wisata Serayu Larangan" />
+                <meta name="twitter:description" content="Mengenal profil, visi misi, sejarah, dan pengelola Desa Wisata Serayu Larangan di Kecamatan Mrebet, Purbalingga." />
+                <meta name="twitter:image" content="/images/backgrounds/pemandangan-serayu-larangan.webp" />
+            </Head>
             
             {/* Hero Section */}
             <header className="relative flex items-center justify-center overflow-hidden pt-32 pb-20 md:pt-40 md:pb-32 bg-(--forest-deep) text-center">
