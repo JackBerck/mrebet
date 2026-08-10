@@ -22,6 +22,7 @@ import {
 import type { NavItem, User } from '@/types';
 
 import admin from '@/routes/admin';
+import { home } from '@/routes';
 
 function getAdminNavItems(user: User | null | undefined): NavItem[] {
     if (!user) {
@@ -71,7 +72,7 @@ export function AppSidebar() {
                 <SidebarMenu>
                     <SidebarMenuItem>
                         <SidebarMenuButton size="lg" asChild>
-                            <Link href={admin.dashboard().url} prefetch>
+                            <Link href={home().url} prefetch>
                                 <AppLogo />
                             </Link>
                         </SidebarMenuButton>
