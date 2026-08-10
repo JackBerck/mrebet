@@ -122,7 +122,7 @@ export default function EventShow({ event, relatedEvents }: Props) {
                                 </h2>
                                 {event.description ? (
                                     <div 
-                                        className="prose prose-neutral max-w-none prose-headings:font-display prose-headings:text-(--forest-deep) prose-a:text-(--forest) hover:prose-a:text-(--forest-deep)"
+                                        className="prose-html max-w-none"
                                         dangerouslySetInnerHTML={{ __html: event.description }}
                                     />
                                 ) : (

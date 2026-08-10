@@ -136,7 +136,7 @@ export default function UmkmsPublicShow({ umkm, relatedUmkms }: Props) {
                                     Tentang Usaha & Produk
                                 </h2>
                                 <div
-                                    className="prose prose-neutral md:prose-lg max-w-none prose-headings:font-display prose-headings:text-(--forest-deep) prose-a:text-(--forest)"
+                                    className="prose-html max-w-none"
                                     dangerouslySetInnerHTML={{ __html: umkm.description || '<p className="text-(--charcoal-soft) italic">Belum ada deskripsi untuk usaha ini.</p>' }}
                                 />
                             </div>

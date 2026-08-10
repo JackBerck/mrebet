@@ -176,7 +176,7 @@ export default function BlogShow({ blog, relatedBlogs }: Props) {
                             <div className="bg-white rounded-2xl p-6 md:p-10 lg:p-12 border border-(--line) shadow-sm relative">
                                 {blog.content ? (
                                     <div 
-                                        className="prose prose-neutral md:prose-lg max-w-none prose-headings:font-display prose-headings:text-(--forest-deep) prose-a:text-(--forest) hover:prose-a:text-(--forest-deep) prose-img:rounded-xl prose-img:border prose-img:border-(--line)"
+                                        className="prose-html max-w-none"
                                         dangerouslySetInnerHTML={{ __html: blog.content }}
                                     />
                                 ) : (
