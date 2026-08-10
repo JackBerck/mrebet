@@ -29,7 +29,10 @@ class EventSeeder extends Seeder
                 'organizer' => 'Kelompok Penderes & Karang Taruna Serayu Larangan',
                 'instagram' => '@serayularangan_official',
                 'contact_person' => '081398480422 (Fajar)',
+                'address' => 'Lap. Agrowisata Buah & Gula Semut, Serayu Larangan',
                 'gmaps_link' => 'https://maps.google.com/?q=-7.3235410,109.3642100',
+                'latitude' => -7.3235410,
+                'longitude' => 109.3642100,
                 'status' => 'published',
             ],
             [
@@ -44,31 +47,39 @@ class EventSeeder extends Seeder
                 'organizer' => 'Pemerintah Desa & PKK Serayu Larangan',
                 'instagram' => '@pemdes_serayularangan',
                 'contact_person' => '081100001111 (Admin Desa)',
+                'address' => 'Balai Desa & Lapangan Olahraga Serayu Larangan',
                 'gmaps_link' => 'https://maps.google.com/?q=-7.3229000,109.3638000',
+                'latitude' => -7.3229000,
+                'longitude' => 109.3638000,
                 'status' => 'published',
             ],
         ];
 
         foreach ($events as $data) {
-            DB::table('events')->insert([
-                'destination_id' => $data['destination_id'],
-                'title' => $data['title'],
-                'slug' => Str::slug($data['title']),
-                'description' => $data['description'],
-                'start_date' => $data['start_date'],
-                'end_date' => $data['end_date'],
-                'start_time' => $data['start_time'],
-                'end_time' => $data['end_time'],
-                'ticket_price' => $data['ticket_price'],
-                'organizer' => $data['organizer'],
-                'instagram' => $data['instagram'],
-                'contact_person' => $data['contact_person'],
-                'gmaps_link' => $data['gmaps_link'],
-                'qr_code_target' => 'https://serayularangan.desa.id/event/'.Str::slug($data['title']),
-                'status' => $data['status'],
-                'created_at' => Carbon::now(),
-                'updated_at' => Carbon::now(),
-            ]);
+            $slug = Str::slug($data['title']);
+            DB::table('events')->updateOrInsert(
+                ['slug' => $slug],
+                [
+                    'destination_id' => $data['destination_id'],
+                    'title' => $data['title'],
+                    'description' => $data['description'],
+                    'start_date' => $data['start_date'],
+                    'end_date' => $data['end_date'],
+                    'start_time' => $data['start_time'],
+                    'end_time' => $data['end_time'],
+                    'ticket_price' => $data['ticket_price'],
+                    'organizer' => $data['organizer'],
+                    'instagram' => $data['instagram'],
+                    'contact_person' => $data['contact_person'],
+                    'address' => $data['address'],
+                    'gmaps_link' => $data['gmaps_link'],
+                    'latitude' => $data['latitude'],
+                    'longitude' => $data['longitude'],
+                    'qr_code_target' => 'https://serayularangan.desa.id/event/'.$slug,
+                    'status' => $data['status'],
+                    'updated_at' => Carbon::now(),
+                ],
+            );
         }
     }
 }

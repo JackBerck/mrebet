@@ -68,6 +68,7 @@ const destinationSchema = z.object({
     ticket_info: z.string().max(500).optional().or(z.literal('')),
     open_time: z.string().optional().or(z.literal('')),
     close_time: z.string().optional().or(z.literal('')),
+    gmaps_link: z.string().max(1000).optional().or(z.literal('')),
     qr_code_target: z
         .string()
         .url('Harus berupa URL valid')
@@ -117,6 +118,7 @@ export default function DestinationForm({
             close_time: destination?.close_time
                 ? destination.close_time.substring(0, 5)
                 : '',
+            gmaps_link: destination?.gmaps_link ?? '',
             qr_code_target: destination?.qr_code_target ?? '',
             status: destination?.status ?? 'draft',
             description: destination?.description ?? '',
@@ -504,6 +506,27 @@ finalData.status = 'published';
                         </CardDescription>
                     </CardHeader>
                     <CardContent className="flex flex-col gap-4 sm:gap-5 p-3.5 pt-0 sm:p-5 sm:pt-0">
+                        <div className="flex flex-col gap-1.5">
+                            <Label htmlFor="gmaps_link">Link Google Maps (opsional)</Label>
+                            <Input
+                                id="gmaps_link"
+                                type="url"
+                                value={data.gmaps_link ?? ''}
+                                onChange={(e) =>
+                                    setData('gmaps_link', e.target.value)
+                                }
+                                placeholder="https://maps.app.goo.gl/... atau https://maps.google.com/..."
+                                className={
+                                    errors.gmaps_link ? 'border-destructive' : ''
+                                }
+                            />
+                            <p className="text-xs text-(--charcoal-soft)">
+                                Tempelkan link dari Google Maps. Koordinat
+                                latitude & longitude akan otomatis terdeteksi saat
+                                disimpan.
+                            </p>
+                        </div>
+
                         <div className="grid gap-4 sm:gap-5 sm:grid-cols-2">
                             <div className="flex flex-col gap-1.5">
                                 <Label htmlFor="latitude">Latitude</Label>

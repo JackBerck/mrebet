@@ -32,7 +32,10 @@ export type Event = {
     organizer: string | null;
     contact_person: string | null;
     instagram: string | null;
+    address?: string | null;
     gmaps_link?: string | null;
+    latitude?: number | null;
+    longitude?: number | null;
     qr_code_target: string | null;
     destination?: { id: number; name: string; slug: string } | null;
     primary_media: { file_path: string } | null;

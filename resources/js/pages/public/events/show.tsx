@@ -186,6 +186,18 @@ export default function EventShow({ event, relatedEvents }: Props) {
                                 </div>
 
                                 <div className="flex items-start gap-4">
+                                    <div className="w-10 h-10 rounded-full bg-(--forest-mist) flex items-center justify-center shrink-0 text-(--forest)">
+                                        <MapPin className="w-5 h-5" />
+                                    </div>
+                                    <div>
+                                        <p className="text-xs text-(--charcoal-soft) font-medium uppercase tracking-wider mb-1">Lokasi</p>
+                                        <p className="font-semibold text-(--charcoal)">
+                                            {event.address || (event.destination ? event.destination.name : 'Desa Serayu Larangan')}
+                                        </p>
+                                    </div>
+                                </div>
+
+                                <div className="flex items-start gap-4">
                                     <div className="w-10 h-10 rounded-full bg-(--gold-soft)/30 flex items-center justify-center shrink-0 text-(--gold)">
                                         <Ticket className="w-5 h-5" />
                                     </div>
@@ -212,7 +224,7 @@ export default function EventShow({ event, relatedEvents }: Props) {
                             </div>
 
                             {/* Map Preview Card */}
-                            {event.gmaps_link && (
+                            {embedUrl && (
                                 <div className="bg-white rounded-2xl p-6 border border-(--line) shadow-sm space-y-4">
                                     <h3 className="font-display text-base font-bold text-(--forest-deep) flex items-center gap-2">
                                         <MapPin className="w-4 h-4 text-(--forest)" />

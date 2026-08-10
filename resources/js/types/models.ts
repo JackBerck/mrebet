@@ -75,7 +75,10 @@ export type Event = {
     organizer: string | null;
     instagram: string | null;
     contact_person: string | null;
+    address: string | null;
     gmaps_link: string | null;
+    latitude: number | null;
+    longitude: number | null;
     qr_code_target: string | null;
     status: 'draft' | 'published';
     created_at: string;

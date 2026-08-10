@@ -28,7 +28,10 @@ use Spatie\Sluggable\SlugOptions;
  * @property string|null $organizer
  * @property string|null $instagram
  * @property string|null $contact_person
+ * @property string|null $address
  * @property string|null $gmaps_link
+ * @property string|null $latitude
+ * @property string|null $longitude
  * @property string|null $qr_code_target
  * @property ContentStatus $status
  * @property Carbon|null $created_at

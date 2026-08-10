@@ -2,13 +2,14 @@ import { Head, router, useForm } from '@inertiajs/react';
 import Placeholder from '@tiptap/extension-placeholder';
 import { EditorContent, useEditor } from '@tiptap/react';
 import StarterKit from '@tiptap/starter-kit';
-import { Loader2, Save } from 'lucide-react';
+import { MapPin, Loader2, Save } from 'lucide-react';
 import { useCallback, useEffect, useState } from 'react';
 import { toast } from 'sonner';
 import { z } from 'zod';
 import { DatePicker } from '@/components/admin/date-picker';
 import { EditorToolbar } from '@/components/admin/editor-toolbar';
 import { ImageUploader } from '@/components/admin/image-uploader';
+import { MapPicker } from '@/components/admin/map-picker';
 import { Button } from '@/components/ui/button';
 import {
     Card,
@@ -42,6 +43,8 @@ const eventSchema = z.object({
     organizer: z.string().max(255).optional().or(z.literal('')),
     instagram: z.string().max(255).optional().or(z.literal('')),
     contact_person: z.string().max(255).optional().or(z.literal('')),
+    address: z.string().max(500).optional().or(z.literal('')),
+    gmaps_link: z.string().max(1000).optional().or(z.literal('')),
     qr_code_target: z
         .string()
         .url('Harus berupa URL valid')
@@ -75,6 +78,8 @@ export default function EventForm({
             EventFormData & {
                 description: string;
                 destination_id: number | null;
+                latitude: number | null;
+                longitude: number | null;
                 images: File[];
                 deleted_media_ids: number[];
                 primary_media_id: number | null;
@@ -92,6 +97,10 @@ export default function EventForm({
             organizer: event?.organizer ?? '',
             instagram: event?.instagram ?? '',
             contact_person: event?.contact_person ?? '',
+            address: event?.address ?? '',
+            gmaps_link: event?.gmaps_link ?? '',
+            latitude: event?.latitude ?? null,
+            longitude: event?.longitude ?? null,
             qr_code_target: event?.qr_code_target ?? '',
             status: event?.status ?? 'draft',
             description: event?.description ?? '',
@@ -485,7 +494,104 @@ export default function EventForm({
                     </CardContent>
                 </Card>
 
-                {/* Section 5: Galeri Foto */}
+                {/* Section 5: Lokasi Event */}
+                <Card className="border-(--line) shadow-none gap-2 sm:gap-3 py-0">
+                    <CardHeader className="p-3.5 pb-0 sm:p-5 sm:pb-0">
+                        <CardTitle className="font-display text-base sm:text-lg text-(--forest-deep)">
+                            Lokasi & Peta Pelaksanaan
+                        </CardTitle>
+                        <CardDescription className="text-xs sm:text-sm">
+                            <span className="flex items-center gap-1.5">
+                                <MapPin className="h-4 w-4 text-(--forest)" />
+                                Alamat spesifik, Google Maps link, atau pilih lokasi di peta.
+                            </span>
+                        </CardDescription>
+                    </CardHeader>
+                    <CardContent className="flex flex-col gap-4 sm:gap-5 p-3.5 pt-0 sm:p-5 sm:pt-0">
+                        <div className="flex flex-col gap-1.5">
+                            <Label htmlFor="address">Alamat / Patokan Tempat</Label>
+                            <Input
+                                id="address"
+                                value={data.address ?? ''}
+                                onChange={(e) =>
+                                    setData('address', e.target.value)
+                                }
+                                placeholder="Contoh: Lapangan Agrowisata Serayu Larangan"
+                            />
+                        </div>
+
+                        <div className="flex flex-col gap-1.5">
+                            <Label htmlFor="gmaps_link">Link Google Maps (opsional)</Label>
+                            <Input
+                                id="gmaps_link"
+                                type="url"
+                                value={data.gmaps_link ?? ''}
+                                onChange={(e) =>
+                                    setData('gmaps_link', e.target.value)
+                                }
+                                placeholder="https://maps.app.goo.gl/... atau https://maps.google.com/..."
+                            />
+                            <p className="text-xs text-(--charcoal-soft)">
+                                Tempelkan link dari Google Maps. Koordinat
+                                latitude & longitude akan otomatis terdeteksi saat
+                                disimpan.
+                            </p>
+                        </div>
+
+                        <div className="grid gap-4 sm:gap-5 sm:grid-cols-2">
+                            <div className="flex flex-col gap-1.5">
+                                <Label htmlFor="latitude">Latitude</Label>
+                                <Input
+                                    id="latitude"
+                                    type="number"
+                                    step="any"
+                                    value={data.latitude ?? ''}
+                                    onChange={(e) =>
+                                        setData(
+                                            'latitude',
+                                            e.target.value
+                                                ? parseFloat(e.target.value)
+                                                : null,
+                                        )
+                                    }
+                                    placeholder="-7.4267"
+                                />
+                            </div>
+                            <div className="flex flex-col gap-1.5">
+                                <Label htmlFor="longitude">Longitude</Label>
+                                <Input
+                                    id="longitude"
+                                    type="number"
+                                    step="any"
+                                    value={data.longitude ?? ''}
+                                    onChange={(e) =>
+                                        setData(
+                                            'longitude',
+                                            e.target.value
+                                                ? parseFloat(e.target.value)
+                                                : null,
+                                        )
+                                    }
+                                    placeholder="109.3619"
+                                />
+                            </div>
+                        </div>
+
+                        <MapPicker
+                            lat={data.latitude ?? null}
+                            lng={data.longitude ?? null}
+                            onChange={(lat, lng) =>
+                                setData((prev) => ({
+                                    ...prev,
+                                    latitude: lat,
+                                    longitude: lng,
+                                }))
+                            }
+                        />
+                    </CardContent>
+                </Card>
+
+                {/* Section 6: Galeri Foto */}
                 <Card className="border-(--line) shadow-none gap-2 sm:gap-3 py-0">
                     <CardHeader className="p-3.5 pb-0 sm:p-5 sm:pb-0">
                         <CardTitle className="font-display text-base sm:text-lg text-(--forest-deep)">
