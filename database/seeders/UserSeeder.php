@@ -14,9 +14,6 @@ class UserSeeder extends Seeder
      */
     public function run(): void
     {
-        $sentraGula = DB::table('umkms')->where('slug', 'like', '%sentra-gula%')->first();
-        $warungMbokSri = DB::table('umkms')->where('slug', 'like', '%warung-makan%')->first();
-
         $users = [
             // SUPER ADMIN
             [
@@ -27,28 +24,6 @@ class UserSeeder extends Seeder
                 'avatar' => null,
                 'role' => 'admin',
                 'umkm_id' => null,
-                'is_active' => true,
-            ],
-            // ADMIN SERAYU LARANGAN
-            [
-                'full_name' => 'Fajar Prasetyo Utomo',
-                'email' => 'manager.serayularangan@serayularangan.desa.id',
-                'phone_number' => '081398480422',
-                'password' => Hash::make('password'),
-                'avatar' => null,
-                'role' => 'admin',
-                'umkm_id' => $sentraGula?->id,
-                'is_active' => true,
-            ],
-            // ADMIN WARUNG KULINER
-            [
-                'full_name' => 'Siti Srimulyati',
-                'email' => 'manager.kuliner@serayularangan.desa.id',
-                'phone_number' => '082227961243',
-                'password' => Hash::make('password'),
-                'avatar' => null,
-                'role' => 'admin',
-                'umkm_id' => $warungMbokSri?->id,
                 'is_active' => true,
             ],
         ];

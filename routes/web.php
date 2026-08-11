@@ -5,6 +5,7 @@ use App\Http\Controllers\Admin\AdminBlogController;
 use App\Http\Controllers\Admin\AdminDashboardController;
 use App\Http\Controllers\Admin\AdminDestinationController;
 use App\Http\Controllers\Admin\AdminEventController;
+use App\Http\Controllers\Admin\AdminSettingController;
 use App\Http\Controllers\Admin\AdminUmkmController;
 use App\Http\Controllers\Admin\AdminUserController;
 use App\Http\Controllers\Public\HomeController;
@@ -16,6 +17,8 @@ use App\Http\Controllers\Public\PublicMapController;
 use App\Http\Controllers\Public\PublicUmkmController;
 use App\Http\Controllers\Public\SitemapController;
 use Illuminate\Support\Facades\Route;
+use Laravel\Passkeys\Http\Controllers\PasskeyConfirmationController;
+use Laravel\Passkeys\Http\Controllers\PasskeyRegistrationController;
 
 Route::get('/', [HomeController::class, 'index'])->name('home');
 Route::get('/sitemap.xml', [SitemapController::class, 'index'])->name('sitemap');
@@ -77,6 +80,14 @@ Route::prefix('admin')
         Route::patch('users/{user}/status', [AdminUserController::class, 'updateStatus'])
             ->name('users.status')
             ->middleware('admin');
+
+        // Site Settings
+        Route::get('/settings/site', [AdminSettingController::class, 'edit'])
+            ->name('site-settings.edit')
+            ->middleware('admin');
+        Route::put('/settings/site', [AdminSettingController::class, 'update'])
+            ->name('site-settings.update')
+            ->middleware('admin');
     });
 
 require __DIR__.'/settings.php';
@@ -97,9 +108,6 @@ Route::name('two-factor.secret-key')->get('/user/two-factor-secret-key', fn () =
 Route::name('two-factor.recovery-codes')->get('/user/two-factor-recovery-codes', fn () => abort(404));
 Route::name('password.email')->post('/forgot-password', fn () => abort(404));
 Route::name('password.update')->post('/reset-password', fn () => abort(404));
-
-use Laravel\Passkeys\Http\Controllers\PasskeyConfirmationController;
-use Laravel\Passkeys\Http\Controllers\PasskeyRegistrationController;
 
 Route::get('/user/passkeys/confirm', [PasskeyConfirmationController::class, 'index']);
 Route::post('/user/passkeys/confirm', [PasskeyConfirmationController::class, 'store']);

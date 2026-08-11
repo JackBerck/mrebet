@@ -25,7 +25,10 @@ return new class extends Migration
             $table->string('organizer')->nullable();
             $table->string('instagram')->nullable();
             $table->string('contact_person')->nullable();
+            $table->text('address')->nullable();
             $table->text('gmaps_link')->nullable();
+            $table->decimal('latitude', 10, 8)->nullable();
+            $table->decimal('longitude', 11, 8)->nullable();
             $table->string('qr_code_target')->nullable();
             $table->enum('status', ['draft', 'published'])->default('draft');
             $table->timestamps();

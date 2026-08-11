@@ -4,6 +4,7 @@ import {
     Compass,
     FileText,
     LayoutDashboard,
+    Settings,
     Store,
     Users,
 } from 'lucide-react';
@@ -45,6 +46,7 @@ function getAdminNavItems(user: User | null | undefined): NavItem[] {
             { title: 'Event', href: admin.events.index().url, icon: CalendarDays },
             { title: 'Blog', href: admin.blogs.index().url, icon: FileText },
             { title: 'Pengguna', href: '/admin/users', icon: Users },
+            { title: 'Pengaturan Kontak', href: '/admin/settings/site', icon: Settings },
         ];
     }
 
