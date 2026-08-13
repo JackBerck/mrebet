@@ -29,6 +29,13 @@ export function MapPicker({
         }
 
         import('leaflet').then((L) => {
+            delete (L.default.Icon.Default.prototype as any)._getIconUrl;
+            L.default.Icon.Default.mergeOptions({
+                iconRetinaUrl: 'https://unpkg.com/leaflet@1.9.4/dist/images/marker-icon-2x.png',
+                iconUrl: 'https://unpkg.com/leaflet@1.9.4/dist/images/marker-icon.png',
+                shadowUrl: 'https://unpkg.com/leaflet@1.9.4/dist/images/marker-shadow.png',
+            });
+
             const initLat = lat ?? defaultCenter[0];
             const initLng = lng ?? defaultCenter[1];
 

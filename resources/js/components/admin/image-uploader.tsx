@@ -112,10 +112,14 @@ URL.revokeObjectURL(target.url);
                         )}
                         <button
                             type="button"
-                            onClick={() => remove(i)}
-                            className="absolute top-1.5 right-1.5 flex h-5 w-5 items-center justify-center rounded-full bg-red-600 text-white opacity-0 transition-opacity group-hover:opacity-100"
+                            onClick={(e) => {
+                                e.stopPropagation();
+                                remove(i);
+                            }}
+                            title="Hapus foto"
+                            className="absolute top-1.5 right-1.5 z-10 flex h-6 w-6 items-center justify-center rounded-full bg-red-600 text-white shadow-sm hover:bg-red-700 transition-colors cursor-pointer"
                         >
-                            <X className="h-3 w-3" />
+                            <X className="h-3.5 w-3.5" />
                         </button>
                     </div>
                 ))}

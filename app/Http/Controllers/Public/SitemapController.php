@@ -14,7 +14,11 @@ class SitemapController extends Controller
 {
     public function index(): Response
     {
-        $baseUrl = config('app.url', url('/'));
+        $rawUrl = config('app.url') ?: url('/');
+        if (! str_starts_with($rawUrl, 'http://') && ! str_starts_with($rawUrl, 'https://')) {
+            $rawUrl = 'https://'.ltrim($rawUrl, '/');
+        }
+        $baseUrl = rtrim($rawUrl, '/');
 
         $destinations = Destination::where('status', ContentStatus::Published)
             ->select(['slug', 'updated_at'])

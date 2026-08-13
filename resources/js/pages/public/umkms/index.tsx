@@ -14,6 +14,7 @@ import {
 } from '@/components/ui/select';
 import type { PaginatedData } from '@/types/models';
 import { SafeImage } from '@/components/public/safe-image';
+import { getStorageUrl } from '@/lib/utils';
 
 interface UmkmPublic {
     id: number;
@@ -214,7 +215,7 @@ export default function UmkmsPublicIndex({ umkms, categories, filters }: Props) 
                                     {/* Cover Image */}
                                     <div className="relative aspect-4/3 w-full overflow-hidden bg-neutral-200">
                                         <SafeImage
-                                            src={umkm.primary_media ? (umkm.primary_media.file_path.startsWith('http') ? umkm.primary_media.file_path : `/storage/${umkm.primary_media.file_path}`) : null}
+                                            src={getStorageUrl(umkm.primary_media?.file_path)}
                                             alt={umkm.name}
                                             fallbackIcon={Store}
                                             className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"

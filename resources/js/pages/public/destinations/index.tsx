@@ -17,6 +17,7 @@ import type { PaginatedData } from '@/types/models';
 import { ChevronLeft, ChevronRight } from 'lucide-react';
 
 import { SafeImage } from '@/components/public/safe-image';
+import { getStorageUrl } from '@/lib/utils';
 
 interface CategoryOption {
     value: string;
@@ -199,7 +200,7 @@ export default function DestinationsIndex({ destinations, categories, filters }:
                                     {/* Cover */}
                                     <div className="relative aspect-4/3 w-full overflow-hidden bg-neutral-200">
                                         <SafeImage
-                                            src={dest.primary_media ? `/storage/${dest.primary_media.file_path}` : null}
+                                            src={getStorageUrl(dest.primary_media?.file_path)}
                                             alt={dest.name}
                                             fallbackIcon={Map}
                                             className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"

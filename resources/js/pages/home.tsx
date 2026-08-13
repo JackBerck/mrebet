@@ -3,6 +3,8 @@ import { Head, Link } from '@inertiajs/react';
 import { Tent, Mountain, Sunrise, Camera, Utensils, Compass, ArrowRight, Map, MapPin, Clock, QrCode, Droplet, Heart } from 'lucide-react';
 import { useMotionReveal } from '@/hooks/use-motion-reveal';
 import PublicLayout from '@/layouts/public-layout';
+import { SafeImage } from '@/components/public/safe-image';
+import { getStorageUrl, stripHtml } from '@/lib/utils';
 import type { Destination, Event, Blog, Stats } from '@/types/public';
 
 type Props = {
@@ -419,14 +421,17 @@ export default function Home({
                                         transitionDelay: `${i * 80}ms`,
                                     }}
                                 >
-                                    {/* Image placeholder */}
+                                    {/* Image */}
                                     <div className="relative aspect-4/3 overflow-hidden bg-(--forest-mist)">
-                                        <div className="absolute inset-0 bg-linear-to-t from-black/20 to-transparent" />
-                                        <span className="absolute top-3 left-3 rounded-full bg-(--forest) px-2 py-1 text-[10px] font-semibold text-white">
+                                        <SafeImage
+                                            src={getStorageUrl(dest.primary_media?.file_path)}
+                                            alt={dest.name}
+                                            fallbackIcon={Map}
+                                            className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
+                                        />
+                                        <div className="absolute inset-0 bg-linear-to-t from-black/50 via-transparent to-transparent pointer-events-none" />
+                                        <span className="absolute top-3 left-3 rounded-full bg-(--forest) px-2.5 py-1 text-[10px] font-semibold text-white shadow-xs">
                                             {categoryLabel(dest.category)}
-                                        </span>
-                                        <span className="absolute top-3 right-3 font-display text-xl font-bold text-white/40">
-                                            {String(i + 1).padStart(2, '0')}
                                         </span>
                                     </div>
                                     <div className="flex flex-1 flex-col p-4">
@@ -439,7 +444,7 @@ export default function Home({
                                             </p>
                                         )}
                                         <p className="mb-4 line-clamp-2 flex-1 text-sm leading-relaxed text-(--charcoal-soft)">
-                                            {dest.description}
+                                            {stripHtml(dest.description)}
                                         </p>
                                         <div className="mt-auto flex items-center gap-2 border-t border-(--line) pt-3">
                                             <Link
@@ -743,9 +748,12 @@ export default function Home({
                                     className="hover-card group flex flex-col overflow-hidden rounded-2xl border border-(--line) bg-white"
                                 >
                                     <div className="relative aspect-video overflow-hidden bg-(--forest-mist)">
-                                        <div className="absolute inset-0 flex items-center justify-center">
-                                            <Droplet className="h-12 w-12 opacity-20" />
-                                        </div>
+                                        <SafeImage
+                                            src={getStorageUrl(blog.cover_image)}
+                                            alt={blog.title}
+                                            fallbackIcon={Droplet}
+                                            className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
+                                        />
                                     </div>
                                     <div className="flex flex-1 flex-col p-4">
                                         <h3 className="mb-2 line-clamp-2 text-sm font-semibold text-(--charcoal) transition-colors group-hover:text-(--forest) md:text-base">
