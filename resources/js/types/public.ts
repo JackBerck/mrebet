@@ -14,7 +14,6 @@ export type Destination = {
     latitude: number | null;
     longitude: number | null;
     gmaps_link?: string | null;
-    qr_code_target: string | null;
     primary_media: { file_path: string } | null;
     media?: { id: number; file_path: string; is_primary: boolean }[];
 };
@@ -36,7 +35,6 @@ export type Event = {
     gmaps_link?: string | null;
     latitude?: number | null;
     longitude?: number | null;
-    qr_code_target: string | null;
     destination?: { id: number; name: string; slug: string } | null;
     primary_media: { file_path: string } | null;
     media?: { id: number; file_path: string; is_primary: boolean }[];
@@ -68,7 +66,6 @@ export type Umkm = {
     latitude: number | null;
     longitude: number | null;
     gmaps_link?: string | null;
-    qr_code_target: string | null;
     primary_media: { file_path: string } | null;
     media?: { id: number; file_path: string; is_primary: boolean }[];
 };

@@ -79,7 +79,6 @@ class DestinationSeeder extends Seeder
                 'longitude' => $data['longitude'],
                 'gmaps_link' => $data['gmaps_link'],
                 'point' => Spatial::point($data['latitude'], $data['longitude']),
-                'qr_code_target' => 'https://serayularangan.desa.id/destinasi/'.Str::slug($data['name']),
                 'status' => $data['status'],
                 'created_at' => Carbon::now(),
                 'updated_at' => Carbon::now(),

@@ -31,7 +31,6 @@ use Spatie\Sluggable\SlugOptions;
  * @property float|null $latitude
  * @property float|null $longitude
  * @property string|null $gmaps_link
- * @property string|null $qr_code_target
  * @property ContentStatus $status
  * @property Carbon|null $created_at
  * @property Carbon|null $updated_at
@@ -55,7 +54,6 @@ class Destination extends Model
         'latitude',
         'longitude',
         'gmaps_link',
-        'qr_code_target',
         'status',
     ];
 

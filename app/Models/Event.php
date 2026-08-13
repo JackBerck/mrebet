@@ -32,7 +32,6 @@ use Spatie\Sluggable\SlugOptions;
  * @property string|null $gmaps_link
  * @property string|null $latitude
  * @property string|null $longitude
- * @property string|null $qr_code_target
  * @property ContentStatus $status
  * @property Carbon|null $created_at
  * @property Carbon|null $updated_at
@@ -56,7 +55,6 @@ class Event extends Model
         'instagram',
         'contact_person',
         'gmaps_link',
-        'qr_code_target',
         'status',
     ];
 

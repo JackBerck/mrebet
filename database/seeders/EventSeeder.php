@@ -75,7 +75,6 @@ class EventSeeder extends Seeder
                     'gmaps_link' => $data['gmaps_link'],
                     'latitude' => $data['latitude'],
                     'longitude' => $data['longitude'],
-                    'qr_code_target' => 'https://serayularangan.desa.id/event/'.$slug,
                     'status' => $data['status'],
                     'updated_at' => Carbon::now(),
                 ],

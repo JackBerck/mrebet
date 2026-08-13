@@ -11,7 +11,6 @@ export type Umkm = {
     latitude: number | null;
     longitude: number | null;
     gmaps_link: string | null;
-    qr_code_target: string | null;
     status: 'draft' | 'published';
     created_at: string;
     updated_at: string;
@@ -52,7 +51,6 @@ export type Destination = {
     latitude: number | null;
     longitude: number | null;
     gmaps_link: string | null;
-    qr_code_target: string | null;
     status: 'draft' | 'published';
     created_at: string;
     updated_at: string;
@@ -80,7 +78,6 @@ export type Event = {
     gmaps_link: string | null;
     latitude: number | null;
     longitude: number | null;
-    qr_code_target: string | null;
     status: 'draft' | 'published';
     created_at: string;
     updated_at: string;

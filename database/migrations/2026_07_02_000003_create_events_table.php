@@ -29,7 +29,6 @@ return new class extends Migration
             $table->text('gmaps_link')->nullable();
             $table->decimal('latitude', 10, 8)->nullable();
             $table->decimal('longitude', 11, 8)->nullable();
-            $table->string('qr_code_target')->nullable();
             $table->enum('status', ['draft', 'published'])->default('draft');
             $table->timestamps();
             $table->softDeletes();
